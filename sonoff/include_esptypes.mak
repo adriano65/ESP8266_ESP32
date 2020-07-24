@@ -24,6 +24,7 @@ MQTT_STAT_TOPIC := "sonoff_th10/216/temp"
 MQTT_BTN_TOPIC := "sonoff_th10/216/button"
 FLASH_SIZE     := 1MBb
 CFLAGS	       := -DSONOFFTH10 -DAP_SSID='"16Amp"' -DTEMP_OFFSET=2 -DHUMI_OFFSET=-2.8
+
 else ifdef SONOFFTH10c
 # ---------------------------------- garage
 PROJ_NAME      := "sonoff_th10"
@@ -37,6 +38,7 @@ MQTT_STAT_TOPIC := "sonoff_th10/217/temp"
 MQTT_BTN_TOPIC := "sonoff_th10/217/button"
 FLASH_SIZE     := 1MBb
 CFLAGS	       := -DSONOFFTH10  -DAP_SSID='"OutsideTemp"'
+
 else ifdef SONOFFTH10d
 # --------------------------------- cantina
 PROJ_NAME      := "sonoff_th10"
@@ -45,11 +47,14 @@ BUTTON0_PIN	   := GPIO_0
 RELAY_PIN		:= GPIO_12
 SI7021_PIN     := GPIO_14
 STA_IPADDRESS  := "192.168.1.218"
+USE_DHCP := no
 READ_DELAY     := 200
+REFRESHIO      := no
 MQTT_STAT_TOPIC := "sonoff_th10/218/temp"
 MQTT_BTN_TOPIC := "sonoff_th10/218/button"
 FLASH_SIZE     := 1MBc
 CFLAGS	       := -DSONOFFTH10 -DAP_SSID='"CantinaTemp"' -DTEMP_OFFSET=0 -DHUMI_OFFSET=0
+
 else ifdef SONOFFTH10e
 # ----------------------------------- veranda
 PROJ_NAME      := "sonoff_th10"
@@ -73,6 +78,7 @@ USE_TXD0       := no
 STA_IPADDRESS  := "192.168.1.11"
 USE_DHCP := no
 READ_DELAY     := 100
+REFRESHIO      := no
 MQTT_STAT_TOPIC := "esp_mains/11/status"
 FLASH_SIZE     := 4MB
 CFLAGS	       := -DMAINS -DAP_SSID='"CantinaMains"'
@@ -133,7 +139,7 @@ USE_DHCP := no
 READ_DELAY     := 100
 MQTT_STAT_TOPIC := "esp_mains/115/status"
 FLASH_SIZE     := 4MB
-CFLAGS	       := -DMAINS -DMAINSTEST -DAP_SSID='"ExternalAnt"'
+CFLAGS	       := -DMAINS -DAP_SSID='"ExternalAnt"'
 
 else ifdef SONOFFPOWa
 PROJ_NAME      := "sonoff_pow"

@@ -202,16 +202,11 @@ void ICACHE_FLASH_ATTR hw_timer_isr_cb(void) {
       update_tm_rtc();
       }
 
-    #if defined(MAINSTEST)
-    // Output goes off
-    #else
-      #if defined(MAINS)
-      if ( !(nCounter%READ_DELAY) ) {
-        SendStatus(MQTT_STAT_TOPIC, MSG_STATUS);
-        }
-      #warning THIS IS A WORK-AROUND FOR POWER SUPPLY OR EMI PROBLEMS
+    #if defined(MAINS)
+    if ( !(nCounter%READ_DELAY) ) {
+      SendStatus(MQTT_STAT_TOPIC, MSG_STATUS);
+      }
       RefreshIO();
-      #endif
     #endif
 
     #if defined(SONOFFPOW)

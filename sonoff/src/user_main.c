@@ -78,7 +78,8 @@ static void ICACHE_FLASH_ATTR restoreIO() {
     set_gpio_mode(GPIO_14, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
     gpio_write(GPIO_14, flashConfig.IOPort_bit2);
     set_gpio_mode(GPIO_12, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
-    gpio_write(GPIO_12, flashConfig.IOPort_bit3==0?1:0);
+    //gpio_write(GPIO_12, flashConfig.IOPort_bit3==0?1:0);
+    gpio_write(GPIO_12, flashConfig.IOPort_bit3);
     set_gpio_mode(GPIO_13, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
     gpio_write(GPIO_13, flashConfig.IOPort_bit4);
     set_gpio_mode(GPIO_0, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);

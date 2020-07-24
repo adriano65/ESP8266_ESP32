@@ -281,7 +281,7 @@ void ICACHE_FLASH_ATTR O_cmd_interpreter(char arg) {
 			flashConfig.IOPort_bit2=1;
 			break;
 		case '3':
-			set_gpio_mode(GPIO_12, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
+			//set_gpio_mode(GPIO_12, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
 			gpio_write(GPIO_12, 1);
 			flashConfig.IOPort_bit3=1;
 			break;
@@ -383,55 +383,63 @@ void ICACHE_FLASH_ATTR P_cmd_interpreter(char arg) {
 }
 
 void ICACHE_FLASH_ATTR RefreshIO(void) {
-#if defined(SONOFFTH10)
-	if (flashConfig.IOPort_bit3==1) {
-		gpio_write(GPIO_12, 1);
-		}
-	#error "SONOFFTH10 defined!"
-#endif
+#if defined(REFRESHIO)
+	#warning THIS IS A WORK-AROUND FOR POWER SUPPLY OR EMI PROBLEMS
+	
+	#if defined(SONOFFTH10)
+		if (flashConfig.IOPort_bit3==1) {
+			gpio_write(GPIO_12, 1);
+			}
+		#error "SONOFFTH10 defined!"
+	#endif
 
-#if defined(ARMTRONIX)
-	if (flashConfig.IOPort_bit0==1) {
-		gpio_write(GPIO_4, 1);
-		}
-	if (flashConfig.IOPort_bit1==1) {
-		gpio_write(GPIO_12, 1);
-		}
-	if (flashConfig.IOPort_bit2==1) {
-		gpio_write(GPIO_13, 1);
-		}
-	if (flashConfig.IOPort_bit3==1) {
-		gpio_write(GPIO_14, 1);
-		}
-	#error "ARMTRONIX defined!"
-#endif
+	#if defined(ARMTRONIX)
+		if (flashConfig.IOPort_bit0==1) {
+			gpio_write(GPIO_4, 1);
+			}
+		if (flashConfig.IOPort_bit1==1) {
+			gpio_write(GPIO_12, 1);
+			}
+		if (flashConfig.IOPort_bit2==1) {
+			gpio_write(GPIO_13, 1);
+			}
+		if (flashConfig.IOPort_bit3==1) {
+			gpio_write(GPIO_14, 1);
+			}
+		#error "ARMTRONIX defined!"
+	#endif
 
-#if defined(MAINS)
-	if (flashConfig.IOPort_bit0==1) {
-		gpio_write(GPIO_3, 1);
-		}
-	if (flashConfig.IOPort_bit1==1) {
-		gpio_write(GPIO_4, 1);
-		}
-	if (flashConfig.IOPort_bit2==1) {
-		gpio_write(GPIO_14, 1);
-		}
-	if (flashConfig.IOPort_bit3==1) {
-		gpio_write(GPIO_12, 1);
-		}
-	if (flashConfig.IOPort_bit4==1) {
-		gpio_write(GPIO_13, 1);
-		}
-	if (flashConfig.IOPort_bit5==1) {
-		gpio_write(GPIO_0, 1);
-		}
-	if (flashConfig.IOPort_bit6==1) {
-		gpio_write(GPIO_1, 1);
-		}
-	if (flashConfig.IOPort_bit7==1) {
-		gpio_write(GPIO_5, 1);
-		}
-	#warning "MAINS defined!"
+	#if defined(MAINS)
+		#if !defined(USE_TXD0)
+		if (flashConfig.IOPort_bit0==1) {
+			gpio_write(GPIO_3, 1);
+			}
+		#endif
+		if (flashConfig.IOPort_bit1==1) {
+			gpio_write(GPIO_4, 1);
+			}
+		if (flashConfig.IOPort_bit2==1) {
+			gpio_write(GPIO_14, 1);
+			}
+		if (flashConfig.IOPort_bit3==1) {
+			gpio_write(GPIO_12, 1);
+			}
+		if (flashConfig.IOPort_bit4==1) {
+			gpio_write(GPIO_13, 1);
+			}
+		if (flashConfig.IOPort_bit5==1) {
+			gpio_write(GPIO_0, 1);
+			}
+		#if !defined(USE_TXD0)
+		if (flashConfig.IOPort_bit6==1) {
+			gpio_write(GPIO_1, 1);
+			}
+		#endif
+		if (flashConfig.IOPort_bit7==1) {
+			gpio_write(GPIO_5, 1);
+			}
+		#warning "MAINS defined!"
+	#endif
 #endif
 }
 
@@ -454,8 +462,8 @@ void ICACHE_FLASH_ATTR T_cmd_interpreter(char arg) {
 		  else 						 { gpio_write(GPIO_14, 1); flashConfig.IOPort_bit2=1; }
 		  break;
 	  case '3':
-		  if (flashConfig.IOPort_bit3) { gpio_write(GPIO_12, 1); flashConfig.IOPort_bit3=0; }
-		  else 						 { gpio_write(GPIO_12, 0); flashConfig.IOPort_bit3=1; }
+		  if (flashConfig.IOPort_bit3) { gpio_write(GPIO_12, 0); flashConfig.IOPort_bit3=0; }
+		  else 						 { gpio_write(GPIO_12, 1); flashConfig.IOPort_bit3=1; }
 		  break;
 	  #else
 	  case '3':

@@ -61,7 +61,7 @@ I2C_SDA_PIN     			:= no
 # ----------------- fuori-garage
 #SONOFFTH10c := 1
 # ----------------- Cantina switch + temp
-#SONOFFTH10d := 1
+SONOFFTH10d := 1
 # ----------------- VerandaTemp
 #SONOFFTH10e := 1
 # ----------------- ?
@@ -71,7 +71,7 @@ I2C_SDA_PIN     			:= no
 # ----------------- test
 #MAINSc := 2
 #MAINS_VMC := 2
-MAINSd := 2
+#MAINSd := 2
 
 # --------------------sun power
 #SONOFFPOWa := 3
@@ -209,6 +209,10 @@ endif
 #ifneq ("$(USE_TXD0)","no")
 ifeq ("$(USE_TXD0)","yes")
 CFLAGS	+= -DUSE_TXD0=$(USE_TXD0)
+endif
+
+ifeq ("$(REFRESHIO)","yes")
+CFLAGS	+= -DREFRESHIO=$(REFRESHIO)
 endif
 
 # linker flags used to generate the main object file

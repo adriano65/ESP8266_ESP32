@@ -1,7 +1,7 @@
 alias ll="ls -la"
 #xhost +localhost
 # bash -c 'xhost +localhost; sudo -i -u name /usr/bin/hp-setup; xhost -localhost'
-			export PATH=$PATH:scripts
+export PATH=$PATH:/home/name/scripts
 
 CONF=esp8266
 
@@ -23,6 +23,10 @@ case $CONF in
 			#if [ "$answ" != "d" ];then
 			#  return
 			#fi
+			echo "*******************************************"
+			echo "remember to setMIT.sh the first login!!!!!"
+			echo "*******************************************"
+			#scripts/setMIT.sh
 			cd sonoff
 			;;
 			
