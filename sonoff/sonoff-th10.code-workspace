@@ -1,0 +1,28 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"crc16.h": "c",
+			"mqtt_client.h": "c",
+			"ds18b20.h": "c",
+			"sensor.h": "c",
+			"osapi.h": "c",
+			"user_config.h": "c",
+			"gpio16.h": "c",
+			"hlw8012.h": "c",
+			"blinkled.h": "c",
+			"ccs811.h": "c",
+			"i2c_master.h": "c",
+			"*.ipp": "c",
+			"*.txx": "c",
+			"numeric": "c",
+			"sockets.h": "c",
+			"config.h": "c"
+		},
+		"git.ignoreLimitWarning": true
+	}
+}

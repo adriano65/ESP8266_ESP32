@@ -1,0 +1,20 @@
+{
+    "project_name":       "bootloader",
+    "project_path":       "/home/name/esp-idf/components/bootloader/subproject",
+    "build_dir":          "/home/name/esp-idf/examples/get-started/blink/build/bootloader",
+    "config_file":        "/home/name/esp-idf/examples/get-started/blink/sdkconfig",
+    "config_defaults":    "",
+    "app_elf":            "bootloader.elf",
+    "app_bin":            "bootloader.bin",
+    "git_revision":       "v4.3-dev-472-gcf056a7d0-dirty",
+    "target":             "esp32",
+    "phy_data_partition": "",
+    "monitor_baud" :      "115200",
+    "monitor_toolprefix": "xtensa-esp32-elf-",
+    "config_environment" : {
+        "COMPONENT_KCONFIGS" : "/home/name/esp-idf/components/esp_common/Kconfig;/home/name/esp-idf/components/efuse/Kconfig;/home/name/esp-idf/components/log/Kconfig;/home/name/esp-idf/components/spi_flash/Kconfig;/home/name/esp-idf/components/esp32/Kconfig",
+        "COMPONENT_KCONFIGS_PROJBUILD" : "/home/name/esp-idf/components/esptool_py/Kconfig.projbuild;/home/name/esp-idf/components/partition_table/Kconfig.projbuild;/home/name/esp-idf/components/bootloader/Kconfig.projbuild"
+    },
+    "build_components" : [ "bootloader", "bootloader_support", "efuse", "esp32", "esp_common", "esp_rom", "esptool_py", "log", "main", "micro-ecc", "partition_table", "soc", "spi_flash", "xtensa", "" ],
+    "build_component_paths" : [ "/home/name/esp-idf/components/bootloader", "/home/name/esp-idf/components/bootloader_support", "/home/name/esp-idf/components/efuse", "/home/name/esp-idf/components/esp32", "/home/name/esp-idf/components/esp_common", "/home/name/esp-idf/components/esp_rom", "/home/name/esp-idf/components/esptool_py", "/home/name/esp-idf/components/log", "/home/name/esp-idf/components/bootloader/subproject/main", "/home/name/esp-idf/components/bootloader/subproject/components/micro-ecc", "/home/name/esp-idf/components/partition_table", "/home/name/esp-idf/components/soc", "/home/name/esp-idf/components/spi_flash", "/home/name/esp-idf/components/xtensa", "" ]
+}

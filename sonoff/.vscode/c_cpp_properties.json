@@ -1,0 +1,33 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceRoot}/../esp-open-sdk/esp_iot_sdk_v1.5.2/include",
+                "${workspaceRoot}/../esp-open-sdk/xtensa-lx106-elf/xtensa-lx106-elf/include",
+                "${workspaceRoot}/../esp-open-sdk/xtensa-lx106-elf/lib/gcc/xtensa-lx106-elf/4.8.2/include",
+                "${workspaceRoot}/../esp-open-sdk/xtensa-lx106-elf/xtensa-lx106-elf/sysroot/usr/include",
+                "${workspaceRoot}/**",
+                "${workspaceRoot}"
+            ],
+            "defines": [ "SONOFFTH10", "" ],
+            "intelliSenseMode": "clang-x64",
+            "browse": {
+                "path": [
+                    "${workspaceRoot}/../esp-open-sdk/esp_iot_sdk_v1.5.2/include",
+                    "${workspaceRoot}/../esp-open-sdk/xtensa-lx106-elf/xtensa-lx106-elf/include",
+                    "${workspaceRoot}/../esp-open-sdk/xtensa-lx106-elf/lib/gcc/xtensa-lx106-elf/4.8.2/include",
+                    "${workspaceRoot}/../esp-open-sdk/xtensa-lx106-elf/xtensa-lx106-elf/sysroot/usr/include",
+                    "${workspaceRoot}/**",
+                    "${workspaceRoot}"
+                ],
+                "limitSymbolsToIncludedHeaders": false,
+                "databaseFilename": ""
+            },
+            "compilerPath": "/usr/bin/clang",
+            "cStandard": "c11",
+            "cppStandard": "c++17"
+        }
+    ],
+    "version": 4
+}
