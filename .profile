@@ -27,6 +27,9 @@ case $CONF in
 			echo "remember to setMIT.sh the first login!!!!!"
 			echo "*******************************************"
 			#scripts/setMIT.sh
+			echo 
+			echo "*******************************************"
+			echo " --- git -c http.sslVerify=false push "
 			cd sonoff
 			;;
 			
