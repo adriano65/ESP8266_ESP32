@@ -1,0 +1,12 @@
+This is my sonoff Firmware and developing sdk
+All these devices send data via MQTT and be
+connected via telnet.
+I have interfaced I2C CO2 sensors and many others.
+All sonoff devices can be selected via Makefile
+(some a very HW customized)
+All firmwares can be updated via wifi (TCP connection, make wiflash)
+
+
+set you .profile with
+export PATH=/home/name/esp-open-sdk/xtensa-lx106-elf/bin:$PATH
+
