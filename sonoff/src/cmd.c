@@ -57,7 +57,6 @@ void ICACHE_FLASH_ATTR cmdParser(char *pInBuf, unsigned short InBufLen) {
 			
 		case 'F':
 			F_cmd_interpreter(pInBuf[1]);
-	        configSave();
 			break;
 
 		case 'H':
@@ -71,7 +70,6 @@ void ICACHE_FLASH_ATTR cmdParser(char *pInBuf, unsigned short InBufLen) {
 			
 		case 'O':
 			O_cmd_interpreter(pInBuf[1]);
-	        configSave();
 			break;
 
 		#if defined(SONOFFPOW)
@@ -98,7 +96,6 @@ void ICACHE_FLASH_ATTR cmdParser(char *pInBuf, unsigned short InBufLen) {
 			
 		case 'T':
 			T_cmd_interpreter(pInBuf[1]);
-	        configSave();
 			break;
 
 		case 'R':
@@ -165,62 +162,51 @@ void ICACHE_FLASH_ATTR F_cmd_interpreter(char arg) {
 	switch(arg) {
 	  #if defined(MAINS)
 	  case '0':
-		  set_gpio_mode(GPIO_3, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
 		  gpio_write(GPIO_3, 0);
 		  flashConfig.IOPort_bit0=0;
 		  break;
 	  case '1':
-		  set_gpio_mode(GPIO_4, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
 		  gpio_write(GPIO_4, 0);
 		  flashConfig.IOPort_bit1=0;
 		  break;
 	  case '2':
-		  set_gpio_mode(GPIO_14, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
 		  gpio_write(GPIO_14, 0);
 		  flashConfig.IOPort_bit2=0;
 		  break;
 	  case '3':
-		  set_gpio_mode(GPIO_12, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
 		  gpio_write(GPIO_12, 0);
 		  flashConfig.IOPort_bit3=0;
 		  break;
 	  #else
 			#if defined(ARMTRONIX)
 			case '0':
-				set_gpio_mode(GPIO_4, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
 				gpio_write(GPIO_4, 0);
 				flashConfig.IOPort_bit0=0;
 				break;
 			case '1':
-				set_gpio_mode(GPIO_12, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
 				gpio_write(GPIO_12, 0);
 				flashConfig.IOPort_bit1=0;
 				break;
 			case '2':
-				set_gpio_mode(GPIO_13, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
 				gpio_write(GPIO_13, 0);
 				flashConfig.IOPort_bit2=0;
 				break;
 			case '3':
-				set_gpio_mode(GPIO_14, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
 				gpio_write(GPIO_14, 0);
 				flashConfig.IOPort_bit3=0;
 				break;			
 			#else
 				#if defined(SONOFFDUAL)
 				case '0':
-					set_gpio_mode(GPIO_12, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
 					gpio_write(GPIO_12, 0);
 					flashConfig.IOPort_bit0=0;
 					break;
 				case '1':
-					set_gpio_mode(GPIO_5, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
 					gpio_write(GPIO_5, 0);
 					flashConfig.IOPort_bit1=0;
 					break;
 				#else
 			case '3':
-				set_gpio_mode(GPIO_12, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
 				gpio_write(GPIO_12, 0);
 				flashConfig.IOPort_bit3=0;
 				break;
@@ -230,27 +216,22 @@ void ICACHE_FLASH_ATTR F_cmd_interpreter(char arg) {
 
 	  #if defined(MAINS)
 	  case '4':
-		  set_gpio_mode(GPIO_13, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
 		  gpio_write(GPIO_13, 0);
 		  flashConfig.IOPort_bit4=0;
 		  break;
 	  case '5':
-		  set_gpio_mode(GPIO_0, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
 		  gpio_write(GPIO_0, 0);
 		  flashConfig.IOPort_bit5=0;
 		  break;
 	  case '6':
-		  set_gpio_mode(GPIO_1, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
 		  gpio_write(GPIO_1, 0);
 		  flashConfig.IOPort_bit6=0;
 		  break;
 	  case '7':		// Not externally Connected
-		  set_gpio_mode(GPIO_5, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
 		  gpio_write(GPIO_5, 0);
 		  flashConfig.IOPort_bit7=0;
 		  break;
 	  case '8':
-		  set_gpio_mode(8, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
 		  gpio_write(8, 0);
 		  //flashConfig.IOPort_bit7=0;
 		  break;
@@ -266,62 +247,51 @@ void ICACHE_FLASH_ATTR O_cmd_interpreter(char arg) {
 	switch(arg) {
 		#if defined(MAINS)
 		case '0':
-			set_gpio_mode(GPIO_3, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
 			gpio_write(GPIO_3, 1);
 			flashConfig.IOPort_bit0=1;
 			break;
 		case '1':
-			set_gpio_mode(GPIO_4, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
 			gpio_write(GPIO_4, 1);
 			flashConfig.IOPort_bit1=1;
 			break;
 		case '2':
-			set_gpio_mode(GPIO_14, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
 			gpio_write(GPIO_14, 1);
 			flashConfig.IOPort_bit2=1;
 			break;
 		case '3':
-			//set_gpio_mode(GPIO_12, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
 			gpio_write(GPIO_12, 1);
 			flashConfig.IOPort_bit3=1;
 			break;
 		#else
 			#if defined(ARMTRONIX)
 			case '0':
-				set_gpio_mode(GPIO_4, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
 				gpio_write(GPIO_4, 1);
 				flashConfig.IOPort_bit0=1;
 				break;
 			case '1':
-				set_gpio_mode(GPIO_12, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
 				gpio_write(GPIO_12, 1);
 				flashConfig.IOPort_bit1=1;
 				break;
 			case '2':
-				set_gpio_mode(GPIO_13, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
 				gpio_write(GPIO_13, 1);
 				flashConfig.IOPort_bit2=1;
 				break;
 			case '3':
-				set_gpio_mode(GPIO_14, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
 				gpio_write(GPIO_14, 1);
 				flashConfig.IOPort_bit3=1;
 				break;			
 			#else
 				#if defined(SONOFFDUAL)
 				case '0':
-					set_gpio_mode(GPIO_12, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
 					gpio_write(GPIO_12, 1);
 					flashConfig.IOPort_bit0=1;
 					break;
 				case '1':
-					set_gpio_mode(GPIO_5, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
 					gpio_write(GPIO_5, 1);
 					flashConfig.IOPort_bit1=1;
 					break;
 				#else
 				case '3':
-					set_gpio_mode(GPIO_12, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
 					gpio_write(GPIO_12, 1);
 					flashConfig.IOPort_bit3=1;
 					break;
@@ -331,61 +301,51 @@ void ICACHE_FLASH_ATTR O_cmd_interpreter(char arg) {
 			
 		#if defined(MAINS)
 		case '4':
-			set_gpio_mode(GPIO_13, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
 			gpio_write(GPIO_13, 1);
 			flashConfig.IOPort_bit4=1;
 			break;
 		case '5':
-			set_gpio_mode(GPIO_0, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
 			gpio_write(GPIO_0, 1);
 			flashConfig.IOPort_bit5=1;
 			break;
 		case '6':
-			set_gpio_mode(GPIO_1, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
 			gpio_write(GPIO_1, 1);
 			flashConfig.IOPort_bit6=1;
 			break;
 		case '7':		// Not externally Connected
-			set_gpio_mode(GPIO_5, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
 			gpio_write(GPIO_5, 1);
 			flashConfig.IOPort_bit7=1;
 			break;
 		#endif
 		default:
-			TXdatalen=os_sprintf(pTXdata, "BAD arg %0u\n\r", arg);
+			TXdatalen=os_sprintf(pTXdata, "BAD arg %0u\r\n", arg);
 			return;
 		}
 	TXdatalen=os_sprintf(pTXdata, "OK\r\n");
-	/* TODO save configuration after some seconds */
-	//configSave();
 }
 
 void ICACHE_FLASH_ATTR P_cmd_interpreter(char arg) {
 	switch(arg) {
 		#if defined(MAINS)
 		case '7':		// Not externally Connected
-			set_gpio_mode(GPIO_5, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
 			gpio_write(GPIO_5, 1);
-			//msleep(150);	// OK
-			msleep(350);	// OK
+			msleep(200);	// OK
+			//msleep(350);	// OK
 			//msleep(550);	// NOT OK
-			set_gpio_mode(GPIO_5, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
 			gpio_write(GPIO_5, 0);
 			break;
 		#endif
 		default:
-			TXdatalen=os_sprintf(pTXdata, "BAD arg %0u\n\r", arg);
+			TXdatalen=os_sprintf(pTXdata, "BAD arg %0u\r\n", arg);
 			return;
 		}
 	TXdatalen=os_sprintf(pTXdata, "OK\r\n");
-	/* TODO save configuration after some seconds */
-	//configSave();
 }
 
 void ICACHE_FLASH_ATTR RefreshIO(void) {
 #if defined(REFRESHIO)
 	#warning THIS IS A WORK-AROUND FOR POWER SUPPLY OR EMI PROBLEMS
-	
+
 	#if defined(SONOFFTH10)
 		if (flashConfig.IOPort_bit3==1) {
 			gpio_write(GPIO_12, 1);
@@ -642,7 +602,6 @@ void ICACHE_FLASH_ATTR w_cmd_interpreter(char * pInbuf) {
   //os_memcpy(&flashConfig.stat_conf.password, tmpbuff, strlen(tmpbuff)-2);
   
   os_free(tmpbuff);
-  configSave();  
   TXdatalen+=os_sprintf(pTXdata+TXdatalen, "OK\r\n");
 }
 

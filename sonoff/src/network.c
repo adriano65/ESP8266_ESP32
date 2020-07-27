@@ -200,7 +200,7 @@ LOCAL void ICACHE_FLASH_ATTR TCPReceiveCb(void *conn, char *pRXdata, unsigned sh
 	
 	if (pCon == NULL) return;
 	pRXdata[RXdatalen-2]='\0';
-	
+
 	cmdParser(pRXdata, RXdatalen);
     os_printf("%s\r\n", pTXdata);
 	espconn_sent(pCon, pTXdata, TXdatalen);
@@ -215,7 +215,7 @@ LOCAL void ICACHE_FLASH_ATTR tcp_connect_cb(void *arg) {
 }
 
 void ICACHE_FLASH_ATTR wifi_init(void) {
-  #if defined(MAINS)
+  #if defined(ANT_TEST)
   // range 0 - 82 --> units is 0.25 dBm step
   //system_phy_set_max_tpw(10); //less than 1 meter
   system_phy_set_max_tpw(40); //less than 1 meter

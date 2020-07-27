@@ -139,7 +139,7 @@ USE_DHCP := no
 READ_DELAY     := 100
 MQTT_STAT_TOPIC := "esp_mains/115/status"
 FLASH_SIZE     := 4MB
-CFLAGS	       := -DMAINS -DAP_SSID='"ExternalAnt"'
+CFLAGS	       := -DMAINS -DANT_TEST -DAP_SSID='"ExternalAntTest"'
 
 else ifdef SONOFFPOWa
 PROJ_NAME      := "sonoff_pow"
@@ -153,6 +153,7 @@ MQTT_STAT_TOPIC := "sonoff_pow/220/status"
 MQTT_BTN_TOPIC := "sonoff_pow/220/button"
 FLASH_SIZE     := 1MBb
 CFLAGS	       := -DSONOFFPOW -DAP_SSID='"OutBell"' -DA_TRIM_VALUE=67.6139240506 -DV_TRIM_VALUE=2.86 -DW_TRIM_VALUE=2.61341630821
+
 else ifdef SONOFFPOWb
 # ---------------------------------- ModBus
 PROJ_NAME      := "sonoff_ex_pow"
@@ -217,6 +218,7 @@ MQTT_STAT_TOPIC := "sonoff_pow/225/status"
 MQTT_BTN_TOPIC := "sonoff_pow/225/button"
 FLASH_SIZE     := 1MB
 CFLAGS	       := -DSONOFFPOW -DAP_SSID='"POWTest225"' -DA_TRIM_VALUE=0.0723351851852 -DV_TRIM_VALUE=2.92397827919 -DW_TRIM_VALUE=2.61341630821
+
 else ifdef SONOFFDUALa
 PROJ_NAME      := "sonoff_dual"
 LED_CONN_PIN_ACTIVELOW   := 1
@@ -233,6 +235,7 @@ MQTT_STAT_TOPIC := "sonoff_dual/230/voltage"
 MQTT_BTN_TOPIC := "sonoff_dual/230/button"
 FLASH_SIZE     := 1MBc
 CFLAGS	       := -DSONOFFDUAL -DAP_SSID='"SONOFFDUALa"'
+
 else ifdef SONOFFDUALb
 PROJ_NAME      := "sonoff_dual"
 LED_CONN_PIN_ACTIVELOW   := 1
@@ -250,6 +253,7 @@ MQTT_BTN_TOPIC := "sonoff_dual/231/button"
 FLASH_SIZE     := 1MBc
 #FLASH_SIZE     := 1MBb
 CFLAGS	       := -DSONOFFDUAL -DAP_SSID='"SONOFFDUALb"'
+
 else ifdef SONOFFDUALc
 PROJ_NAME      := "sonoff_dual"
 LED_CONN_PIN_ACTIVELOW   := 1
@@ -266,6 +270,7 @@ MQTT_STAT_TOPIC := "sonoff_th10/232/temp"
 MQTT_BTN_TOPIC := "sonoff_th10/232/button"
 FLASH_SIZE     := 1MBb
 CFLAGS	       := -DSONOFFDUAL -DAP_SSID='"SONOFFDUALc"'
+
 else ifdef SONOFFDUALd
 PROJ_NAME      := "sonoff_dual"
 LED_CONN_PIN_ACTIVELOW   := 1

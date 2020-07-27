@@ -43,7 +43,7 @@ AP_BEACON_INTERVAL ?=900
 
 # If CHANGE_TO_STA is set to "yes" the esp-link module will switch to station mode
 # once successfully connected to an access point. Else it will stay in STA+AP mode.
-CHANGE_TO_STA ?= no
+CHANGE_TO_STA ?= yes
 
 # hostname or IP address for wifi flashing
 ESP_HOSTNAME  ?= 192.168.4.1
@@ -189,32 +189,8 @@ endif
 # Version-fu :-) This code assumes that a new maj.minor is started using a "vN.M.0" tag on master
 # and that thereafter the desired patchlevel number is just the number of commits since the tag.
 #
-# Get the current branch name if not using travis
-TRAVIS_BRANCH?=$(shell git symbolic-ref --short HEAD --quiet)
-# Use git describe to get the latest version tag, commits since then, sha and dirty flag, this
-# results is something like "v1.2.0-13-ab6cedf-dirty"
-VERSION := $(shell (git describe --tags --match 'v*' --long --dirty || echo "no-tag") | sed -re 's/(\.0)?-/./')
-# If not on master then insert the branch name
-ifneq ($(TRAVIS_BRANCH),master)
-ifneq ($(findstring V%,$(TRAVIS_BRANCH)),)
-VERSION := $(shell echo $(VERSION) | sed -e 's/-/-$(TRAVIS_BRANCH)-/')
-endif
-endif
-VERSION :=$(VERSION)
+VERSION :="0.0.2"
 $(info VERSION is $(VERSION))
-
-# OLD - DEPRECATED
-# This queries git to produce a version string like "esp-link v0.9.0 2015-06-01 34bc76"
-# If you don't have a proper git checkout or are on windows, then simply swap for the constant
-# Steps to release: create release on github, git pull, git describe --tags to verify you're
-# on the release tag, make release, upload esp-link.tgz into the release files
-#VERSION ?= "esp-link custom version"
-#DATE    := $(shell date '+%F %T')
-#BRANCH  ?= $(shell if git diff --quiet HEAD; then git describe --tags; \
-#                   else git symbolic-ref --short HEAD; fi)
-#SHA     := $(shell if git diff --quiet HEAD; then git rev-parse --short HEAD | cut -d"/" -f 3; \
-#                   else echo "development"; fi)
-#VERSION ?=esp-link $(BRANCH) - $(DATE) - $(SHA)
 
 # Output directors to store intermediate compiled files
 # relative to the project directory

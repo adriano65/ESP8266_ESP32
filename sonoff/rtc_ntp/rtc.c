@@ -22,7 +22,7 @@
 unsigned char TXbuf[8];
 #endif
 
-#define RTC_DBG
+//#define RTC_DBG
 
 #ifdef RTC_DBG
 #define DBG(format, ...) do { os_printf("%s: ", __FUNCTION__); os_printf(format, ## __VA_ARGS__); os_printf("\n"); } while(0)
@@ -193,8 +193,10 @@ void ICACHE_FLASH_ATTR hw_timer_init() {
 }
 
 void ICACHE_FLASH_ATTR hw_timer_isr_cb(void) {
-    static uint8_t nCounter=0;
+    //disable global interrupt
 	  ETS_GPIO_INTR_DISABLE();
+
+    static uint8_t nCounter=0;
 
     //os_printf("hw_timer_isr_cb %d\n", nCounter);
     //TM1_EDGE_INT_DISABLE();
@@ -206,7 +208,6 @@ void ICACHE_FLASH_ATTR hw_timer_isr_cb(void) {
     if ( !(nCounter%READ_DELAY) ) {
       SendStatus(MQTT_STAT_TOPIC, MSG_STATUS);
       }
-      RefreshIO();
     #endif
 
     #if defined(SONOFFPOW)
@@ -233,10 +234,14 @@ void ICACHE_FLASH_ATTR hw_timer_isr_cb(void) {
         wifi_station_scan(NULL, scan_done);
         }
 
+      if (! isFlashconfig_actual()) {
+        DBG("isFlashconfig_actual");
+        configSave();
+        }
+
       if (system_get_free_heap_size() < 30000) {
 	      SendStatus(MQTT_STAT_TOPIC, MSG_CRITICAL_ERR);
         RTC_Reset();
-        //configSave(pTXdata, TXdatalen);
         system_restart();
         }
       }
@@ -262,15 +267,11 @@ void ICACHE_FLASH_ATTR hw_timer_isr_cb(void) {
       #endif        
 	    SendStatus(MQTT_STAT_TOPIC, MSG_TEMP_HUMI);
       }
-    // THIS IS A WORK-AROUND FOR POWER SUPPLY OR EMI PROBLEMS
-    RefreshIO();
     #endif
 
     #if defined(ARMTRONIX)
     if ( !(nCounter%READ_DELAY) ) {
 	    SendStatus(MQTT_STAT_TOPIC, MSG_STATUS);
-      // THIS IS A WORK-AROUND FOR POWER SUPPLY OR EMI PROBLEMS
-      RefreshIO();
       }
     #endif
 

@@ -74,8 +74,8 @@ LOCAL STATUS ICACHE_FLASH_ATTR uart0_tx_one_char(uint8 TxChar) {
 		uint32 fifo_cnt = READ_PERI_REG(UART_STATUS(UART0)) & (UART_TXFIFO_CNT<<UART_TXFIFO_CNT_S);
 		if ((fifo_cnt >> UART_TXFIFO_CNT_S & UART_TXFIFO_CNT) < 126) {
 			break;
-		}
-	}
+		    }
+	    }
 
 	WRITE_PERI_REG(UART_FIFO(UART0) , TxChar);
 	return OK;
@@ -92,10 +92,12 @@ LOCAL void ICACHE_FLASH_ATTR uart0_write_char(char c) {
     if (c == '\n') {
         uart0_tx_one_char('\r');
         uart0_tx_one_char('\n');
-    } else if (c == '\r') {
-    } else {
-        uart0_tx_one_char(c);
-    }
+        } 
+    else if (c == '\r') {
+            }
+         else {
+            uart0_tx_one_char(c);
+            }
 }
 
 /******************************************************************************
@@ -146,7 +148,7 @@ LOCAL void uart0_rx_intr_handler(void *para) {
         // if we hit the end of the buffer, loop back to the beginning
         if (pRxBuff->pWritePos == (pRxBuff->pRcvMsgBuff + RX_BUFF_SIZE)) {
             // overflow ...we may need more error handle here.
-            pRxBuff->pWritePos = pRxBuff->pRcvMsgBuff ;
+            pRxBuff->pWritePos = pRxBuff->pRcvMsgBuff;
             }
     }
 }
@@ -157,7 +159,7 @@ ICACHE_FLASH_ATTR int uart0_rx_one_char() {
   UartDev.rcv_buff.pReadPos++;
   if(UartDev.rcv_buff.pReadPos == (UartDev.rcv_buff.pRcvMsgBuff + RX_BUFF_SIZE)) {
     UartDev.rcv_buff.pReadPos = UartDev.rcv_buff.pRcvMsgBuff;
-  }
+    }
 
   return ret;
 }
@@ -174,7 +176,7 @@ void ICACHE_FLASH_ATTR uart0_tx_buffer(uint8 *buf, uint16 len) {
 
     for (i = 0; i < len; i++) {
         uart_tx_one_char(buf[i]);
-    }
+        }
 }
 
 void ICACHE_FLASH_ATTR uart0_send(char *str) {
@@ -182,7 +184,7 @@ void ICACHE_FLASH_ATTR uart0_send(char *str) {
 	while (str[i]) {
         uart_tx_one_char(str[i]);
 		i++;
-    }
+        }
 }
 
 /******************************************************************************

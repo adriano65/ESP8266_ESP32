@@ -12,23 +12,23 @@
 #define CMD_DBG
 #undef ESPFS_DBG
 #undef CGI_DBG
-#define CGIFLASH_DBG
-#define CGIMQTT_DBG
+//#define CGIFLASH_DBG
+//#define CGIMQTT_DBG
 // #define CGIPINS_DBG
-// #define CGIWIFI_DBG
-#define CONFIG_DBG
-#define LOG_DBG
-#define STATUS_DBG
+//#define CGIWIFI_DBG
+//#define CONFIG_DBG
+//#define LOG_DBG
+//#define STATUS_DBG
 //#define HTTPD_DBG
 //#define MQTT_DBG
 //#define MQTTCMD_DBG
 //#define MQTTCLIENT_DBG
 #undef PKTBUF_DBG
-#define REST_DBG
+//#define REST_DBG
 #define RESTCMD_DBG
 // #define SERBR_DBG
 #define SERLED_DBG
-#define SLIP_DBG
+//#define SLIP_DBG
 // #define UART_DBG
 #define MDNS_DBG
 #define OPTIBOOT_DBG

@@ -68,9 +68,11 @@ SONOFFTH10d := 1
 #MAINSa := 2
 # ----------------- garage interno
 #ARMTRONIXa := 2
-# ----------------- test
+# ----------------- BrokenAss
 #MAINSc := 2
+# ----------------- some day...
 #MAINS_VMC := 2
+# ----------------- ant test
 #MAINSd := 2
 
 # --------------------sun power
@@ -108,7 +110,7 @@ ESP_FLASH_MAX       := 503808
 
 include include_flash.mak
 
-VERSION := "0.1.7"
+VERSION := "1.0.0"
 BINDATE := "$(shell date '+%F %T')"
 $(info PROJ_NAME $(PROJ_NAME), STA_IPADDRESS $(STA_IPADDRESS), Version $(VERSION), Flash $(FLASH_SIZE), Date $(BINDATE) )
 

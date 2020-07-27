@@ -112,6 +112,7 @@ bool ICACHE_FLASH_ATTR configSave() {
 
 	//enable global interrupt
 	ETS_GPIO_INTR_ENABLE();
+
   return true;
 }
 
@@ -192,4 +193,12 @@ const size_t ICACHE_FLASH_ATTR getFlashSize() {
   if (mfgr_id != 0xEF) // 0xEF is WinBond; that's all we care about (for now)
     return 0;
   return 1 << size_id;
+}
+
+
+bool ICACHE_FLASH_ATTR isFlashconfig_actual() {
+  uint16_t crc;
+  crc=crc16_data((unsigned char*)&flashConfig+sizeof(crc), sizeof(FlashConfig)-sizeof(crc), 0);	
+  if (flashConfig.crc==crc) return true;
+  return false;
 }
