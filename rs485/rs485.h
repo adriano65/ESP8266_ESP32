@@ -50,7 +50,7 @@ extern dds238_2_t * dds238_2_data;
 #define DDS238_ACTUAL_IMPORT_ENERGY2  0x0009
 
 #define DDS238_IMPORT_ENERGY2_DIVIDER  100
-#define DDS238_ACTUAL_EXPORT_ENERGY2  0x000A
+#define DDS238_ACTUAL_EXPORT_ENERGY1  0x000A
 
 #define DDS238_ACTUAL_EXPORT_ENERGY2  0x000B
 #define DDS238_EXPORT_ENERGY2_DIVIDER  100
@@ -68,6 +68,7 @@ void dds238End(void);
 void ICACHE_FLASH_ATTR uart0_rx_handler(void *);
 void ICACHE_FLASH_ATTR uart0_write(char *c, int len);
 void ICACHE_FLASH_ATTR buildFrame( unsigned char slaveAddress, unsigned char functionCode, short startAddress, short parameter, unsigned char* frame);
+int ICACHE_FLASH_ATTR validCRC(unsigned char buf[], int len);
 int ICACHE_FLASH_ATTR validChecksum(unsigned char buf[], int len);
 
 unsigned int ICACHE_FLASH_ATTR ModRTU_CRC(unsigned char* buf, int len, unsigned char* checksumHi, unsigned char* checksumLo);

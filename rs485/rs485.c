@@ -62,7 +62,7 @@ dds238_2_t * dds238_2_data;
 #include "rs485.h"
 
 #if defined(RUNONLINUX)
-static struct termios oldtioGPS, newtioGPS ;    // main port settings, before/after
+static struct termios oldtio, newtio;    // main port settings, before/after
 static char gpsport[80]="/dev/ttyUSB0";
 static char run=TRUE;
 static volatile int idComDev;
@@ -80,14 +80,23 @@ int main(int argc, char *argv[]) {
 	fd_set rdset;
 	struct timeval timeout;
 	int retval, nbyte, n, DTR_flag, RTS_flag;
-	unsigned char TXbuf[8]; //={ 0x01, 0x03, 0x00, 0x0C, 0x00, 0x01, 0x44, 0x09 };
+	unsigned char pTXbuf[12] = { 0x60, 0x86, 0x78, 0x66, 0x00, 0x06, 0x86, 0x00, 0x00, 0x00, 0x80, 0x80 };
 	unsigned char RXbuf[32];
-	unsigned char loop=0;
+	unsigned int loop=0;
   
 	int i=0;
 
 	signal(SIGINT, dds_HandleSig);
 	signal(SIGTERM, dds_HandleSig);
+  	//newtio.c_cc[VMIN] = 15;
+  	//newtio.c_cc[VMIN] = 14;
+  	//newtio.c_cc[VMIN] = 13;
+  	newtio.c_cc[VMIN] = 12; // ModBus
+  	//newtio.c_cc[VMIN] = 10;       // blocking read until x chars received
+  	//newtio.c_cc[VMIN] = 8;       // blocking read until x chars received
+  	//newtio.c_cc[VMIN] = 6;       // blocking read until x chars received
+  	//newtio.c_cc[VMIN] = 5;       // blocking read until x chars received
+  	//newtio.c_cc[VMIN] = 1;
 	dds238Init();
 
 	while(run) {
@@ -95,45 +104,49 @@ int main(int argc, char *argv[]) {
 		FD_SET(idComDev, &rdset);      // input serial may wakeup
 		// Initialize the timeout data structure.
 		timeout.tv_sec = 0;
-		timeout.tv_usec = 300000;		// 300 ms
-		
-		prepare_buff(&loop, TXbuf);
-		halfduplex_write(TXbuf);
+		timeout.tv_usec = 500000;
+
+		//prepare_buff(&loop, pTXbuf);
+		//halfduplex_write(pTXbuf);
 
 		//printf("--> RX\n");
 		retval = select(FD_SETSIZE, &rdset, NULL, NULL, &timeout);
 		if (!retval) {          	// select exited due to timeout
-		  SerialTMOManager();
+		  SerialTMOManager(loop);
 		  }
 		else if (FD_ISSET(idComDev, &rdset)) {
-				nbyte = read(idComDev, RXbuf, 12);
-				printf("RXbuf %d\n", nbyte);
+				nbyte = read(idComDev, RXbuf, newtio.c_cc[VMIN]);
+				//nbyte = read(idComDev, RXbuf, 12);
+				printf("\nRXbuf %d\n", nbyte);
 				for (n=0; n<nbyte; n++) {
 					printf("%02X ", RXbuf[n]);
 					}
 				printf("\n");
 				
-				if (!validChecksum(RXbuf, nbyte)) {
-					printf("Bad CRC\n");
-					continue;
-					}
-
-				float value = ( (RXbuf[3] << 8) | (RXbuf[4]) )/10;
-				printf("value %f\n", value);
+				//validChecksum(RXbuf+3, nbyte-3);
+				
+				float value21 = ( (RXbuf[2] << 8) | (RXbuf[1]) )/10;
+				float value43 = ( (RXbuf[4] << 8) | (RXbuf[3]) )/10;
+				float value65 = ( (RXbuf[6] << 8) | (RXbuf[5]) )/10;
+				float value87 = ( (RXbuf[8] << 8) | (RXbuf[7]) )/10;
+				float value109 = ( (RXbuf[10] << 8) | (RXbuf[9]) )/10;
+				printf("value21 %.2f, value43 %.2f, value65 %.2f, value87 %.2f, value109 %.2f\n", value21, value43, value65, value87, value109);
 				
 				}
 		loop++;
-		getchar();
+		//printf("getchar\n"); getchar();
 	}
 
-	tty_close(idComDev, &newtioGPS, &oldtioGPS);
+	tty_close(idComDev, &newtio, &oldtio);
     printf("end.\n", gpsport) ;
 
 	return 0;
 }
 
 int ICACHE_FLASH_ATTR dds238Init() {
-  idComDev = tty_open(gpsport, &newtioGPS, &oldtioGPS, B9600);
+  //idComDev = tty_open(gpsport, &newtio, &oldtio, B2400);
+  idComDev = tty_open(gpsport, &newtio, &oldtio, B9600);
+  
   
   if (idComDev < 0) {    // some error
     printf("open error on %s\n", gpsport) ;
@@ -148,7 +161,6 @@ void dds238End(void) {
   usleep(100*1000);
 }
 
-
 int ICACHE_FLASH_ATTR uart0_tx_one_char(uint8 TxChar) {
 	int status;
 	
@@ -156,6 +168,14 @@ int ICACHE_FLASH_ATTR uart0_tx_one_char(uint8 TxChar) {
 		printf("--> write err !!!\n");
 		
 	return TRUE;
+}
+
+void ICACHE_FLASH_ATTR uart0_write(char *c, int len) {
+    int nlen;
+
+    for (nlen=0; nlen<len; nlen++) {
+        uart0_tx_one_char(c[nlen]);
+        }
 }
 
 void halfduplex_write_withDTR_or_RTS(unsigned char *TXbuf) {
@@ -211,9 +231,8 @@ void halfduplex_write_withDTR_or_RTS(unsigned char *TXbuf) {
 	#endif
 }
 
-void halfduplex_write(unsigned char *TXbuf) {
-	
-	uart0_write(TXbuf, 8);		// 16,6 ms @ 4800 bps
+void halfduplex_write(unsigned char *TXbuf) {	
+	uart0_write(TXbuf, 12);		// 16,6 ms @ 4800 bps
 	tcdrain(idComDev);
 }
 
@@ -279,7 +298,8 @@ int tty_open(char * pname, struct termios * pnewtio, struct termios * poldtio, i
 		printf("tcgetattr\n");
 		return -1;
 		}
-	//bzero(pnewtio, sizeof(struct termios)) ;
+	poldtio->c_cc[VMIN]=pnewtio->c_cc[VMIN];
+	
 	memcpy(pnewtio, poldtio, sizeof(struct termios));
 	
 	// BAUDRATE: Set bps rate. You could also use cfsetispeed and cfsetospeed.
@@ -296,11 +316,9 @@ int tty_open(char * pname, struct termios * pnewtio, struct termios * poldtio, i
 	//pnewtio->c_cflag = CS8 | HUPCL | CLOCAL | CREAD | ~CRTSCTS;
 	
 	// ----------------------------------------------------------------
-	//pnewtio->c_cflag = brate | CRTSCTS | CS8 | HUPCL | CLOCAL | CREAD;
+	//pnewtio->c_cflag = brate | CS8 | CSTOPB | HUPCL | CLOCAL | CREAD;
+	pnewtio->c_cflag = brate | CS8 | HUPCL | CLOCAL | CREAD;
 	//pnewtio->c_cflag = brate | CS8 | PARENB | HUPCL | CLOCAL | CREAD;
-	pnewtio->c_cflag = brate | CS8 | CSTOPB | HUPCL | CLOCAL | CREAD;
-	//pnewtio->c_cflag = brate | CS8 | HUPCL | CLOCAL | CREAD;
-	//pnewtio->c_cflag = brate | CS8 | HUPCL | CLOCAL | CREAD | ~CRTSCTS;
 
 	// IGNBRK  : ignore breaks
 	// IGNPAR  : ignore bytes with parity errors
@@ -336,8 +354,7 @@ int tty_open(char * pname, struct termios * pnewtio, struct termios * poldtio, i
 
 	//pnewtio->c_cc[VTIME]    = 1 ;       // inter-character timer unused 0.1 sec
 	pnewtio->c_cc[VTIME]    = 0 ;       // no timeout (use select)
-	pnewtio->c_cc[VMIN]     = 1 ;       // blocking read until x chars received
-	//pnewtio->c_cc[VMIN]     = 8 ;       // blocking read until x chars received
+	//pnewtio->c_cc[VMIN]     = 1 ;       // blocking read until x chars received
 
 	//  now clean the modem line and activate the settings for the port
 
@@ -356,9 +373,9 @@ void tty_close(int fd, struct termios * pnewtio, struct termios * poldtio) {
   close(fd) ;
 }
 
-int SerialTMOManager() {
+int SerialTMOManager(unsigned int loop) {
     tcflush(idComDev,TCIOFLUSH);
-	  printf("RX TMO\n");
+	printf("RX TMO %u\n", loop);
     /*
     pthread_mutex_lock(&gps_mutex);
     // ADD here
@@ -490,10 +507,8 @@ void ICACHE_FLASH_ATTR prepare_buff(unsigned char *TXbuf) {
 	return;		
 }
 
-#endif
-
 int ICACHE_FLASH_ATTR uart0_tx_one_char(uint8 TxChar) {
-    while (true) {
+    while (TRUE) {
 		uint32 fifo_cnt = READ_PERI_REG(UART_STATUS(UART0)) & (UART_TXFIFO_CNT<<UART_TXFIFO_CNT_S);
 		if ((fifo_cnt >> UART_TXFIFO_CNT_S & UART_TXFIFO_CNT) < 126) {
 			break;
@@ -503,13 +518,7 @@ int ICACHE_FLASH_ATTR uart0_tx_one_char(uint8 TxChar) {
 	return TRUE;
 }
 
-void ICACHE_FLASH_ATTR uart0_write(char *c, int len) {
-    int nlen;
-
-    for (nlen=0; nlen<len; nlen++) {
-        uart0_tx_one_char(c[nlen]);
-        }
-}
+#endif
 
 void ICACHE_FLASH_ATTR buildFrame( unsigned char slaveAddress, unsigned char functionCode, short startAddress, short parameter, unsigned char* frame) {
   frame[0] = slaveAddress;
@@ -528,11 +537,27 @@ void ICACHE_FLASH_ATTR buildFrame( unsigned char slaveAddress, unsigned char fun
 
 // Check checksum in buffer with buffer length len
 int ICACHE_FLASH_ATTR validChecksum(unsigned char buf[], int len) {
+  unsigned char checksumHi = 0;
+  unsigned char checksumLo = 0;
+  unsigned int checksum = 0;
+  if (len < 4) { return FALSE; }
+  
+	for (int n=0; n<len; n++) {
+		checksum+=buf[n];
+		}
+
+  printf("Checksum %04X\n", checksum);
+  return FALSE;
+}
+
+
+// Check crc in buffer with buffer length len
+int ICACHE_FLASH_ATTR validCRC(unsigned char buf[], int len) {
   if (len < 4) { return FALSE; }
   unsigned char checksumHi = 0;
   unsigned char checksumLo = 0;
   ModRTU_CRC(buf, (len - 2), &checksumHi, &checksumLo);
-  //printf("Checksum %02X %02X\n", checksumHi, checksumLo);
+  printf("CRC %02X %02X\n", checksumHi, checksumLo);
   if (buf[len - 2] == checksumLo && buf[len - 1] == checksumHi) {
     return TRUE;
     }
