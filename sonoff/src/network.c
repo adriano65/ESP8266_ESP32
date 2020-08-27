@@ -196,21 +196,21 @@ static void ICACHE_FLASH_ATTR wifi_event_cb(System_Event_t *event) {
 
 /* Handles the receiving of information */
 LOCAL void ICACHE_FLASH_ATTR TCPReceiveCb(void *conn, char *pRXdata, unsigned short RXdatalen) {
-    struct espconn * pCon = (struct espconn *)conn;
+  struct espconn * pCon = (struct espconn *)conn;
 	
 	if (pCon == NULL) return;
 	pRXdata[RXdatalen-2]='\0';
 
 	cmdParser(pRXdata, RXdatalen);
-    os_printf("%s\r\n", pTXdata);
+  os_printf("%s\r\n", pTXdata);
 	espconn_sent(pCon, pTXdata, TXdatalen);
 }
 
 /* Call-back for when an incoming TCP connection has been established */
 LOCAL void ICACHE_FLASH_ATTR tcp_connect_cb(void *arg) {
-    struct espconn * pCon = (struct espconn *)arg;
-    os_printf("TCP connection received from "IPSTR":%d to local port %d\n", IP2STR(pCon->proto.tcp->remote_ip), pCon->proto.tcp->remote_port, pCon->proto.tcp->local_port);
-    espconn_regist_recvcb(pCon, TCPReceiveCb);
+  struct espconn * pCon = (struct espconn *)arg;
+  os_printf("TCP connection received from "IPSTR":%d to local port %d\n", IP2STR(pCon->proto.tcp->remote_ip), pCon->proto.tcp->remote_port, pCon->proto.tcp->local_port);
+  espconn_regist_recvcb(pCon, TCPReceiveCb);
 	espconn_set_opt(pCon, ESPCONN_REUSEADDR|ESPCONN_NODELAY);
 }
 

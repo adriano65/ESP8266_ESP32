@@ -161,12 +161,13 @@ LOCAL void ICACHE_FLASH_ATTR ota_rx_cb(void *arg, char *data, uint16_t len) {
                     // We have a line, see what it is.
                     if (!strncmp("GetNextFlash", ota_buffer, eol - 2)) {
                         uint8_t unit = system_upgrade_userbin_check(); // Note, returns the current unit!
-						DBG("The remote device has requested to know what the next flash unit is: Is %d",unit);
+						            DBG("The remote device has requested to know what the next flash unit is: Is %d",unit);
                         if (unit == UPGRADE_FW_BIN1) {
                             espconn_send(conn, "user2.bin\r\n", 11);
-                        } else {
+                          } 
+                        else {
                             espconn_send(conn, "user1.bin\r\n", 11);
-                        }
+                          }
                     } else if ((eol > 17) && (!strncmp("FirmwareLength:", ota_buffer, 15))) {
                         // The remote system is preparing to send the firmware. The expected length is supplied here.
                         uint32_t size = 0;
@@ -398,20 +399,26 @@ LOCAL void ICACHE_FLASH_ATTR ota_recon_cb(void *arg, int8_t err) {
 // Call-back for when an incoming TCP connection has been established.
 LOCAL void ICACHE_FLASH_ATTR ota_tcp_connect_cb(void *arg) {
   struct espconn *conn = (struct espconn *)arg;
-  //disable global interrupt
-  ETS_GPIO_INTR_DISABLE();
   DBG("TCP OTA connection received from "IPSTR":%d\n", IP2STR(conn->proto.tcp->remote_ip), conn->proto.tcp->remote_port);
 
   // See if this connection is allowed.
   if (ota_ip == 0) {
-	// Now that we have a connection, register some call-backs.
-	espconn_regist_recvcb(conn, ota_rx_cb);
-	espconn_regist_disconcb(conn, ota_disc_cb);
-	espconn_regist_reconcb(conn, ota_recon_cb);
-	// ... and stop MQTT
+    //disable global interrupt
+    ETS_GPIO_INTR_DISABLE();
+    
+    // ... and stop MQTT
 
-	// ... and stop HW timer
+    // ... and stop UART
+    ETS_UART_INTR_DISABLE();
+    
+    // ... and stop HW timer
     hw_timer_stop();
+
+
+    // Now that we have a connection, register some call-backs.
+    espconn_regist_recvcb(conn, ota_rx_cb);
+    espconn_regist_disconcb(conn, ota_disc_cb);
+    espconn_regist_reconcb(conn, ota_recon_cb);
 	}
 }
 

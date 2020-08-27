@@ -25,7 +25,7 @@ extern Sensor_Data sensor_data;
 #include "../hlw8012/hlw8012.h"
 #endif
 
-#if defined(SONOFFPOW_DDS238_2)
+#if defined(SONOFFPOW_DDS238_2) || defined(SONOFFTH10_DDS238_2) || defined(MAINS_DDS238_2) || defined(ESP01)
 #include "../dds238-2/dds238-2.h"
 #endif
 
@@ -72,14 +72,15 @@ static void ICACHE_FLASH_ATTR restoreIO() {
     #if !defined(USE_TXD0)
     set_gpio_mode(GPIO_3, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
     gpio_write(GPIO_3, flashConfig.IOPort_bit0);
+    #warning USE_TXD0 undefined
     #endif
     set_gpio_mode(GPIO_4, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
     gpio_write(GPIO_4, flashConfig.IOPort_bit1);
     set_gpio_mode(GPIO_14, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
     gpio_write(GPIO_14, flashConfig.IOPort_bit2);
     set_gpio_mode(GPIO_12, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
-    //gpio_write(GPIO_12, flashConfig.IOPort_bit3==0?1:0);
-    gpio_write(GPIO_12, flashConfig.IOPort_bit3);
+    gpio_write(GPIO_12, flashConfig.IOPort_bit3==0 ? 1 : 0);
+    //gpio_write(GPIO_12, flashConfig.IOPort_bit3);
     set_gpio_mode(GPIO_13, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
     gpio_write(GPIO_13, flashConfig.IOPort_bit4);
     set_gpio_mode(GPIO_0, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
@@ -131,10 +132,9 @@ void ICACHE_FLASH_ATTR user_init(void) {
 
   #if defined(USE_TXD0)
   uart_init(BIT_RATE_115200);		// set  GPIO_1 (aka TXD0) to 1 !  
+  os_printf("\n%s %s\n", PROJ_NAME, VERSION);			// Say hello (leave some time to cause break in TX after boot loader's msg
   #endif
   restoreIO();
-  
-  os_printf("\n%s %s\n", PROJ_NAME, VERSION);			// Say hello (leave some time to cause break in TX after boot loader's msg
   
   // Start the LED timer
   blink_timer_init();
@@ -167,29 +167,21 @@ void ICACHE_FLASH_ATTR user_init(void) {
   HLW8012Init();
   #endif
 
-  #if defined(SONOFFPOW_DDS238_2)
-  dds238Init();
+  #if defined(SONOFFPOW_DDS238_2) || defined(SONOFFTH10_DDS238_2) || defined(MAINS_DDS238_2) || defined(ESP01)
+    dds238Init();
   #endif
 
   #if defined(MAINS_VMC) || defined(SONOFFDUAL)
-  i2c_master_gpio_init();
-  //ccs811_init_sensor(CCS811_I2C_ADDRESS_1);
-  ina226Init(INA226_ADD);
+    i2c_master_gpio_init();
+    //ccs811_init_sensor(CCS811_I2C_ADDRESS_1);
+    ina226Init(INA226_ADD);
   #endif
   
   
   hw_timer_init();
   // uSeconds * 10 ... seems to be
-  #if defined(SONOFFPOW_DDS238_2)
-  hw_timer_arm(40000);
-  #else
-  //hw_timer_arm(100000);     // one second timer
   hw_timer_arm(10000);        // 1/10 seconds timer
-  #endif
   //hw_timer_arm(1000000);
-  //hw_timer_arm(500000);
-  //hw_timer_arm(3000000);
-  
 }
 
 extern uint8_t button_press_duration;
@@ -269,7 +261,7 @@ void ICACHE_FLASH_ATTR SendStatus(char * topic, sendmessage_t type) {
       break;
 
     case MSG_POW_DDS238_2:
-      #if defined(SONOFFPOW_DDS238_2)
+      #if defined(SONOFFPOW_DDS238_2)  || defined(SONOFFTH10_DDS238_2) || defined(MAINS_DDS238_2)
       nTmp=(int)dds238_2_data->EnergyFromGrid;
       if (nTmp<0) nTmp=~nTmp;
       os_sprintf(pTXdata, "{\"eventdate\":\"%02d:%02d:%02d\", \"ActivePower\": %d.%d, \"current\": %d.%d, \"EnergyToGrid\": %d.%d, \"EnergyFromGrid\": %d.%d, \"IsValid\": %d}",

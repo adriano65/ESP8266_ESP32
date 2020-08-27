@@ -5,8 +5,8 @@
 #include "eagle_soc.h"
 #include "c_types.h"
 
-#define RX_BUFF_SIZE    0x100
-#define TX_BUFF_SIZE    100
+#define RX_BUFF_SIZE    0x80
+#define TX_BUFF_SIZE    0x40
 
 typedef enum {
     FIVE_BITS = 0x0,
@@ -79,7 +79,7 @@ typedef enum {
 } RcvMsgState;
 
 typedef struct {
-    UartBautRate 	  baut_rate;
+    UartBautRate 	    baut_rate;
     UartBitsNum4Char  data_bits;
     UartExistParity   exist_parity;
     UartParityMode 	  parity;    // chip size in byte

@@ -17,9 +17,10 @@
 #include "../hlw8012/hlw8012.h"
 #endif
 
-#if defined(SONOFFPOW_DDS238_2)
+#if defined(SONOFFPOW_DDS238_2) || defined(SONOFFTH10_DDS238_2) || defined(MAINS_DDS238_2) || defined(ESP01)
 #include "../dds238-2/dds238-2.h"
 unsigned char TXbuf[8];
+extern unsigned int nDDS238Statem;
 #endif
 
 //#define RTC_DBG
@@ -211,7 +212,7 @@ void ICACHE_FLASH_ATTR hw_timer_isr_cb(void) {
     #endif
 
     #if defined(SONOFFPOW)
-    if ( !(nCounter%20) ) {
+    if ( !(nCounter%(READ_DELAY/2)) ) {
       updateCurrent();
       updateVoltage();
       updateActivePower();
@@ -221,12 +222,24 @@ void ICACHE_FLASH_ATTR hw_timer_isr_cb(void) {
       }
     #endif
 
-    #if defined(SONOFFPOW_DDS238_2)
-    prepare_buff(TXbuf);
-    uart0_write(TXbuf, 8);
-    if ( !(nCounter%20) ) {
+    #if defined(SONOFFPOW_DDS238_2) || defined(SONOFFTH10_DDS238_2) || defined(MAINS_DDS238_2) || defined(ESP01)
+    if ( !(nCounter%(READ_DELAY/2)) ) {
+      if (nDDS238Statem==SM_WAITING_MERDANERA) {
+        espconn_connect(pGTN1000Conn);
+        }
+      
+      //os_printf("MAINS_DDS238_2...\r\n");
+
+      //
+      //prepare_buff(TXbuf);
+      //uart0_write(TXbuf, 8);
+      //nDDS238Statem=SM_WAITING_DDS238_ANSWER;
+      }
+    /*
+    if ( !(nCounter%READ_DELAY) ) {
       SendStatus(MQTT_STAT_TOPIC, MSG_POW_DDS238_2);
       }
+    */
     #endif
 
     if ( !(nCounter%100) ) {
@@ -266,6 +279,7 @@ void ICACHE_FLASH_ATTR hw_timer_isr_cb(void) {
         #endif
       #endif        
 	    SendStatus(MQTT_STAT_TOPIC, MSG_TEMP_HUMI);
+      #warning askfjdsofjodis
       }
     #endif
 

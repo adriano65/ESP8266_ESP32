@@ -46,7 +46,7 @@ AP_BEACON_INTERVAL ?=900
 CHANGE_TO_STA ?= yes
 
 # hostname or IP address for wifi flashing
-ESP_HOSTNAME  ?= 192.168.4.1
+ESP_HOSTNAME  ?= 192.168.1.241
 
 # --------------- toolchain configuration ---------------
 
@@ -95,7 +95,7 @@ FLASH_SIZE ?= 512KB
 
 # The pin assignments below are used when the settings in flash are invalid, they
 # can be changed via the web interface
-# GPIO pin used to reset attached microcontroller, acative low
+# GPIO pin used to reset attached microcontroller, active low
 MCU_RESET_PIN       ?= 12
 # GPIO pin used with reset to reprogram MCU (ISP=in-system-programming, unused with AVRs), active low
 MCU_ISP_PIN         ?= 13

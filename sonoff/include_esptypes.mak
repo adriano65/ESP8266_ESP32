@@ -2,22 +2,25 @@ ifdef SONOFFTH10a
 #mosquitto_sub -v -p 5800 -h 192.168.1.6 -t 'sonoff_th10/#'
 PROJ_NAME      :=  "sonoff_th10"
 LED_CONN_PIN_ACTIVELOW   := 1
+USE_TXD0       := no
 BUTTON0_PIN	   := GPIO_0
-RELAY_PIN		:= GPIO_12
+RELAY_PIN		   := GPIO_12
 SI7021_PIN     := GPIO_14
 STA_IPADDRESS  := "192.168.1.215"
-READ_DELAY     := 200
+READ_DELAY     := 20
 MQTT_STAT_TOPIC := "sonoff_th10/215/temp"
 MQTT_BTN_TOPIC := "sonoff_th10/215/button"
 FLASH_SIZE     := 1MBb
-CFLAGS	       := -DSONOFFTH10 -DAP_SSID='"VerandaTemp"' -DTEMP_OFFSET=0 -DHUMI_OFFSET=0
+#CFLAGS	       := -DSONOFFTH10 -DAP_SSID='"VerandaTemp"' -DTEMP_OFFSET=0 -DHUMI_OFFSET=0
+CFLAGS	       := -DSONOFFTH10_DDS238_2 -DAP_SSID='"VerandaTemp"' -DTEMP_OFFSET=0 -DHUMI_OFFSET=0
+
 else ifdef SONOFFTH10b
 # ---------------------- 16 Ampere
 PROJ_NAME      := "sonoff_th10"
 LED_CONN_PIN_ACTIVELOW   := 1
 BUTTON0_PIN	   := GPIO_0
-RELAY_PIN		:= GPIO_12
-SI7021_PIN    := GPIO_14
+RELAY_PIN		   := GPIO_12
+SI7021_PIN     := GPIO_14
 STA_IPADDRESS  := "192.168.1.216"
 READ_DELAY     := 100
 MQTT_STAT_TOPIC := "sonoff_th10/216/temp"
@@ -30,8 +33,8 @@ else ifdef SONOFFTH10c
 PROJ_NAME      := "sonoff_th10"
 LED_CONN_PIN_ACTIVELOW   := 1
 BUTTON0_PIN	   := GPIO_0
-RELAY_PIN		:= GPIO_12
-DHT22_PIN	   := GPIO_14
+RELAY_PIN		   := GPIO_12
+DHT22_PIN	     := GPIO_14
 STA_IPADDRESS  := "192.168.1.217"
 READ_DELAY     := 200
 MQTT_STAT_TOPIC := "sonoff_th10/217/temp"
@@ -44,10 +47,10 @@ else ifdef SONOFFTH10d
 PROJ_NAME      := "sonoff_th10"
 LED_CONN_PIN_ACTIVELOW   := 1
 BUTTON0_PIN	   := GPIO_0
-RELAY_PIN		:= GPIO_12
+RELAY_PIN		   := GPIO_12
 SI7021_PIN     := GPIO_14
 STA_IPADDRESS  := "192.168.1.218"
-USE_DHCP := no
+USE_DHCP       := no
 READ_DELAY     := 200
 REFRESHIO      := no
 MQTT_STAT_TOPIC := "sonoff_th10/218/temp"
@@ -60,7 +63,7 @@ else ifdef SONOFFTH10e
 PROJ_NAME      := "sonoff_th10"
 LED_CONN_PIN_ACTIVELOW   := 1
 BUTTON0_PIN	   := GPIO_0
-RELAY_PIN		:= GPIO_12
+RELAY_PIN		   := GPIO_12
 SI7021_PIN     := GPIO_14
 STA_IPADDRESS  := "192.168.1.219"
 READ_DELAY     := 200
@@ -76,7 +79,7 @@ LED_CONN_PIN   := GPIO_2
 LED_CONN_PIN_ACTIVELOW   := 1
 USE_TXD0       := no
 STA_IPADDRESS  := "192.168.1.11"
-USE_DHCP := no
+USE_DHCP       := no
 READ_DELAY     := 100
 REFRESHIO      := no
 MQTT_STAT_TOPIC := "esp_mains/11/status"
@@ -97,13 +100,13 @@ else ifdef MAINSc
 PROJ_NAME      := "esp_mains"
 LED_CONN_PIN   := GPIO_2
 LED_CONN_PIN_ACTIVELOW   := 1
-USE_TXD0       := yes
+USE_TXD0       := no
 STA_IPADDRESS  := "192.168.1.112"
-USE_DHCP := no
+USE_DHCP       := no
 READ_DELAY     := 100
 MQTT_STAT_TOPIC := "esp_mains/112/status"
 FLASH_SIZE     := 4MB
-CFLAGS	       := -DMAINS -DAP_SSID='"BrokenAss"'
+CFLAGS	       := -DMAINS -DSONOFFPOW_DDS238_2 -DAP_SSID='"BrokenAss"'
 
 else ifdef MAINS_VMC
 PROJ_NAME      := "esp_mains_vmc"
@@ -113,7 +116,7 @@ I2C_SCL_PIN 	:= no
 I2C_SDA_PIN		:= GPIO_0
 USE_TXD0       := yes
 STA_IPADDRESS  := "192.168.1.113"
-USE_DHCP := yes
+USE_DHCP       := yes
 READ_DELAY     := 100
 MQTT_STAT_TOPIC := "'$(PROJ_NAME)'/113/status"
 FLASH_SIZE     := 4MBb
@@ -122,11 +125,13 @@ CFLAGS	       := -DMAINS_VMC -DAP_SSID='"esp_mains_vmc"'
 
 else ifdef ESP01a
 PROJ_NAME      := "esp01"
-LED_CONN_PIN   := GPIO_2
+LED_CONN_PIN   := GPIO_2    # really there is no led (only vcc led and tx led)
+USE_TXD0       := yes
+USE_DHCP       := no
 STA_IPADDRESS  := "192.168.1.114"
 READ_DELAY     := 100
 MQTT_STAT_TOPIC := "esp01/114/status"
-FLASH_SIZE     := 512
+FLASH_SIZE     := 512KB
 CFLAGS	       := -DESP01 -DAP_SSID='"ESP01"'
 
 else ifdef MAINSd
@@ -135,44 +140,59 @@ LED_CONN_PIN   := GPIO_2
 LED_CONN_PIN_ACTIVELOW   := 1
 USE_TXD0       := yes
 STA_IPADDRESS  := "192.168.1.115"
-USE_DHCP := no
+USE_DHCP       := no
 READ_DELAY     := 100
 MQTT_STAT_TOPIC := "esp_mains/115/status"
 FLASH_SIZE     := 4MB
 CFLAGS	       := -DMAINS -DANT_TEST -DAP_SSID='"ExternalAntTest"'
 
+else ifdef MAINSe
+PROJ_NAME      := "esp_mains"
+LED_CONN_PIN   := GPIO_2
+LED_CONN_PIN_ACTIVELOW   := 1
+USE_TXD0       := yes
+#USE_TXD0       := no
+STA_IPADDRESS  := "192.168.1.116"
+USE_DHCP       := no
+READ_DELAY     := 100
+MQTT_STAT_TOPIC := "esp_mains/116/status"
+FLASH_SIZE     := 4MB
+CFLAGS	       := -DMAINS -DMAINS_DDS238_2 -DAP_SSID='"HousePW2GTN"'
+
+# ---------------------------------- Sun Power
 else ifdef SONOFFPOWa
 PROJ_NAME      := "sonoff_pow"
 LED_CONN_PIN   := GPIO_15
 BUTTON0_PIN	   := GPIO_0
-RELAY_PIN		:= GPIO_12
+RELAY_PIN		   := GPIO_12
 USE_TXD0       := yes
 STA_IPADDRESS  := "192.168.1.220"
 READ_DELAY     := 40
 MQTT_STAT_TOPIC := "sonoff_pow/220/status"
 MQTT_BTN_TOPIC := "sonoff_pow/220/button"
 FLASH_SIZE     := 1MBb
-CFLAGS	       := -DSONOFFPOW -DAP_SSID='"OutBell"' -DA_TRIM_VALUE=67.6139240506 -DV_TRIM_VALUE=2.86 -DW_TRIM_VALUE=2.61341630821
+CFLAGS	       := -DSONOFFPOW -DAP_SSID='"sun_power"' -DA_TRIM_VALUE=67.6139240506 -DV_TRIM_VALUE=2.86 -DW_TRIM_VALUE=2.61341630821
 
 else ifdef SONOFFPOWb
 # ---------------------------------- ModBus
 PROJ_NAME      := "sonoff_ex_pow"
 LED_CONN_PIN   := GPIO_15
 BUTTON0_PIN	   := GPIO_0
-RELAY_PIN		:= GPIO_12
+RELAY_PIN		   := GPIO_12
 USE_TXD0       := no
 STA_IPADDRESS  := "192.168.1.221"
 READ_DELAY     := 20
 MQTT_STAT_TOPIC := "sonoff_pow/221/status"
 MQTT_BTN_TOPIC := "sonoff_pow/221/button"
 FLASH_SIZE     := 1MBb
-CFLAGS	       := -DSONOFFPOW_DDS238_2 -DAP_SSID='"POWb"'
-# ---------------------------------- ModBus
+CFLAGS	       := -DSONOFFPOW_DDS238_2 -DAP_SSID='"ModBus"'
+
+# ---------------------------------- ModBus2
 else ifdef SONOFFPOWc
 PROJ_NAME      := "sonoff_pow"
 LED_CONN_PIN   := GPIO_15
 BUTTON0_PIN	   := GPIO_0
-RELAY_PIN		:= GPIO_12
+RELAY_PIN		   := GPIO_12
 USE_TXD0       := yes
 STA_IPADDRESS  := "192.168.1.222"
 READ_DELAY     := 100
@@ -180,11 +200,13 @@ MQTT_STAT_TOPIC := "sonoff_pow/222/status"
 MQTT_BTN_TOPIC := "sonoff_pow/222/button"
 FLASH_SIZE     := 1MBb
 CFLAGS	       := -DSONOFFPOW -DAP_SSID='"POWTest2"' -DA_TRIM_VALUE=67.6139240506 -DV_TRIM_VALUE=2.86 -DW_TRIM_VALUE=2.61341630821
+
 else ifdef SONOFFPOWd
-PROJ_NAME      := "sonoff_pow"
+# PROJ_NAME      := "sonoff_pow"
+PROJ_NAME      := "sonoff_ex_pow"   # to enable dds238 !!
 LED_CONN_PIN   := GPIO_15
 BUTTON0_PIN	   := GPIO_0
-RELAY_PIN		:= GPIO_12
+RELAY_PIN		    := GPIO_12
 USE_TXD0       := yes
 STA_IPADDRESS  := "192.168.1.223"
 READ_DELAY     := 40
@@ -192,6 +214,7 @@ MQTT_STAT_TOPIC := "sonoff_pow/223/status"
 MQTT_BTN_TOPIC := "sonoff_pow/223/button"
 FLASH_SIZE     := 1MBb
 CFLAGS	       := -DSONOFFPOW -DAP_SSID='"POWTest223"' -DA_TRIM_VALUE=67.6139240506 -DV_TRIM_VALUE=2.86 -DW_TRIM_VALUE=3.5
+
 # ---------------------------------- TEST ModBus
 else ifdef SONOFFPOWe
 PROJ_NAME      := "sonoff_ex_pow"
@@ -200,7 +223,7 @@ BUTTON0_PIN	   := GPIO_0
 RELAY_PIN		:= GPIO_12
 USE_TXD0       := no
 STA_IPADDRESS  := "192.168.1.224"
-READ_DELAY     := 20
+READ_DELAY     := 200
 MQTT_STAT_TOPIC := "sonoff_pow/224/status"
 MQTT_BTN_TOPIC := "sonoff_pow/224/button"
 FLASH_SIZE     := 1MBb

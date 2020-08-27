@@ -3,11 +3,14 @@ ifeq ("$(FLASH_SIZE)","512KB")
 # Winbond 25Q40 512KB flash, typ for esp-01 thru esp-11
 ESP_SPI_SIZE        := 0       # 0->512KB (256KB+256KB)
 ESP_FLASH_MODE      := 0       # 0->QIO
+ESPTOOL_FM	        := qio
 ESP_FLASH_FREQ_DIV  := 0       # 0->40Mhz
 ET_FS               := 4m      # 4Mbit flash size in esptool flash command
 ET_FF               := 40m     # 40Mhz flash speed in esptool flash command
 ET_BLANK            := 0x7E000 # where to flash blank.bin to erase wireless settings
-ESPBAUD		    := 230400
+ET_INIT_DATA_DEF    := 0x7C000
+#ESPBAUD		          := 230400
+ESPBAUD		          := 115200
 
 else ifeq ("$(FLASH_SIZE)","1MB")
 # ESP-01E

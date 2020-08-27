@@ -41,52 +41,60 @@ USE_RBOOT := no
 include include_psw.mak
 
 # GPIO pin for LED, active low --. GPIO13 is for sonoff-th10, sonoff_dual. GPIO15 is for sonoff-pow 
-LED_CONN_PIN   				:= GPIO_13
+LED_CONN_PIN   						:= GPIO_13
 LED_CONN_PIN_ACTIVELOW   	:= 0
-DS18B20_PIN    				:= no
-DHT22_PIN      				:= no
-SI7021_PIN     				:= no
-BUTTON0_PIN    				:= no
-RELAY_PIN    				:= no
-TEMP_OFFSET					:= 0
-HUMI_OFFSET					:= 0
-I2C_SCL_PIN     			:= no
-I2C_SDA_PIN     			:= no
+DS18B20_PIN    						:= no
+DHT22_PIN      						:= no
+SI7021_PIN     						:= no
+BUTTON0_PIN    						:= no
+RELAY_PIN    							:= no
+TEMP_OFFSET								:= 0
+HUMI_OFFSET								:= 0
+I2C_SCL_PIN     					:= no
+I2C_SDA_PIN     					:= no
 
 # error -- reset IP addresses on FW relaod !!!
-# ----------------- veranda
-#SONOFFTH10a := 1
+# ----------------- test
+SONOFFTH10a := 1
 # ----------------- ?
 #SONOFFTH10b := 1
 # ----------------- fuori-garage
 #SONOFFTH10c := 1
 # ----------------- Cantina switch + temp
-SONOFFTH10d := 1
+#SONOFFTH10d := 1
 # ----------------- VerandaTemp
 #SONOFFTH10e := 1
-# ----------------- ?
+# ----------------- Linux Monitor and a lot more !
 #MAINSa := 2
 # ----------------- garage interno
 #ARMTRONIXa := 2
+
 # ----------------- BrokenAss
 #MAINSc := 2
+
 # ----------------- some day...
 #MAINS_VMC := 2
+
 # ----------------- ant test
 #MAINSd := 2
 
+# ----------------- House power 2 GTN
+#MAINSe := 2
+
 # --------------------sun power
 #SONOFFPOWa := 3
+
 # --------------------ModBus
 #SONOFFPOWb := 3
-
 #SONOFFPOWc := 3
-# --------------------all house power
+
+# --------------------all house power backup
 #SONOFFPOWd := 3
+
 # --------------------TEST ModBus
 #SONOFFPOWe := 3
-
 #SONOFFPOWf := 3
+
 #ESP01a := 4
 # --------------------solar 2 batteries switch 1 and 2
 #SONOFFDUALa  := 5
@@ -110,7 +118,7 @@ ESP_FLASH_MAX       := 503808
 
 include include_flash.mak
 
-VERSION := "1.0.0"
+VERSION := "1.0.1"
 BINDATE := "$(shell date '+%F %T')"
 $(info PROJ_NAME $(PROJ_NAME), STA_IPADDRESS $(STA_IPADDRESS), Version $(VERSION), Flash $(FLASH_SIZE), Date $(BINDATE) )
 
@@ -142,12 +150,24 @@ LIBS += c gcc hal pp phy net80211 lwip wpa main ssl crypto
 
 MODULES		+= src mqtt rtc_ntp 
 
+ifeq ($(PROJ_NAME),"sonoff_th10")
+MODULES		+= dds238-2
+endif
+
 ifeq ($(PROJ_NAME),"sonoff_pow")
 MODULES		+= hlw8012
 #LIBS += m
 endif
 
 ifeq ($(PROJ_NAME),"sonoff_ex_pow")
+MODULES		+= dds238-2
+endif
+
+ifeq ($(PROJ_NAME),"esp_mains")
+MODULES		+= dds238-2
+endif
+
+ifeq ($(PROJ_NAME),"esp01")
 MODULES		+= dds238-2
 endif
 
@@ -208,9 +228,8 @@ CFLAGS	+= -DSI7021_PIN=$(SI7021_PIN)
 MODULES		+= si7021
 endif
 
-#ifneq ("$(USE_TXD0)","no")
 ifeq ("$(USE_TXD0)","yes")
-CFLAGS	+= -DUSE_TXD0=$(USE_TXD0)
+CFLAGS	+= -DUSE_TXD0
 endif
 
 ifeq ("$(REFRESHIO)","yes")
@@ -264,7 +283,7 @@ endef
 
 .PHONY: all checkdirs clean wiflash
 
-all: checkdirs $(FW_BASE)/user1.bin $(FW_BASE)/user2.bin
+all: checkdirs $(FW_BASE)/user1.bin $(FW_BASE)/user2.bin include_esptypes.mak
 	@echo "LED_CONN_PIN -> $(value LED_CONN_PIN)"
 	@echo "BUTTON0_PIN -> $(value BUTTON0_PIN)"	
 	@echo "DHT22_PIN -> $(value DHT22_PIN)"

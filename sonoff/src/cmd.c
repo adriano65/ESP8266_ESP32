@@ -174,7 +174,7 @@ void ICACHE_FLASH_ATTR F_cmd_interpreter(char arg) {
 		  flashConfig.IOPort_bit2=0;
 		  break;
 	  case '3':
-		  gpio_write(GPIO_12, 0);
+		  gpio_write(GPIO_12, 1);
 		  flashConfig.IOPort_bit3=0;
 		  break;
 	  #else
@@ -231,10 +231,6 @@ void ICACHE_FLASH_ATTR F_cmd_interpreter(char arg) {
 		  gpio_write(GPIO_5, 0);
 		  flashConfig.IOPort_bit7=0;
 		  break;
-	  case '8':
-		  gpio_write(8, 0);
-		  //flashConfig.IOPort_bit7=0;
-		  break;
 	  #endif
 	  default:
 		  TXdatalen=os_sprintf(pTXdata, "BAD arg %0u\r\n", arg);
@@ -259,7 +255,7 @@ void ICACHE_FLASH_ATTR O_cmd_interpreter(char arg) {
 			flashConfig.IOPort_bit2=1;
 			break;
 		case '3':
-			gpio_write(GPIO_12, 1);
+			gpio_write(GPIO_12, 0);
 			flashConfig.IOPort_bit3=1;
 			break;
 		#else
@@ -309,8 +305,10 @@ void ICACHE_FLASH_ATTR O_cmd_interpreter(char arg) {
 			flashConfig.IOPort_bit5=1;
 			break;
 		case '6':
+		  #if !defined(USE_TXD0)
 			gpio_write(GPIO_1, 1);
 			flashConfig.IOPort_bit6=1;
+      #endif
 			break;
 		case '7':		// Not externally Connected
 			gpio_write(GPIO_5, 1);
@@ -422,8 +420,8 @@ void ICACHE_FLASH_ATTR T_cmd_interpreter(char arg) {
 		  else 						 { gpio_write(GPIO_14, 1); flashConfig.IOPort_bit2=1; }
 		  break;
 	  case '3':
-		  if (flashConfig.IOPort_bit3) { gpio_write(GPIO_12, 0); flashConfig.IOPort_bit3=0; }
-		  else 						 { gpio_write(GPIO_12, 1); flashConfig.IOPort_bit3=1; }
+		  if (flashConfig.IOPort_bit3) { gpio_write(GPIO_12, 1); flashConfig.IOPort_bit3=0; }
+		  else 						 { gpio_write(GPIO_12, 0); flashConfig.IOPort_bit3=1; }
 		  break;
 	  #else
 	  case '3':
@@ -435,22 +433,18 @@ void ICACHE_FLASH_ATTR T_cmd_interpreter(char arg) {
 	  case '4':
 		  if (flashConfig.IOPort_bit4) { gpio_write(GPIO_13, 0); flashConfig.IOPort_bit4=0; }
 		  else 						 { gpio_write(GPIO_13, 1); flashConfig.IOPort_bit4=1; }
-		  flashConfig.IOPort_bit4=0;
 		  break;
 	  case '5':
 		  if (flashConfig.IOPort_bit5) { gpio_write(3, 0); flashConfig.IOPort_bit5=0; }
 		  else 						 { gpio_write(3, 1); flashConfig.IOPort_bit5=1; }
-		  flashConfig.IOPort_bit5=0;
 		  break;
 	  case '6':
 		  if (flashConfig.IOPort_bit6) { gpio_write(GPIO_1, 0); flashConfig.IOPort_bit6=0; }
 		  else 						 { gpio_write(GPIO_1, 1); flashConfig.IOPort_bit6=1; }
-		  flashConfig.IOPort_bit6=0;
 		  break;
 	  case '7':		// Not externally Connected
 		  if (flashConfig.IOPort_bit7) { gpio_write(GPIO_5, 0); flashConfig.IOPort_bit7=0; }
 		  else 						 { gpio_write(GPIO_5, 1); flashConfig.IOPort_bit7=1; }
-		  flashConfig.IOPort_bit7=0;
 		  break;
 	  #endif
 	  default:

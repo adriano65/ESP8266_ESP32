@@ -23,433 +23,199 @@ la resistenza R7 (da 120ohm) non è possibile escluderla se non rimuovendola, qu
 // Include Files                                                                                       //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
-#if defined(RUNONLINUX)
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <string.h>
-#include <signal.h>
-#include <pthread.h>
-#include <syslog.h>
-#include <termios.h>
-#include <sys/types.h>
-#include <sys/msg.h>
-#include <sys/ioctl.h>
-#include <sys/stat.h>  
-#include <fcntl.h>
-#include <dirent.h>
-
-#else
 #include <osapi.h>
 #include <ets_sys.h>
 #include <c_types.h>
 #include <mem.h>
+#include <ip_addr.h>
+#include <espconn.h>
+#include <errno.h>
+#include <limits.h>
 
+#include "gpio16.h"
 #include "mqtt_client.h"
 #include "config.h"
 #include "uart.h"
 #include "dds238-2.h"
 
+//#define DDS238_DBG
+
+#ifdef DDS238_DBG
+#define DBG(format, ...) do { os_printf("%s: ", __FUNCTION__); os_printf(format, ## __VA_ARGS__); os_printf("\n"); } while(0)
+#define PRINTNET(format, ...) do { if (pTXdata) { TXdatalen+=os_sprintf(pTXdata+TXdatalen, format, ## __VA_ARGS__ ); TXdatalen+=os_sprintf(pTXdata+TXdatalen, "\n");} } while(0)
+#else
+#define DBG(format, ...) do { } while(0)
+#define PRINTNET(format, ...) do { } while(0)
+#endif
+
+
 // UartDev is defined and initialized in rom code.
 extern UartDevice UartDev;
 
-void uart0_rx_handler(void *para);
-
 dds238_2_t * dds238_2_data;
+unsigned int nDDS238Statem;
+struct espconn * pGTN1000Conn;
+sys_mutex_t RxBuf_lock;
 
-#endif
-
-#include <errno.h>
-#include <limits.h>
-#include "dds238-2.h"
-
-#if defined(RUNONLINUX)		// --------------------------------- RUNONLINUX
-static struct termios oldtioGPS, newtioGPS ;    // main port settings, before/after
-static char gpsport[80]="/dev/ttyUSB0";
-static char run=TRUE;
-static volatile int idComDev;
-
-void dds_HandleSig(int signo) {
-  if (signo==SIGINT || signo==SIGTERM) {
-    dds238End();
-    }
-  exit(0);
-}
-
-//ioctl(idComDev, TIOCMBIS, &DTR_flag); //Set DTR pin
-//ioctl(idComDev, TIOCMBIC, &DTR_flag); //Clear DTR pin
-int main(int argc, char *argv[]) {
-	fd_set rdset;
-	struct timeval timeout;
-	int retval, nbyte, n, DTR_flag, RTS_flag;
-	unsigned char TXbuf[8]; //={ 0x01, 0x03, 0x00, 0x0C, 0x00, 0x01, 0x44, 0x09 };
-	unsigned char RXbuf[32];
-	unsigned char loop=0;
-  
-	int i=0;
-
-	signal(SIGINT, dds_HandleSig);
-	signal(SIGTERM, dds_HandleSig);
-	dds238Init();
-
-	while(run) {
-		FD_ZERO(&rdset);
-		FD_SET(idComDev, &rdset);      // input serial may wakeup
-		// Initialize the timeout data structure.
-		timeout.tv_sec = 0;
-		timeout.tv_usec = 300000;		// 300 ms
-		
-		prepare_buff(&loop, TXbuf);
-		halfduplex_write(TXbuf);
-
-		//printf("--> RX\n");
-		retval = select(FD_SETSIZE, &rdset, NULL, NULL, &timeout);
-		if (!retval) {          	// select exited due to timeout
-		  SerialTMOManager();
-		  }
-		else if (FD_ISSET(idComDev, &rdset)) {
-				nbyte = read(idComDev, RXbuf, 12);
-				printf("RXbuf %d\n", nbyte);
-				for (n=0; n<nbyte; n++) {
-					printf("%02X ", RXbuf[n]);
-					}
-				printf("\n");
-				
-				if (!validChecksum(RXbuf, nbyte)) {
-					printf("Bad CRC\n");
-					continue;
-					}
-
-				float value = ( (RXbuf[3] << 8) | (RXbuf[4]) )/10;
-				printf("value %f\n", value);
-				
-				}
-		loop++;
-		getchar();
-	}
-
-	tty_close(idComDev, &newtioGPS, &oldtioGPS);
-    printf("end.\n", gpsport) ;
-
-	return 0;
-}
-
-int ICACHE_FLASH_ATTR dds238Init() {
-  idComDev = tty_open(gpsport, &newtioGPS, &oldtioGPS, B9600);
-  
-  if (idComDev < 0) {    // some error
-    printf("open error on %s\n", gpsport) ;
-    return(-1) ;
-    }
-	
-	return TRUE;
-}
-
-void dds238End(void) {
-  run = FALSE;
-  usleep(100*1000);
-}
-
-
-int ICACHE_FLASH_ATTR uart0_tx_one_char(uint8 TxChar) {
-	int status;
-	
-	if (write(idComDev, &TxChar, 1) != 1)
-		printf("--> write err !!!\n");
-		
-	return TRUE;
-}
-
-void halfduplex_write_withDTR_or_RTS(unsigned char *TXbuf) {
-	int DTR_flag, RTS_flag;
-	//struct rs485_ctrl ctrl485;
-	
-    DTR_flag = TIOCM_DTR;
-    RTS_flag = TIOCM_RTS;
-	
-	//#define RTS_SET_CLEAR
-	#define USE_RTS
-	//ioctl(idComDev, TIOCSERSETRS485, &ctrl485);
-	
-	#if defined (RTS_SET_CLEAR)
-		#if defined (USE_RTS)
-		ioctl(idComDev, TIOCMBIS, &RTS_flag);	// Set RTS
-		#else
-		ioctl(idComDev, TIOCMBIS, &DTR_flag);	// Set DTR
-		#endif
-	#else
-		#if defined (USE_RTS)
-		ioctl(idComDev, TIOCMBIC, &RTS_flag);	// Clear RTS
-		#else
-		ioctl(idComDev, TIOCMBIC, &DTR_flag);	// Clear DTR
-		#endif
-	#endif
-	
-	uart0_write(TXbuf, 8);		// 16,6 ms @ 4800 bps
-	tcdrain(idComDev);
-	#if defined (USE_RTS)
-	usleep(4000);
-	#else
-	usleep(28000);
-	//usleep(22000);
-	//usleep(18000);
-	//usleep(15000);
-	//usleep(10000);
-	//usleep(8000);
-	#endif
-	
-	#if defined (RTS_SET_CLEAR)
-		#if defined (USE_RTS)
-		ioctl(idComDev, TIOCMBIC, &RTS_flag);	// Clear RTS
-		#else
-		ioctl(idComDev, TIOCMBIC, &DTR_flag);	// Clear DTR
-		#endif
-	#else
-		#if defined (USE_RTS)
-		ioctl(idComDev, TIOCMBIS, &RTS_flag);	// Set RTS
-		#else
-		ioctl(idComDev, TIOCMBIS, &DTR_flag);	// Set DTR
-		#endif
-	#endif
-}
-
-void halfduplex_write(unsigned char *TXbuf) {
-	
-	uart0_write(TXbuf, 8);		// 16,6 ms @ 4800 bps
-	tcdrain(idComDev);
-}
-
-void prepare_buff(unsigned char *loop, unsigned char *TXbuf) {
-	
-	switch (*loop) {
-		case 0:
-			buildFrame( DDS238_ADDRESS, READ_HOLDING_REGISTERS, DDS238_VOLTAGE, 0x0001, TXbuf);
-			break;
-			
-		case 1:
-			buildFrame( DDS238_ADDRESS, READ_HOLDING_REGISTERS, DDS238_CURRENT, 0x0001, TXbuf);
-			break;
-			
-		case 2:
-			buildFrame( DDS238_ADDRESS, READ_HOLDING_REGISTERS, DDS238_FREQUENCY, 0x0001, TXbuf);
-			break;
-			
-		case 3:
-			buildFrame( DDS238_ADDRESS, READ_HOLDING_REGISTERS, DDS238_ACTUAL_IMPORT_ENERGY1, 0x0001, TXbuf);
-			break;
-			
-		case 4:
-			buildFrame( DDS238_ADDRESS, READ_HOLDING_REGISTERS, DDS238_ACTUAL_IMPORT_ENERGY2, 0x0001, TXbuf);
-			break;
-			
-		case 5:
-			buildFrame( DDS238_ADDRESS, READ_HOLDING_REGISTERS, DDS238_ACTUAL_EXPORT_ENERGY1, 0x0001, TXbuf);
-			break;
-			
-		case 6:
-			buildFrame( DDS238_ADDRESS, READ_HOLDING_REGISTERS, DDS238_ACTUAL_EXPORT_ENERGY2, 0x0001, TXbuf);
-			break;
-			
-		case 7:
-			buildFrame( DDS238_ADDRESS, READ_HOLDING_REGISTERS, DDS238_ACTIVE_POWER, 0x0001, TXbuf);
-			break;
-			
-		case 8:
-			buildFrame( DDS238_ADDRESS, READ_HOLDING_REGISTERS, DDS238_REACTIVE_POWER, 0x0001, TXbuf);
-			break;
-			
-		default:
-			*loop=0;
-			return;
-		}
-	printf("loop %1d, TXbuf %02X %02X %02X %02X %02X %02X %02X %02X\n", *loop, TXbuf[0], TXbuf[1], TXbuf[2], TXbuf[3], TXbuf[4], TXbuf[5], TXbuf[6], TXbuf[7]);
-	return;		
-}
-// -----------------------------------------------------------------------
-int tty_open(char * pname, struct termios * pnewtio, struct termios * poldtio, int brate) {
-	int fd;
-
-	// Open device for reading and writing and not as controlling tty
-	// because we don't want to get killed if linenoise sends CTRL-C.
-
-	fd = open(pname, O_RDWR | O_NOCTTY ) ;
-	if (fd < 0) {
-		return(fd);
-		}
-
-	if ( tcgetattr(fd, poldtio) ) {
-		printf("tcgetattr\n");
-		return -1;
-		}
-	//bzero(pnewtio, sizeof(struct termios)) ;
-	memcpy(pnewtio, poldtio, sizeof(struct termios));
-	
-	// BAUDRATE: Set bps rate. You could also use cfsetispeed and cfsetospeed.
-	// CRTSCTS : output hardware flow control (only used if the cable has all necessary lines. See sect. 7 of Serial-HOWTO)
-	// CS8     : 8n1 (8bit, no parity, 1 stopbit)
-	// CSTOPB  : 2 stop bit
-	// CLOCAL  : local connection, no modem contol
-	// CREAD   : enable receiving characters
-	// HUPCL   : lower modem control lines after last process closes the device (hang up).
-
-	//cfsetispeed(pnewtio, brate);
-	//cfsetospeed(pnewtio, brate);
-	////pnewtio->c_cflag = CS8 | HUPCL | CLOCAL | CREAD;
-	//pnewtio->c_cflag = CS8 | HUPCL | CLOCAL | CREAD | ~CRTSCTS;
-	
-	// ----------------------------------------------------------------
-	//pnewtio->c_cflag = brate | CRTSCTS | CS8 | HUPCL | CLOCAL | CREAD;
-	//pnewtio->c_cflag = brate | CS8 | PARENB | HUPCL | CLOCAL | CREAD;
-	pnewtio->c_cflag = brate | CS8 | CSTOPB | HUPCL | CLOCAL | CREAD;
-	//pnewtio->c_cflag = brate | CS8 | HUPCL | CLOCAL | CREAD;
-	//pnewtio->c_cflag = brate | CS8 | HUPCL | CLOCAL | CREAD | ~CRTSCTS;
-
-	// IGNBRK  : ignore breaks
-	// IGNPAR  : ignore bytes with parity errors
-	// otherwise make device raw (no other input processing)
-	pnewtio->c_iflag = IGNPAR | IGNBRK ;
-	//pnewtio->c_iflag = 0;
-
-	// Raw output.
-	pnewtio->c_oflag = 0 ;
-
-	// Set input mode (non-canonical, no echo,...)
-	pnewtio->c_lflag &= ~(ECHO | ECHONL | ICANON | IEXTEN | ISIG);
-
-	// initialize all control characters
-	// default values can be found in /usr/include/termios.h, and are given
-	// in the comments, but we don't need them here
-
-	pnewtio->c_cc[VINTR]    = 0 ;       // Ctrl-c
-	pnewtio->c_cc[VQUIT]    = 0 ;       // Ctrl-bkslash
-	pnewtio->c_cc[VERASE]   = 0 ;       // del
-	pnewtio->c_cc[VKILL]    = 0 ;       // @
-	pnewtio->c_cc[VEOF]     = 0 ;       // Ctrl-d
-	pnewtio->c_cc[VSWTC]    = 0 ;       // '0'
-	pnewtio->c_cc[VSTART]   = 0 ;       // Ctrl-q
-	pnewtio->c_cc[VSTOP]    = 0 ;       // Ctrl-s
-	pnewtio->c_cc[VSUSP]    = 0 ;       // Ctrl-z
-	pnewtio->c_cc[VEOL]     = 0 ;       // '0'
-	pnewtio->c_cc[VREPRINT] = 0 ;       // Ctrl-r
-	pnewtio->c_cc[VDISCARD] = 0 ;       // Ctrl-u
-	pnewtio->c_cc[VWERASE]  = 0 ;       // Ctrl-w
-	pnewtio->c_cc[VLNEXT]   = 0 ;       // Ctrl-v
-	pnewtio->c_cc[VEOL2]    = 0 ;       // '0'
-
-	//pnewtio->c_cc[VTIME]    = 1 ;       // inter-character timer unused 0.1 sec
-	pnewtio->c_cc[VTIME]    = 0 ;       // no timeout (use select)
-	pnewtio->c_cc[VMIN]     = 1 ;       // blocking read until x chars received
-	//pnewtio->c_cc[VMIN]     = 8 ;       // blocking read until x chars received
-
-	//  now clean the modem line and activate the settings for the port
-
-	tcflush(fd, TCIFLUSH);
-	tcsetattr(fd, TCSANOW, pnewtio);
-
-	usleep(10*1000) ;         // settling time
-
-	return(fd) ;
-}
-
-// *********************************************************************
-void tty_close(int fd, struct termios * pnewtio, struct termios * poldtio) {
-  tcflush(fd, TCIOFLUSH) ;            // buffer flush
-  tcsetattr(fd, TCSANOW, poldtio) ;
-  close(fd) ;
-}
-
-int SerialTMOManager() {
-    tcflush(idComDev,TCIOFLUSH);
-	  printf("RX TMO\n");
-    /*
-    pthread_mutex_lock(&gps_mutex);
-    // ADD here
-    pthread_mutex_unlock(&gps_mutex);
-    */
-	return 0;
-}
-
-#else 						// ------------------------------------------------------------------------ RUNONESP
-//mosquitto_sub -v -p 5800 -h 192.168.1.6 -t 'sonoff_pow/221/+' 
-void ICACHE_FLASH_ATTR uart0_rx_handler(void *para) {
-    #define RX_MSG_LEN  7
-		/* uart0 and uart1 intr combine together, when interrupt occur, see reg 0x3ff20020, bit2, bit0 represents uart1 and uart0 respectively */
+//mosquitto_sub -v -p 5800 -h 192.168.1.6 -t 'sonoff_pow/221/+'
+//mosquitto_sub -v -p 5800 -h 192.168.1.6 -t 'sonoff_th10/215/+'
+//mosquitto_sub -v -p 5800 -h 192.168.1.6 -t 'esp_mains/115/+'
+static void ICACHE_FLASH_ATTR uart0_rx_handler(void *para) {
+	  /* uart0 and uart1 intr combine together, when interrupt occur, see reg 0x3ff20020, bit2, bit0 represents uart1 and uart0 respectively */
     RcvMsgBuff *pRxBuff = (RcvMsgBuff *)para;
-    #define CONVERSION2
-		unsigned int i;
-		int m;
+    uint8 RcvChar;
 
-    if (UART_RXFIFO_FULL_INT_ST != (READ_PERI_REG(UART_INT_ST(UART0)) & UART_RXFIFO_FULL_INT_ST)) { return; }
+    if (UART_RXFIFO_FULL_INT_ST != (READ_PERI_REG(UART_INT_ST(UART0)) & UART_RXFIFO_FULL_INT_ST)) { DBG("UARTFIFO"); return; }
     WRITE_PERI_REG(UART_INT_CLR(UART0), UART_RXFIFO_FULL_INT_CLR);
 
     while (READ_PERI_REG(UART_STATUS(UART0)) & (UART_RXFIFO_CNT << UART_RXFIFO_CNT_S)) {
-				*(pRxBuff->pWritePos) = READ_PERI_REG(UART_FIFO(UART0)) & 0xFF;
-        if ( (pRxBuff->pWritePos - pRxBuff->pRcvMsgBuff) == RX_MSG_LEN) {
-          if (validChecksum(pRxBuff->pRcvMsgBuff, RX_MSG_LEN)) {
-						switch (dds238_2_data->reg) {
-							case DDS238_ACTIVE_POWER:		// NOTE: could be negative
-								m = *(signed char *)(&(pRxBuff->pRcvMsgBuff[3]));
-								m *= 1 << CHAR_BIT;
-								m |= pRxBuff->pRcvMsgBuff[4];
-								dds238_2_data->ActivePower = (float)(m)/DDS238_ACTIVE_POWER_DIVIDER;
-								break;
+		    RcvChar = READ_PERI_REG(UART_FIFO(UART0)) & 0xFF;
+        sys_mutex_lock(&RxBuf_lock);
+        *(pRxBuff->pWritePos++)=RcvChar;
+        UartDev.received=pRxBuff->pWritePos - pRxBuff->pRcvMsgBuff;
+        sys_mutex_unlock(&RxBuf_lock);
 
-							case DDS238_CURRENT:
-								#if defined(CONVERSION1)
-									m = *(signed char *)(&(pRxBuff->pRcvMsgBuff[3]));
-									m *= 1 << CHAR_BIT;
-									m |= pRxBuff->pRcvMsgBuff[4];
-									dds238_2_data->current = (float)(m)/DDS238_CURRENT_DIVIDER;
-								#endif
-								#if defined(CONVERSION2)
-									i = *(unsigned char *)(&(pRxBuff->pRcvMsgBuff[3]));
-									i *= 1 << CHAR_BIT;
-									i |= pRxBuff->pRcvMsgBuff[4];
-									dds238_2_data->current = (float)(i)/DDS238_CURRENT_DIVIDER;
-								#endif
-								break;
+        switch (nDDS238Statem) {
+          case SM_WAITING_DDS238_ANSWER:
+            if ( UartDev.received == DDS238_RX_MSG_LEN) {
+                if ( (pRxBuff->pWritePos[0]==DDS238_ADDRESS) && (pRxBuff->pWritePos[1]==READ_HOLDING_REGISTERS)) {
+                  ETS_UART_INTR_DISABLE();
+                  ManageDDSanswer(pRxBuff);
+                  espconn_connect(pGTN1000Conn);
+                  espconn_set_opt(pGTN1000Conn, ESPCONN_REUSEADDR|ESPCONN_NODELAY);
+                  }
+              }
+            break;
 
-							case DDS238_IMPORT_ENERGY2:
-								dds238_2_data->EnergyToGrid = (float)( (pRxBuff->pRcvMsgBuff[3] << 8) | (pRxBuff->pRcvMsgBuff[4]) )/DDS238_IMPORT_ENERGY2_DIVIDER;
-								break;
-								
-							case DDS238_EXPORT_ENERGY2:
-								dds238_2_data->EnergyFromGrid = (float)( (pRxBuff->pRcvMsgBuff[3] << 8) | (pRxBuff->pRcvMsgBuff[4]) )/DDS238_EXPORT_ENERGY2_DIVIDER;
-								break;
-							}
-						dds238_2_data->IsValid=1;
-						}
-					else {
-            dds238_2_data->IsValid=0;
-            }
-					if ((++dds238_2_data->nSequencer) > 3 ) dds238_2_data->nSequencer=0;
-					// reset position write pointer and stop queueing chars
-					pRxBuff->pWritePos = pRxBuff->pRcvMsgBuff;
-          }
-        else {  // keep incrementing RX buffer pointer 
-					pRxBuff->pWritePos++;
-          }
+          case SM_WAITING_GTN1000_POLL:
+            if ( UartDev.received == GTN1000_RX_MSG_LEN) { 
+              //if (pRxBuff->pRcvMsgBuff[0]==GTN1000_ADDRESS) {
+                ETS_UART_INTR_DISABLE();
+                espconn_connect(pGTN1000Conn);
+                espconn_set_opt(pGTN1000Conn, ESPCONN_REUSEADDR|ESPCONN_NODELAY);
+              //  }
+              //else ResetRxBuff();
+              }
+            break;            
+
+          case SM_DISABLE_SOCKET:
+            espconn_disconnect(pGTN1000Conn);
+	          ETS_UART_INTR_DISABLE();
+            pGTN1000Conn=NULL;
+            msleep(10000);
+            break;
+              
         }
+        /// boudary checks
+        if ( UartDev.received > (RX_BUFF_SIZE-1) ) {
+          ResetRxBuff();
+          nDDS238Statem=SM_WAITING_GTN1000_POLL;
+          }
+
+      }
 }
 
 int ICACHE_FLASH_ATTR dds238Init() {
-    dds238_2_data = (dds238_2_t *)os_zalloc(sizeof(dds238_2_t));
-    UartDev.baut_rate 	 = BIT_RATE_9600;
-		UartDev.data_bits    = EIGHT_BITS;
-    UartDev.flow_ctrl    = NONE_CTRL;
-    UartDev.parity       = NONE_BITS;
-    //UartDev.stop_bits    = TWO_STOP_BIT;
-    UartDev.stop_bits    = ONE_STOP_BIT;
+  dds238_2_data = (dds238_2_t *)os_zalloc(sizeof(dds238_2_t));
+  UartDev.baut_rate 	 = BIT_RATE_9600;
+  //UartDev.baut_rate 	 = 9000;
+  UartDev.data_bits    = EIGHT_BITS;
+  UartDev.flow_ctrl    = NONE_CTRL;
+  UartDev.parity       = NONE_BITS;
+  //UartDev.stop_bits    = ONE_HALF_STOP_BIT;
+  UartDev.stop_bits    = ONE_STOP_BIT;
+  //UartDev.stop_bits    = TWO_STOP_BIT;
+  //UartDev.rcv_buff.TrigLvl=50;
+  uart_config(uart0_rx_handler);
+  os_install_putc1((void *)uart0_tx_one_char);
+  ResetRxBuff();
 
-    uart_config(uart0_rx_handler);
-    ETS_UART_INTR_ENABLE();
-		msleep(10);
+  pGTN1000Conn = (struct espconn *)os_zalloc(sizeof(struct espconn));  
+  pGTN1000Conn->type = ESPCONN_TCP;
+  pGTN1000Conn->state = ESPCONN_NONE;
+  pGTN1000Conn->proto.tcp = (esp_tcp *)os_zalloc(sizeof(esp_tcp));
+  pGTN1000Conn->proto.tcp->local_port = espconn_port();
+  pGTN1000Conn->proto.tcp->remote_port = 5001;
+  StrToIP("192.168.1.5", (void*)&pGTN1000Conn->proto.tcp->remote_ip);
+  //pTCPConn->reverse = pMQTTclient;
+  espconn_create(pGTN1000Conn);
+  espconn_tcp_set_max_con_allow(pGTN1000Conn, 1);
+  espconn_regist_time(pGTN1000Conn, 15, 0);
+  espconn_regist_connectcb(pGTN1000Conn, pGTN1000_connect_cb);
+  espconn_regist_recvcb(pGTN1000Conn, pGTN1000_rx_cb);
+
+  nDDS238Statem=SM_WAITING_MERDANERA;
+	msleep(10);
+  DBG("sent");
+  espconn_sent(pGTN1000Conn, "dd", 2 );
 	return TRUE;
 }
 
+void ICACHE_FLASH_ATTR pGTN1000_connect_cb(void *arg) {
+  struct espconn * pCon = (struct espconn *)arg;
+  //DBG("TCP connection received from "IPSTR":%d to local port %d\n", IP2STR(pCon->proto.tcp->remote_ip), pCon->proto.tcp->remote_port, pCon->proto.tcp->local_port);
+  espconn_sent(pGTN1000Conn, UartDev.rcv_buff.pRcvMsgBuff, UartDev.received );
+  ResetRxBuff();
+  espconn_disconnect(pGTN1000Conn);
+  nDDS238Statem=SM_WAITING_GTN1000_POLL;
+}
+
+void ICACHE_FLASH_ATTR ResetRxBuff() {
+  sys_mutex_lock(&RxBuf_lock);
+  UartDev.rcv_buff.pWritePos = UartDev.rcv_buff.pRcvMsgBuff;
+  UartDev.received=0;
+  //clear rx fifo
+  SET_PERI_REG_MASK(UART_CONF0(UART0), UART_RXFIFO_RST);
+  CLEAR_PERI_REG_MASK(UART_CONF0(UART0), UART_RXFIFO_RST);
+  sys_mutex_unlock(&RxBuf_lock);
+  ETS_UART_INTR_ENABLE();
+}
+
+void ICACHE_FLASH_ATTR pGTN1000_rx_cb(void *arg, char *data, uint16_t len) {
+    // Store the IP address from the sender of this data.
+}
+
+void ICACHE_FLASH_ATTR ManageDDSanswer(void *para) {
+    RcvMsgBuff *pRxBuff = (RcvMsgBuff *)para;
+		unsigned int i;
+		int m;
+
+    if (validCRC(pRxBuff->pRcvMsgBuff, DDS238_RX_MSG_LEN)) {
+      switch (dds238_2_data->reg) {
+        case DDS238_ACTIVE_POWER:		// NOTE: could be negative
+          m = *(signed char *)(&(pRxBuff->pRcvMsgBuff[3]));
+          m *= 1 << CHAR_BIT;
+          m |= pRxBuff->pRcvMsgBuff[4];
+          dds238_2_data->ActivePower = (float)(m)/DDS238_ACTIVE_POWER_DIVIDER;
+          break;
+
+        case DDS238_CURRENT:
+          i = *(unsigned char *)(&(pRxBuff->pRcvMsgBuff[3]));
+          i *= 1 << CHAR_BIT;
+          i |= pRxBuff->pRcvMsgBuff[4];
+          dds238_2_data->current = (float)(i)/DDS238_CURRENT_DIVIDER;
+          break;
+
+        case DDS238_IMPORT_ENERGY2:
+          dds238_2_data->EnergyToGrid = (float)( (pRxBuff->pRcvMsgBuff[3] << 8) | (pRxBuff->pRcvMsgBuff[4]) )/DDS238_IMPORT_ENERGY2_DIVIDER;
+          break;
+          
+        case DDS238_EXPORT_ENERGY2:
+          dds238_2_data->EnergyFromGrid = (float)( (pRxBuff->pRcvMsgBuff[3] << 8) | (pRxBuff->pRcvMsgBuff[4]) )/DDS238_EXPORT_ENERGY2_DIVIDER;
+          break;
+        }
+      dds238_2_data->IsValid=1;
+      }
+    else {
+      dds238_2_data->IsValid=0;
+      }
+    if ((++dds238_2_data->nSequencer) > 3 ) dds238_2_data->nSequencer=0;
+
+}
+
+
 void ICACHE_FLASH_ATTR prepare_buff(unsigned char *TXbuf) {
-	switch (dds238_2_data->nSequencer) {		
+	switch (dds238_2_data->nSequencer) {
 		case 0:
 			dds238_2_data->reg=DDS238_ACTIVE_POWER;
 			buildFrame( DDS238_ADDRESS, READ_HOLDING_REGISTERS, dds238_2_data->reg, 0x0001, TXbuf);
@@ -498,16 +264,15 @@ void ICACHE_FLASH_ATTR prepare_buff(unsigned char *TXbuf) {
 		default:
 			dds238_2_data->nSequencer=0;
 		}
+  nDDS238Statem=SM_WAITING_DDS238_ANSWER;
 	return;		
 }
 
-#endif
-
 int ICACHE_FLASH_ATTR uart0_tx_one_char(uint8 TxChar) {
     while (true) {
-		uint32 fifo_cnt = READ_PERI_REG(UART_STATUS(UART0)) & (UART_TXFIFO_CNT<<UART_TXFIFO_CNT_S);
-		if ((fifo_cnt >> UART_TXFIFO_CNT_S & UART_TXFIFO_CNT) < 126) {
-			break;
+		  uint32 fifo_cnt = READ_PERI_REG(UART_STATUS(UART0)) & (UART_TXFIFO_CNT<<UART_TXFIFO_CNT_S);
+		  if ((fifo_cnt >> UART_TXFIFO_CNT_S & UART_TXFIFO_CNT) < 126) {
+			  break;
 		    }
 	    }
 	WRITE_PERI_REG(UART_FIFO(UART0), TxChar);
@@ -538,7 +303,7 @@ void ICACHE_FLASH_ATTR buildFrame( unsigned char slaveAddress, unsigned char fun
 }
 
 // Check checksum in buffer with buffer length len
-int ICACHE_FLASH_ATTR validChecksum(unsigned char buf[], int len) {
+int ICACHE_FLASH_ATTR validCRC(unsigned char buf[], int len) {
   if (len < 4) { return FALSE; }
   unsigned char checksumHi = 0;
   unsigned char checksumLo = 0;

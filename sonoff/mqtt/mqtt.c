@@ -696,24 +696,24 @@ void ICACHE_FLASH_ATTR MQTT_Connect(MQTT_Client* pMQTTclient) {
     else
       err = espconn_connect(pMQTTclient->pCon);
     if (err != 0) {
-	  switch (err) {
-		case ESPCONN_ISCONN:
-		  DBG("Failed to connect (ESPCONN_ISCONN) %d", err);
-		  break;
-		case ESPCONN_RTE:
-		  DBG("Failed to connect (ESPCONN_RTE) %d", err);
-		  break;
-		  
-		default:
-		  DBG("Failed to connect %d", err);
-		  break;
-		}
-	  os_free(pMQTTclient->pCon->proto.tcp);
-	  os_free(pMQTTclient->pCon);
-	  pMQTTclient->pCon = NULL;
+      switch (err) {
+        case ESPCONN_ISCONN:
+          DBG("Failed to connect (ESPCONN_ISCONN) %d", err);
+          break;
+        case ESPCONN_RTE:
+          DBG("Failed to connect (ESPCONN_RTE) %d", err);
+          break;
+          
+        default:
+          DBG("Failed to connect %d", err);
+          break;
+          }
+      os_free(pMQTTclient->pCon->proto.tcp);
+      os_free(pMQTTclient->pCon);
+      pMQTTclient->pCon = NULL;
       return;
-	  }
-	} 
+	    }
+	  } 
   else {
     //espconn_gethostbyname(pMQTTclient->pCon, (const char *)pMQTTclient->host, &pMQTTclient->ip, mqtt_dns_found);
 	}
