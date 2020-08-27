@@ -56,8 +56,8 @@ extern struct espconn * pGTN1000Conn;
 
 // ------------------------ GTN1000
 //#define GTN1000_ADDRESS 0x00
-//#define GTN1000_ADDRESS 0x60
-#define GTN1000_ADDRESS 0x06
+#define GTN1000_ADDRESS 0x60
+//#define GTN1000_ADDRESS 0x06
 //#define GTN1000_RX_MSG_LEN  12
 #define GTN1000_RX_MSG_LEN  10
 

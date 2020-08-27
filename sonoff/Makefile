@@ -55,7 +55,7 @@ I2C_SDA_PIN     					:= no
 
 # error -- reset IP addresses on FW relaod !!!
 # ----------------- test
-SONOFFTH10a := 1
+#SONOFFTH10a := 1
 # ----------------- ?
 #SONOFFTH10b := 1
 # ----------------- fuori-garage
@@ -79,7 +79,7 @@ SONOFFTH10a := 1
 #MAINSd := 2
 
 # ----------------- House power 2 GTN
-#MAINSe := 2
+MAINSe := 2
 
 # --------------------sun power
 #SONOFFPOWa := 3

@@ -89,12 +89,12 @@ static void ICACHE_FLASH_ATTR uart0_rx_handler(void *para) {
 
           case SM_WAITING_GTN1000_POLL:
             if ( UartDev.received == GTN1000_RX_MSG_LEN) { 
-              //if (pRxBuff->pRcvMsgBuff[0]==GTN1000_ADDRESS) {
+              if (pRxBuff->pRcvMsgBuff[0]==GTN1000_ADDRESS) {
                 ETS_UART_INTR_DISABLE();
                 espconn_connect(pGTN1000Conn);
                 espconn_set_opt(pGTN1000Conn, ESPCONN_REUSEADDR|ESPCONN_NODELAY);
-              //  }
-              //else ResetRxBuff();
+                }
+              else ResetRxBuff();
               }
             break;            
 
