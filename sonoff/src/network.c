@@ -15,7 +15,7 @@
 #include "blinkled.h"
 #include "network.h"
 
-#define NETWORK_DBG
+//#define NETWORK_DBG
 
 #ifdef NETWORK_DBG
 #define DBG(format, ...) do { os_printf("%s: ", __FUNCTION__); os_printf(format, ## __VA_ARGS__); os_printf("\n"); } while(0)

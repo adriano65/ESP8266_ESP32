@@ -52,6 +52,7 @@ TEMP_OFFSET								:= 0
 HUMI_OFFSET								:= 0
 I2C_SCL_PIN     					:= no
 I2C_SDA_PIN     					:= no
+GTN_IP_ADDRESS     				:= no
 
 # error -- reset IP addresses on FW relaod !!!
 # ----------------- test
@@ -80,6 +81,9 @@ I2C_SDA_PIN     					:= no
 
 # ----------------- House power 2 GTN
 MAINSe := 2
+
+# ----------------- GTN House power Receiver (ESP8266 boot baud rate is 76800)
+#MAINSf := 2
 
 # --------------------sun power
 #SONOFFPOWa := 3
@@ -163,8 +167,12 @@ ifeq ($(PROJ_NAME),"sonoff_ex_pow")
 MODULES		+= dds238-2
 endif
 
-ifeq ($(PROJ_NAME),"esp_mains")
-MODULES		+= dds238-2
+ifeq ($(PROJ_NAME),"esp_pw2gtn")
+MODULES		+= gtn1000
+endif
+
+ifeq ($(PROJ_NAME),"esp_gtn_hpr")
+MODULES		+= gtn_hpr
 endif
 
 ifeq ($(PROJ_NAME),"esp01")
@@ -234,6 +242,10 @@ endif
 
 ifeq ("$(REFRESHIO)","yes")
 CFLAGS	+= -DREFRESHIO=$(REFRESHIO)
+endif
+
+ifneq ("$(GTN_IP_ADDRESS)","no")
+CFLAGS	+= -DGTN_IP_ADDRESS=$(GTN_IP_ADDRESS)
 endif
 
 # linker flags used to generate the main object file
@@ -369,7 +381,7 @@ wiflash: all
 #endif
 
 wiflash0: all
-	./tcp_flash.py 192.168.1.240 $(FW_BASE)/user1.bin $(FW_BASE)/user2.bin
+	./tcp_flash.py 192.168.1.118 $(FW_BASE)/user1.bin $(FW_BASE)/user2.bin
 
 flash: all
 	@echo "--> connect GPIO0 to gnd (when poweron) to enable flash mode :-)"

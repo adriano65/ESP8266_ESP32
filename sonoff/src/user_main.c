@@ -25,8 +25,16 @@ extern Sensor_Data sensor_data;
 #include "../hlw8012/hlw8012.h"
 #endif
 
-#if defined(SONOFFPOW_DDS238_2) || defined(SONOFFTH10_DDS238_2) || defined(MAINS_DDS238_2) || defined(ESP01)
+#if defined(SONOFFPOW_DDS238_2)
 #include "../dds238-2/dds238-2.h"
+#endif
+
+#if defined(MAINS_GTN1000)
+#include "../gtn1000/gtn1000.h"
+#endif
+
+#if defined(MAINS_GTN_HPR)
+#include "../gtn_hpr/gtn_hpr.h"
 #endif
 
 #if defined(MAINS_VMC) || defined(SONOFFDUAL)
@@ -52,18 +60,18 @@ extern Sensor_Data sensor_data;
 uint32 ICACHE_FLASH_ATTR user_rf_cal_sector_set(void) {
   uint32_t sect = 0;
   switch (system_get_flash_size_map()) {
-	case FLASH_SIZE_4M_MAP_256_256: // 512KB
-	  sect = 128 - 10; // 0x76000
-	  break;
-	  
-	case FLASH_SIZE_8M_MAP_512_512:
-	  sect = 256 - 5;
-	  break;
-	  
-	default:
-	  //sect = 256 - 5;
-	  sect = 0;
-	}
+    case FLASH_SIZE_4M_MAP_256_256: // 512KB
+      sect = 128 - 10; // 0x76000
+      break;
+      
+    case FLASH_SIZE_8M_MAP_512_512:
+      sect = 256 - 5;
+      break;
+      
+    default:
+      //sect = 256 - 5;
+      sect = 0;
+    }
   return sect;
 }
 
@@ -167,8 +175,16 @@ void ICACHE_FLASH_ATTR user_init(void) {
   HLW8012Init();
   #endif
 
-  #if defined(SONOFFPOW_DDS238_2) || defined(SONOFFTH10_DDS238_2) || defined(MAINS_DDS238_2) || defined(ESP01)
+  #if defined(SONOFFPOW_DDS238_2)
     dds238Init();
+  #endif
+
+  #if defined(MAINS_GTN1000)
+    gtn1000Init();
+  #endif
+
+  #if defined(MAINS_GTN_HPR)
+    gtn_hprInit();
   #endif
 
   #if defined(MAINS_VMC) || defined(SONOFFDUAL)

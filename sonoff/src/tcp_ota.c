@@ -87,7 +87,7 @@ LOCAL void ICACHE_FLASH_ATTR ota_rx_cb(void *arg, char *data, uint16_t len) {
 	  ota_state = CONNECTION_ESTABLISHED;
 	  } 
 	else if ((ota_ip != addr.addr) || (ota_port != conn->proto.tcp->remote_port)) {
-	  // This connection is not the one curently sending OTA data.
+	  // This connection is not the one currently sending OTA data.
 	  espconn_send(conn, "ERR: Connection Already Exists\r\n", 32);
 	  return;
 	  }
@@ -285,22 +285,28 @@ LOCAL void ICACHE_FLASH_ATTR ota_rx_cb(void *arg, char *data, uint16_t len) {
 					  return;
 					  }
 
-                    if (ota_firmware_received == ota_firmware_size) {
-					  // We've flashed all of the firmware now, reboot into the new firmware.
-					  os_printf("Preparing to update firmware.\n");
-					  espconn_send(conn, "Flash upgrade success. Rebooting ...\r\n", 41);
-					  os_free(ota_firmware);
-					  ota_firmware_size = 0;
-					  ota_firmware_received = 0;
-					  ota_firmware_len = 0;
-					  ota_state = REBOOTING;
-                      //configSave();
-					  system_upgrade_flag_set(UPGRADE_FLAG_FINISH);
-					  os_printf("Scheduling reboot.\n");
-					  os_timer_disarm(&ota_reboot_timer);
-					  os_timer_setfn(&ota_reboot_timer, (os_timer_func_t *)system_upgrade_reboot, NULL);
-					  os_timer_arm(&ota_reboot_timer, 3000, 1);
-					  }
+            if (ota_firmware_received == ota_firmware_size) {
+              // We've flashed all of the firmware now, reboot into the new firmware.
+              DBG("Preparing to update firmware.\n");
+              espconn_send(conn, "Flash upgrade success. Rebooting ...\r\n", 41);
+              os_free(ota_firmware);
+              ota_firmware_size = 0;
+              ota_firmware_received = 0;
+              ota_firmware_len = 0;
+              ota_state = REBOOTING;
+              //configSave();
+              system_upgrade_flag_set(UPGRADE_FLAG_FINISH);
+              DBG("Scheduling reboot.\n");
+              #if 1
+              os_timer_disarm(&ota_reboot_timer);
+              os_timer_setfn(&ota_reboot_timer, (os_timer_func_t *)system_upgrade_reboot, NULL);
+              os_timer_arm(&ota_reboot_timer, 3000, 1);
+              #else
+              os_timer_disarm(&ota_reboot_timer);
+              os_timer_setfn(&ota_reboot_timer, (os_timer_func_t *)system_restart, NULL);
+              os_timer_arm(&ota_reboot_timer, 3000, 1);
+              #endif
+              }
                 }
                 break;
             }
@@ -362,11 +368,11 @@ LOCAL void ICACHE_FLASH_ATTR ota_rx_cb(void *arg, char *data, uint16_t len) {
 // Returns the number of bytes in the message buffer for a single header line, or zero if no header is found.
 LOCAL uint8_t ICACHE_FLASH_ATTR parse_header_line() {
     for (uint8_t ii = 0; ii < ota_buffer_len - 1; ii++) {
-	  if ((ota_buffer[ii] == '\r') && (ota_buffer[ii + 1] == '\n')) {
-		// We have found the end of line markers.
-		return ii + 1;
-		}
-	  }
+      if ((ota_buffer[ii] == '\r') && (ota_buffer[ii + 1] == '\n')) {
+        // We have found the end of line markers.
+        return ii + 1;
+        }
+	    }
 
     // If we get here, we didn't find the end of line markers.
     return 0;
@@ -413,7 +419,6 @@ LOCAL void ICACHE_FLASH_ATTR ota_tcp_connect_cb(void *arg) {
     
     // ... and stop HW timer
     hw_timer_stop();
-
 
     // Now that we have a connection, register some call-backs.
     espconn_regist_recvcb(conn, ota_rx_cb);

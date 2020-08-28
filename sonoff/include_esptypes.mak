@@ -106,7 +106,7 @@ USE_DHCP       := no
 READ_DELAY     := 100
 MQTT_STAT_TOPIC := "esp_mains/112/status"
 FLASH_SIZE     := 4MB
-CFLAGS	       := -DMAINS -DSONOFFPOW_DDS238_2 -DAP_SSID='"BrokenAss"'
+CFLAGS	       := -DMAINS -DAP_SSID='"BrokenAss"'
 
 else ifdef MAINS_VMC
 PROJ_NAME      := "esp_mains_vmc"
@@ -147,17 +147,32 @@ FLASH_SIZE     := 4MB
 CFLAGS	       := -DMAINS -DANT_TEST -DAP_SSID='"ExternalAntTest"'
 
 else ifdef MAINSe
-PROJ_NAME      := "esp_mains"
+PROJ_NAME      := "esp_pw2gtn"
 LED_CONN_PIN   := GPIO_2
 LED_CONN_PIN_ACTIVELOW   := 1
 USE_TXD0       := yes
 #USE_TXD0       := no
 STA_IPADDRESS  := "192.168.1.116"
+GTN_IP_ADDRESS := '"192.168.1.242"'
+#GTN_IP_ADDRESS := '"192.168.1.5"'
 USE_DHCP       := no
-READ_DELAY     := 100
-MQTT_STAT_TOPIC := "esp_mains/116/status"
+READ_DELAY     := 50
+MQTT_STAT_TOPIC := "esp_pw2gtn/116/status"
 FLASH_SIZE     := 4MB
-CFLAGS	       := -DMAINS -DMAINS_DDS238_2 -DAP_SSID='"HousePW2GTN"'
+CFLAGS	       := -DMAINS -DMAINS_GTN1000 -DAP_SSID='"HousePW2GTN"'
+
+else ifdef MAINSf
+PROJ_NAME      := "esp_gtn_hpr"
+LED_CONN_PIN   := GPIO_2
+LED_CONN_PIN_ACTIVELOW   := 1
+USE_TXD0       := yes
+#USE_TXD0       := no
+STA_IPADDRESS  := "192.168.1.242"
+USE_DHCP       := no
+READ_DELAY     := 50
+MQTT_STAT_TOPIC := "esp_gtn_hpr/242/status"
+FLASH_SIZE     := 4MBb
+CFLAGS	       := -DMAINS -DMAINS_GTN_HPR -DAP_SSID='"GTN_HouPowRec"'
 
 # ---------------------------------- Sun Power
 else ifdef SONOFFPOWa

@@ -63,12 +63,8 @@ extern struct espconn * pGTN1000Conn;
 
 // ------------------------ State Machine
 #define SM_NULL                       0
-#define SM_WAITING_MERDANERA          4
 #define SM_WAITING_DDS238_ANSWER      1
-#define SM_WAITING_GTN1000_POLL       2
-#define SM_FILL_GTNRXBUFFER           3
 #define SM_SEND_BUFFER2DDS238         6
-#define SM_SEND_BUFFER2GTN            7
 #define SM_DISABLE_SOCKET             8
 
 

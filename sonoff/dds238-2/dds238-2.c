@@ -54,7 +54,6 @@ extern UartDevice UartDev;
 
 dds238_2_t * dds238_2_data;
 unsigned int nDDS238Statem;
-struct espconn * pGTN1000Conn;
 sys_mutex_t RxBuf_lock;
 
 //mosquitto_sub -v -p 5800 -h 192.168.1.6 -t 'sonoff_pow/221/+'
@@ -81,27 +80,12 @@ static void ICACHE_FLASH_ATTR uart0_rx_handler(void *para) {
                 if ( (pRxBuff->pWritePos[0]==DDS238_ADDRESS) && (pRxBuff->pWritePos[1]==READ_HOLDING_REGISTERS)) {
                   ETS_UART_INTR_DISABLE();
                   ManageDDSanswer(pRxBuff);
-                  espconn_connect(pGTN1000Conn);
-                  espconn_set_opt(pGTN1000Conn, ESPCONN_REUSEADDR|ESPCONN_NODELAY);
                   }
               }
             break;
 
-          case SM_WAITING_GTN1000_POLL:
-            if ( UartDev.received == GTN1000_RX_MSG_LEN) { 
-              if (pRxBuff->pRcvMsgBuff[0]==GTN1000_ADDRESS) {
-                ETS_UART_INTR_DISABLE();
-                espconn_connect(pGTN1000Conn);
-                espconn_set_opt(pGTN1000Conn, ESPCONN_REUSEADDR|ESPCONN_NODELAY);
-                }
-              else ResetRxBuff();
-              }
-            break;            
-
           case SM_DISABLE_SOCKET:
-            espconn_disconnect(pGTN1000Conn);
 	          ETS_UART_INTR_DISABLE();
-            pGTN1000Conn=NULL;
             msleep(10000);
             break;
               
@@ -109,7 +93,7 @@ static void ICACHE_FLASH_ATTR uart0_rx_handler(void *para) {
         /// boudary checks
         if ( UartDev.received > (RX_BUFF_SIZE-1) ) {
           ResetRxBuff();
-          nDDS238Statem=SM_WAITING_GTN1000_POLL;
+          nDDS238Statem=SM_WAITING_DDS238_ANSWER;
           }
 
       }
@@ -130,34 +114,10 @@ int ICACHE_FLASH_ATTR dds238Init() {
   os_install_putc1((void *)uart0_tx_one_char);
   ResetRxBuff();
 
-  pGTN1000Conn = (struct espconn *)os_zalloc(sizeof(struct espconn));  
-  pGTN1000Conn->type = ESPCONN_TCP;
-  pGTN1000Conn->state = ESPCONN_NONE;
-  pGTN1000Conn->proto.tcp = (esp_tcp *)os_zalloc(sizeof(esp_tcp));
-  pGTN1000Conn->proto.tcp->local_port = espconn_port();
-  pGTN1000Conn->proto.tcp->remote_port = 5001;
-  StrToIP("192.168.1.5", (void*)&pGTN1000Conn->proto.tcp->remote_ip);
-  //pTCPConn->reverse = pMQTTclient;
-  espconn_create(pGTN1000Conn);
-  espconn_tcp_set_max_con_allow(pGTN1000Conn, 1);
-  espconn_regist_time(pGTN1000Conn, 15, 0);
-  espconn_regist_connectcb(pGTN1000Conn, pGTN1000_connect_cb);
-  espconn_regist_recvcb(pGTN1000Conn, pGTN1000_rx_cb);
-
-  nDDS238Statem=SM_WAITING_MERDANERA;
+  nDDS238Statem=SM_WAITING_DDS238_ANSWER;
 	msleep(10);
   DBG("sent");
-  espconn_sent(pGTN1000Conn, "dd", 2 );
 	return TRUE;
-}
-
-void ICACHE_FLASH_ATTR pGTN1000_connect_cb(void *arg) {
-  struct espconn * pCon = (struct espconn *)arg;
-  //DBG("TCP connection received from "IPSTR":%d to local port %d\n", IP2STR(pCon->proto.tcp->remote_ip), pCon->proto.tcp->remote_port, pCon->proto.tcp->local_port);
-  espconn_sent(pGTN1000Conn, UartDev.rcv_buff.pRcvMsgBuff, UartDev.received );
-  ResetRxBuff();
-  espconn_disconnect(pGTN1000Conn);
-  nDDS238Statem=SM_WAITING_GTN1000_POLL;
 }
 
 void ICACHE_FLASH_ATTR ResetRxBuff() {
@@ -169,10 +129,6 @@ void ICACHE_FLASH_ATTR ResetRxBuff() {
   CLEAR_PERI_REG_MASK(UART_CONF0(UART0), UART_RXFIFO_RST);
   sys_mutex_unlock(&RxBuf_lock);
   ETS_UART_INTR_ENABLE();
-}
-
-void ICACHE_FLASH_ATTR pGTN1000_rx_cb(void *arg, char *data, uint16_t len) {
-    // Store the IP address from the sender of this data.
 }
 
 void ICACHE_FLASH_ATTR ManageDDSanswer(void *para) {

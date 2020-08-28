@@ -97,7 +97,7 @@ LOCAL void ICACHE_FLASH_ATTR uart0_write_char(char c) {
  * Parameters   : void *para - point to ETS_UART_INTR_ATTACH's arg
  * Returns      : NONE
 *******************************************************************************/
-#if defined(SONOFFPOW_DDS238_2) || defined(SONOFFTH10_DDS238_2) || defined(MAINS_DDS238_2)
+#if defined(SONOFFPOW_DDS238_2) || defined(MAINS_GTN1000) || defined(MAINS_GTN_HPR)
 LOCAL void uart0_rx_intr_handler(void *para) { }
 #else
 LOCAL void uart0_rx_intr_handler(void *para) {
@@ -179,7 +179,7 @@ void ICACHE_FLASH_ATTR uart0_send(char *str) {
 
 #endif
 
-#if defined(SONOFFPOW_DDS238_2) || defined(SONOFFTH10_DDS238_2) || defined(MAINS_DDS238_2)
+#if defined(SONOFFPOW_DDS238_2) || defined(MAINS_GTN1000) || defined(MAINS_GTN_HPR)
 void ICACHE_FLASH_ATTR uart_init(UartBautRate uart0_br) { }
 #else
 void ICACHE_FLASH_ATTR uart_init(UartBautRate uart0_br) {
