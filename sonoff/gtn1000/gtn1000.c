@@ -31,13 +31,12 @@
 // UartDev is defined and initialized in rom code.
 extern UartDevice UartDev;
 
+gtn1000_t * gtn1000_data;
 unsigned int nGTN1000Statem;
 struct espconn * pGTN1000Conn;
 sys_mutex_t RxBuf_lock;
 
-//mosquitto_sub -v -p 5800 -h 192.168.1.6 -t 'sonoff_pow/221/+'
-//mosquitto_sub -v -p 5800 -h 192.168.1.6 -t 'sonoff_th10/215/+'
-//mosquitto_sub -v -p 5800 -h 192.168.1.6 -t 'esp_mains/115/+'
+//mosquitto_sub -v -p 5800 -h 192.168.1.6 -t 'esp_pw2gtn/116/+'
 static void ICACHE_FLASH_ATTR uart0_rx_handler(void *para) {
 	  /* uart0 and uart1 intr combine together, when interrupt occur, see reg 0x3ff20020, bit2, bit0 represents uart1 and uart0 respectively */
     RcvMsgBuff *pRxBuff = (RcvMsgBuff *)para;
@@ -58,6 +57,33 @@ static void ICACHE_FLASH_ATTR uart0_rx_handler(void *para) {
             if ( UartDev.received == GTN1000_RX_MSG_LEN) { 
               //if (pRxBuff->pRcvMsgBuff[0]==GTN1000_ADDRESS) {
                 ETS_UART_INTR_DISABLE();
+                gtn1000_data->IsValid=0;
+                /*
+                Protocol specification :
+                Data rate @ 4800bps, 8 data, 1 stop
+                Packet size : 8 Bytes
+                0 1 : 0x24
+                1 2 : 0x56
+                2 3 : 0x00
+                3 4 : 0x21
+                4 5 : xa (2 byte watts as short integer xaxb) (byte high)
+                5 6 : xb  (byte low)
+                6 7 : 0x80 (hex / spacer)
+                7 8 : checksum
+                */
+
+                gtn1000_data->checksum=UartDev.rcv_buff.pRcvMsgBuff[7];    //checksum
+                uint8_t my_checksum = 264 - UartDev.rcv_buff.pRcvMsgBuff[4] - UartDev.rcv_buff.pRcvMsgBuff[5];    //checksum
+                if (gtn1000_data->checksum==my_checksum) {
+                  gtn1000_data->IsValid=1;
+                  gtn1000_data->ActivePower = (float)( (UartDev.rcv_buff.pRcvMsgBuff[4] << 8) | (UartDev.rcv_buff.pRcvMsgBuff[5]) );
+
+                  float tmpActPow = gtn1000_data->ActivePower+475;
+                  UartDev.rcv_buff.pRcvMsgBuff[4] = (unsigned int)tmpActPow >> 8  & 0xFF;
+                  UartDev.rcv_buff.pRcvMsgBuff[5] = (unsigned int)tmpActPow & 0xFF;
+                  UartDev.rcv_buff.pRcvMsgBuff[7] = 264 - UartDev.rcv_buff.pRcvMsgBuff[4] - UartDev.rcv_buff.pRcvMsgBuff[5];  // new checksum
+                  }
+
                 espconn_connect(pGTN1000Conn);
                 espconn_set_opt(pGTN1000Conn, ESPCONN_REUSEADDR|ESPCONN_NODELAY);
               //  }
@@ -83,6 +109,7 @@ static void ICACHE_FLASH_ATTR uart0_rx_handler(void *para) {
 }
 
 int ICACHE_FLASH_ATTR gtn1000Init() {
+  gtn1000_data = (gtn1000_t *)os_zalloc(sizeof(gtn1000_t));
   UartDev.baut_rate 	 = 4800;
   //UartDev.baut_rate 	 = BIT_RATE_9600;
   //UartDev.baut_rate 	 = 9000;
@@ -145,7 +172,7 @@ void ICACHE_FLASH_ATTR pGTN1000_rx_cb(void *arg, char *data, uint16_t len) {
   // Store the IP address from the sender of this data.
 }
 
-void ICACHE_FLASH_ATTR pGTN1000_recon_cb(void *arg, char *data, uint16_t len) {
+void ICACHE_FLASH_ATTR pGTN1000_recon_cb(void *arg, int8_t err) {
   system_restart();
 }
 

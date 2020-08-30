@@ -17,8 +17,6 @@ typedef struct {
 
 extern dds238_2_t * dds238_2_data;
 extern unsigned int nDDS238Statem;
-extern struct espconn * pGTN1000Conn;
-
 
 #define ANY_ADDRESS 0xFE
 

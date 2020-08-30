@@ -277,7 +277,7 @@ void ICACHE_FLASH_ATTR SendStatus(char * topic, sendmessage_t type) {
       break;
 
     case MSG_POW_DDS238_2:
-      #if defined(SONOFFPOW_DDS238_2)  || defined(SONOFFTH10_DDS238_2) || defined(MAINS_DDS238_2)
+      #if defined(SONOFFPOW_DDS238_2)
       nTmp=(int)dds238_2_data->EnergyFromGrid;
       if (nTmp<0) nTmp=~nTmp;
       os_sprintf(pTXdata, "{\"eventdate\":\"%02d:%02d:%02d\", \"ActivePower\": %d.%d, \"current\": %d.%d, \"EnergyToGrid\": %d.%d, \"EnergyFromGrid\": %d.%d, \"IsValid\": %d}",
@@ -289,6 +289,17 @@ void ICACHE_FLASH_ATTR SendStatus(char * topic, sendmessage_t type) {
           (int)dds238_2_data->EnergyToGrid, (uint8_t)((dds238_2_data->EnergyToGrid-(int)dds238_2_data->EnergyToGrid)*100),
           (int)nTmp, (uint8_t)((dds238_2_data->EnergyFromGrid-(int)dds238_2_data->EnergyFromGrid)*100),
           (unsigned int)dds238_2_data->IsValid );
+      #endif      
+      break;
+
+    case MSG_GTN1000:
+      #if defined(MAINS_GTN1000)
+      os_sprintf(pTXdata, "{\"eventdate\":\"%02d:%02d:%02d\", \"ActivePower\": %d.%d, \"IsValid\": %d}",
+          tm_rtc->tm_hour, 
+          tm_rtc->tm_min, 
+          tm_rtc->tm_sec, 
+          (int)gtn1000_data->ActivePower, (uint8_t)((gtn1000_data->ActivePower-(int)gtn1000_data->ActivePower)*100),
+          (unsigned int)gtn1000_data->IsValid );
       #endif      
       break;
 

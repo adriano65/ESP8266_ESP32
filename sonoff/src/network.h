@@ -32,6 +32,8 @@ typedef enum {
     MSG_POW,
     MSG_DC_VOLTAGE,
     MSG_POW_DDS238_2,
+    MSG_GTN1000,
+    MSG_GTN_HPR,
     MSG_TBD2
 } sendmessage_t;
 

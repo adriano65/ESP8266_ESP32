@@ -217,7 +217,7 @@ void ICACHE_FLASH_ATTR hw_timer_isr_cb(void) {
       update_tm_rtc();
       }
 
-    #if defined(MAINS)
+    #if defined(MAINS) && !defined(MAINS_GTN1000)
     if ( !(nCounter%READ_DELAY) ) {
       SendStatus(MQTT_STAT_TOPIC, MSG_STATUS);
       }
@@ -249,6 +249,9 @@ void ICACHE_FLASH_ATTR hw_timer_isr_cb(void) {
     if ( !(nCounter%(READ_DELAY)) ) {
       if (nGTN1000Statem==SM_WAITING_MERDANERA) {
         espconn_connect(pGTN1000Conn);
+        }
+      else {
+        SendStatus(MQTT_STAT_TOPIC, MSG_GTN1000);
         }
       }
     #endif
