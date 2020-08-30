@@ -1,17 +1,22 @@
 #ifndef GTN1000_DRV_H_
 #define GTN1000_DRV_H_
 
+typedef struct {
+  float ActivePower;
+  uint8_t IsValid;
+  uint8_t checksum;
+} gtn_hpr_t;
+
+extern gtn_hpr_t * gtn_hpr_data;
+
 extern unsigned int nGTN_HPRStatem;
 extern struct espconn * pGTN_HPRConn;
 
 #define ANY_ADDRESS 0xFE
 
 // ------------------------ GTN1000
-//#define GTN1000_ADDRESS 0x00
-#define GTN1000_ADDRESS 0x60
-//#define GTN1000_ADDRESS 0x06
-//#define GTN1000_RX_MSG_LEN  12
-#define GTN1000_RX_MSG_LEN  10
+#define GTN1000_ADDRESS 0x23
+#define GTN1000_RX_MSG_LEN  15
 
 // ------------------------ State Machine
 #define SM_NULL                       0

@@ -30,7 +30,7 @@
 
 // UartDev is defined and initialized in rom code.
 extern UartDevice UartDev;
-
+gtn_hpr_t * gtn_hpr_data;
 unsigned int nGTN_HPRStatem;
 struct espconn * pGTN_HPRConn;
 sys_mutex_t RxBuf_lock;
@@ -56,12 +56,9 @@ static void ICACHE_FLASH_ATTR uart0_rx_handler(void *para) {
         switch (nGTN_HPRStatem) {
           case SM_WAITING_GTN1000_POLL:
             if ( UartDev.received == GTN1000_RX_MSG_LEN) { 
-              if (pRxBuff->pRcvMsgBuff[0]==GTN1000_ADDRESS) {
-                ETS_UART_INTR_DISABLE();
-                espconn_connect(pGTN_HPRConn);
-                espconn_set_opt(pGTN_HPRConn, ESPCONN_REUSEADDR|ESPCONN_NODELAY);
-                }
-              else ResetRxBuff();
+              ETS_UART_INTR_DISABLE();
+              espconn_connect(pGTN_HPRConn);
+              espconn_set_opt(pGTN_HPRConn, ESPCONN_REUSEADDR|ESPCONN_NODELAY);
               }
             break;            
 
@@ -95,14 +92,10 @@ void ICACHE_FLASH_ATTR ResetRxBuff() {
 
 int ICACHE_FLASH_ATTR gtn_hprInit() {
   UartDev.baut_rate 	 = 4800;
-  //UartDev.baut_rate 	 = BIT_RATE_9600;
-  //UartDev.baut_rate 	 = 9000;
   UartDev.data_bits    = EIGHT_BITS;
   UartDev.flow_ctrl    = NONE_CTRL;
   UartDev.parity       = NONE_BITS;
-  //UartDev.stop_bits    = ONE_HALF_STOP_BIT;
   UartDev.stop_bits    = ONE_STOP_BIT;
-  //UartDev.stop_bits    = TWO_STOP_BIT;
   //UartDev.rcv_buff.TrigLvl=50;
   uart_config(uart0_rx_handler);
   ResetRxBuff();
@@ -111,8 +104,9 @@ int ICACHE_FLASH_ATTR gtn_hprInit() {
   pGTN_HPRConn->type = ESPCONN_TCP;
   pGTN_HPRConn->state = ESPCONN_NONE;
   pGTN_HPRConn->proto.tcp = (esp_tcp *)os_zalloc(sizeof(esp_tcp));
-  pGTN_HPRConn->proto.tcp->local_port = 5001;
-    
+  pGTN_HPRConn->proto.tcp->local_port = 5001;   // listening port
+  StrToIP(DEBUG_IP_ADDRESS, (void*)&pGTN_HPRConn->proto.tcp->remote_ip);
+  
   espconn_regist_connectcb(pGTN_HPRConn, pGTN_HPR_connect_cb);
   espconn_accept(pGTN_HPRConn);
   espconn_tcp_set_max_con_allow(pGTN_HPRConn, 1);
@@ -129,6 +123,12 @@ void ICACHE_FLASH_ATTR pGTN_HPR_connect_cb(void *arg) {
   espconn_regist_recvcb(pCon, pGTN_HPR_rx_cb);
   espconn_regist_disconcb(pCon, pGTN_HPR_disc_cb);
   espconn_regist_reconcb(pCon, pGTN_HPR_recon_cb);
+
+  // try to send any rx data to test server
+  espconn_sent(pCon, UartDev.rcv_buff.pRcvMsgBuff, UartDev.received );
+  ResetRxBuff();
+  espconn_disconnect(pCon);
+
 }
 
 void ICACHE_FLASH_ATTR pGTN_HPR_rx_cb(void *arg, char *data, uint16_t len) {

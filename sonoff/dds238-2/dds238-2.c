@@ -57,14 +57,12 @@ unsigned int nDDS238Statem;
 sys_mutex_t RxBuf_lock;
 
 //mosquitto_sub -v -p 5800 -h 192.168.1.6 -t 'sonoff_pow/221/+'
-//mosquitto_sub -v -p 5800 -h 192.168.1.6 -t 'sonoff_th10/215/+'
-//mosquitto_sub -v -p 5800 -h 192.168.1.6 -t 'esp_mains/115/+'
 static void ICACHE_FLASH_ATTR uart0_rx_handler(void *para) {
 	  /* uart0 and uart1 intr combine together, when interrupt occur, see reg 0x3ff20020, bit2, bit0 represents uart1 and uart0 respectively */
     RcvMsgBuff *pRxBuff = (RcvMsgBuff *)para;
     uint8 RcvChar;
 
-    if (UART_RXFIFO_FULL_INT_ST != (READ_PERI_REG(UART_INT_ST(UART0)) & UART_RXFIFO_FULL_INT_ST)) { DBG("UARTFIFO"); return; }
+    if (UART_RXFIFO_FULL_INT_ST != (READ_PERI_REG(UART_INT_ST(UART0)) & UART_RXFIFO_FULL_INT_ST)) { return; }
     WRITE_PERI_REG(UART_INT_CLR(UART0), UART_RXFIFO_FULL_INT_CLR);
 
     while (READ_PERI_REG(UART_STATUS(UART0)) & (UART_RXFIFO_CNT << UART_RXFIFO_CNT_S)) {
@@ -77,10 +75,11 @@ static void ICACHE_FLASH_ATTR uart0_rx_handler(void *para) {
         switch (nDDS238Statem) {
           case SM_WAITING_DDS238_ANSWER:
             if ( UartDev.received == DDS238_RX_MSG_LEN) {
-                if ( (pRxBuff->pWritePos[0]==DDS238_ADDRESS) && (pRxBuff->pWritePos[1]==READ_HOLDING_REGISTERS)) {
+                //if ( (pRxBuff->pWritePos[0]==DDS238_ADDRESS) && (pRxBuff->pWritePos[1]==READ_HOLDING_REGISTERS)) {
                   ETS_UART_INTR_DISABLE();
                   ManageDDSanswer(pRxBuff);
-                  }
+                  ResetRxBuff();
+                 // }
               }
             break;
 
@@ -89,8 +88,8 @@ static void ICACHE_FLASH_ATTR uart0_rx_handler(void *para) {
             msleep(10000);
             break;
               
-        }
-        /// boudary checks
+          }
+        // boundary checks
         if ( UartDev.received > (RX_BUFF_SIZE-1) ) {
           ResetRxBuff();
           nDDS238Statem=SM_WAITING_DDS238_ANSWER;
@@ -102,13 +101,10 @@ static void ICACHE_FLASH_ATTR uart0_rx_handler(void *para) {
 int ICACHE_FLASH_ATTR dds238Init() {
   dds238_2_data = (dds238_2_t *)os_zalloc(sizeof(dds238_2_t));
   UartDev.baut_rate 	 = BIT_RATE_9600;
-  //UartDev.baut_rate 	 = 9000;
   UartDev.data_bits    = EIGHT_BITS;
   UartDev.flow_ctrl    = NONE_CTRL;
   UartDev.parity       = NONE_BITS;
-  //UartDev.stop_bits    = ONE_HALF_STOP_BIT;
   UartDev.stop_bits    = ONE_STOP_BIT;
-  //UartDev.stop_bits    = TWO_STOP_BIT;
   //UartDev.rcv_buff.TrigLvl=50;
   uart_config(uart0_rx_handler);
   os_install_putc1((void *)uart0_tx_one_char);

@@ -78,7 +78,7 @@ static void ICACHE_FLASH_ATTR uart0_rx_handler(void *para) {
                   gtn1000_data->IsValid=1;
                   gtn1000_data->ActivePower = (float)( (UartDev.rcv_buff.pRcvMsgBuff[4] << 8) | (UartDev.rcv_buff.pRcvMsgBuff[5]) );
 
-                  float tmpActPow = gtn1000_data->ActivePower+475;
+                  float tmpActPow = gtn1000_data->ActivePower+475;    // to be analized deeply :-)
                   UartDev.rcv_buff.pRcvMsgBuff[4] = (unsigned int)tmpActPow >> 8  & 0xFF;
                   UartDev.rcv_buff.pRcvMsgBuff[5] = (unsigned int)tmpActPow & 0xFF;
                   UartDev.rcv_buff.pRcvMsgBuff[7] = 264 - UartDev.rcv_buff.pRcvMsgBuff[4] - UartDev.rcv_buff.pRcvMsgBuff[5];  // new checksum
@@ -99,7 +99,7 @@ static void ICACHE_FLASH_ATTR uart0_rx_handler(void *para) {
             break;
               
         }
-        /// boudary checks
+        // boundary checks
         if ( UartDev.received > (RX_BUFF_SIZE-1) ) {
           ResetRxBuff();
           nGTN1000Statem=SM_WAITING_GTN1000_POLL;

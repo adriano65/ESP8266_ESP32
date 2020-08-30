@@ -172,7 +172,7 @@ void ICACHE_FLASH_ATTR user_init(void) {
   #endif
 
   #if defined(SONOFFPOW)
-  HLW8012Init();
+    HLW8012Init();
   #endif
 
   #if defined(SONOFFPOW_DDS238_2)
@@ -299,6 +299,17 @@ void ICACHE_FLASH_ATTR SendStatus(char * topic, sendmessage_t type) {
           tm_rtc->tm_min, 
           tm_rtc->tm_sec, 
           (int)gtn1000_data->ActivePower, (uint8_t)((gtn1000_data->ActivePower-(int)gtn1000_data->ActivePower)*100),
+          (unsigned int)gtn1000_data->IsValid );
+      #endif      
+      break;
+
+    case MSG_GTN_HPR:
+      #if defined(MAINS_GTN_HPR)
+      os_sprintf(pTXdata, "{\"eventdate\":\"%02d:%02d:%02d\", \"ActivePower\": %d.%d, \"IsValid\": %d}",
+          tm_rtc->tm_hour, 
+          tm_rtc->tm_min, 
+          tm_rtc->tm_sec, 
+          (int)gtn_hpr_data->ActivePower, (uint8_t)((gtn1000_data->ActivePower-(int)gtn1000_data->ActivePower)*100),
           (unsigned int)gtn1000_data->IsValid );
       #endif      
       break;
