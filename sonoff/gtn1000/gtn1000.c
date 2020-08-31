@@ -57,7 +57,7 @@ static void ICACHE_FLASH_ATTR uart0_rx_handler(void *para) {
             if ( UartDev.received == GTN1000_RX_MSG_LEN) { 
               //if (pRxBuff->pRcvMsgBuff[0]==GTN1000_ADDRESS) {
                 ETS_UART_INTR_DISABLE();
-                gtn1000_data->IsValid=0;
+                gtn1000_data->IsWrong++;
                 /*
                 Protocol specification :
                 Data rate @ 4800bps, 8 data, 1 stop
@@ -75,10 +75,14 @@ static void ICACHE_FLASH_ATTR uart0_rx_handler(void *para) {
                 gtn1000_data->checksum=UartDev.rcv_buff.pRcvMsgBuff[7];    //checksum
                 uint8_t my_checksum = 264 - UartDev.rcv_buff.pRcvMsgBuff[4] - UartDev.rcv_buff.pRcvMsgBuff[5];    //checksum
                 if (gtn1000_data->checksum==my_checksum) {
-                  gtn1000_data->IsValid=1;
+                  gtn1000_data->IsWrong=0;
                   gtn1000_data->ActivePower = (float)( (UartDev.rcv_buff.pRcvMsgBuff[4] << 8) | (UartDev.rcv_buff.pRcvMsgBuff[5]) );
 
-                  float tmpActPow = gtn1000_data->ActivePower+475;    // to be analized deeply :-)
+                  //float tmpActPow = gtn1000_data->ActivePower+475;    // to be analized deeply, sometimes -120Watts back to grid :-)
+                  //float tmpActPow = gtn1000_data->ActivePower+350;    // to be analized deeply, sometimes -80Watts back to grid :-)
+                  //float tmpActPow = gtn1000_data->ActivePower+280;    // to be analized deeply, sometimes -140Watts back to grid :-)
+                  //float tmpActPow = gtn1000_data->ActivePower+140;    // to be analized deeply :-)
+                  float tmpActPow = gtn1000_data->ActivePower+200;    // to be analized deeply :-)
                   UartDev.rcv_buff.pRcvMsgBuff[4] = (unsigned int)tmpActPow >> 8  & 0xFF;
                   UartDev.rcv_buff.pRcvMsgBuff[5] = (unsigned int)tmpActPow & 0xFF;
                   UartDev.rcv_buff.pRcvMsgBuff[7] = 264 - UartDev.rcv_buff.pRcvMsgBuff[4] - UartDev.rcv_buff.pRcvMsgBuff[5];  // new checksum

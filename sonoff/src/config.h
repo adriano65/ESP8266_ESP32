@@ -42,6 +42,9 @@ typedef struct __attribute__((aligned(4))) {
   float     VoltMul;
   float     Watt_Mul;
   #endif
+  #if defined(MAINS_GTN1000)
+  uint8_t     WattOffset;
+  #endif
 } FlashConfig;
 
 extern FlashConfig flashConfig;

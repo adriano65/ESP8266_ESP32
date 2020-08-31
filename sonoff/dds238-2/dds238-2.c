@@ -77,8 +77,9 @@ static void ICACHE_FLASH_ATTR uart0_rx_handler(void *para) {
             if ( UartDev.received == DDS238_RX_MSG_LEN) {
                 //if ( (pRxBuff->pWritePos[0]==DDS238_ADDRESS) && (pRxBuff->pWritePos[1]==READ_HOLDING_REGISTERS)) {
                   ETS_UART_INTR_DISABLE();
-                  ManageDDSanswer(pRxBuff);
-                  ResetRxBuff();
+                  if ( ManageDDSanswer(pRxBuff) ) { ResetRxBuff(); }
+                  else { system_restart(); }
+
                  // }
               }
             break;
@@ -127,7 +128,7 @@ void ICACHE_FLASH_ATTR ResetRxBuff() {
   ETS_UART_INTR_ENABLE();
 }
 
-void ICACHE_FLASH_ATTR ManageDDSanswer(void *para) {
+uint8_t ICACHE_FLASH_ATTR ManageDDSanswer(void *para) {
     RcvMsgBuff *pRxBuff = (RcvMsgBuff *)para;
 		unsigned int i;
 		int m;
@@ -156,13 +157,14 @@ void ICACHE_FLASH_ATTR ManageDDSanswer(void *para) {
           dds238_2_data->EnergyFromGrid = (float)( (pRxBuff->pRcvMsgBuff[3] << 8) | (pRxBuff->pRcvMsgBuff[4]) )/DDS238_EXPORT_ENERGY2_DIVIDER;
           break;
         }
-      dds238_2_data->IsValid=1;
+      dds238_2_data->IsWrong=0;
       }
     else {
-      dds238_2_data->IsValid=0;
+      if ((dds238_2_data->IsWrong++) > 15 ) { return FALSE; }
       }
-    if ((++dds238_2_data->nSequencer) > 3 ) dds238_2_data->nSequencer=0;
+    if ((++dds238_2_data->nSequencer) > 3 ) { dds238_2_data->nSequencer=0; }
 
+    return TRUE;
 }
 
 

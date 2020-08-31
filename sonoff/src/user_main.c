@@ -280,7 +280,7 @@ void ICACHE_FLASH_ATTR SendStatus(char * topic, sendmessage_t type) {
       #if defined(SONOFFPOW_DDS238_2)
       nTmp=(int)dds238_2_data->EnergyFromGrid;
       if (nTmp<0) nTmp=~nTmp;
-      os_sprintf(pTXdata, "{\"eventdate\":\"%02d:%02d:%02d\", \"ActivePower\": %d.%d, \"current\": %d.%d, \"EnergyToGrid\": %d.%d, \"EnergyFromGrid\": %d.%d, \"IsValid\": %d}",
+      os_sprintf(pTXdata, "{\"eventdate\":\"%02d:%02d:%02d\", \"ActivePower\": %d.%d, \"current\": %d.%d, \"EnergyToGrid\": %d.%d, \"EnergyFromGrid\": %d.%d, \"IsWrong\": %d}",
           tm_rtc->tm_hour, 
           tm_rtc->tm_min, 
           tm_rtc->tm_sec, 
@@ -288,29 +288,29 @@ void ICACHE_FLASH_ATTR SendStatus(char * topic, sendmessage_t type) {
           (int)dds238_2_data->current, (uint8_t)((dds238_2_data->current-(int)dds238_2_data->current)*100), // centinaia di mA
           (int)dds238_2_data->EnergyToGrid, (uint8_t)((dds238_2_data->EnergyToGrid-(int)dds238_2_data->EnergyToGrid)*100),
           (int)nTmp, (uint8_t)((dds238_2_data->EnergyFromGrid-(int)dds238_2_data->EnergyFromGrid)*100),
-          (unsigned int)dds238_2_data->IsValid );
+          (unsigned int)dds238_2_data->IsWrong );
       #endif      
       break;
 
     case MSG_GTN1000:
       #if defined(MAINS_GTN1000)
-      os_sprintf(pTXdata, "{\"eventdate\":\"%02d:%02d:%02d\", \"ActivePower\": %d.%d, \"IsValid\": %d}",
+      os_sprintf(pTXdata, "{\"eventdate\":\"%02d:%02d:%02d\", \"ActivePower\": %d.%d, \"IsWrong\": %d}",
           tm_rtc->tm_hour, 
           tm_rtc->tm_min, 
           tm_rtc->tm_sec, 
           (int)gtn1000_data->ActivePower, (uint8_t)((gtn1000_data->ActivePower-(int)gtn1000_data->ActivePower)*100),
-          (unsigned int)gtn1000_data->IsValid );
+          (unsigned int)gtn1000_data->IsWrong );
       #endif      
       break;
 
     case MSG_GTN_HPR:
       #if defined(MAINS_GTN_HPR)
-      os_sprintf(pTXdata, "{\"eventdate\":\"%02d:%02d:%02d\", \"ActivePower\": %d.%d, \"IsValid\": %d}",
+      os_sprintf(pTXdata, "{\"eventdate\":\"%02d:%02d:%02d\", \"ActivePower\": %d.%d, \"IsWrong\": %d}",
           tm_rtc->tm_hour, 
           tm_rtc->tm_min, 
           tm_rtc->tm_sec, 
           (int)gtn_hpr_data->ActivePower, (uint8_t)((gtn1000_data->ActivePower-(int)gtn1000_data->ActivePower)*100),
-          (unsigned int)gtn1000_data->IsValid );
+          (unsigned int)gtn1000_data->IsWrong );
       #endif      
       break;
 

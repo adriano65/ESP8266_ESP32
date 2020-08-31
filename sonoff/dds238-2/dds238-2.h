@@ -11,7 +11,7 @@ typedef struct {
   float EnergyFromGrid;
   float ActivePower;
   unsigned int reg;
-  unsigned char IsValid;
+  unsigned char IsWrong;
   unsigned char spare_char;
 } dds238_2_t;
 
@@ -75,7 +75,7 @@ void ICACHE_FLASH_ATTR uart0_write(char *c, int len);
 void ICACHE_FLASH_ATTR pGTN1000_connect_cb(void *arg);
 void ICACHE_FLASH_ATTR pGTN1000_rx_cb(void *arg, char *data, uint16_t len);
 void ICACHE_FLASH_ATTR ResetRxBuff();
-void ICACHE_FLASH_ATTR ManageDDSanswer(void *para);
+uint8_t ICACHE_FLASH_ATTR ManageDDSanswer(void *para);
 
 //void ICACHE_FLASH_ATTR start_TCPSend_timer(uint16_t interval);
 void ICACHE_FLASH_ATTR buildFrame( unsigned char slaveAddress, unsigned char functionCode, short startAddress, short parameter, unsigned char* frame);

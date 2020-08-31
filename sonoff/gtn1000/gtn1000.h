@@ -3,7 +3,7 @@
 
 typedef struct {
   float ActivePower;
-  uint8_t IsValid;
+  uint8_t IsWrong;
   uint8_t checksum;
 } gtn1000_t;
 
