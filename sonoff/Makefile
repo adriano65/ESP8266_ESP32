@@ -53,6 +53,7 @@ HUMI_OFFSET								:= 0
 I2C_SCL_PIN     					:= no
 I2C_SDA_PIN     					:= no
 GTN_IP_ADDRESS     				:= no
+TEST_IP_ADDRESS     			:= no
 
 # error -- reset IP addresses on FW relaod !!!
 # ----------------- test
@@ -83,13 +84,13 @@ GTN_IP_ADDRESS     				:= no
 #MAINSe := 2
 
 # ----------------- GTN House power Receiver (ESP8266 boot baud rate is 76800)
-#MAINSf := 2
+MAINSf := 2
 
 # --------------------sun power
 #SONOFFPOWa := 3
 
 # --------------------House Power Meter (ModBus) and external Bell!
-SONOFFPOWb := 3
+#SONOFFPOWb := 3
 
 # --------------------Test
 #SONOFFPOWc := 3
@@ -248,6 +249,10 @@ endif
 
 ifneq ("$(GTN_IP_ADDRESS)","no")
 CFLAGS	+= -DGTN_IP_ADDRESS=$(GTN_IP_ADDRESS)
+endif
+
+ifneq ("$(TEST_IP_ADDRESS)","no")
+CFLAGS	+= -DTEST_IP_ADDRESS=$(TEST_IP_ADDRESS)
 endif
 
 # linker flags used to generate the main object file

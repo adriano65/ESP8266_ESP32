@@ -309,8 +309,8 @@ void ICACHE_FLASH_ATTR SendStatus(char * topic, sendmessage_t type) {
           tm_rtc->tm_hour, 
           tm_rtc->tm_min, 
           tm_rtc->tm_sec, 
-          (int)gtn_hpr_data->ActivePower, (uint8_t)((gtn1000_data->ActivePower-(int)gtn1000_data->ActivePower)*100),
-          (unsigned int)gtn1000_data->IsWrong );
+          (int)gtn_hpr_data->ActivePower, (uint8_t)((gtn_hpr_data->ActivePower-(int)gtn_hpr_data->ActivePower)*100),
+          (unsigned int)gtn_hpr_data->IsWrong );
       #endif      
       break;
 

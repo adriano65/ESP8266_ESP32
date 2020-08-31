@@ -79,7 +79,6 @@ static void ICACHE_FLASH_ATTR uart0_rx_handler(void *para) {
                   ETS_UART_INTR_DISABLE();
                   if ( ManageDDSanswer(pRxBuff) ) { ResetRxBuff(); }
                   else { system_restart(); }
-
                  // }
               }
             break;

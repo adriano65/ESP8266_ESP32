@@ -33,11 +33,10 @@ extern UartDevice UartDev;
 gtn_hpr_t * gtn_hpr_data;
 unsigned int nGTN_HPRStatem;
 struct espconn * pGTN_HPRConn;
+struct espconn * pGTN_HPRxTestConn;
 sys_mutex_t RxBuf_lock;
 
-//mosquitto_sub -v -p 5800 -h 192.168.1.6 -t 'sonoff_pow/221/+'
-//mosquitto_sub -v -p 5800 -h 192.168.1.6 -t 'sonoff_th10/215/+'
-//mosquitto_sub -v -p 5800 -h 192.168.1.6 -t 'esp_mains/115/+'
+//mosquitto_sub -v -p 5800 -h 192.168.1.6 -t 'esp_gtn_hpr/242/+'
 static void ICACHE_FLASH_ATTR uart0_rx_handler(void *para) {
 	  /* uart0 and uart1 intr combine together, when interrupt occur, see reg 0x3ff20020, bit2, bit0 represents uart1 and uart0 respectively */
     RcvMsgBuff *pRxBuff = (RcvMsgBuff *)para;
@@ -54,26 +53,32 @@ static void ICACHE_FLASH_ATTR uart0_rx_handler(void *para) {
         sys_mutex_unlock(&RxBuf_lock);
 
         switch (nGTN_HPRStatem) {
-          case SM_WAITING_GTN1000_POLL:
-            if ( UartDev.received == GTN1000_RX_MSG_LEN) { 
+          case SM_NULL:
+            break;
+
+          case SM_WAITING_GTN1000_DATA:
+            if ( UartDev.received == GTN_HPRX_MSG_LEN) {
+              gtn_hpr_data->ActivePower++;
               ETS_UART_INTR_DISABLE();
-              espconn_connect(pGTN_HPRConn);
-              espconn_set_opt(pGTN_HPRConn, ESPCONN_REUSEADDR|ESPCONN_NODELAY);
+              espconn_connect(pGTN_HPRxTestConn);
+              espconn_set_opt(pGTN_HPRxTestConn, ESPCONN_REUSEADDR|ESPCONN_NODELAY);
+              nGTN_HPRStatem=SM_NULL;
               }
             break;            
 
           case SM_DISABLE_SOCKET:
-            espconn_disconnect(pGTN_HPRConn);
+            espconn_disconnect(pGTN_HPRxTestConn);
 	          ETS_UART_INTR_DISABLE();
             pGTN_HPRConn=NULL;
+            pGTN_HPRxTestConn=NULL;
             msleep(10000);
             break;
-              
-        }
-        /// boudary checks
+          }
+
+        // boundary checks
         if ( UartDev.received > (RX_BUFF_SIZE-1) ) {
           ResetRxBuff();
-          nGTN_HPRStatem=SM_WAITING_GTN1000_POLL;
+          nGTN_HPRStatem=SM_WAITING_GTN1000_DATA;
           }
 
       }
@@ -91,6 +96,7 @@ void ICACHE_FLASH_ATTR ResetRxBuff() {
 }
 
 int ICACHE_FLASH_ATTR gtn_hprInit() {
+  gtn_hpr_data = (gtn_hpr_t *)os_zalloc(sizeof(gtn_hpr_t));
   UartDev.baut_rate 	 = 4800;
   UartDev.data_bits    = EIGHT_BITS;
   UartDev.flow_ctrl    = NONE_CTRL;
@@ -105,39 +111,39 @@ int ICACHE_FLASH_ATTR gtn_hprInit() {
   pGTN_HPRConn->state = ESPCONN_NONE;
   pGTN_HPRConn->proto.tcp = (esp_tcp *)os_zalloc(sizeof(esp_tcp));
   pGTN_HPRConn->proto.tcp->local_port = 5001;   // listening port
-  StrToIP(DEBUG_IP_ADDRESS, (void*)&pGTN_HPRConn->proto.tcp->remote_ip);
-  
-  espconn_regist_connectcb(pGTN_HPRConn, pGTN_HPR_connect_cb);
+
+  //espconn_regist_connectcb(pGTN_HPRConn, pGTN_HPR_connect_cb);
   espconn_accept(pGTN_HPRConn);
+  espconn_regist_recvcb(pGTN_HPRConn, pGTN_HPR_rx_cb);
+  espconn_regist_disconcb(pGTN_HPRConn, pGTN_HPR_disc_cb);
+  espconn_regist_reconcb(pGTN_HPRConn, pGTN_HPR_recon_cb);
   espconn_tcp_set_max_con_allow(pGTN_HPRConn, 1);
   espconn_regist_time(pGTN_HPRConn, 15, 0);
   //pTCPConn->reverse = pMQTTclient;
 
-  nGTN_HPRStatem=SM_WAITING_MERDANERA;
+  // SECOND CONNECTION
+  pGTN_HPRxTestConn = (struct espconn *)os_zalloc(sizeof(struct espconn));  
+  pGTN_HPRxTestConn->type = ESPCONN_TCP;
+  pGTN_HPRxTestConn->state = ESPCONN_NONE;
+  pGTN_HPRxTestConn->proto.tcp = (esp_tcp *)os_zalloc(sizeof(esp_tcp));
+  pGTN_HPRxTestConn->proto.tcp->local_port = espconn_port();
+  pGTN_HPRxTestConn->proto.tcp->remote_port = 5001;
+  StrToIP(TEST_IP_ADDRESS, (void*)&pGTN_HPRxTestConn->proto.tcp->remote_ip);
+  espconn_regist_connectcb(pGTN_HPRxTestConn, pGTN_HPRTest_connect_cb);
+  espconn_tcp_set_max_con_allow(pGTN_HPRxTestConn, 1);
+  espconn_regist_time(pGTN_HPRxTestConn, 15, 0);
+
+  nGTN_HPRStatem=SM_WAITING_GTN1000_DATA;
 	msleep(10);
 	return TRUE;
 }
-
-void ICACHE_FLASH_ATTR pGTN_HPR_connect_cb(void *arg) {
-  struct espconn * pCon = (struct espconn *)arg;
-  espconn_regist_recvcb(pCon, pGTN_HPR_rx_cb);
-  espconn_regist_disconcb(pCon, pGTN_HPR_disc_cb);
-  espconn_regist_reconcb(pCon, pGTN_HPR_recon_cb);
-
-  // try to send any rx data to test server
-  espconn_sent(pCon, UartDev.rcv_buff.pRcvMsgBuff, UartDev.received );
-  ResetRxBuff();
-  espconn_disconnect(pCon);
-
-}
-
 void ICACHE_FLASH_ATTR pGTN_HPR_rx_cb(void *arg, char *data, uint16_t len) {
     struct espconn *pCon = (struct espconn *)arg;
     uint8_t *addr_array = NULL;
     addr_array = pCon->proto.tcp->remote_ip;
+    /*
     ip_addr_t addr;
     IP4_ADDR(&addr, pCon->proto.tcp->remote_ip[0], pCon->proto.tcp->remote_ip[1], pCon->proto.tcp->remote_ip[2], pCon->proto.tcp->remote_ip[3]);
-    /*
     if (ota_ip == 0) {
       // There is no previously stored IP address, so we have it.
       ota_ip = addr.addr;
@@ -149,7 +155,18 @@ void ICACHE_FLASH_ATTR pGTN_HPR_rx_cb(void *arg, char *data, uint16_t len) {
 }
 void ICACHE_FLASH_ATTR pGTN_HPR_disc_cb(void *arg) {
 }
-void ICACHE_FLASH_ATTR pGTN_HPR_recon_cb(void *arg) {
+void ICACHE_FLASH_ATTR pGTN_HPR_recon_cb(void *arg, int8_t err) {
+}
+
+
+void ICACHE_FLASH_ATTR pGTN_HPRTest_connect_cb(void *arg) {
+  struct espconn * pCon = (struct espconn *)arg;
+
+  // try to send any rx data to test server
+  espconn_sent(pCon, UartDev.rcv_buff.pRcvMsgBuff, UartDev.received );
+  ResetRxBuff();
+  espconn_disconnect(pCon);
+  nGTN_HPRStatem=SM_WAITING_GTN1000_DATA;
 }
 
 

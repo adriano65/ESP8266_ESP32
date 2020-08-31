@@ -101,8 +101,8 @@ static void ICACHE_FLASH_ATTR uart0_rx_handler(void *para) {
             pGTN1000Conn=NULL;
             msleep(10000);
             break;
-              
-        }
+          }
+          
         // boundary checks
         if ( UartDev.received > (RX_BUFF_SIZE-1) ) {
           ResetRxBuff();
@@ -118,13 +118,10 @@ int ICACHE_FLASH_ATTR gtn1000Init() {
   //UartDev.baut_rate 	 = BIT_RATE_9600;
   //UartDev.baut_rate 	 = 9000;
   UartDev.data_bits    = EIGHT_BITS;
-  //UartDev.data_bits    = SEVEN_BITS;
   UartDev.flow_ctrl    = NONE_CTRL;
   UartDev.parity       = NONE_BITS;
-  //UartDev.parity       = EVEN_BITS;
   //UartDev.stop_bits    = ONE_HALF_STOP_BIT;
   UartDev.stop_bits    = ONE_STOP_BIT;
-  //UartDev.stop_bits    = TWO_STOP_BIT;
   //UartDev.rcv_buff.TrigLvl=50;
   uart_config(uart0_rx_handler);
   os_install_putc1((void *)uart0_tx_one_char);
