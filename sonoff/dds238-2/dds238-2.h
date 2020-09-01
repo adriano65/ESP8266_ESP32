@@ -17,6 +17,7 @@ typedef struct {
 
 extern dds238_2_t * dds238_2_data;
 extern unsigned int nDDS238Statem;
+extern struct espconn * pHPMeterTxConn;
 
 #define ANY_ADDRESS 0xFE
 
@@ -52,13 +53,6 @@ extern unsigned int nDDS238Statem;
 
 #define DDS238_RX_MSG_LEN  7    // including CRC
 
-// ------------------------ GTN1000
-//#define GTN1000_ADDRESS 0x00
-#define GTN1000_ADDRESS 0x60
-//#define GTN1000_ADDRESS 0x06
-//#define GTN1000_RX_MSG_LEN  12
-#define GTN1000_RX_MSG_LEN  10
-
 // ------------------------ State Machine
 #define SM_NULL                       0
 #define SM_WAITING_DDS238_ANSWER      1
@@ -67,13 +61,14 @@ extern unsigned int nDDS238Statem;
 
 
 int ICACHE_FLASH_ATTR dds238Init();
-void dds238End(void);
+void ICACHE_FLASH_ATTR dds238End(void);
 static void ICACHE_FLASH_ATTR uart0_rx_handler(void *para);
 int ICACHE_FLASH_ATTR uart0_tx_one_char(uint8 TxChar);
 void ICACHE_FLASH_ATTR uart0_write(char *c, int len);
 
 void ICACHE_FLASH_ATTR pGTN1000_connect_cb(void *arg);
 void ICACHE_FLASH_ATTR pGTN1000_rx_cb(void *arg, char *data, uint16_t len);
+void ICACHE_FLASH_ATTR pGTN1000_recon_cb(void *arg, int8_t err);
 void ICACHE_FLASH_ATTR ResetRxBuff();
 uint8_t ICACHE_FLASH_ATTR ManageDDSanswer(void *para);
 

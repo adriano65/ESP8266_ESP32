@@ -294,12 +294,15 @@ void ICACHE_FLASH_ATTR SendStatus(char * topic, sendmessage_t type) {
 
     case MSG_HOUSE_POW_METER_TX:
       #if defined(HOUSE_POW_METER_TX)
-      os_sprintf(pTXdata, "{\"eventdate\":\"%02d:%02d:%02d\", \"ActivePower\": %d.%d, \"IsWrong\": %d}",
+      os_sprintf(pTXdata, "{\"eventdate\":\"%02d:%02d:%02d\", \"ActivePower\": %d.%d, \"eventdate\": %02d %02d %02d %02d %02d %02d %02d %02d }",
           tm_rtc->tm_hour, 
           tm_rtc->tm_min, 
           tm_rtc->tm_sec, 
           (int)HPMeterTx_data->ActivePower, (uint8_t)((HPMeterTx_data->ActivePower-(int)HPMeterTx_data->ActivePower)*100),
-          (unsigned int)HPMeterTx_data->IsWrong );
+          (int)HPMeterTx_data->pTmpBuff[0], (int)HPMeterTx_data->pTmpBuff[1], (int)HPMeterTx_data->pTmpBuff[2],
+          (int)HPMeterTx_data->pTmpBuff[3], (int)HPMeterTx_data->pTmpBuff[4], (int)HPMeterTx_data->pTmpBuff[5],
+          (int)HPMeterTx_data->pTmpBuff[6], (int)HPMeterTx_data->pTmpBuff[7]
+          );
       #endif      
       break;
 

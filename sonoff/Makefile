@@ -81,7 +81,7 @@ TEST_IP_ADDRESS     			:= no
 #MAINSd := 2
 
 # ----------------- GTN House power Transmitter
-MAINSe := 2
+#MAINSe := 2
 
 # ----------------- GTN House power Receiver (ESP8266 boot baud rate is 76800)
 #MAINSf := 2
@@ -90,7 +90,7 @@ MAINSe := 2
 #SONOFFPOWa := 3
 
 # --------------------House Power Meter (ModBus) and external Bell!
-#SONOFFPOWb := 3
+SONOFFPOWb := 3
 
 # --------------------Test
 #SONOFFPOWc := 3

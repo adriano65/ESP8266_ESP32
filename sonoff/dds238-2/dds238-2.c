@@ -54,7 +54,9 @@ extern UartDevice UartDev;
 
 dds238_2_t * dds238_2_data;
 unsigned int nDDS238Statem;
+struct espconn * pHPMeterTxConn;
 sys_mutex_t RxBuf_lock;
+uint8_t pPowerDataBuff[8];
 
 //mosquitto_sub -v -p 5800 -h 192.168.1.6 -t 'sonoff_pow/221/+'
 static void ICACHE_FLASH_ATTR uart0_rx_handler(void *para) {
@@ -77,8 +79,12 @@ static void ICACHE_FLASH_ATTR uart0_rx_handler(void *para) {
             if ( UartDev.received == DDS238_RX_MSG_LEN) {
                 //if ( (pRxBuff->pWritePos[0]==DDS238_ADDRESS) && (pRxBuff->pWritePos[1]==READ_HOLDING_REGISTERS)) {
                   ETS_UART_INTR_DISABLE();
-                  if ( ManageDDSanswer(pRxBuff) ) { ResetRxBuff(); }
-                  else { system_restart(); }
+                  if ( ManageDDSanswer(pRxBuff) ) { 
+                    ResetRxBuff();
+                    }
+                  else {
+                    system_restart();
+                    }
                  // }
               }
             break;
@@ -110,10 +116,32 @@ int ICACHE_FLASH_ATTR dds238Init() {
   os_install_putc1((void *)uart0_tx_one_char);
   ResetRxBuff();
 
-  nDDS238Statem=SM_WAITING_DDS238_ANSWER;
+  pHPMeterTxConn = (struct espconn *)os_zalloc(sizeof(struct espconn));  
+  pHPMeterTxConn->type = ESPCONN_TCP;
+  pHPMeterTxConn->state = ESPCONN_NONE;
+  pHPMeterTxConn->proto.tcp = (esp_tcp *)os_zalloc(sizeof(esp_tcp));
+  pHPMeterTxConn->proto.tcp->local_port = espconn_port();
+  pHPMeterTxConn->proto.tcp->remote_port = 5001;
+  StrToIP(GTN_IP_ADDRESS, (void*)&pHPMeterTxConn->proto.tcp->remote_ip);
+  //pTCPConn->reverse = pMQTTclient;
+  espconn_create(pHPMeterTxConn);
+  espconn_tcp_set_max_con_allow(pHPMeterTxConn, 1);
+  espconn_regist_time(pHPMeterTxConn, 15, 0);
+  espconn_regist_connectcb(pHPMeterTxConn, pGTN1000_connect_cb);
+  espconn_regist_recvcb(pHPMeterTxConn, pGTN1000_rx_cb);
+  espconn_regist_reconcb(pHPMeterTxConn, pGTN1000_recon_cb);
+
 	msleep(10);
-  DBG("sent");
+  nDDS238Statem=SM_WAITING_DDS238_ANSWER;
 	return TRUE;
+}
+
+void ICACHE_FLASH_ATTR pGTN1000_connect_cb(void *arg) {
+  struct espconn * pCon = (struct espconn *)arg;
+  espconn_sent(pCon, pPowerDataBuff, 8 );
+  ResetRxBuff();
+  espconn_disconnect(pCon);
+  nDDS238Statem=SM_WAITING_DDS238_ANSWER;
 }
 
 void ICACHE_FLASH_ATTR ResetRxBuff() {
@@ -125,6 +153,14 @@ void ICACHE_FLASH_ATTR ResetRxBuff() {
   CLEAR_PERI_REG_MASK(UART_CONF0(UART0), UART_RXFIFO_RST);
   sys_mutex_unlock(&RxBuf_lock);
   ETS_UART_INTR_ENABLE();
+}
+
+void ICACHE_FLASH_ATTR pGTN1000_rx_cb(void *arg, char *data, uint16_t len) {
+  // Store the IP address from the sender of this data.
+}
+
+void ICACHE_FLASH_ATTR pGTN1000_recon_cb(void *arg, int8_t err) {
+  //system_restart();
 }
 
 uint8_t ICACHE_FLASH_ATTR ManageDDSanswer(void *para) {
@@ -139,6 +175,31 @@ uint8_t ICACHE_FLASH_ATTR ManageDDSanswer(void *para) {
           m *= 1 << CHAR_BIT;
           m |= pRxBuff->pRcvMsgBuff[4];
           dds238_2_data->ActivePower = (float)(m)/DDS238_ACTIVE_POWER_DIVIDER;
+          // now send data to GTN1000 (700 ms minimum cycle!!) ----------------------------------------------
+          /*
+          Protocol specification :
+          Data rate @ 4800bps, 8 data, 1 stop
+          Packet size : 8 Bytes
+          0 1 : 0x24
+          1 2 : 0x56
+          2 3 : 0x00
+          3 4 : 0x21
+          4 5 : xa (2 byte watts as short integer xaxb) (byte high)
+          5 6 : xb  (byte low)
+          6 7 : 0x80 (hex / spacer)
+          7 8 : checksum
+          */
+          pPowerDataBuff[0]=0x24;
+          pPowerDataBuff[1]=0x56;
+          pPowerDataBuff[2]=0x00;
+          pPowerDataBuff[3]=0x21;
+          float tmpActPow = dds238_2_data->ActivePower+350;    // to be analized deeply, sometimes -120Watts back to grid :-)
+          pPowerDataBuff[4] = (unsigned int)tmpActPow >> 8  & 0xFF;
+          pPowerDataBuff[5] = (unsigned int)tmpActPow & 0xFF;
+          pPowerDataBuff[6]=0x80;
+          pPowerDataBuff[7] = 264 - pPowerDataBuff[4] - pPowerDataBuff[5];  // new checksum
+          espconn_connect(pHPMeterTxConn);
+          espconn_set_opt(pHPMeterTxConn, ESPCONN_REUSEADDR|ESPCONN_NODELAY);
           break;
 
         case DDS238_CURRENT:
@@ -159,7 +220,7 @@ uint8_t ICACHE_FLASH_ATTR ManageDDSanswer(void *para) {
       dds238_2_data->IsWrong=0;
       }
     else {
-      if ((dds238_2_data->IsWrong++) > 15 ) { return FALSE; }
+      if ((dds238_2_data->IsWrong++) > 5 ) { return FALSE; }
       }
     if ((++dds238_2_data->nSequencer) > 3 ) { dds238_2_data->nSequencer=0; }
 

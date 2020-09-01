@@ -232,7 +232,7 @@ void ICACHE_FLASH_ATTR hw_timer_isr_cb(void) {
     #endif
 
     #if defined(SONOFFPOW_DDS238_2)
-    if ( !(nCounter%(READ_DELAY/2)) ) {
+    if ( !(nCounter%(7)) ) {    // !!! critical for GTN !!!
       prepare_buff(TXbuf);
       uart0_write(TXbuf, 8);
       nDDS238Statem=SM_WAITING_DDS238_ANSWER;
