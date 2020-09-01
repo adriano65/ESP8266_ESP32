@@ -20,19 +20,16 @@
 #if defined(SONOFFPOW_DDS238_2)
 #include "../dds238-2/dds238-2.h"
 unsigned char TXbuf[8];
-extern unsigned int nDDS238Statem;
 #endif
 
-#if defined(MAINS_GTN1000)
-#include "../gtn1000/gtn1000.h"
+#if defined(HOUSE_POW_METER_TX)
+#include "../housePowerMeterTx/housePowerMeterTx.h"
 unsigned char TXbuf[8];
-extern unsigned int nGTN1000Statem;
 #endif
 
-#if defined(MAINS_GTN_HPR)
-#include "../gtn_hpr/gtn_hpr.h"
+#if defined(HOUSE_POW_METER_RX)
+#include "../housePowerMeterRx/housePowerMeterRx.h"
 unsigned char TXbuf[8];
-extern unsigned int nGTN_HPRStatem;
 #endif
 
 //#define RTC_DBG
@@ -217,7 +214,7 @@ void ICACHE_FLASH_ATTR hw_timer_isr_cb(void) {
       update_tm_rtc();
       }
 
-    #if defined(MAINS) && !defined(MAINS_GTN1000) && !defined(MAINS_GTN_HPR)
+    #if defined(MAINS) && !defined(HOUSE_POW_METER_TX) && !defined(HOUSE_POW_METER_RX)
     if ( !(nCounter%READ_DELAY) ) {
       SendStatus(MQTT_STAT_TOPIC, MSG_STATUS);
       }
@@ -245,21 +242,21 @@ void ICACHE_FLASH_ATTR hw_timer_isr_cb(void) {
       }
     #endif
 
-    #if defined(MAINS_GTN1000)
+    #if defined(HOUSE_POW_METER_TX)
     if ( !(nCounter%(READ_DELAY)) ) {
-      if (nGTN1000Statem==SM_WAITING_MERDANERA) {
-        espconn_connect(pGTN1000Conn);
+      if (nHPMeterTxStatem==SM_WAITING_MERDANERA) {
+        espconn_connect(pHPMeterTxConn);
         }
       else {
-        SendStatus(MQTT_STAT_TOPIC, MSG_GTN1000);
+        SendStatus(MQTT_STAT_TOPIC, MSG_HOUSE_POW_METER_TX);
         }
       }
     #endif
 
-    #if defined(MAINS_GTN_HPR)
+    #if defined(HOUSE_POW_METER_RX)
     if ( !(nCounter%(READ_DELAY)) ) {
         //espconn_connect(pGTN_HPRConn);
-        SendStatus(MQTT_STAT_TOPIC, MSG_GTN_HPR);
+        SendStatus(MQTT_STAT_TOPIC, MSG_HOUSE_POW_METER_RX);
       }
     #endif
 

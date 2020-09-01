@@ -29,12 +29,12 @@ extern Sensor_Data sensor_data;
 #include "../dds238-2/dds238-2.h"
 #endif
 
-#if defined(MAINS_GTN1000)
-#include "../gtn1000/gtn1000.h"
+#if defined(HOUSE_POW_METER_TX)
+#include "../housePowerMeterTx/housePowerMeterTx.h"
 #endif
 
-#if defined(MAINS_GTN_HPR)
-#include "../gtn_hpr/gtn_hpr.h"
+#if defined(HOUSE_POW_METER_RX)
+#include "../housePowerMeterRx/housePowerMeterRx.h"
 #endif
 
 #if defined(MAINS_VMC) || defined(SONOFFDUAL)
@@ -179,12 +179,12 @@ void ICACHE_FLASH_ATTR user_init(void) {
     dds238Init();
   #endif
 
-  #if defined(MAINS_GTN1000)
-    gtn1000Init();
+  #if defined(HOUSE_POW_METER_TX)
+    housePowerMeterTxInit();
   #endif
 
-  #if defined(MAINS_GTN_HPR)
-    gtn_hprInit();
+  #if defined(HOUSE_POW_METER_RX)
+    housePowerMeterRxInit();
   #endif
 
   #if defined(MAINS_VMC) || defined(SONOFFDUAL)
@@ -292,25 +292,26 @@ void ICACHE_FLASH_ATTR SendStatus(char * topic, sendmessage_t type) {
       #endif      
       break;
 
-    case MSG_GTN1000:
-      #if defined(MAINS_GTN1000)
+    case MSG_HOUSE_POW_METER_TX:
+      #if defined(HOUSE_POW_METER_TX)
       os_sprintf(pTXdata, "{\"eventdate\":\"%02d:%02d:%02d\", \"ActivePower\": %d.%d, \"IsWrong\": %d}",
           tm_rtc->tm_hour, 
           tm_rtc->tm_min, 
           tm_rtc->tm_sec, 
-          (int)gtn1000_data->ActivePower, (uint8_t)((gtn1000_data->ActivePower-(int)gtn1000_data->ActivePower)*100),
-          (unsigned int)gtn1000_data->IsWrong );
+          (int)HPMeterTx_data->ActivePower, (uint8_t)((HPMeterTx_data->ActivePower-(int)HPMeterTx_data->ActivePower)*100),
+          (unsigned int)HPMeterTx_data->IsWrong );
       #endif      
       break;
 
-    case MSG_GTN_HPR:
-      #if defined(MAINS_GTN_HPR)
-      os_sprintf(pTXdata, "{\"eventdate\":\"%02d:%02d:%02d\", \"ActivePower\": %d.%d, \"IsWrong\": %d}",
+    case MSG_HOUSE_POW_METER_RX:
+      #if defined(HOUSE_POW_METER_RX)
+      os_sprintf(pTXdata, "{\"eventdate\":\"%02d:%02d:%02d\", \"batVolts\": %d.%d, \"batAmps\": %d.%d, \"IsWrong\": %d}",
           tm_rtc->tm_hour, 
           tm_rtc->tm_min, 
           tm_rtc->tm_sec, 
-          (int)gtn_hpr_data->ActivePower, (uint8_t)((gtn_hpr_data->ActivePower-(int)gtn_hpr_data->ActivePower)*100),
-          (unsigned int)gtn_hpr_data->IsWrong );
+          (int)HPMeterRx_data->batVolts, (uint8_t)((HPMeterRx_data->batVolts-(int)HPMeterRx_data->batVolts)*100),
+          (int)HPMeterRx_data->batAmps, (uint8_t)((HPMeterRx_data->batAmps-(int)HPMeterRx_data->batAmps)*100),
+          (unsigned int)HPMeterRx_data->IsWrong );
       #endif      
       break;
 

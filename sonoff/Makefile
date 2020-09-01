@@ -80,11 +80,11 @@ TEST_IP_ADDRESS     			:= no
 # ----------------- ant test
 #MAINSd := 2
 
-# ----------------- House power 2 GTN
-#MAINSe := 2
+# ----------------- GTN House power Transmitter
+MAINSe := 2
 
 # ----------------- GTN House power Receiver (ESP8266 boot baud rate is 76800)
-MAINSf := 2
+#MAINSf := 2
 
 # --------------------sun power
 #SONOFFPOWa := 3
@@ -170,12 +170,12 @@ ifeq ($(PROJ_NAME),"sonoff_ex_pow")
 MODULES		+= dds238-2
 endif
 
-ifeq ($(PROJ_NAME),"esp_pw2gtn")
-MODULES		+= gtn1000
+ifeq ($(PROJ_NAME),"esp12e_housePowerMeterTx")
+MODULES		+= housePowerMeterTx
 endif
 
-ifeq ($(PROJ_NAME),"esp_gtn_hpr")
-MODULES		+= gtn_hpr
+ifeq ($(PROJ_NAME),"esp12e_housePowerMeterRx")
+MODULES		+= housePowerMeterRx
 endif
 
 ifeq ($(PROJ_NAME),"esp01")

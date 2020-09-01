@@ -147,7 +147,7 @@ FLASH_SIZE     := 4MB
 CFLAGS	       := -DMAINS -DANT_TEST -DAP_SSID='"ExternalAntTest"'
 
 else ifdef MAINSe
-PROJ_NAME      := "esp_pw2gtn"
+PROJ_NAME      := "esp12e_housePowerMeterTx"
 LED_CONN_PIN   := GPIO_2
 LED_CONN_PIN_ACTIVELOW   := 1
 USE_TXD0       := yes
@@ -155,22 +155,21 @@ STA_IPADDRESS  := "192.168.1.116"
 GTN_IP_ADDRESS := '"192.168.1.242"'
 USE_DHCP       := no
 READ_DELAY     := 50
-MQTT_STAT_TOPIC := "esp_pw2gtn/116/status"
+MQTT_STAT_TOPIC := "housePowerMeterTx/116/status"
 FLASH_SIZE     := 4MB
-CFLAGS	       := -DMAINS -DMAINS_GTN1000 -DAP_SSID='"HousePW2GTN"'
+CFLAGS	       := -DMAINS -DHOUSE_POW_METER_TX -DAP_SSID='"housePowerMeterTx"'
 
 else ifdef MAINSf
-PROJ_NAME      := "esp_gtn_hpr"
+PROJ_NAME      := "esp12e_housePowerMeterRx"
 LED_CONN_PIN   := GPIO_2
 LED_CONN_PIN_ACTIVELOW   := 1
 USE_TXD0       := yes
 STA_IPADDRESS  := "192.168.1.242"
-TEST_IP_ADDRESS := '"192.168.1.5"'
 USE_DHCP       := no
 READ_DELAY     := 50
-MQTT_STAT_TOPIC := "esp_gtn_hpr/242/status"
+MQTT_STAT_TOPIC := "housePowerMeterRx/242/status"
 FLASH_SIZE     := 4MBb
-CFLAGS	       := -DMAINS -DMAINS_GTN_HPR -DAP_SSID='"GTN_HouPowRec"'
+CFLAGS	       := -DMAINS -DHOUSE_POW_METER_RX -DAP_SSID='"housePowerMeterRx"'
 
 # ---------------------------------- Sun Power
 else ifdef SONOFFPOWa

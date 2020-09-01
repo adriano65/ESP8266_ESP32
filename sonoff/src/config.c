@@ -154,6 +154,9 @@ void ICACHE_FLASH_ATTR LoadDefaultConfig(void) {
   flashConfig.mqtt_keepalive = 60,
   os_sprintf(flashConfig.mqtt_host, MQTT_HOST);
   os_sprintf(flashConfig.mqtt_clientid, flashConfig.hostname);  
+  #if defined(HOUSE_POW_METER_TX)
+  flashConfig.WattOffset=200;
+  #endif
   
   crc=crc16_data((unsigned char*)&flashConfig+sizeof(crc), sizeof(FlashConfig)-sizeof(crc), 0);	
   flashConfig.crc=crc;
