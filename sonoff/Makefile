@@ -52,7 +52,7 @@ TEMP_OFFSET								:= 0
 HUMI_OFFSET								:= 0
 I2C_SCL_PIN     					:= no
 I2C_SDA_PIN     					:= no
-GTN_IP_ADDRESS     				:= no
+HPMETER_RX_IP   					:= no
 TEST_IP_ADDRESS     			:= no
 
 # error -- reset IP addresses on FW relaod !!!
@@ -84,13 +84,13 @@ TEST_IP_ADDRESS     			:= no
 #MAINSe := 2
 
 # ----------------- GTN House power Receiver (ESP8266 boot baud rate is 76800)
-#MAINSf := 2
+MAINSf := 2
 
 # --------------------sun power
 #SONOFFPOWa := 3
 
 # --------------------House Power Meter (ModBus) and external Bell!
-SONOFFPOWb := 3
+#SONOFFPOWb := 3
 
 # --------------------Test
 #SONOFFPOWc := 3
@@ -247,8 +247,8 @@ ifeq ("$(REFRESHIO)","yes")
 CFLAGS	+= -DREFRESHIO=$(REFRESHIO)
 endif
 
-ifneq ("$(GTN_IP_ADDRESS)","no")
-CFLAGS	+= -DGTN_IP_ADDRESS=$(GTN_IP_ADDRESS)
+ifneq ("$(HPMETER_RX_IP)","no")
+CFLAGS	+= -DHPMETER_RX_IP=$(HPMETER_RX_IP)
 endif
 
 ifneq ("$(TEST_IP_ADDRESS)","no")

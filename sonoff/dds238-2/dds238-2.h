@@ -78,7 +78,8 @@ int ICACHE_FLASH_ATTR validCRC(unsigned char buf[], int len);
 
 unsigned int ICACHE_FLASH_ATTR ModRTU_CRC(unsigned char* buf, int len, unsigned char* checksumHi, unsigned char* checksumLo);
 int processRegister(char slaveAddress, char functionCode, short startAddress, short parameter);
-int SerialTMOManager();
+void ICACHE_FLASH_ATTR start_bell0_timer(uint16_t interval);
+static void ICACHE_FLASH_ATTR bell0_timer_cb(uint16_t interval);
 
 #endif
 

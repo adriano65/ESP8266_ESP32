@@ -42,14 +42,15 @@ typedef struct __attribute__((aligned(4))) {
   float     VoltMul;
   float     Watt_Mul;
   #endif
-  #if defined(HOUSE_POW_METER_TX)
+  #if defined(HOUSE_POW_METER_TX) || defined(SONOFFPOW_DDS238_2)
   uint8_t     WattOffset;
+  ip_addr_t HPRx_IP;
   #endif
 } FlashConfig;
 
 extern FlashConfig flashConfig;
 
-static bool ICACHE_FLASH_ATTR parse_ip(char *buff, ip_addr_t *ip_ptr);
+bool ICACHE_FLASH_ATTR parse_ip(char *buff, ip_addr_t *ip_ptr);
 bool ICACHE_FLASH_ATTR configSave();
 void ICACHE_FLASH_ATTR LoadDefaultConfig();
 void ICACHE_FLASH_ATTR LoadConfigFromFlash();

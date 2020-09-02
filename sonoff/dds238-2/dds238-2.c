@@ -122,7 +122,8 @@ int ICACHE_FLASH_ATTR dds238Init() {
   pHPMeterTxConn->proto.tcp = (esp_tcp *)os_zalloc(sizeof(esp_tcp));
   pHPMeterTxConn->proto.tcp->local_port = espconn_port();
   pHPMeterTxConn->proto.tcp->remote_port = 5001;
-  StrToIP(GTN_IP_ADDRESS, (void*)&pHPMeterTxConn->proto.tcp->remote_ip);
+  //StrToIP(HPMETER_RX_IP, (void*)&pHPMeterTxConn->proto.tcp->remote_ip);
+  os_memcpy(pHPMeterTxConn->proto.tcp->remote_ip, &flashConfig.HPRx_IP, 4);
   //pTCPConn->reverse = pMQTTclient;
   espconn_create(pHPMeterTxConn);
   espconn_tcp_set_max_con_allow(pHPMeterTxConn, 1);
@@ -193,7 +194,9 @@ uint8_t ICACHE_FLASH_ATTR ManageDDSanswer(void *para) {
           pPowerDataBuff[1]=0x56;
           pPowerDataBuff[2]=0x00;
           pPowerDataBuff[3]=0x21;
-          float tmpActPow = dds238_2_data->ActivePower+350;    // to be analized deeply, sometimes -120Watts back to grid :-)
+          //float tmpActPow = dds238_2_data->ActivePower+350;    // to be analized deeply, sometimes -13 Watts back to grid :-)
+          //float tmpActPow = dds238_2_data->ActivePower+370;    // to be analized deeply, sometimes -62 Watts back to grid :-)
+          float tmpActPow = dds238_2_data->ActivePower*1.2+380;    // to be analized deeply, sometimes -62 Watts back to grid :-)
           pPowerDataBuff[4] = (unsigned int)tmpActPow >> 8  & 0xFF;
           pPowerDataBuff[5] = (unsigned int)tmpActPow & 0xFF;
           pPowerDataBuff[6]=0x80;
@@ -350,3 +353,4 @@ unsigned int ICACHE_FLASH_ATTR ModRTU_CRC(unsigned char* buf, int len, unsigned 
   *checksumLo = (unsigned char)(crc & 0xFF);
   return crc;
 }
+

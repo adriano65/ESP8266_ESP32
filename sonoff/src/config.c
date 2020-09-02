@@ -47,7 +47,7 @@ unsigned short ICACHE_FLASH_ATTR crc16_data(const unsigned char *data, int len, 
 }
 /*---------------------------------------------------------------------------*/
 
-static bool ICACHE_FLASH_ATTR parse_ip(char *buff, ip_addr_t *ip_ptr) {
+bool ICACHE_FLASH_ATTR parse_ip(char *buff, ip_addr_t *ip_ptr) {
   char *next = buff; // where to start parsing next integer
   int found = 0;     // number of integers parsed
   uint32_t ip = 0;   // the ip addres parsed
@@ -154,10 +154,11 @@ void ICACHE_FLASH_ATTR LoadDefaultConfig(void) {
   flashConfig.mqtt_keepalive = 60,
   os_sprintf(flashConfig.mqtt_host, MQTT_HOST);
   os_sprintf(flashConfig.mqtt_clientid, flashConfig.hostname);  
-  #if defined(HOUSE_POW_METER_TX)
+  #if defined(HOUSE_POW_METER_TX) || defined(SONOFFPOW_DDS238_2)
   flashConfig.WattOffset=200;
+  parse_ip(HPMETER_RX_IP, &flashConfig.HPRx_IP);
   #endif
-  
+
   crc=crc16_data((unsigned char*)&flashConfig+sizeof(crc), sizeof(FlashConfig)-sizeof(crc), 0);	
   flashConfig.crc=crc;
   PRINTNET("Defaults settled, crc 0x%04X..", flashConfig.crc);
