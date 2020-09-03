@@ -51,7 +51,7 @@ void ICACHE_FLASH_ATTR cmdParser(char *pInBuf, unsigned short InBufLen) {
 
 		#if defined(MAINS)
 		case 'D':	// deep sleep
-			D_cmd_interpreter(pInBuf);
+			D_cmd_interpreter(&pInBuf[2]);
 			break;
 		#endif
 			
@@ -66,7 +66,7 @@ void ICACHE_FLASH_ATTR cmdParser(char *pInBuf, unsigned short InBufLen) {
 			
     #if defined(HOUSE_POW_METER_TX) || defined(SONOFFPOW_DDS238_2)
 		case 'I':
-			I_cmd_interpreter(pInBuf);
+			I_cmd_interpreter(&pInBuf[2]);
 			break;
     #endif
 
@@ -97,7 +97,7 @@ void ICACHE_FLASH_ATTR cmdParser(char *pInBuf, unsigned short InBufLen) {
 			break;
 
 		case 't':
-			t_cmd_interpreter(pInBuf);
+			t_cmd_interpreter(&pInBuf[2]);
 			break;
 			
 		case 'T':
@@ -118,8 +118,9 @@ void ICACHE_FLASH_ATTR cmdParser(char *pInBuf, unsigned short InBufLen) {
 				1: ram
 				3: flash
 			*/
-		    system_restart();
-			TXdatalen=os_sprintf(pTXdata, "Restarting...");
+		  system_restart();
+      // following is unuseful :-)
+			//TXdatalen=os_sprintf(pTXdata, "Restarting...");
 			break;
 
 		case 'w':
@@ -145,7 +146,7 @@ void ICACHE_FLASH_ATTR cmdParser(char *pInBuf, unsigned short InBufLen) {
 			TXdatalen+=os_sprintf(pTXdata+TXdatalen, "p -> show power (p1 change to volt/amp)\r\n");
 			#endif
 			#if defined(MAINS)			
-			TXdatalen+=os_sprintf(pTXdata+TXdatalen, "D<n> -> deep sleep for n seconds\r\n");
+			TXdatalen+=os_sprintf(pTXdata+TXdatalen, "D <n> -> deep sleep for n seconds\r\n");
 			#endif
       #if defined(HOUSE_POW_METER_TX) || defined(SONOFFPOW_DDS238_2)
 			TXdatalen+=os_sprintf(pTXdata+TXdatalen, "I <ip> -> Power Meter RX Address\r\n");
@@ -351,14 +352,14 @@ void ICACHE_FLASH_ATTR P_cmd_interpreter(char arg) {
 
 #if defined(HOUSE_POW_METER_TX) || defined(SONOFFPOW_DDS238_2)
 void ICACHE_FLASH_ATTR I_cmd_interpreter(char * pInbuf) {
-  char *tmpbuff;
-  
+  //char *tmpbuff;  
   //tmpbuff=(char *)os_malloc(100);
   //tmpbuff=(char *)strsep(&pInbuf, ".");
   //os_sprintf(flashConfig.apconf.ssid, tmpbuff);
+  TXdatalen=os_sprintf(pTXdata, "pInbuf: %s\r\n", pInbuf);
   parse_ip(pInbuf, &flashConfig.HPRx_IP);
-  //TXdatalen+=os_sprintf(pTXdata+TXdatalen, "ssid: %s\r\n", flashConfig.stat_conf.ssid);
-	TXdatalen=os_sprintf(pTXdata, "OK\r\n");
+  TXdatalen+=os_sprintf(pTXdata+TXdatalen, "HPRx_IP: "IPSTR"\r\n", IP2STR(&flashConfig.HPRx_IP));
+	TXdatalen+=os_sprintf(pTXdata+TXdatalen, "OK\r\n");
 }
 #endif
 
@@ -530,7 +531,7 @@ void ICACHE_FLASH_ATTR C_cmd_interpreter(char arg) {
 	
 void ICACHE_FLASH_ATTR c_cmd_interpreter(char pInBuf) {
   LoadDefaultConfig();
-  TXdatalen+=os_sprintf(pTXdata+TXdatalen, "Default configuration restored, check AP\r\n");
+  TXdatalen=os_sprintf(pTXdata, "Default configuration restored, check AP\r\n");
 }
 	
 #if defined(MAINS)
@@ -601,7 +602,7 @@ void ICACHE_FLASH_ATTR Stat_cmd(char arg) {
       break;
     }
   #if defined(HOUSE_POW_METER_TX) || defined(SONOFFPOW_DDS238_2)
-  TXdatalen+=os_sprintf(pTXdata+TXdatalen, "HPMRx_IP = "IPSTR"\n", IP2STR(&flashConfig.HPRx_IP));
+  TXdatalen+=os_sprintf(pTXdata+TXdatalen, "HPRx_IP = "IPSTR"\n", IP2STR(&flashConfig.HPRx_IP));
 	#endif
   TXdatalen+=os_sprintf(pTXdata+TXdatalen, "rssi = %d, heap_free = %d, vdd33 = %d\n", wifi_station_get_rssi(), (unsigned int)system_get_free_heap_size(), system_get_vdd33()/1024);
   TXdatalen+=os_sprintf(pTXdata+TXdatalen, "system boot mode=%d, WifiOpMode=%s\n", system_get_boot_mode(), wifi_opmode_desc(wifi_get_opmode()));
