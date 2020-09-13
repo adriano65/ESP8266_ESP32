@@ -244,12 +244,7 @@ void ICACHE_FLASH_ATTR hw_timer_isr_cb(void) {
 
     #if defined(HOUSE_POW_METER_TX)
     if ( !(nCounter%(READ_DELAY)) ) {
-      if (nHPMeterTxStatem==SM_WAITING_MERDANERA) {
-        espconn_connect(pHPMeterTxConn);
-        }
-      else {
-        SendStatus(MQTT_STAT_TOPIC, MSG_HOUSE_POW_METER_TX);
-        }
+      SendStatus(MQTT_STAT_TOPIC, MSG_HOUSE_POW_METER_TX);
       }
     #endif
 

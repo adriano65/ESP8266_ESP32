@@ -83,12 +83,12 @@ static void ICACHE_FLASH_ATTR wifi_event_cb(System_Event_t *event) {
 		  strncpy(ssid, event->event_info.connected.ssid, len + 1);
 		  DBG("EVENT_STAMODE_CONNECTED. SSID = %s, BSSID = "MACSTR", channel = %d.\n",
 					ssid, MAC2STR(event->event_info.connected.bssid), event->event_info.connected.channel);
-		  set_blink_timer(LED_BLINK_DELAY_STAMODE_CONNECTED);
+		  start_blink_timer(LED_BLINK_DELAY_STAMODE_CONNECTED);
 		  break;
 		  }
         case EVENT_STAMODE_DISCONNECTED:
 		  wifiState = wifiIsDisconnected;
-		  set_blink_timer(LED_BLINK_DELAY_STAMODE_DISCONNECTED);
+		  start_blink_timer(LED_BLINK_DELAY_STAMODE_DISCONNECTED);
 		  last_addr = 0;
 		  MQTT_Disconnect(&mqttClient);
 		  break;
@@ -107,7 +107,7 @@ static void ICACHE_FLASH_ATTR wifi_event_cb(System_Event_t *event) {
             DBG("EVENT_STAMODE_DHCP_TIMEOUT.\n");
             wifi_station_disconnect();
             wifi_station_connect();
-            set_blink_timer(LED_BLINK_DELAY_DHCP_TIMEOUT);
+            start_blink_timer(LED_BLINK_DELAY_DHCP_TIMEOUT);
             break;
 			
         default:

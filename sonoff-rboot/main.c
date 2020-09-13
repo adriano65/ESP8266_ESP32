@@ -22,25 +22,44 @@
 
 // Timer used to determine when the LED is to be turned on/off.
 LOCAL os_timer_t blink_timer;
+LOCAL os_timer_t button_timer;
 
 // The current state of the LED's output.
 LOCAL uint8_t led_state = 0;
 
-/*
- * Call-back for when the blink timer expires. This toggles the GPIO 4 state, and send a UDP packet about the new state
- * to whoever sent us a packet last.
- */
-LOCAL void ICACHE_FLASH_ATTR blink_timer_cb(void *arg) {
-    led_state = !led_state;
-	gpio_write(LED_CONN_PIN, led_state);
+// GPIO5
+#define BUTTON0_PIN 1
+
+void ICACHE_FLASH_ATTR start_button_timer(uint16_t interval) {
+    os_timer_disarm(&button_timer);
+    set_gpio_mode(BUTTON0_PIN, GPIO_INPUT, GPIO_PULLUP);
+    os_timer_setfn(&button_timer, (os_timer_func_t *)button_timer_cb, interval);
+    os_timer_arm(&button_timer, interval, 1);
 }
 
-/* Sets the interval of the timer controlling the blinking of the LED. */
-void ICACHE_FLASH_ATTR set_blink_timer(uint16_t interval) {
-    // Start a timer for the flashing of the LED, running continuously.
-    os_timer_disarm(&blink_timer);
-    os_timer_setfn(&blink_timer, (os_timer_func_t *)blink_timer_cb, (void *)0);
+void ICACHE_FLASH_ATTR button_timer_cb(uint16_t interval) {
+    os_timer_disarm(&button_timer);
+    if (gpio_read(BUTTON0_PIN)==0) { 
+      start_blink_timer(10000); 
+      }
+    else {
+      os_timer_setfn(&button_timer, (os_timer_func_t *)button_timer_cb, interval);
+      os_timer_arm(&button_timer, interval, 1);  
+      }
+}
+
+void ICACHE_FLASH_ATTR start_blink_timer(uint16_t interval) {
+	  gpio_write(LED_CONN_PIN, 0);
+    os_timer_setfn(&blink_timer, (os_timer_func_t *)blink_timer_cb, interval);
     os_timer_arm(&blink_timer, interval, 1);
+}
+
+void ICACHE_FLASH_ATTR blink_timer_cb(uint16_t interval) {
+  os_timer_disarm(&blink_timer);
+  os_timer_disarm(&button_timer);
+	gpio_write(LED_CONN_PIN, 1);    // switch OFF
+  os_timer_setfn(&button_timer, (os_timer_func_t *)button_timer_cb, interval);
+  os_timer_arm(&button_timer, interval, 1);  
 }
 
 void ICACHE_FLASH_ATTR user_rf_pre_init() {
@@ -135,7 +154,42 @@ void user_init(void) {
   os_printf("\n%s %s\n", PROJ_NAME, VERSION);
   os_printf("Flash config restore %s\n", restoreOk ? "ok" : "FAILED");
   os_printf("Currently running rom %d.\r\n", rboot_get_current_rom());
+
+  #define ACHILLE
+  #if defined(ACHILLE)
+
+  // NodeMCU Pin number 5 = GPIO14 - temp
+  //SensorInit(DS18B20, DS18B20_PIN);
+
+  // NodeMCU Pin number 2 = GPIO4 - humidity
+  //SensorInit(DS18B20, 2);
   
+  // Start the LED timer
+  set_gpio_mode(LED_CONN_PIN, GPIO_OUTPUT, GPIO_FLOAT);
+  start_button_timer(10);
+  
+/*
+  set_gpio_mode(LED_CONN_PIN, GPIO_OUTPUT, GPIO_FLOAT);
+  set_gpio_mode(LED_CONN_PIN, GPIO_OUTPUT, GPIO_PULLUP);
+  //while (1==1) {
+    gpio_write(LED_CONN_PIN, 0);
+    sleepms(100);
+    gpio_write(LED_CONN_PIN, 1);
+    sleepms(500);
+
+    gpio_write(LED_CONN_PIN, 0);
+    sleepms(100);
+    gpio_write(LED_CONN_PIN, 1);
+    sleepms(500);
+
+    gpio_write(LED_CONN_PIN, 0);
+    sleepms(100);
+    gpio_write(LED_CONN_PIN, 1);
+    sleepms(500);
+*/
+  //}
+
+  #else
   wifi_init();
   //system_phy_set_max_tpw(40);
   //system_phy_set_max_tpw(60);
@@ -143,8 +197,10 @@ void user_init(void) {
   //system_phy_set_max_tpw(160);
   
   ota_init();
+
   // NodeMCU Pin number 5 = GPIO14 - temp
-  SensorInit(DS18B20, DS18B20_PIN);
+  //SensorInit(DS18B20, DS18B20_PIN);
+
   // NodeMCU Pin number 2 = GPIO4 - humidity
   //SensorInit(DS18B20, 2);
   
@@ -152,10 +208,10 @@ void user_init(void) {
   
   // Start the LED timer
   set_gpio_mode(LED_CONN_PIN, GPIO_OUTPUT, GPIO_FLOAT);
-  set_blink_timer(LED_BLINK_DELAY_INIT);
+  start_blink_timer(LED_BLINK_DELAY_INIT);
   
   // Restore I/O
   set_gpio_mode(RELE1_PIN, GPIO_OUTPUT, GPIO_PULLUP);
   gpio_write(RELE1_PIN, flashConfig.IOPort_bit3);  
-  
+  #endif
 }

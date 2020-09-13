@@ -89,7 +89,6 @@ CFLAGS	       := -DMAINS -DAP_SSID='"CantinaMains"'
 else ifdef ARMTRONIXa
 PROJ_NAME      := "Armtronix"
 LED_CONN_PIN   := GPIO_5
-USE_TXD0       := yes
 STA_IPADDRESS  := "192.168.1.111"
 READ_DELAY     := 200
 MQTT_STAT_TOPIC := "Armtronix/111/status"
@@ -114,7 +113,6 @@ LED_CONN_PIN   := GPIO_2
 LED_CONN_PIN_ACTIVELOW   := 1
 I2C_SCL_PIN 	:= no
 I2C_SDA_PIN		:= GPIO_0
-USE_TXD0       := yes
 STA_IPADDRESS  := "192.168.1.113"
 USE_DHCP       := yes
 READ_DELAY     := 100
@@ -126,7 +124,6 @@ CFLAGS	       := -DMAINS_VMC -DAP_SSID='"esp_mains_vmc"'
 else ifdef ESP01a
 PROJ_NAME      := "esp01"
 LED_CONN_PIN   := GPIO_2    # really there is no led (only vcc led and tx led)
-USE_TXD0       := yes
 USE_DHCP       := no
 STA_IPADDRESS  := "192.168.1.114"
 READ_DELAY     := 100
@@ -138,7 +135,6 @@ else ifdef MAINSd
 PROJ_NAME      := "esp_mains"
 LED_CONN_PIN   := GPIO_2
 LED_CONN_PIN_ACTIVELOW   := 1
-USE_TXD0       := yes
 STA_IPADDRESS  := "192.168.1.115"
 USE_DHCP       := no
 READ_DELAY     := 100
@@ -150,7 +146,6 @@ else ifdef MAINSe
 PROJ_NAME      := "esp12e_housePowerMeterTx"
 LED_CONN_PIN   := GPIO_2
 LED_CONN_PIN_ACTIVELOW   := 1
-USE_TXD0       := yes
 STA_IPADDRESS  := "192.168.1.116"
 #HPMETER_RX_IP := '"192.168.1.242"'
 HPMETER_RX_IP := '"192.168.1.5"'
@@ -164,23 +159,21 @@ else ifdef MAINSf
 PROJ_NAME      := "esp12e_housePowerMeterRx"
 LED_CONN_PIN   := GPIO_2
 LED_CONN_PIN_ACTIVELOW   := 1
-USE_TXD0       := yes
 STA_IPADDRESS  := "192.168.1.242"
 USE_DHCP       := no
-READ_DELAY     := 30
+READ_DELAY     := 20
 MQTT_STAT_TOPIC := "housePowerMeterRx/242/status"
 FLASH_SIZE     := 4MBb
 CFLAGS	       := -DMAINS -DHOUSE_POW_METER_RX -DAP_SSID='"housePowerMeterRx"'
 
-# ---------------------------------- Sun Power
+# ---------------------------------- Sun Power Meter
 else ifdef SONOFFPOWa
 PROJ_NAME      := "sonoff_pow"
 LED_CONN_PIN   := GPIO_15
 BUTTON0_PIN	   := GPIO_0
 RELAY_PIN		   := GPIO_12
-USE_TXD0       := yes
 STA_IPADDRESS  := "192.168.1.220"
-READ_DELAY     := 40
+READ_DELAY     := 20
 MQTT_STAT_TOPIC := "sonoff_pow/220/status"
 MQTT_BTN_TOPIC := "sonoff_pow/220/button"
 FLASH_SIZE     := 1MBb
@@ -207,7 +200,6 @@ PROJ_NAME      := "sonoff_pow"
 LED_CONN_PIN   := GPIO_15
 BUTTON0_PIN	   := GPIO_0
 RELAY_PIN		   := GPIO_12
-USE_TXD0       := yes
 STA_IPADDRESS  := "192.168.1.222"
 READ_DELAY     := 100
 MQTT_STAT_TOPIC := "sonoff_pow/222/status"
@@ -221,7 +213,6 @@ PROJ_NAME      := "sonoff_ex_pow"   # to enable dds238 !!
 LED_CONN_PIN   := GPIO_15
 BUTTON0_PIN	   := GPIO_0
 RELAY_PIN		    := GPIO_12
-USE_TXD0       := yes
 STA_IPADDRESS  := "192.168.1.223"
 READ_DELAY     := 40
 MQTT_STAT_TOPIC := "sonoff_pow/223/status"
@@ -248,7 +239,6 @@ PROJ_NAME      := "sonoff_pow"
 LED_CONN_PIN   := GPIO_15
 BUTTON0_PIN	   := GPIO_0
 RELAY_PIN		:= GPIO_12
-USE_TXD0       := yes
 STA_IPADDRESS  := "192.168.1.225"
 READ_DELAY     := 100
 MQTT_STAT_TOPIC := "sonoff_pow/225/status"
@@ -314,7 +304,6 @@ LED_CONN_PIN_ACTIVELOW   := 1
 BUTTON0_PIN	   	:= GPIO_10
 RELAY_PIN		:= GPIO_12
 SI7021_PIN     := GPIO_9
-USE_TXD0       := yes
 STA_IPADDRESS  := "192.168.1.233"
 READ_DELAY     := 200
 MQTT_STAT_TOPIC := "sonoff_th10/233/temp"

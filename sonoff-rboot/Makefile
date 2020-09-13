@@ -1,5 +1,5 @@
 # The name of the project being built.
-PROJ_NAME ?= sonoff_th10
+PROJ_NAME ?= sonoff-rboot
 VERSION ?= "1.0.1"
 
 #USE_DHCP ?= yes

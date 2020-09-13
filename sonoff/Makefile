@@ -41,6 +41,7 @@ USE_RBOOT := no
 include include_psw.mak
 
 # GPIO pin for LED, active low --. GPIO13 is for sonoff-th10, sonoff_dual. GPIO15 is for sonoff-pow 
+USE_TXD0       						:= yes
 LED_CONN_PIN   						:= GPIO_13
 LED_CONN_PIN_ACTIVELOW   	:= 0
 DS18B20_PIN    						:= no
@@ -72,7 +73,7 @@ TEST_IP_ADDRESS     			:= no
 #ARMTRONIXa := 2
 
 # ----------------- BrokenAss
-#MAINSc := 2
+MAINSc := 2
 
 # ----------------- some day...
 #MAINS_VMC := 2
@@ -81,12 +82,12 @@ TEST_IP_ADDRESS     			:= no
 #MAINSd := 2
 
 # ----------------- GTN House power Transmitter
-MAINSe := 2
+#MAINSe := 2
 
 # ----------------- GTN House power Receiver (ESP8266 boot baud rate is 76800)
 #MAINSf := 2
 
-# --------------------sun power
+# --------------------GTN Sun power meter
 #SONOFFPOWa := 3
 
 # --------------------House Power Meter (ModBus) and external Bell!

@@ -168,6 +168,7 @@ uint8_t ICACHE_FLASH_ATTR ManageDDSanswer(void *para) {
     RcvMsgBuff *pRxBuff = (RcvMsgBuff *)para;
 		unsigned int i;
 		int m;
+    float tmpActPow;
 
     if (validCRC(pRxBuff->pRcvMsgBuff, DDS238_RX_MSG_LEN)) {
       switch (dds238_2_data->reg) {
@@ -196,7 +197,17 @@ uint8_t ICACHE_FLASH_ATTR ManageDDSanswer(void *para) {
           pPowerDataBuff[3]=0x21;
           //float tmpActPow = dds238_2_data->ActivePower+350;    // to be analized deeply, sometimes -13 Watts back to grid :-)
           //float tmpActPow = dds238_2_data->ActivePower+370;    // to be analized deeply, sometimes -62 Watts back to grid :-)
-          float tmpActPow = dds238_2_data->ActivePower*1.2+380;    // to be analized deeply, sometimes -62 Watts back to grid :-)
+          //float tmpActPow = dds238_2_data->ActivePower*1.2+380;    // oscilla!
+          //float tmpActPow = dds238_2_data->ActivePower*3+50;
+          if (dds238_2_data->ActivePower<0) {
+            //tmpActPow = 250;
+            tmpActPow = 300;
+            }
+          else {
+            //tmpActPow = dds238_2_data->ActivePower+250;
+            tmpActPow = dds238_2_data->ActivePower+300;
+            }
+
           pPowerDataBuff[4] = (unsigned int)tmpActPow >> 8  & 0xFF;
           pPowerDataBuff[5] = (unsigned int)tmpActPow & 0xFF;
           pPowerDataBuff[6]=0x80;
