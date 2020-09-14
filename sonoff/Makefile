@@ -56,6 +56,7 @@ I2C_SDA_PIN     					:= no
 HPMETER_RX_IP   					:= no
 TEST_IP_ADDRESS     			:= no
 ANT_TEST     							:= no
+REFRESHIO      						:= no
 
 # error -- reset IP addresses on FW relaod !!!
 # ----------------- test

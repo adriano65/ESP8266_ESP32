@@ -371,7 +371,6 @@ void ICACHE_FLASH_ATTR RefreshIO(void) {
 		if (flashConfig.IOPort_bit3==1) {
 			gpio_write(GPIO_12, 1);
 			}
-		#error "SONOFFTH10 defined!"
 	#endif
 
 	#if defined(ARMTRONIX)

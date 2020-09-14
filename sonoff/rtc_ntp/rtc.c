@@ -294,6 +294,8 @@ void ICACHE_FLASH_ATTR hw_timer_isr_cb(void) {
       #endif        
 	    SendStatus(MQTT_STAT_TOPIC, MSG_TEMP_HUMI);
       }
+    // THIS IS A WORK-AROUND FOR POWER SUPPLY OR EMI PROBLEMS
+    RefreshIO();
     #endif
 
     #if defined(ARMTRONIX)
