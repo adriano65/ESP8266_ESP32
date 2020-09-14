@@ -55,6 +55,7 @@ I2C_SCL_PIN     					:= no
 I2C_SDA_PIN     					:= no
 HPMETER_RX_IP   					:= no
 TEST_IP_ADDRESS     			:= no
+ANT_TEST     							:= no
 
 # error -- reset IP addresses on FW relaod !!!
 # ----------------- test
@@ -64,7 +65,7 @@ TEST_IP_ADDRESS     			:= no
 # ----------------- fuori-garage
 #SONOFFTH10c := 1
 # ----------------- Cantina switch + temp
-#SONOFFTH10d := 1
+SONOFFTH10d := 1
 # ----------------- VerandaTemp
 #SONOFFTH10e := 1
 # ----------------- Linux Monitor and a lot more !
@@ -73,7 +74,7 @@ TEST_IP_ADDRESS     			:= no
 #ARMTRONIXa := 2
 
 # ----------------- BrokenAss
-MAINSc := 2
+#MAINSc := 2
 
 # ----------------- some day...
 #MAINS_VMC := 2
@@ -157,10 +158,6 @@ LIBRARIES_DIR 	= libraries
 LIBS += c gcc hal pp phy net80211 lwip wpa main ssl crypto
 
 MODULES		+= src mqtt rtc_ntp 
-
-ifeq ($(PROJ_NAME),"sonoff_th10")
-MODULES		+= dds238-2
-endif
 
 ifeq ($(PROJ_NAME),"sonoff_pow")
 MODULES		+= hlw8012

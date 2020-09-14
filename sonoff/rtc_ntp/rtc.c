@@ -293,7 +293,6 @@ void ICACHE_FLASH_ATTR hw_timer_isr_cb(void) {
         #endif
       #endif        
 	    SendStatus(MQTT_STAT_TOPIC, MSG_TEMP_HUMI);
-      #warning askfjdsofjodis
       }
     #endif
 

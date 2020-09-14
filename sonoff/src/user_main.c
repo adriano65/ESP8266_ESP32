@@ -80,7 +80,7 @@ static void ICACHE_FLASH_ATTR restoreIO() {
     #if !defined(USE_TXD0)
     set_gpio_mode(GPIO_3, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
     gpio_write(GPIO_3, flashConfig.IOPort_bit0);
-    #warning USE_TXD0 undefined
+    //#warning TESTING CASE USE_TXD0 undefined
     #endif
     set_gpio_mode(GPIO_4, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
     gpio_write(GPIO_4, flashConfig.IOPort_bit1);

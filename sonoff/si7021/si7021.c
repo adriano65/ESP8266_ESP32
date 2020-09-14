@@ -12,7 +12,7 @@
 #include "sensor.h"
 #include "si7021.h"
 
-#define SI7021_DEBUG
+//#define SI7021_DEBUG
 
 #ifdef SI7021_DEBUG
 #define DBG(format, ...) do { os_printf("%s: ", __FUNCTION__); os_printf(format, ## __VA_ARGS__); os_printf("\n"); } while(0)
@@ -20,13 +20,14 @@
 #define DBG(...)
 #endif
 
-extern uint8_t pin_num[];
+unsigned char * pBuf;
 Sensor_Data sensor_data;
 
 bool SensorInit(DHTType senstype, uint8_t pin) {
   bool res=false;
   sensor_data.pin = pin;
   sensor_data.type = senstype;
+  pBuf = (unsigned char *)os_zalloc(6);
   
   return res;
 }
@@ -66,11 +67,9 @@ static bool ICACHE_FLASH_ATTR waitState(uint8_t expectedstate) {
 }
 
 bool ICACHE_FLASH_ATTR SI7021read() {
-  unsigned char * pBuf;
   bool bRet=FALSE;
   sensor_data.HasBadTemp=NOBADREADING;
 
-  pBuf=(unsigned char *)os_malloc(6);
   //set_gpio_mode(sensor_data.pin, GPIO_OUTPUT, GPIO_PULLUP);
   set_gpio_mode(sensor_data.pin, GPIO_OUTPUT, GPIO_FLOAT, GPIO_PIN_INTR_DISABLE);
   // low pulse of 0.5ms
@@ -126,8 +125,6 @@ bool ICACHE_FLASH_ATTR SI7021read() {
                   bRet=TRUE;
                   }
                 }
-	os_free(pBuf);
-
   return bRet;
 }
   
