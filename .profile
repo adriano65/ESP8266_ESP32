@@ -3,7 +3,12 @@ alias ll="ls -la"
 # bash -c 'xhost +localhost; sudo -i -u name /usr/bin/hp-setup; xhost -localhost'
 export PATH=$PATH:/home/name/scripts
 
-CONF=esp8266
+export QT_PLUGIN_PATH=/opt/hexinator/plugins
+export QTLIBDIR=/opt/hexinator/lib
+export QT_DEBUG_PLUGINS=1
+
+#CONF=esp8266
+CONF=ESP32
 
 case $CONF in
         fonera)

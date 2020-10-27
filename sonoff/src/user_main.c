@@ -308,11 +308,12 @@ void ICACHE_FLASH_ATTR SendStatus(char * topic, sendmessage_t type) {
 
     case MSG_HOUSE_POW_METER_RX:
       #if defined(HOUSE_POW_METER_RX)
-      os_sprintf(pTXdata, "{\"eventdate\":\"%02d:%02d:%02d\", \"HousePowerReq\": %d.%d, \"batVolts\": %d.%d, \"batAmps\": %d.%d, \"IsWrong\": %d}",
+      os_sprintf(pTXdata, "{\"eventdate\":\"%02d:%02d:%02d\", \"HousePowerReq\": %d.%d, \"HousePowerPrevReq\": %d.%d, \"batVolts\": %d.%d, \"batAmps\": %d.%d, \"IsWrong\": %d}",
           tm_rtc->tm_hour, 
           tm_rtc->tm_min, 
           tm_rtc->tm_sec, 
           (int)HPMeterRx_data->HousePowerReq, (uint8_t)((HPMeterRx_data->HousePowerReq-(int)HPMeterRx_data->HousePowerReq)*100),          
+          (int)HPMeterRx_data->HousePowerPrevReq, (uint8_t)((HPMeterRx_data->HousePowerPrevReq-(int)HPMeterRx_data->HousePowerPrevReq)*100),
           (int)HPMeterRx_data->batVolts, (uint8_t)((HPMeterRx_data->batVolts-(int)HPMeterRx_data->batVolts)*100),
           (int)HPMeterRx_data->batAmps, (uint8_t)((HPMeterRx_data->batAmps-(int)HPMeterRx_data->batAmps)*100),
           (unsigned int)HPMeterRx_data->IsWrong );

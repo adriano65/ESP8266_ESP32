@@ -104,7 +104,7 @@ int main(int argc, char *argv[]) {
 		FD_SET(idComDev, &rdset);      // input serial may wakeup
 		// Initialize the timeout data structure.
 		timeout.tv_sec = 0;
-		timeout.tv_usec = 500000;
+		timeout.tv_usec = 200000;
 
 		//prepare_buff(&loop, pTXbuf);
 		//halfduplex_write(pTXbuf);
@@ -117,27 +117,31 @@ int main(int argc, char *argv[]) {
 		else if (FD_ISSET(idComDev, &rdset)) {
 				nbyte = read(idComDev, RXbuf, newtio.c_cc[VMIN]);
 				//nbyte = read(idComDev, RXbuf, 12);
-				printf("\nRXbuf %d\n", nbyte);
+				//printf("\nRXbuf %d\n", nbyte);
+				#if 0
 				for (n=0; n<nbyte; n++) {
 					printf("%02X ", RXbuf[n]);
 					}
 				printf("\n");
-				
-				//validChecksum(RXbuf+3, nbyte-3);
-				
+				//validChecksum(RXbuf+3, nbyte-3);      
 				float value21 = ( (RXbuf[2] << 8) | (RXbuf[1]) )/10;
 				float value43 = ( (RXbuf[4] << 8) | (RXbuf[3]) )/10;
 				float value65 = ( (RXbuf[6] << 8) | (RXbuf[5]) )/10;
 				float value87 = ( (RXbuf[8] << 8) | (RXbuf[7]) )/10;
 				float value109 = ( (RXbuf[10] << 8) | (RXbuf[9]) )/10;
-				printf("value21 %.2f, value43 %.2f, value65 %.2f, value87 %.2f, value109 %.2f\n", value21, value43, value65, value87, value109);
-				
+				//printf("value21 %.2f, value43 %.2f, value65 %.2f, value87 %.2f, value109 %.2f\n", value21, value43, value65, value87, value109);
+        #else
+				float value1 = (float)( (RXbuf[3] << 8) | (RXbuf[4]) )/100;
+				float value2 = (float)( (RXbuf[5] << 8) | (RXbuf[6]) )/100;
+				float value3 = (float)( (RXbuf[7] << 8) | (RXbuf[8]) )/100;
+				printf("value1 %.2f, value2 %.2f, value3 %.2f\n", value1, value2, value3);
+        #endif				
 				}
 		loop++;
 		//printf("getchar\n"); getchar();
-	}
+	  }
 
-	tty_close(idComDev, &newtio, &oldtio);
+	  tty_close(idComDev, &newtio, &oldtio);
     printf("end.\n", gpsport) ;
 
 	return 0;
@@ -160,6 +164,18 @@ void dds238End(void) {
   run = FALSE;
   usleep(100*1000);
 }
+
+int SerialTMOManager(unsigned int loop) {
+    tcflush(idComDev,TCIOFLUSH);
+	  //printf("RX TMO %u\n", loop);
+    /*
+    pthread_mutex_lock(&gps_mutex);
+    // ADD here
+    pthread_mutex_unlock(&gps_mutex);
+    */
+	return 0;
+}
+
 
 int ICACHE_FLASH_ATTR uart0_tx_one_char(uint8 TxChar) {
 	int status;
@@ -371,17 +387,6 @@ void tty_close(int fd, struct termios * pnewtio, struct termios * poldtio) {
   tcflush(fd, TCIOFLUSH) ;            // buffer flush
   tcsetattr(fd, TCSANOW, poldtio) ;
   close(fd) ;
-}
-
-int SerialTMOManager(unsigned int loop) {
-    tcflush(idComDev,TCIOFLUSH);
-	printf("RX TMO %u\n", loop);
-    /*
-    pthread_mutex_lock(&gps_mutex);
-    // ADD here
-    pthread_mutex_unlock(&gps_mutex);
-    */
-	return 0;
 }
 
 #else 						// ------------------------------------------------------------------------ RUNONESP

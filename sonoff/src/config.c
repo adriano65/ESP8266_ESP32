@@ -154,8 +154,10 @@ void ICACHE_FLASH_ATTR LoadDefaultConfig(void) {
   flashConfig.mqtt_keepalive = 60,
   os_sprintf(flashConfig.mqtt_host, MQTT_HOST);
   os_sprintf(flashConfig.mqtt_clientid, flashConfig.hostname);  
-  #if defined(HOUSE_POW_METER_TX) || defined(SONOFFPOW_DDS238_2)
+  #if defined(HOUSE_POW_METER_RX)
   flashConfig.WattOffset=200;
+  #endif
+  #if defined(HOUSE_POW_METER_TX) || defined(SONOFFPOW_DDS238_2)
   parse_ip(HPMETER_RX_IP, &flashConfig.HPRx_IP);
   #endif
 

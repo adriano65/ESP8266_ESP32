@@ -168,7 +168,6 @@ uint8_t ICACHE_FLASH_ATTR ManageDDSanswer(void *para) {
     RcvMsgBuff *pRxBuff = (RcvMsgBuff *)para;
 		unsigned int i;
 		int m;
-    float tmpActPow;
 
     if (validCRC(pRxBuff->pRcvMsgBuff, DDS238_RX_MSG_LEN)) {
       switch (dds238_2_data->reg) {
@@ -177,39 +176,13 @@ uint8_t ICACHE_FLASH_ATTR ManageDDSanswer(void *para) {
           m *= 1 << CHAR_BIT;
           m |= pRxBuff->pRcvMsgBuff[4];
           dds238_2_data->ActivePower = (float)(m)/DDS238_ACTIVE_POWER_DIVIDER;
-          // now send data to GTN1000 (700 ms minimum cycle!!) ----------------------------------------------
-          /*
-          Protocol specification :
-          Data rate @ 4800bps, 8 data, 1 stop
-          Packet size : 8 Bytes
-          0 1 : 0x24
-          1 2 : 0x56
-          2 3 : 0x00
-          3 4 : 0x21
-          4 5 : xa (2 byte watts as short integer xaxb) (byte high)
-          5 6 : xb  (byte low)
-          6 7 : 0x80 (hex / spacer)
-          7 8 : checksum
-          */
+          // now send data to GTN1000 (On receiver 700 ms minimum cycle!!) ----------------------------------------------
           pPowerDataBuff[0]=0x24;
           pPowerDataBuff[1]=0x56;
           pPowerDataBuff[2]=0x00;
           pPowerDataBuff[3]=0x21;
-          //float tmpActPow = dds238_2_data->ActivePower+350;    // to be analized deeply, sometimes -13 Watts back to grid :-)
-          //float tmpActPow = dds238_2_data->ActivePower+370;    // to be analized deeply, sometimes -62 Watts back to grid :-)
-          //float tmpActPow = dds238_2_data->ActivePower*1.2+380;    // oscilla!
-          //float tmpActPow = dds238_2_data->ActivePower*3+50;
-          if (dds238_2_data->ActivePower<0) {
-            //tmpActPow = 250;
-            tmpActPow = 300;
-            }
-          else {
-            //tmpActPow = dds238_2_data->ActivePower+250;
-            tmpActPow = dds238_2_data->ActivePower+300;
-            }
-
-          pPowerDataBuff[4] = (unsigned int)tmpActPow >> 8  & 0xFF;
-          pPowerDataBuff[5] = (unsigned int)tmpActPow & 0xFF;
+          pPowerDataBuff[4] = (unsigned int)dds238_2_data->ActivePower >> 8  & 0xFF;
+          pPowerDataBuff[5] = (unsigned int)dds238_2_data->ActivePower & 0xFF;
           pPowerDataBuff[6]=0x80;
           pPowerDataBuff[7] = 264 - pPowerDataBuff[4] - pPowerDataBuff[5];  // new checksum
           espconn_connect(pHPMeterTxConn);

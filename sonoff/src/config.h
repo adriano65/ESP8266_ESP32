@@ -42,8 +42,10 @@ typedef struct __attribute__((aligned(4))) {
   float     VoltMul;
   float     Watt_Mul;
   #endif
+  #if defined(HOUSE_POW_METER_RX)
+  uint16_t   WattOffset;
+  #endif
   #if defined(HOUSE_POW_METER_TX) || defined(SONOFFPOW_DDS238_2)
-  uint8_t     WattOffset;
   ip_addr_t HPRx_IP;
   #endif
 } FlashConfig;

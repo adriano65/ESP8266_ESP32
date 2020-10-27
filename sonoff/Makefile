@@ -66,7 +66,7 @@ REFRESHIO      						:= no
 # ----------------- fuori-garage
 #SONOFFTH10c := 1
 # ----------------- Cantina switch + temp
-SONOFFTH10d := 1
+#SONOFFTH10d := 1
 # ----------------- VerandaTemp
 #SONOFFTH10e := 1
 # ----------------- Linux Monitor and a lot more !
@@ -87,7 +87,7 @@ SONOFFTH10d := 1
 #MAINSe := 2
 
 # ----------------- GTN House power Receiver (ESP8266 boot baud rate is 76800)
-#MAINSf := 2
+MAINSf := 2
 
 # --------------------GTN Sun power meter
 #SONOFFPOWa := 3

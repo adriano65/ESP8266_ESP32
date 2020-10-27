@@ -1,0 +1,15 @@
+{
+	"folders": [
+    {
+      "path": "nandread_FTDI232H"
+    }
+  ],
+  "settings": {
+    "git.ignoreLimitWarning": true,
+    "files.associations": {
+      "*.tcc": "c",
+      "array": "c",
+      "string": "c"
+    }
+  }
+}
