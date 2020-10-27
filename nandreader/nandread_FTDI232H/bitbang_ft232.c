@@ -445,17 +445,16 @@ int check_ID_register(unsigned char* ID_register) {
     return nRet;
 }
 
-int read_memory(unsigned int startingblock, unsigned int nTotBlocks, unsigned char *data, unsigned int page_size) {
+int read_memory(unsigned int nPage, unsigned char *data, unsigned int page_size) {
     uint32_t mem_address;
 
-
     // Start reading the data
-    mem_address = startingblock * page_size; // add bytes per block (i.e. goto next block)
+    mem_address = nPage * page_size; // add bytes per block (i.e. goto next block)
     // 1073741824 == 1 Gbit, 1073741824/8 == 134217728 bytes == 128 MB
     // Block size 128 kB, spare area 64 B, page size 2kB
     // 128 kB / 2 kb == 64, 128 Mb / 128 kB == 1024 blocks
     // total block are 64 * 1024;
-    DBG_MIN("Reading data from 0x%02X from page %d to %d pages", mem_address, nBlock, startingblock+nTotBlocks);
+    DBG_MIN("Reading data from 0x%02X from page %d", mem_address, nPage);
     latch_command(CMD_READ1, 1);
     setcolumns(mem_address);
     setrows(mem_address);
@@ -609,15 +608,15 @@ int latch_data_out(unsigned char data[], unsigned int length) {
  * The command register remains in Read Status command mode until another valid command is written to the
  * command register.
  */
-int program_page(unsigned int startingblock, unsigned char* data, unsigned int page_size) {
+int program_page(unsigned int nPage, unsigned char* data, unsigned int page_size) {
 	uint32_t mem_address;
 
-  mem_address = startingblock * page_size;
+  mem_address = nPage * page_size;
 
   /* remove write protection */
   controlbus_pin_set(PIN_nWP, HIGH);
 
-  DBG_MIN("Writing from 0x%04X to 0x%04X, Block %d", mem_address, mem_address+page_size-1, startingblock);
+  DBG_MIN("Writing from 0x%04X to 0x%04X, Page %d", mem_address, mem_address+page_size-1, nPage);
   //for (int n=0; n<page_size; n+=8) { DBG_MIN("mem_address 0x%04X 0x%02X 0x%02X 0x%02X 0x%02X 0x%02X 0x%02X 0x%02X 0x%02X", mem_address+n, data[n], data[n+1], data[n+2], data[n+3], data[n+4], data[n+5], data[n+6], data[n+7]); }
   latch_command(CMD_PAGEPROGRAM1, 1); /* Serial Data Input command */
 
@@ -695,8 +694,8 @@ void HandleSig(){
 int main(int argc, char **argv) {
   struct ftdi_version_info version;
   FILE *fp, *fpOut;
-  unsigned int FTDIchipID, totblocks, toterasepages, enable;
-  unsigned int startingblock=0xFFFF, starting_erasepage=0xFFFF;
+  unsigned int FTDIchipID, totPages, toterasepages, enable;
+  unsigned int startingpage=0xFFFF, starting_erasepage=0xFFFF;
   unsigned char ID_register[5];
   int f, opt;
   char filename[256]="?", filenameOut[256]="?";
@@ -787,7 +786,7 @@ int main(int argc, char **argv) {
           break;
 
         case 's' :
-          startingblock = (unsigned int)strtoul(optarg, &endptr, 0);
+          startingpage = (unsigned int)strtoul(optarg, &endptr, 0);
           break;
 
         // DO NOT MOVE before -f !!!!!
@@ -808,54 +807,54 @@ int main(int argc, char **argv) {
           break;
 
         case 'r' :
-          if (startingblock==0xFFFF) {
+          if (startingpage==0xFFFF) {
             DBG_MIN("Set starting block (-s option)");
             }
           else {
             if (strlen(filename)>2) {
-              totblocks = (unsigned int)strtoul(optarg, &endptr, 0);
+              totPages = (unsigned int)strtoul(optarg, &endptr, 0);
               if ( (fp = fopen(filename, "wb+")) == NULL ) { DBG_MIN("Error when opening the file %s", filename); break; }
-              //unsigned char data[Nand[nIdx].page_size];
               unsigned char *data=(unsigned char *)malloc(Nand[nIdx].page_size);
-              // total block
               // bootloader ->  128 * 2k = 256 k 
               // total blocks -> 64 * 1024
-              for (unsigned int nBlock = startingblock; nBlock < startingblock+totblocks; nBlock++) {
-                read_memory(nBlock, data, Nand[nIdx].page_size);
+              for (unsigned int nPage = startingpage; nPage < startingpage+totPages; nPage++) {
+                read_memory(nPage, data, Nand[nIdx].page_size);
                 fwrite(&data[0], 1, Nand[nIdx].page_size, fp);
                 }
               fclose(fp);
+              free(data);
               }
-            free(data);
             else { DBG_MIN("filename missed (-f option)");}
             }
           break;
 
         case 'R' :
-          if (startingblock==0xFFFF) {
+          if (startingpage==0xFFFF) {
             DBG_MIN("Set starting block (-s option)");
             }
           else {
             if (strlen(filename)>2) {
               if ( (fp = fopen(filename, "wb+")) == NULL ) { DBG_MIN("  Error when opening the file..."); break; }
-              totblocks = (unsigned int)strtoul(optarg, &endptr, 0);
-              // total block
-              // bootloader ->  128 * 2k = 256 k 
-              // total blocks -> 64 * 1024
-              dump_memory(fp, startingblock, totblocks, Nand[nIdx].page_size+Nand[nIdx].spare_size);
+              totPages = (unsigned int)strtoul(optarg, &endptr, 0);
+              unsigned char *data=(unsigned char *)malloc(Nand[nIdx].page_size);
+              for (unsigned int nPage = startingpage; nPage < startingpage+totPages; nPage++) {
+                read_memory(nPage, data, Nand[nIdx].page_size+Nand[nIdx].spare_size);
+                fwrite(&data[0], 1, Nand[nIdx].page_size+Nand[nIdx].spare_size, fp);
+                }
               fclose(fp);
+              free(data);
               }
             else { DBG_MIN("filename missed (-f option)");}
             }
           break;
 
         case 'w' :
-          if (startingblock==0xFFFF) {
+          if (startingpage==0xFFFF) {
             DBG_MIN("Set starting block (-s option)");
             }
           else {
             if (strlen(filename)>2) {
-              totblocks = (unsigned int)strtoul(optarg, &endptr, 0);
+              totPages = (unsigned int)strtoul(optarg, &endptr, 0);
               // this is enought for first erased page of 128 kB
               //unsigned char data[2048*64];
               // but we have a 256 kB file (0x40000)
@@ -863,14 +862,15 @@ int main(int argc, char **argv) {
               // nooo we have a 512 kB file...
 
               if ( (fp = fopen(filename, "rb")) == NULL ) { printf("Error when opening the file...\n"); break; }
-              //fseek(fp, Nand[nIdx].page_size*startingblock, SEEK_SET);
-              unsigned char data[Nand[nIdx].page_size];
-              while (!feof(fp)) {
+              //fseek(fp, Nand[nIdx].page_size*startingpage, SEEK_SET);
+              unsigned char *data=(unsigned char *)malloc(Nand[nIdx].page_size);
+              for (unsigned int nPage = startingpage; nPage < startingpage+totPages; nPage++) {
+                if (feof(fp)) { printf("End of file %s\n", filename); break; }
                 fread(&data[0], 1, Nand[nIdx].page_size, fp);
-                program_page(startingblock, data, Nand[nIdx].page_size);
-                startingblock++;
+                program_page(nPage, data, Nand[nIdx].page_size);
                 }
               fclose(fp);
+              free(data);
               }
             else { DBG_MIN("filename missed (-f option)");}
             }
@@ -878,26 +878,31 @@ int main(int argc, char **argv) {
           break;
 
         case 'W' :
-          if (strlen(filename)>2) {
-            startingblock = (unsigned int)strtoul(optarg, &endptr, 0);
-            unsigned char data[Nand[nIdx].page_size+Nand[nIdx].spare_size];
-
-            if ( (fp = fopen(filename, "rb")) == NULL ) { printf("Error when opening the file...\n"); break; }
-            //fseek(fp, (Nand[nIdx].page_size+Nand[nIdx].spare_size)*startingblock, SEEK_SET);
-            while (!feof(fp)) {
-              fread(&data[0], 1, Nand[nIdx].page_size+Nand[nIdx].spare_size, fp);
-              brcm_nand(0, data);   //default polynomial
-              program_page(startingblock, data, Nand[nIdx].page_size+Nand[nIdx].spare_size);
-              startingblock++;
+          if (startingpage==0xFFFF) {
+            DBG_MIN("Set starting block (-s option)");
+            }
+          else {
+            if (strlen(filename)>2) {
+              if ( (fp = fopen(filename, "rb")) == NULL ) { printf("Error when opening the file...\n"); break; }
+              //fseek(fp, (Nand[nIdx].page_size+Nand[nIdx].spare_size)*startingpage, SEEK_SET);
+              unsigned char *data=(unsigned char *)malloc(Nand[nIdx].page_size+Nand[nIdx].spare_size);
+              for (unsigned int nPage = startingpage; nPage < startingpage+totPages; nPage++) {
+                if (feof(fp)) { printf("End of file %s\n", filename); break; }
+                fread(&data[0], 1, Nand[nIdx].page_size+Nand[nIdx].spare_size, fp);
+                brcm_nand(0, data);   //default polynomial
+                program_page(nPage, data, Nand[nIdx].page_size+Nand[nIdx].spare_size);
+                }
+              fclose(fp);
+              free(data);
               }
-            fclose(fp);
+            else { DBG_MIN("filename missed (-f option)");}
             }
           break;
 
         default:
-          printf("-s startingblock -r 256 -> reads from startingblock total blocks (first 256 blocks is bootloader, second 256 block certificates)\n");
+          printf("-s startingpage -r 256 -> reads from startingpage total pages (first 256 blocks is bootloader, second 256 block certificates)\n");
           printf("-p 0 -e 2 -> erase from starting_erasepage n pages (first 256 blocks is bootloader)\n");
-          printf("-s startingblock -w value -> write blocks from ?.bin\n");
+          printf("-s startingpage -w value -> write blocks from ?.bin\n");
           printf("-E enable ECC\n\n");
           printf("Example:\n");
           printf("Write on first eraseblock of 64 * 2048 pages -> 0x00000-0x20000 == 131072 bytes == 128 kB\n");
