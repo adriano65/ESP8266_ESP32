@@ -97,7 +97,7 @@ FTDI PIN                  NAND PIN
 
 typedef enum { 
   MT29,
-  S34,
+  S34ML01G,
   H27,
   BAD_CONTACT,
   } nand_type;
@@ -120,7 +120,7 @@ sNand Nand[MAX_NAND] =
   {"MT29F1G08ABADAWP", {0x2C, 0xF1, 0x80, 0x95, 0x02}, 2048, 64, 64, MT29},
   {"MT29F1G08ABADAWP (ECC enabled)", {0x2C, 0xF1, 0x80, 0x95, 0x82}, 2048, 64, 64, MT29},
   {"MT29F1G08ABADAWP-reset?", {0x2C, 0x01, 0x02, 0x03, 0x04}, 2048, 64, 64, MT29},
-  {"S34ML01G100TF100", {0x01, 0xF1, 0x00, 0x1D, 0x01}, 2048, 64, 64, S34},  
+  {"S34ML01G100TF100", {0x01, 0xF1, 0x00, 0x1D, 0x01}, 2048, 64, 64, S34ML01G},  
   // Hynix H27UCG8T2ATR-BC 8 MB - Erase Block Size : 256 kB + 160K bytes, 256pages - Page Size : 8kB + 640(Spare) 
   {"H27UCG8T2ATR-BC", {0xAD, 0xDE, 0x94, 0xDA, 0x74}, 8192, 640, 256, H27},
   {"Bad contact---", {0x00, 0xD7, 0x00, 0x10, 0x10}, 2048, 64, 64, 4},
@@ -266,6 +266,8 @@ int latch_command(unsigned char *command, unsigned char count) {
  * See Figure 5 and Table 13 for details of the timings requirements.
  * Addresses are always applied on IO7:0 regardless of the bus configuration (x8 or x16).""
  */
+#define COL_BUG_ON
+#define NO_OOB
 int setcolumns(uint32_t mem_address) {
     if( controlbus_value & PIN_nCE ) { fprintf(stderr, "nCE pin is not low\n"); return EXIT_FAILURE; }
     else if( controlbus_value & PIN_CLE ) { fprintf(stderr, "CLE pin is not low\n"); return EXIT_FAILURE; }
@@ -277,19 +279,27 @@ int setcolumns(uint32_t mem_address) {
 
     switch (Nand[nIdx].type) {
       case MT29:
+        #if defined(COL_BUG_ON)
+          column_addr[0] = (unsigned char)(  mem_address & 0x000000FF);
+          column_addr[1] = (unsigned char)( (mem_address & 0x00000F00) >> 8 );
+        #else
         if ((mem_address & 0x00000800)==0x800){
-          //column_addr[0] = (unsigned char)(  mem_address & 0x0000003F);
-          //column_addr[1] = (unsigned char)( (mem_address & 0x00000800) >> 8 );
+          #if defined(NO_OOB)
           column_addr[0] = 0x00;
           column_addr[1] = 0x00;
+          #else
+          column_addr[0] = (unsigned char)(  mem_address & 0x0000003F);
+          column_addr[1] = (unsigned char)( (mem_address & 0x00000800) >> 8 );
+          #endif
           }
         else {
           column_addr[0] = (unsigned char)(  mem_address & 0x000000FF);
           column_addr[1] = (unsigned char)( (mem_address & 0x00000F00) >> 8 );
           }
+        #endif
         break;
 
-      case S34:
+      case S34ML01G:
         column_addr[0] = (unsigned char)(  mem_address & 0x000000FF);
         column_addr[1] = (unsigned char)( (mem_address & 0x00000F00) >> 8 );
         break;
@@ -326,6 +336,7 @@ int setcolumns(uint32_t mem_address) {
     return 0;
 }
 
+//#define ROW_BUG_ON
 int setrows(uint32_t mem_address) {
     unsigned char rows;
     unsigned int nBlock;
@@ -341,13 +352,21 @@ int setrows(uint32_t mem_address) {
     switch (Nand[nIdx].type) {
       case MT29:
         nBlock=mem_address%Nand[nIdx].page_size;
-        //row_addr[0] = (unsigned char)( (mem_address & 0x000FF000) >> 12 );
-        //row_addr[1] = (unsigned char)( (mem_address & 0x0FF00000) >> 20 );
-        row_addr[0] = (unsigned char)( (mem_address & 0x0003FC00) >> 11 );
-        row_addr[1] = (unsigned char)( (mem_address & 0x03FC0000) >> 19 );
+        #if defined(ROW_BUG_ON)
+        row_addr[0] = (unsigned char)( (mem_address & 0x000FF000) >> 12 );
+        row_addr[1] = (unsigned char)( (mem_address & 0x0FF00000) >> 20 );
+        row_addr[2] = (unsigned char)( (mem_address & 0xF0000000) >> 28 );
+        #else
+        //row_addr[0] = (unsigned char)( (mem_address & 0x0003FC00) >> 11 );
+        //row_addr[1] = (unsigned char)( (mem_address & 0x03FC0000) >> 19 );
+        //row_addr[0] = (unsigned char)( (mem_address & 0x0003FC00) >> 12 );
+        //row_addr[1] = (unsigned char)( (mem_address & 0x03FC0000) >> 20 );
+        row_addr[0] = (unsigned char)( (mem_address & 0x000FF000) >> 12 );
+        row_addr[1] = (unsigned char)( (mem_address & 0x0FF00000) >> 20 );
+        #endif
         rows=2;
         break;
-      case S34:
+      case S34ML01G:
         row_addr[0] = (unsigned char)( (mem_address & 0x000FF000) >> 12 );
         row_addr[1] = (unsigned char)( (mem_address & 0x0FF00000) >> 20 );
         row_addr[2] = (unsigned char)( (mem_address & 0x30000000) >> 28 );
@@ -621,8 +640,8 @@ int program_page(unsigned int nPage, unsigned char* data, unsigned int page_size
   latch_command(CMD_PAGEPROGRAM1, 1); /* Serial Data Input command */
 
   DBG_MAX("Latching address cycles...");
-  setcolumns(mem_address);
-  setrows(mem_address);
+  setcolumns(page_size);
+  setrows(nPage);
 
   DBG_MAX("Latching out the data of the page...");
   latch_data_out(data, page_size);
@@ -836,7 +855,7 @@ int main(int argc, char **argv) {
             if (strlen(filename)>2) {
               if ( (fp = fopen(filename, "wb+")) == NULL ) { DBG_MIN("  Error when opening the file..."); break; }
               totPages = (unsigned int)strtoul(optarg, &endptr, 0);
-              unsigned char *data=(unsigned char *)malloc(Nand[nIdx].page_size);
+              unsigned char *data=(unsigned char *)malloc(Nand[nIdx].page_size+Nand[nIdx].spare_size);
               for (unsigned int nPage = startingpage; nPage < startingpage+totPages; nPage++) {
                 read_memory(nPage, data, Nand[nIdx].page_size+Nand[nIdx].spare_size);
                 fwrite(&data[0], 1, Nand[nIdx].page_size+Nand[nIdx].spare_size, fp);
@@ -930,10 +949,10 @@ int main(int argc, char **argv) {
           printf("./bitbang_ft232 -f bank2.bin -s 35328 -r nnn\n");
 
           printf("check secondary kernel @ 4700000 \n");
-          printf("./bitbang_ft232 -s 36352 -r nnn\n");
+          printf("./bitbang_ft232 -f kernel2.bin -s 36352 -r nnn\n");
 
           printf("check userfs @ 0x80000 - 0x2000000\n");
-          printf("./bitbang_ft232 -s 256 -r nnn\n");
+          printf("./bitbang_ft232 -f userfs.bin -s 256 -r nnn\n");
           
           
           }
