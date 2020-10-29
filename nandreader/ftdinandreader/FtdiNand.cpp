@@ -116,9 +116,8 @@ int FtdiNand::open(int vid, int pid, bool doslow) {
 	m_slowAccess=doslow;
 	//If vid/pid is zero, use default FT2232H vid 0x0403 pid 0x6010. 
 	if (vid==0) vid=0x0403;
-	//if (pid==0) pid=0x6010;
+	if (pid==0) pid=0x6010;
 	//default FT232H vid 0x0403 pid 0x6014. 
-	if (pid==0) pid=0x6014;
 	//Open FTDI communications
 	if (ftdi_init(&m_ftdi)<0) return error("init");
 	if (ftdi_usb_open(&m_ftdi, vid, pid)<0) return error("open");

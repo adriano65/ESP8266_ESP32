@@ -47,7 +47,7 @@ int main(int argc, char **argv) {
 		actionVerify
 	};
 
-	printf("FT2232H-based NAND reader");
+	printf("FT2232H-based NAND reader\n");
 	//Parse command line options
 	Action action=actionNone;
 	NandChip::AccessType access=NandChip::accessBoth;

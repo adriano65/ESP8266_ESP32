@@ -2,6 +2,12 @@
 	"folders": [
     {
       "path": "nandread_FTDI232H"
+    },
+    {
+      "path": "ftdinandreader"
+    },
+    {
+      "path": "NANDReader_FTDI"
     }
   ],
   "settings": {

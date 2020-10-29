@@ -32,8 +32,6 @@
 #include <errno.h> 
 #include <libftdi1/ftdi.h>
 
-int brcm_nand(unsigned poly, unsigned char *data);
-
 #define NANDREADER_DBG_MIN
 #ifdef NANDREADER_DBG_MIN
   #define DBG_MIN(fmt...) do {printf("%s: ", __FUNCTION__); printf(fmt); printf("\n"); } while(0)
@@ -95,21 +93,13 @@ FTDI PIN                  NAND PIN
 //#define REALWORLD_DELAY 300
 //#define REALWORLD_DELAY 1
 
-typedef enum { 
-  MT29,
-  S34ML01G,
-  H27,
-  BAD_CONTACT,
-  } nand_type;
-
-#define MAX_NAND 16
+#define MAX_NAND 6
 typedef struct _sNand {
   unsigned char name[80];
   unsigned char ID_register_exp[5];
   unsigned int page_size;
   unsigned int spare_size;
   unsigned int block_size;
-  unsigned char type;
 } sNand;
 unsigned char nIdx;
 
@@ -117,25 +107,21 @@ unsigned char nIdx;
 sNand Nand[MAX_NAND] = 
 { 
   // Micron MT29F1G08ABADAWP 128 MB - Erase Block size 128 kB, spare area 64 B, page size 2kB
-  {"MT29F1G08ABADAWP", {0x2C, 0xF1, 0x80, 0x95, 0x02}, 2048, 64, 64, MT29},
-  {"MT29F1G08ABADAWP (ECC enabled)", {0x2C, 0xF1, 0x80, 0x95, 0x82}, 2048, 64, 64, MT29},
-  {"MT29F1G08ABADAWP-reset?", {0x2C, 0x01, 0x02, 0x03, 0x04}, 2048, 64, 64, MT29},
-  {"S34ML01G100TF100", {0x01, 0xF1, 0x00, 0x1D, 0x01}, 2048, 64, 64, S34ML01G},  
+  {"MT29F1G08ABADAWP", {0x2C, 0xF1, 0x80, 0x95, 0x02}, 2048, 64, 64},
+  {"S34ML01G100TF100", {0x01, 0xF1, 0x00, 0x1D, 0x01}, 2048, 64, 64},  
   // Hynix H27UCG8T2ATR-BC 8 MB - Erase Block Size : 256 kB + 160K bytes, 256pages - Page Size : 8kB + 640(Spare) 
-  {"H27UCG8T2ATR-BC", {0xAD, 0xDE, 0x94, 0xDA, 0x74}, 8192, 640, 256, H27},
-  {"Bad contact---", {0x00, 0xD7, 0x00, 0x10, 0x10}, 2048, 64, 64, 4},
-  {"Tappo veloce", {0x00, 0xD7, 0x00, 0x10, 0x10}, 2048, 64, 64, 0}
+  {"H27UCG8T2ATR-BC", {0xAD, 0xDE, 0x94, 0xDA, 0x74}, 8192, 640, 256},
+  {"Unknown", {0x00, 0xD7, 0x00, 0x10, 0x10}, 8192, 640, 256},
+  {"Tappo veloce", {0x00, 0xD7, 0x00, 0x10, 0x10}, 0, 0, 0}
 };
 
 unsigned char CMD_RESET[1] = { 0xFF }; /* read ID register */
 unsigned char CMD_READID[2] = { 0x90, 0x00 }; /* read ID register */
 unsigned char CMD_READ1[1] = { 0x00 }; /* page read start*/
 unsigned char CMD_READ2[1] = { 0x30 }; /* page read end */
-unsigned char CMD_EN_ECC[1] = { 0xEF };
 unsigned char CMD_BLOCKERASE1[1] = { 0x60 }; /* block erase */
 unsigned char CMD_BLOCKERASE2[1] = { 0xD0 }; /* block erase */
 unsigned char CMD_READSTATUS[1] = { 0x70 }; /* read status */
-unsigned char CMD_READSTATUS2[1] = { 0x00 }; /* end read status when reading pages with ECC*/
 unsigned char CMD_PAGEPROGRAM1[1] = { 0x80 }; /* program page */
 unsigned char CMD_PAGEPROGRAM2[1] = { 0x10 }; /* program page */
 
@@ -148,6 +134,7 @@ unsigned char crtl_buf[4], io_buf[4];
 unsigned char column_addr[2], row_addr[3];
 
 struct ftdi_context *pBusInterface;
+FILE *fp;
 
 int msleep(long msec) {
     struct timespec ts;
@@ -266,9 +253,8 @@ int latch_command(unsigned char *command, unsigned char count) {
  * See Figure 5 and Table 13 for details of the timings requirements.
  * Addresses are always applied on IO7:0 regardless of the bus configuration (x8 or x16).""
  */
-#define COL_BUG_ON
-#define NO_OOB
-int setcolumns(unsigned int page) {
+int setcolumns(uint32_t mem_address) {
+    /* check if ALE is low and nRE is high */
     if( controlbus_value & PIN_nCE ) { fprintf(stderr, "nCE pin is not low\n"); return EXIT_FAILURE; }
     else if( controlbus_value & PIN_CLE ) { fprintf(stderr, "CLE pin is not low\n"); return EXIT_FAILURE; }
     else if( ~controlbus_value & PIN_nRE ) { fprintf(stderr, "nRE pin is not high\n"); return EXIT_FAILURE; }
@@ -277,38 +263,15 @@ int setcolumns(unsigned int page) {
     controlbus_pin_set(PIN_ALE, HIGH);
     controlbus_update_output();
 
-    switch (Nand[nIdx].type) {
-      case MT29:
-        #if defined(COL_BUG_ON)
-          column_addr[0] = (unsigned char)page;
-          column_addr[1] = (unsigned char)( (page & 0x00000F00) >> 8 );
-        #else
-        if ((mem_address & 0x00000800)==0x800){
-          #if defined(NO_OOB)
-          column_addr[0] = 0x00;
-          column_addr[1] = 0x00;
-          #else
-          column_addr[0] = (unsigned char)(  mem_address & 0x0000003F);
-          column_addr[1] = (unsigned char)( (mem_address & 0x00000800) >> 8 );
-          #endif
-          }
-        else {
-          column_addr[0] = (unsigned char)(  mem_address & 0x000000FF);
-          column_addr[1] = (unsigned char)( (mem_address & 0x00000F00) >> 8 );
-          }
-        #endif
+    switch (Nand[nIdx].page_size) {
+      case 2048:
+        column_addr[0] = (unsigned char)(  mem_address & 0x000000FF);
+        column_addr[1] = (unsigned char)( (mem_address & 0x00000F00) >> 8 );
         break;
-
-      case S34ML01G:
-        column_addr[0] = (unsigned char)page;
-        column_addr[1] = (unsigned char)( (page & 0x00000F00) >> 8 );
+      case 8192:
+        column_addr[0] = (unsigned char)(  mem_address & 0x000000FF);
+        column_addr[1] = (unsigned char)( (mem_address & 0x00003F00) >> 8 );
         break;
-
-      case H27:
-        column_addr[0] = (unsigned char)page & 0x000000FF;
-        column_addr[1] = (unsigned char)( (page & 0x00003F00) >> 8 );
-        break;
-
       default:
         printf("Not supported"); exit(1);
         }
@@ -336,9 +299,7 @@ int setcolumns(unsigned int page) {
     return 0;
 }
 
-//#define ROW_BUG_ON
-int setrows(unsigned int nPage) {
-    unsigned char rows;
+int setrows(uint32_t mem_address) {
     /* check if ALE is low and nRE is high */
     if( controlbus_value & PIN_nCE ) { fprintf(stderr, "nCE pin is not low\n"); return EXIT_FAILURE; }
     else if( controlbus_value & PIN_CLE ) { fprintf(stderr, "CLE pin is not low\n"); return EXIT_FAILURE; }
@@ -348,40 +309,22 @@ int setrows(unsigned int nPage) {
     controlbus_pin_set(PIN_ALE, HIGH);
     controlbus_update_output();
 
-    switch (Nand[nIdx].type) {
-      case MT29:
-        #if defined(ROW_BUG_ON)
+    switch (Nand[nIdx].page_size) {
+      case 2048:
         row_addr[0] = (unsigned char)( (mem_address & 0x000FF000) >> 12 );
         row_addr[1] = (unsigned char)( (mem_address & 0x0FF00000) >> 20 );
+        row_addr[2] = (unsigned char)( (mem_address & 0x30000000) >> 28 );
+        break;
+      case 8192:
+        row_addr[0] = (unsigned char)( (mem_address & 0x000FC000) >> 12 );
+        row_addr[1] = (unsigned char)( (mem_address & 0x0FF00000) >> 20 );
         row_addr[2] = (unsigned char)( (mem_address & 0xF0000000) >> 28 );
-        #else
-        //row_addr[0] = (unsigned char)( (mem_address & 0x0003FC00) >> 11 );
-        //row_addr[1] = (unsigned char)( (mem_address & 0x03FC0000) >> 19 );
-        //row_addr[0] = (unsigned char)( (mem_address & 0x0003FC00) >> 12 );
-        //row_addr[1] = (unsigned char)( (mem_address & 0x03FC0000) >> 20 );
-        row_addr[0] = (unsigned char)(nPage);
-        row_addr[1] = (unsigned char)( (nPage & 0x0000FF00) >> 8 );
-        #endif
-        rows=2;
         break;
-      case S34ML01G:
-        row_addr[0] = (unsigned char)(nPage);
-        row_addr[1] = (unsigned char)( (nPage & 0x0000FF00) >> 8 );
-        row_addr[2] = (unsigned char)( (nPage & 0x00FF0000) >> 16 );
-        rows=3;
-        break;
-      case H27:
-        row_addr[0] = (unsigned char)(nPage);
-        row_addr[1] = (unsigned char)( (nPage & 0x0000FF00) >> 8 );
-        row_addr[2] = (unsigned char)( (nPage & 0x00FF0000) >> 16 );
-        rows=3;
-        break;
-
       default:
         printf("Not supported"); exit(1);
         }
 
-    for(int i = 0; i < rows; i++) {
+    for(int i = 0; i < 3; i++) {
         // toggle nWE low
         controlbus_pin_set(PIN_nWE, LOW);
         controlbus_update_output();
@@ -448,8 +391,8 @@ int check_ID_register(unsigned char* ID_register) {
     int nRet=0;
     for (nIdx=0; nIdx<MAX_NAND; nIdx++) {
       if( strncmp( (char *)Nand[nIdx].ID_register_exp, (char *)ID_register, 5 ) == 0 ) { 
-        DBG_MIN("ID 0x%02X 0x%02X 0x%02X 0x%02X 0x%02X", Nand[nIdx].ID_register_exp[0], Nand[nIdx].ID_register_exp[1], Nand[nIdx].ID_register_exp[2], Nand[nIdx].ID_register_exp[3], Nand[nIdx].ID_register_exp[4]); 
         DBG_MIN("%s found, page size %u, block size %u", Nand[nIdx].name, Nand[nIdx].page_size, Nand[nIdx].block_size); 
+        DBG_MIN("ID 0x%02X 0x%02X 0x%02X 0x%02X 0x%02X", Nand[nIdx].ID_register_exp[0], Nand[nIdx].ID_register_exp[1], Nand[nIdx].ID_register_exp[2], Nand[nIdx].ID_register_exp[3], Nand[nIdx].ID_register_exp[4]); 
         
         nRet=1;
         break;
@@ -462,36 +405,42 @@ int check_ID_register(unsigned char* ID_register) {
     return nRet;
 }
 
-int read_memory(unsigned int nPage, unsigned char *data, unsigned int page_size) {
+void dump_memory(unsigned int startingblock, unsigned int nTotBlocks) {
+    uint32_t mem_address;
+    unsigned char *blockdata; /* page content */
+
+    blockdata=(unsigned char *)malloc(Nand[nIdx].page_size);
+    DBG_MAX("Trying to open file for storing the binary dump...");
+    if ( (fp = fopen("flashdump.bin", "wb+")) == NULL ) { DBG_MIN("  Error when opening the file..."); return; }
+
     // Start reading the data
+    mem_address = startingblock * Nand[nIdx].page_size; // add bytes per block (i.e. goto next block)
     // 1073741824 == 1 Gbit, 1073741824/8 == 134217728 bytes == 128 MB
     // Block size 128 kB, spare area 64 B, page size 2kB
     // 128 kB / 2 kb == 64, 128 Mb / 128 kB == 1024 blocks
     // total block are 64 * 1024;
-    DBG_MIN("Reading data from 0x%02X from page %d", nPage * page_size, nPage);
-    latch_command(CMD_READ1, 1);
-    setcolumns(page_size);
-    setrows(nPage);
-    latch_command(CMD_READ2, 1);
+    for( unsigned int nBlock = startingblock; nBlock < startingblock+nTotBlocks; nBlock++) {
+      DBG_MIN("Reading data from 0x%02X from page %d to %d pages", mem_address, nBlock, startingblock+nTotBlocks);
+      latch_command(CMD_READ1, 1);
+      setcolumns(mem_address);
+      setrows(mem_address);
+      latch_command(CMD_READ2, 1);
 
-    DBG_MAX("Checking for busy line...");
-    while( !(controlbus_read_input() & PIN_RDY) );
+      DBG_MAX("Checking for busy line...");
+      while( !(controlbus_read_input() & PIN_RDY) );
 
-    /*
-    DBG_MIN("Latching command byte to read status...");
-    latch_command(CMD_READSTATUS, 1);
-    unsigned char status_register;
-    read_data(&status_register, 1);
-    latch_command(CMD_READSTATUS2, 1);
-    DBG_MIN("Status register content: 0x%02x", status_register);
-    if(status_register & STATUSREG_IO0)	{ DBG_MIN("Failed to read page.");	return; }
-    else { DBG_MIN("Successfully read nBlock %d", nBlock ); }
-    */
+      DBG_MAX("Latching out data block...");
+      read_data(blockdata, Nand[nIdx].page_size);
 
+      DBG_MAX("Dumping binary data to file...");
+      fwrite(&blockdata[0], 1, Nand[nIdx].page_size, fp);
 
-    DBG_MAX("Latching out data block...");
-    read_data(data, page_size);
-    return 0;
+      mem_address += Nand[nIdx].page_size;
+      }
+
+    free(blockdata);
+    DBG_MAX("Closing binary dump file...");
+    fclose(fp);
 }
 
 /**
@@ -517,17 +466,21 @@ int read_memory(unsigned int nPage, unsigned char *data, unsigned int page_size)
 int erase_page(unsigned int starting_page, unsigned int totpages) {
   // min erase size = 0x20000 == 128 kB
   // one erase_page == 64 * 2048 blocks
+	uint32_t mem_address;
 
   for( unsigned int nPage = starting_page; nPage < (starting_page+totpages); nPage++ ) {
+    /* calculate memory address */
+    mem_address = Nand[nIdx].page_size * Nand[nIdx].block_size * nPage;
+
     /* remove write protection */
     controlbus_pin_set(PIN_nWP, HIGH);
 
     DBG_MAX("Latching first command byte to erase a page...");
     latch_command(CMD_BLOCKERASE1, 1); /* block erase setup command */
 
-    DBG_MAX("Erasing page from memory address 0x%02X", Nand[nIdx].page_size * Nand[nIdx].block_size * nPage);
+    DBG_MAX("Erasing page from memory address 0x%02X", mem_address);
     DBG_MAX("Latching page(row) address (3 bytes)...\n");
-    setrows(nPage);
+    setrows(mem_address);
 
     DBG_MAX("Latching second command byte to erase a page...");
     latch_command(CMD_BLOCKERASE2, 1);
@@ -618,78 +571,57 @@ int latch_data_out(unsigned char data[], unsigned int length) {
  * The command register remains in Read Status command mode until another valid command is written to the
  * command register.
  */
-int program_page(unsigned int nPage, unsigned char* data, unsigned int page_size) {
-  /* remove write protection */
-  controlbus_pin_set(PIN_nWP, HIGH);
+#define DBG_WRITE
+int program_page(unsigned int startingblock, unsigned int nTotBlocks, unsigned char* _data) {
+	uint32_t mem_address;
+  unsigned char* data;
 
-  DBG_MIN("Writing from 0x%04X to 0x%04X, Page %d", nPage * page_size, nPage * page_size+page_size-1, nPage);
-  //for (int n=0; n<page_size; n+=8) { DBG_MIN("mem_address 0x%04X 0x%02X 0x%02X 0x%02X 0x%02X 0x%02X 0x%02X 0x%02X 0x%02X", mem_address+n, data[n], data[n+1], data[n+2], data[n+3], data[n+4], data[n+5], data[n+6], data[n+7]); }
-  latch_command(CMD_PAGEPROGRAM1, 1); /* Serial Data Input command */
+  for(unsigned int nBlock=0; nBlock<nTotBlocks; nBlock++) {
+    mem_address = (startingblock+nBlock) * Nand[nIdx].page_size;
+    data=_data+(nBlock* Nand[nIdx].page_size);
 
-  DBG_MAX("Latching address cycles...");
-  setcolumns(page_size);
-  setrows(nPage);
+    /* remove write protection */
+    controlbus_pin_set(PIN_nWP, HIGH);
 
-  DBG_MAX("Latching out the data of the page...");
-  latch_data_out(data, page_size);
+    DBG_MIN("Writing from 0x%04X to 0x%04X, nPageId %d", mem_address, mem_address+Nand[nIdx].page_size-1, nBlock);
+    #ifdef DBG_WRITE
+    for (int n=0; n<Nand[nIdx].page_size; n+=8) { DBG_MIN("mem_address 0x%04X 0x%02X 0x%02X 0x%02X 0x%02X 0x%02X 0x%02X 0x%02X 0x%02X", mem_address+n, data[n], data[n+1], data[n+2], data[n+3], data[n+4], data[n+5], data[n+6], data[n+7]); }
+    //return 0;
+    #endif
+    latch_command(CMD_PAGEPROGRAM1, 1); /* Serial Data Input command */
 
-  DBG_MAX("Latching second command byte to write a page...");
-  latch_command(CMD_PAGEPROGRAM2, 1); /* Page Program confirm command */
+    DBG_MAX("Latching address cycles...");
+    setcolumns(mem_address);
+    setrows(mem_address);
 
-  // busy-wait for high level at the busy line
-  DBG_MAX("Checking for busy line...");
-  while( !(controlbus_read_input() & PIN_RDY) );
+    DBG_MAX("Latching out the data of the page...");
+    latch_data_out(data, Nand[nIdx].page_size);
 
-  /* Read status */
-  DBG_MAX("Latching command byte to read status...");
-  latch_command(CMD_READSTATUS, 1);
+    DBG_MAX("Latching second command byte to write a page...");
+    latch_command(CMD_PAGEPROGRAM2, 1); /* Page Program confirm command */
 
-  unsigned char status_register;
-  read_data(&status_register, 1); /* data output operation */
+    // busy-wait for high level at the busy line
+    DBG_MAX("Checking for busy line...");
+    while( !(controlbus_read_input() & PIN_RDY) );
 
-  /* output the retrieved status register content */
-  DBG_MAX("Status register content: 0x%02n", status_register);
+    /* Read status */
+    DBG_MAX("Latching command byte to read status...");
+    latch_command(CMD_READSTATUS, 1);
 
-  /* activate write protection again */
-  controlbus_pin_set(PIN_nWP, LOW);
+    unsigned char status_register;
+    read_data(&status_register, 1); /* data output operation */
 
-  if(status_register & 0x04)	{ fprintf(stderr, " Rewrite recommended.");	return 0; }
-  
-  if(status_register & STATUSREG_IO0)	{ fprintf(stderr, "Failed to program page.");	return 0; }
-  else { DBG_MAX("Successfully programmed nPageId %d", nPageId ); }
+    /* output the retrieved status register content */
+    DBG_MAX("Status register content: 0x%02n", status_register);
 
+    /* activate write protection again */
+    controlbus_pin_set(PIN_nWP, LOW);
+
+    if(status_register & STATUSREG_IO0)	{ fprintf(stderr, "Failed to program page.");	}
+    else { DBG_MAX("Successfully programmed nPageId %d", nPageId ); }
+  }
   return 0;
 }
-
-// EFh(cmd)-90h(addr)-08h(data)-00h(data)-00h(data)-00h(data) --> enable
-int set_ecc(unsigned char enable) {
-  unsigned char data[4] = { 0x00, 0x00, 0x00, 0x00 };
-  if (enable) data[0]=0x08;
-
-  latch_command(CMD_EN_ECC, 1);
-
-  // address
-  controlbus_pin_set(PIN_ALE, HIGH);
-  controlbus_update_output();
-  controlbus_pin_set(PIN_nWE, LOW);
-  controlbus_update_output();
-  usleep(REALWORLD_DELAY);
-  iobus_value=0x90;       // Address 
-  iobus_update_output();
-  usleep(REALWORLD_DELAY); /* TODO: assure setup delay */
-  controlbus_pin_set(PIN_nWE, HIGH);  // toggle nWE back high (acts as clock to latch the current address byte!)
-  controlbus_update_output();
-  usleep(REALWORLD_DELAY);
-  controlbus_pin_set(PIN_ALE, LOW);
-  controlbus_update_output();
-
-
-  latch_data_out(data, 4);
-
-  return 1;
-}
-
-
 
 void HandleSig(){
   return;
@@ -699,19 +631,17 @@ void HandleSig(){
 // MT29F4G08ABADA -- NOT F1 like it seems!
 int main(int argc, char **argv) {
   struct ftdi_version_info version;
-  FILE *fp, *fpOut;
-  unsigned int FTDIchipID, totPages, toterasepages, enable;
-  unsigned int startingpage=0xFFFF, starting_erasepage=0xFFFF;
+  unsigned int FTDIchipID, totblocks, toterasepages;
+  unsigned int startingblock=0xFFFF, starting_erasepage=0xFFFF;
   unsigned char ID_register[5];
   int f, opt;
-  char filename[256]="?", filenameOut[256]="?";
   char *endptr;
   extern char *optarg;
 
   //signal(SIGINT, HandleSig);
 
   if ((pBusInterface = ftdi_new()) == 0) {
-      DBG_MIN("ftdi_new failed for iobus");
+      fprintf(stderr, "ftdi_new failed for iobus\n");
       return EXIT_FAILURE;
     }
   ftdi_set_interface(pBusInterface, INTERFACE_A);
@@ -749,25 +679,46 @@ int main(int argc, char **argv) {
   controlbus_update_output();
 
   latch_command(CMD_RESET, 1); /* command input operation; command: RESET */
-  msleep(10);
-  set_ecc(0);
+  msleep(100);
+
   // Read the ID register
-  DBG_MIN("Trying to read the ID register...");
+  printf("Trying to read the ID register...\n");
   latch_command(CMD_READID, 2); /* command input operation; command: READ ID */
   read_data(ID_register, 5); /* data output operation */
 
   if ( check_ID_register(ID_register) ) {
-    while ((opt = getopt(argc, argv, "c:p:e:E:s:r:w:W:R:f:v")) != -1) {		//: semicolon means that option need an arg!
+    while ((opt = getopt(argc, argv, "vp:e:s:r:w:")) != -1) {		//: semicolon means that option need an arg!
       switch(opt) {
-        case 'E' :
-          enable = (unsigned int)strtoul(optarg, &endptr, 0);
-          if (enable) set_ecc(1);
-          else set_ecc(0);
+        case 'v' :
+          printf("NanaReader ver 0.0.1\n");
+          version = ftdi_get_library_version();
+          printf("libftdi %s (major: %d, minor: %d, micro: %d, snapshot ver: %s)\n", version.version_str, version.major, version.minor, version.micro, version.snapshot_str);
+          break;
+
+        case 'p' :
+          starting_erasepage = (unsigned int)strtoul(optarg, &endptr, 0);
+          break;
+
+        case 's' :
+          startingblock = (unsigned int)strtoul(optarg, &endptr, 0);
+          break;
+
+        case 'r' :
+          if (startingblock==0xFFFF) {
+            printf("Set starting block (-s option)\n");
+            }
+          else {
+            totblocks = (unsigned int)strtoul(optarg, &endptr, 0);
+            // total block
+            // bootloader ->  128 * 2k = 256 k 
+            // total blocks -> 64 * 1024
+            dump_memory(startingblock, totblocks);
+            }
           break;
 
         case 'e' :
           if (starting_erasepage==0xFFFF) {
-            DBG_MIN("Set starting page (-p option)");
+            printf("Set starting block (-b option)\n");
             }
           else {
             toterasepages = (unsigned int)strtoul(optarg, &endptr, 0);
@@ -776,172 +727,48 @@ int main(int argc, char **argv) {
             }
           break;
 
-        case 'v' :
-          printf("NandReader ver 0.0.1\n");
-          version = ftdi_get_library_version();
-          printf("libftdi %s (major: %d, minor: %d, micro: %d, snapshot ver: %s)\n", version.version_str, version.major, version.minor, version.micro, version.snapshot_str);
-          break;
-
-        case 'f' :
-          sprintf(filename, "%s", optarg);
-          //printf("%s\n",filename);
-          break;
-
-        case 'p' :
-          starting_erasepage = (unsigned int)strtoul(optarg, &endptr, 0);
-          break;
-
-        case 's' :
-          startingpage = (unsigned int)strtoul(optarg, &endptr, 0);
-          break;
-
-        // DO NOT MOVE before -f !!!!!
-        case 'c' :
-          sprintf(filenameOut, "%s", optarg);
-          if (strlen(filename)>2) {
-            if ( (fp = fopen(filename, "rb")) == NULL ) { DBG_MIN("Error when opening the file %s", filename); break; }
-            unsigned char data[Nand[nIdx].page_size+Nand[nIdx].spare_size];
-            if ( (fpOut = fopen(filenameOut, "wb+")) == NULL ) { DBG_MIN("Error when opening the file %s", filenameOut); break; }
-            while (!feof(fp)) {
-              fread(&data[0], 1, Nand[nIdx].page_size+Nand[nIdx].spare_size, fp);
-              fwrite(&data[0], 1, Nand[nIdx].page_size, fpOut);
-              }
-            fclose(fpOut);
-            fclose(fp);
-            }
-          else { DBG_MIN("filename missed (-f option)");}
-          break;
-
-        case 'r' :
-          if (startingpage==0xFFFF) {
-            DBG_MIN("Set starting block (-s option)");
-            }
-          else {
-            if (strlen(filename)>2) {
-              totPages = (unsigned int)strtoul(optarg, &endptr, 0);
-              if ( (fp = fopen(filename, "wb+")) == NULL ) { DBG_MIN("Error when opening the file %s", filename); break; }
-              unsigned char *data=(unsigned char *)malloc(Nand[nIdx].page_size);
-              // bootloader ->  128 * 2k = 256 k 
-              // total blocks -> 64 * 1024
-              for (unsigned int nPage = startingpage; nPage < startingpage+totPages; nPage++) {
-                read_memory(nPage, data, Nand[nIdx].page_size);
-                fwrite(&data[0], 1, Nand[nIdx].page_size, fp);
-                }
-              fclose(fp);
-              free(data);
-              }
-            else { DBG_MIN("filename missed (-f option)");}
-            }
-          break;
-
-        case 'R' :
-          if (startingpage==0xFFFF) {
-            DBG_MIN("Set starting block (-s option)");
-            }
-          else {
-            if (strlen(filename)>2) {
-              if ( (fp = fopen(filename, "wb+")) == NULL ) { DBG_MIN("  Error when opening the file..."); break; }
-              totPages = (unsigned int)strtoul(optarg, &endptr, 0);
-              unsigned char *data=(unsigned char *)malloc(Nand[nIdx].page_size);
-              for (unsigned int nPage = startingpage; nPage < startingpage+totPages; nPage++) {
-                read_memory(nPage, data, Nand[nIdx].page_size+Nand[nIdx].spare_size);
-                fwrite(&data[0], 1, Nand[nIdx].page_size+Nand[nIdx].spare_size, fp);
-                }
-              fclose(fp);
-              free(data);
-              }
-            else { DBG_MIN("filename missed (-f option)");}
-            }
-          break;
-
         case 'w' :
-          if (startingpage==0xFFFF) {
-            DBG_MIN("Set starting block (-s option)");
+          if (startingblock==0xFFFF) {
+            printf("Set starting page (-s option)\n");
             }
           else {
-            if (strlen(filename)>2) {
-              totPages = (unsigned int)strtoul(optarg, &endptr, 0);
-              // this is enought for first erased page of 128 kB
-              //unsigned char data[2048*64];
-              // but we have a 256 kB file (0x40000)
-              //unsigned char data[2048*128];
-              // nooo we have a 512 kB file...
+            totblocks = (unsigned int)strtoul(optarg, &endptr, 0);
+            // this is enought for first erased page of 128 kB
+            //unsigned char data[2048*64];
+            // but we have a 256 kB file (0x40000)
+            //unsigned char data[2048*128];
+            // nooo we have a 512 kB file...
+            unsigned char data[2048*128*2];
 
-              if ( (fp = fopen(filename, "rb")) == NULL ) { printf("Error when opening the file...\n"); break; }
-              //fseek(fp, Nand[nIdx].page_size*startingpage, SEEK_SET);
-              unsigned char *data=(unsigned char *)malloc(Nand[nIdx].page_size);
-              for (unsigned int nPage = startingpage; nPage < startingpage+totPages; nPage++) {
-                if (feof(fp)) { printf("End of file %s\n", filename); break; }
-                fread(&data[0], 1, Nand[nIdx].page_size, fp);
-                program_page(nPage, data, Nand[nIdx].page_size);
-                }
-              fclose(fp);
-              free(data);
-              }
-            else { DBG_MIN("filename missed (-f option)");}
-            }
+            if ( (fp = fopen("bootloader_nok_onlybootpBIG.bin", "rb")) == NULL ) { printf("  Error when opening the file...\n"); break; }
+            #ifdef DBG_WRITE
+            #else
+            fseek(fp, Nand[nIdx].page_size*startingblock, SEEK_SET);
+            #endif
+            fread(&data[0], 1, Nand[nIdx].page_size*totblocks, fp);
+            fclose(fp);
 
-          break;
-
-        case 'W' :
-          if (startingpage==0xFFFF) {
-            DBG_MIN("Set starting block (-s option)");
-            }
-          else {
-            if (strlen(filename)>2) {
-              if ( (fp = fopen(filename, "rb")) == NULL ) { printf("Error when opening the file...\n"); break; }
-              //fseek(fp, (Nand[nIdx].page_size+Nand[nIdx].spare_size)*startingpage, SEEK_SET);
-              unsigned char *data=(unsigned char *)malloc(Nand[nIdx].page_size+Nand[nIdx].spare_size);
-              for (unsigned int nPage = startingpage; nPage < startingpage+totPages; nPage++) {
-                if (feof(fp)) { printf("End of file %s\n", filename); break; }
-                fread(&data[0], 1, Nand[nIdx].page_size+Nand[nIdx].spare_size, fp);
-                brcm_nand(0, data);   //default polynomial
-                program_page(nPage, data, Nand[nIdx].page_size+Nand[nIdx].spare_size);
-                }
-              fclose(fp);
-              free(data);
-              }
-            else { DBG_MIN("filename missed (-f option)");}
+            program_page(startingblock, totblocks, data);
             }
           break;
 
         default:
-          printf("-s startingpage -r 256 -> reads from startingpage total pages (first 256 blocks is bootloader, second 256 block certificates)\n");
-          printf("-p 0 -e 2 -> erase from starting_erasepage n pages (first 256 blocks is bootloader)\n");
-          printf("-s startingpage -w value -> write blocks from ?.bin\n");
-          printf("-E enable ECC\n\n");
+          printf("-s startingblock -r 256 -> reads from startingblock total blocks (first 256 blocks is bootloader)\n");
+          printf("-e 2 -> erase from starting_erasepage n pages (first 256 blocks is bootloader)\n");
+          printf("-w value -> write blocks from test.bin\n\n");
           printf("Example:\n");
-          printf("Write on first eraseblock of 64 * 2048 pages -> 0x00000-0x20000 == 131072 bytes == 128 kB\n");
+          printf("Write on first eraseblock of 64 * 2048 pages\n");
           printf("./bitbang_ft232 -p 0 -e 1\n");
-          printf("./bitbang_ft232 -f CP1416RAUGG-onlybootp.bin -s 0 -w 64\n");
-          printf("./bitbang_ft232 -s 0 -r 64\n");
-
-          printf("Write on second eraseblock (eripv2) -> 0x20000-0x40000 == 131072 bytes == 128 kB\n");
+          printf("./bitbang_ft232 -s 0 -w 63\n");
+          printf("./bitbang_ft232 -s 0 -r 63\n");          
+          printf("Write on second eraseblock of 64 * 2048 pages\n");
           printf("./bitbang_ft232 -p 1 -e 1\n");
-          printf("./bitbang_ft232 -f eripv2.bin -s 64 -w 64\n");
-          printf("./bitbang_ft232 -f eripv2.bin -s 64 -r 64\n");
-
-          printf("Write on third eraseblock 0x40000-0x80000 (rawstorage, keys) of 128 * 2048 pages -> 256 kB\n");
-          printf("./bitbang_ft232 -p 2 -e 2\n");
-          printf("./bitbang_ft232 -f rawstorage.bin -s 128 -r 128\n");
-
-          printf("erase bank1 0x2000000-0x4500000\n");
-          printf("./bitbang_ft232 -p 256 -e 296\n");
-          printf("Write on bank1 0x2000000-0x4500000\n");
-          printf("./bitbang_ft232 -f bank1.bin -s 16384 -r nnn\n");
-
-          printf("erase bank2 0x4500000-0x6a00000\n");
-          printf("./bitbang_ft232 -p 552 -e 296\n");
-          printf("Write on bank2 0x4500000-0x6a00000\n");
-          printf("./bitbang_ft232 -f bank2.bin -s 35328 -r nnn\n");
-
-          printf("check secondary kernel @ 4700000 \n");
-          printf("./bitbang_ft232 -f kernel2.bin -s 36352 -r nnn\n");
-
-          printf("check userfs @ 0x80000 - 0x2000000\n");
-          printf("./bitbang_ft232 -f userfs.bin -s 256 -r nnn\n");
-          
-          
+          printf("./bitbang_ft232 -s 64 -w 63\n");
+          printf("./bitbang_ft232 -s 64 -r 63\n");          
+          printf("Write on third eraseblock of 64 * 2048 pages\n");
+          printf("./bitbang_ft232 -p 2 -e 1\n");
+          printf("./bitbang_ft232 -s 128 -w 63\n");
+          printf("./bitbang_ft232 -s 128 -r 63\n");          
           }
         }
     }
@@ -951,7 +778,6 @@ int main(int argc, char **argv) {
 
     ftdi_usb_close(pBusInterface);
     ftdi_free(pBusInterface);
-    printf("Done");
 
     return 0;
 }
