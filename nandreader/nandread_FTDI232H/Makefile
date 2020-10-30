@@ -1,4 +1,4 @@
-TARGET=bitbang_ft232
+TARGET=nandread_FTDI232H
 CC=gcc
 CFLAGS=-Wall -g2 -I/usr/include/libftdi1/
 LDFLAGS=-L/usr/lib/ -lftdi1 -lusb-1.0

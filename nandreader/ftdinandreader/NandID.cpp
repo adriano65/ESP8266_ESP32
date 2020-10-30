@@ -68,8 +68,8 @@ const NandID::DevCodes NandID::m_devCodes[]={
 	{"NAND 128MiB 1,8V 8-bit",	0xA1, 0, 128, 0, LP_OPTIONS},
 	{"NAND 128MiB 3,3V 8-bit",	0xF1, 0, 128, 0, LP_OPTIONS},
 	{"NAND 128MiB 3,3V 8-bit",	0xD1, 0, 128, 0, LP_OPTIONS},
-	{"NAND 128MiB 3,3V 8-bit",	0x2C, 2048, 128, 131072, 0},   //Micron
-	{"NAND 128MiB 3,3V 8-bit",	0x01, 0, 128, 0, LP_OPTIONS},
+	//{"NAND 128MiB 3,3V 8-bit",	0x2C, 2048, 128, 131072, 0},   //Micron
+	//{"NAND 128MiB 3,3V 8-bit",	0x01, 0, 128, 0, LP_OPTIONS},
   //{"MT29F1G08ABADAWP", {0x2C, 0xF1, 0x80, 0x95, 0x02}, 2048, 64, 64, MT29},
 
 	/* 2 Gigabit */
@@ -117,12 +117,12 @@ NandID::NandID(unsigned char *idBytes) {
 	for (x=0; x<5; x++) m_idBytes[x]=idBytes[x];
 
 	x=0;
-	while (m_devCodes[x].id!=0 && m_devCodes[x].id!=idBytes[0]) x++;
+	while (m_devCodes[x].id!=0 && m_devCodes[x].id!=idBytes[1]) x++;
 	if (m_devCodes[x].id==0) {
-		printf("Sorry, unknown nand chip with id code %hhx.\n", idBytes[0]);
+		printf("Sorry, unknown nand chip with id code 0x%02X 0x%02X 0x%02X 0x%02X\n", idBytes[0], idBytes[1], idBytes[2], idBytes[3]);
 		exit(0);
 	}
-  printf("nand ID %hhx\n", idBytes[0]);
+  printf("nand ID: Manufactor 0x%02X, Type 0x%02X, - 0x%02X\n", idBytes[0], idBytes[1], idBytes[2]);
 	
 	m_nandDesc=m_devCodes[x].name;
 	m_nandChipSzMB=m_devCodes[x].chipsizeMB;
@@ -131,8 +131,8 @@ NandID::NandID(unsigned char *idBytes) {
 		//Page/erasesize is device-specific
 		m_nandPageSz=m_devCodes[x].pagesize;
 		m_nandEraseSz=m_devCodes[x].erasesize;
-		//m_nandOobSz=(m_nandPageSz==512)?16:8;
-		m_nandOobSz=(m_nandPageSz==512)?16:64;
+		m_nandOobSz=(m_nandPageSz==512)?16:8;
+		//m_nandOobSz=(m_nandPageSz==512)?16:64;
 	} else {
 		//Page/erasesize is encoded in 3/4/5th ID-byte
 		int i;

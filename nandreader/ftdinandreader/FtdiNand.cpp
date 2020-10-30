@@ -22,13 +22,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "FtdiNand.hpp"
 
 //Masks for the address lines (for addrh) the various nand latch lines are connected to.
-#define ADR_WP 0x20
-#define ADR_CL 0x40
-#define ADR_AL 0x80
+#define ADR_CE 0x10     // ACBUS4
+#define ADR_WP 0x20     // ACBUS5
+#define ADR_CL 0x40     // ACBUS6
+#define ADR_AL 0x80     // ACBUS7
 
 //Error handling routine.
 int FtdiNand::error(const char *err) {
-	printf("Error at %s: %s\n", err, ftdi_get_error_string(&m_ftdi));
+	printf("Error at %s: %s\n\n", err, ftdi_get_error_string(&m_ftdi));
 	exit(0); //Dirty. Disable to continue after errors.
 	return 0;
 }
@@ -43,7 +44,8 @@ int FtdiNand::nandRead(int cl, int al, char *buf, int count) {
 	for (x=0; x<count; x++) {
 		if (x==0) {
 			cmds[i++]=READ_EXTENDED;
-			cmds[i++]=(cl?ADR_CL:0)|(al?ADR_AL:0);
+			cmds[i++]=(cl?ADR_CL:0) | (al?ADR_AL:0) | ADR_WP;
+			//cmds[i++]=(cl?ADR_CL:0) | (al?ADR_AL:0) | ADR_WP | ADR_CE;
 			cmds[i++]=0;
 		} else {
 			cmds[i++]=READ_SHORT;
@@ -87,7 +89,9 @@ int FtdiNand::nandWrite(int cl, int al, char *buf, int count) {
 	for (x=0; x<count; x++) {
 		if (x==0) {
 			cmds[i++]=WRITE_EXTENDED;
-			cmds[i++]=(cl?ADR_CL:0)|(al?ADR_AL:0);
+			//cmds[i++] = (cl ? ADR_CL : 0) | (al ? ADR_AL : 0);
+			cmds[i++] = (cl ? ADR_CL : 0) | (al ? ADR_AL : 0) | ADR_WP;
+			//cmds[i++] = (cl ? ADR_CL : 0) | (al ? ADR_AL : 0) | ADR_WP | ADR_CE;
 			cmds[i++]=0;
 		} else {
 			cmds[i++]=WRITE_SHORT;
@@ -100,7 +104,9 @@ int FtdiNand::nandWrite(int cl, int al, char *buf, int count) {
 //	for (x=0; x<i; x++) printf("%02hhx %s", cmds[x], ((x&15)==15)?"\n":"");
 //	printf("\n\n");
 
-	if (ftdi_write_data(&m_ftdi, cmds, i)<0) return error("writing cmd");
+	if (ftdi_write_data(&m_ftdi, cmds, i)<0) {
+    //return error("writing cmd");
+    }
 	delete[] cmds;
 	return count;
 }
@@ -132,6 +138,13 @@ int FtdiNand::open(int vid, int pid, bool doslow) {
 FtdiNand::~FtdiNand(void) {
 	ftdi_usb_close(&m_ftdi);
 	ftdi_deinit(&m_ftdi);
+}
+
+unsigned char FtdiNand::status() {
+	unsigned char status;
+	sendCmd(0x70); //NAND_CMD_STATUS
+	readData((char*)&status,1);
+	return status;
 }
 
 //Send a command to the NAND chip
@@ -174,9 +187,13 @@ int FtdiNand::waitReady() {
 
 	for (x=0; x<TIMEOUT_MSEC; x++) {
 		//Send the command to read the IO-lines
-		if (ftdi_write_data(&m_ftdi, &cmd, 1)<0) return error("writing cmd");
+		if (ftdi_write_data(&m_ftdi, &cmd, 1)<0) {
+      //return error("writing cmd");
+      }
 		//Read response
-		if (ftdi_read_data(&m_ftdi, &resp, 1)<=0) return error("writing cmd");
+		if (ftdi_read_data(&m_ftdi, &resp, 1)<=0) {
+      //return error("reading resp");
+      }
 		//Return if R/B-line is high (=ready)
 		if (resp&2) return 1;
 		usleep(1000);

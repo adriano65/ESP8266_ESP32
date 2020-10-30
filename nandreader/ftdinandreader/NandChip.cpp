@@ -33,6 +33,9 @@ NandChip::NandChip(FtdiNand *fn) {
 	unsigned char id[5];
 	m_fn=fn;
 	//Try to read the 5 NAND ID-bytes and create the ID-object
+	m_fn->sendCmd(NAND_CMD_RESET);
+	m_fn->sendAddr(0, 1);
+
 	m_fn->sendCmd(NAND_CMD_READID);
 	m_fn->sendAddr(0, 1);
 	m_fn->readData((char *)id, 5);
@@ -74,14 +77,17 @@ int NandChip::readPage(int page, char *buff, int count, NandChip::AccessType acc
 int NandChip::writePage(int page, char *buff, int count, NandChip::AccessType access) {
 	int r;
 	//Can't read/writeback main or OOB data here because the erase size usually is bigger than the page size...
-	if (access != NandChip::accessBoth) {
-		printf("Writing of only main / OOB data isn't supported yet.\n");
-		exit(0);
-	}
+	//if (access != NandChip::accessBoth) {
+	//	printf("Writing of only main / OOB data isn't supported yet.\n");
+	//	exit(0);
+	//}
 	r=m_data->writePage(page, buff, count);
 	return r;
 }
 
+int NandChip::eraseBlock(int block) {
+	m_data->eraseBlock(block);
+}
 
 NandID *NandChip::getIdPtr() {
 	return m_id;

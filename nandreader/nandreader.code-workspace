@@ -7,7 +7,7 @@
       "path": "ftdinandreader"
     },
     {
-      "path": "NANDReader_FTDI"
+      "path": "NandTool/NandTool-ori"
     }
   ],
   "settings": {

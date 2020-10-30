@@ -15,6 +15,7 @@ public:
 	int writeData(char *data, int count);
 	int readData(char *data, int count);
 	int waitReady();
+	unsigned char status();
 private:
 	int error(const char *err);
 	int nandRead(int cl, int al, char *buf, int count);

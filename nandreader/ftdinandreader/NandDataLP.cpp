@@ -49,10 +49,20 @@ int NandDataLP::readOob(int pageno, char *buff, int max) {
 }
 
 int NandDataLP::writePage(int pageno, char *buff, int len) {
-	//ToDo
+	m_ft->sendCmd(NAND_CMD_SEQIN);
+	m_ft->sendAddr(pageno<<16L, m_id->getAddrByteCount());
+	m_ft->writeData(buff,len);
+	m_ft->sendCmd(NAND_CMD_PAGEPROG);
+	m_ft->waitReady();
+	return !(m_ft->status() & NAND_STATUS_FAIL);
 }
 
-int NandDataLP::eraseBlock(int block) {
-	//ToDo
+int NandDataLP::eraseBlock(int pageno) {
+	m_ft->sendCmd(NAND_CMD_ERASE1);
+	m_ft->sendAddr(pageno, m_id->getAddrByteCount());
+	m_ft->sendCmd(NAND_CMD_ERASE2);
+	m_ft->waitReady();
+	m_ft->status();
+	return !(m_ft->status() & NAND_STATUS_FAIL);
 }
 
