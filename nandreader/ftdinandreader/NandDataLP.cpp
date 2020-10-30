@@ -57,7 +57,7 @@ int NandDataLP::writePage(int pageno, char *buff, int len) {
 	return !(m_ft->status() & NAND_STATUS_FAIL);
 }
 
-int NandDataLP::eraseBlock(int pageno) {
+int NandDataLP::erasePage(int pageno) {
 	m_ft->sendCmd(NAND_CMD_ERASE1);
 	m_ft->sendAddr(pageno, m_id->getAddrByteCount());
 	m_ft->sendCmd(NAND_CMD_ERASE2);

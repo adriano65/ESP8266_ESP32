@@ -12,6 +12,7 @@ public:
 	int getPageSize();
 	int getSizeMB();
 	int getOobSize();
+  int getEraseSz();
 	bool isLargePage();
 	int getAddrByteCount();
 private:

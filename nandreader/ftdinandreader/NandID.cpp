@@ -178,6 +178,10 @@ int NandID::getSizeMB() {
 	return m_nandChipSzMB;
 }
 
+int NandID::getEraseSz() {
+	return m_nandEraseSz;
+}
+
 bool NandID::isLargePage() {
 	return m_nandIsLP;
 }

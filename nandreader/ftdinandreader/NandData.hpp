@@ -12,7 +12,7 @@ public:
 	virtual int readPage(int pageno, char *buf, int max);
 	virtual int readOob(int pageno, char *buf, int max);
 	virtual int writePage(int pageno, char *buf, int len);
-	virtual int eraseBlock(int block);
+	virtual int erasePage(int page);
 protected:
 	FtdiNand *m_ft;
 	NandID *m_id;

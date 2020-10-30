@@ -56,7 +56,7 @@ void NandChip::showInfo() {
 	//Dump some info.
 	printf("Nand type: %s\n", m_id->getDesc().c_str());
 	printf("Manufacturer: %s\n", m_id->getManufacturer().c_str());
-	printf("Size: %iMB, pagesize %i bytes, OOB size %i bytes\n", m_id->getSizeMB(), m_id->getPageSize(), m_id->getOobSize());
+	printf("Size: %iMB, pagesize %i bytes, OOB size %i bytes, erasepage size %i\n", m_id->getSizeMB(), m_id->getPageSize(), m_id->getOobSize(), m_id->getEraseSz());
 	printf("%s page, needs %i addr bytes.\n", m_id->isLargePage()?"Large":"Small",  m_id->getAddrByteCount());
 }
 
@@ -66,7 +66,7 @@ int NandChip::readPage(int page, char *buff, int count, NandChip::AccessType acc
 	if (access&NandChip::accessMain) {
 		r=m_data->readPage(page, buff, count);
 		count-=r;
-	}
+	  }
 	if (access&NandChip::accessOob) {
 		r=m_data->readOob(page, &buff[r], count);
 		count-=r;
@@ -85,8 +85,8 @@ int NandChip::writePage(int page, char *buff, int count, NandChip::AccessType ac
 	return r;
 }
 
-int NandChip::eraseBlock(int block) {
-	m_data->eraseBlock(block);
+int NandChip::erasePage(int page) {
+	m_data->erasePage(page);
 }
 
 NandID *NandChip::getIdPtr() {

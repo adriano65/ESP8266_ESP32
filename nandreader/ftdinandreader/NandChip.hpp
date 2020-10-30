@@ -20,7 +20,7 @@ public:
 	void showInfo();
 	int readPage(int page, char *buff, int count, AccessType access);
 	int writePage(int page, char *buff, int count, AccessType access);
-	int eraseBlock(int block);
+	int erasePage(int page);
 	NandID *getIdPtr();
 private:
 	FtdiNand *m_fn;

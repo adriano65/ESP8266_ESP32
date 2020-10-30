@@ -188,11 +188,11 @@ int FtdiNand::waitReady() {
 	for (x=0; x<TIMEOUT_MSEC; x++) {
 		//Send the command to read the IO-lines
 		if (ftdi_write_data(&m_ftdi, &cmd, 1)<0) {
-      //return error("writing cmd");
+      return error("writing cmd");
       }
 		//Read response
 		if (ftdi_read_data(&m_ftdi, &resp, 1)<=0) {
-      //return error("reading resp");
+      return error("reading resp");
       }
 		//Return if R/B-line is high (=ready)
 		if (resp&2) return 1;

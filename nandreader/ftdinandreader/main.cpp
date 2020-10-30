@@ -111,8 +111,9 @@ int main(int argc, char **argv) {
 		printf("  -i      - Identify chip\n");
 		printf("  -r file - Read chip to file\n");
     printf("  -p 0x<start address> 0x<end address>  - Select address to operate\n");    
-		printf("  -w file - Write chip from file (set pages!!)\n");
+		printf("  -w file - Write chip from file (set addresses!!)\n");
 		printf("  -v file - Verify chip from file data\n");
+		printf("  -e      - Erase chip (set addresses!!)\n");
 		printf("  -t reg  - Select region to read/write (main mem, oob ('spare') data or both, interleaved)\n");
 		printf("  -s      - clock FTDI chip at 12MHz instead of 60MHz\n");
 		printf("  -u vid:pid - use different FTDI USB vid/pid. Vid and pid are in hex.\n");
@@ -214,29 +215,46 @@ int main(int argc, char **argv) {
         else { end_pageno=end_address/size; }
 
         nand.showInfo();
-        printf("Writing %li pages of %i bytes...\n", pages, id->getPageSize());
+        printf("Writing %li pages of %i bytes...\n", end_pageno-start_pageno, id->getPageSize());
 
         for (x = start_pageno; x<end_pageno; x++) {
           r = read(f, pageBuf, size);
-          if (r != size) { perror("reading data from file"); exit(1); }        
+          if (r != size) { perror("Insufficient data from file"); exit(1); }        
 
           //if (x % 32 == 0) { nand.eraseBlock(x); }
-          if (x % 64 == 0) { nand.eraseBlock(x); }
+          if (x % 64 == 0) {
+            nand.erasePage(x); 
+            //printf("Erasing page %i", x);
+            }
 
           int err = nand.writePage(x, pageBuf, size, access);
           #if 0
           printf("%i/%i\n", x, pages);
           #else
           if ((x & 15) == 0) {
-            printf("%i/%li\n\033[A", x, pages);
+            printf("%i/%i\n\033[A", x, pages);
             }
           #endif
 	        }
         }
         
       else if (action==actionErase) {
-        for (x = 256; x<16384; x+=64) {
-          nand.eraseBlock(x);
+        NandID *id = nand.getIdPtr();
+        long pages = (id->getSizeMB() * 1024LL * 1024LL) / id->getPageSize();
+        int size = id->getPageSize();
+        int erasepages = id->getEraseSz()/size;
+        if (start_address == -1) { start_address=start_pageno = 0; }
+        else { start_pageno=start_address/size; }
+        if (end_address == -1) { end_address = pages*size; end_pageno=pages; }
+        else { end_pageno=end_address/size; }
+
+        nand.showInfo();
+        printf("Erasing from page %i to %i (erasepages %i)\n", start_pageno, end_pageno, erasepages);
+        // erase userfs  start_pageno = 256; end_pageno = 16384; x+=64) {
+
+        for (x = start_pageno; x<end_pageno; x+=erasepages) {
+          nand.erasePage(x);
+          printf("page %i erased\n", x);
           }
       }
       else printf("Boh???\n");

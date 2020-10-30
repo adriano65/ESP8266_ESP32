@@ -47,7 +47,7 @@ int NandData::writePage(int pageno, char *buf, int len){
 	exit(0);
 }
 
-int NandData::eraseBlock(int block){
+int NandData::erasePage(int page){
 	printf("erasePage not supported for this device type.\n");
 	exit(0);
 }
