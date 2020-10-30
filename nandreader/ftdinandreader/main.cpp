@@ -244,8 +244,8 @@ int main(int argc, char **argv) {
         int size = id->getPageSize();
         int erasepages = id->getEraseSz()/size;
         if (start_address == -1) { start_address=start_pageno = 0; }
-        else { start_pageno=start_address/size; }
-        if (end_address == -1) { end_address = pages*size; end_pageno=pages; }
+        else { start_pageno=start_address/id->getEraseSz(); }
+        if (end_address == -1) { end_address = pages*id->getEraseSz(); end_pageno=pages; }
         else { end_pageno=end_address/size; }
 
         nand.showInfo();
