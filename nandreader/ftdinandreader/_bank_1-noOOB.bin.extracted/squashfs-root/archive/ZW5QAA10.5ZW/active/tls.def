@@ -1,0 +1,8 @@
+https-server config state=enabled auth-client=disabled valid-date=disabled valid-domain=disabled
+acs-client config state=enabled auth-serv=enabled valid-date=disabled valid-domain=disabled
+acs-client cert add filename=oldRootTLC-CA.cer
+acs-client cert add filename=rootTLC-CA.cer
+remote-upgraded config state=enabled auth-serv=enabled
+remote-upgraded cert add filename=rootTLC-CA.cer
+dms-client config state enabled auth-serv disabled valid-date disabled valid-domain disabled
+dms-client cert add filename=dms_cafile.pem

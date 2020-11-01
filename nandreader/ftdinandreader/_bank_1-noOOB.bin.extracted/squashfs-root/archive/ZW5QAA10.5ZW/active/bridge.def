@@ -1,0 +1,56 @@
+ifadd intf=ethport2 logging=disabled
+ifadd intf=ethport3 logging=disabled
+ifadd intf=ethport4 logging=disabled
+ifadd intf=br_video logging=disabled
+ifadd intf=bri_ge logging=disabled 
+ifadd intf=vdsl2 logging=disabled 
+ifadd intf=WLAN dest=wlif1 logging=disabled
+ifadd intf=WLAN5G dest=wle_radio1_ssid0 logging=disabled
+ifadd intf=WLAN2 dest=wl_ssid1_local0 logging=disabled
+ifadd intf=WLAN5 dest=wle_radio1_ssid1 logging=disabled
+ifadd intf=virt logging=disabled
+ifconfig intf=ethport1 logging=disabled dynvlan=enabled prioconfig=overwrite ipprec=dscp
+ifconfig intf=ethport2 dest=ethif2 logging=disabled dynvlan=enabled prioconfig=overwrite ipprec=dscp
+ifconfig intf=ethport3 dest=ethif3 logging=disabled dynvlan=enabled prioconfig=overwrite ipprec=dscp
+ifconfig intf=ethport4 dest=ethif4 logging=disabled dynvlan=enabled prioconfig=overwrite ipprec=dscp
+ifconfig intf=br_video dest=atm_8_36 logging=disabled
+ifconfig intf=vdsl2 dest=efmif1 acceptvlanonly=enabled  wan=enabled logging=disabled
+ifconfig intf=bri_ge dest=ethif5 acceptvlanonly=enabled wan=enabled logging=disabled
+ifconfig intf=WLAN logging=disabled
+ifconfig intf=virt dest=ethif6 logging=disabled
+ifconfig brname=bridge intf=vdsl2 prioconfig=overwrite ipprec=dscp
+ifconfig brname=bridge intf=bri_ge prioconfig=overwrite ipprec=dscp
+ifconfig brname=bridge intf=br_video prioconfig=overwrite ipprec=dscp
+ifconfig brname=bridge intf=WLAN prioconfig=overwrite ipprec=dscp
+ifconfig brname=bridge intf=WLAN5G prioconfig=overwrite ipprec=dscp
+ifconfig brname=bridge intf=WLAN2 prioconfig=overwrite ipprec=dscp
+ifconfig brname=bridge intf=WLAN5 prioconfig=overwrite ipprec=dscp
+ifconfig brname=bridge intf=OBC prioconfig=overwrite ipprec=dscp
+ifattach intf=ethport2 logging=disabled
+ifattach intf=ethport3 logging=disabled
+ifattach intf=ethport4 logging=disabled
+ifattach intf=bri_ge logging=disabled
+ifattach intf=br_video logging=disabled
+ifattach intf=vdsl2 logging=disabled
+ifattach intf=WLAN logging=disabled
+ifattach intf=WLAN5G logging=disabled
+ifattach intf=WLAN2 logging=disabled
+ifattach intf=WLAN5 logging=disabled
+ifattach intf=virt logging=disabled
+config age=300 filter=none vlan=enabled
+dynvlan config timeout=180
+ippriomap brname=bridge type=dscp dscpidx=dscp_0_7 precedencemap=4,4,4,4,4,4,4,4
+ippriomap brname=bridge type=dscp dscpidx=dscp_16_23 precedencemap=0,0,0,0,0,0,0,0
+ippriomap brname=bridge type=dscp dscpidx=dscp_32_39 precedencemap=11,11,11,11,11,11,11,11
+ippriomap brname=bridge type=dscp dscpidx=dscp_48_55 precedencemap=15,15,15,15,15,15,15,15
+ippriomap brname=bridge type=dscp dscpidx=dscp_56_63 precedencemap=15,15,15,15,15,15,15,15
+ippriomap brname=bridge type=tos tostable=Default precedencemap=4,0,0,4,10,10,15,15
+ippriomap brname=bridge type=tos tostable=MinimizeDelay precedencemap=4,0,0,4,10,10,15,15
+ippriomap brname=bridge type=tos tostable=MaximizeThroughput precedencemap=4,0,0,4,10,10,15,15
+ippriomap brname=bridge type=tos tostable=MaximizeReliability precedencemap=4,0,0,4,10,10,15,15
+ippriomap brname=bridge type=tos tostable=MinimizeCost precedencemap=4,0,0,4,10,10,15,15
+ippriomap brname=bridge type=dscp dscpidx=dscp_8_15 precedencemap=4,4,4,4,4,4,4,4
+ippriomap brname=bridge type=dscp dscpidx=dscp_24_31 precedencemap=10,10,10,10,10,10,10,10
+ippriomap brname=bridge type=dscp dscpidx=dscp_40_47 precedencemap=15,15,15,15,15,15,15,15
+ifconfig intf bri_ge priotransparent=enabled dynprio=enabled
+ifconfig intf vdsl2 priotransparent=enabled dynprio=enabled

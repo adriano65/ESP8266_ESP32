@@ -27,22 +27,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 //Generic NAND data interface.
 
-NandData::NandData(FtdiNand *ftdi, NandID *id) {
-	m_ft=ftdi;
-	m_id=id;
+NandData::NandData(FtdiNand *_pFtdiNand, NandID *_pNandID) {
+	pFtdiNand=_pFtdiNand;
+	pNandID=_pNandID;
 }
 
-int NandData::readPage(int pageno, char *buf, int max) {
+int NandData::readPage(int pageno, unsigned char *buf, int len) {
 	printf("readPage not supported for this device type.\n");
 	exit(0);
 }
 
-int NandData::readOob(int pageno, char *buf, int max){
+int NandData::readOob(int pageno, unsigned char *buf){
 	printf("readOob not supported for this device type.\n");
 	exit(0);
 }
 
-int NandData::writePage(int pageno, char *buf, int len){
+int NandData::writePage(int pageno, unsigned char *buf, int len){
 	printf("writePage not supported for this device type.\n");
 	exit(0);
 }

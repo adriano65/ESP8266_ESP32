@@ -1,0 +1,46 @@
+/lib/modules/2.6.30/extra/pwrmngtd.ko:
+/lib/modules/2.6.30/kernel/net/llc/llc.ko:
+/lib/modules/2.6.30/kernel/net/bridge/bridge.ko: /lib/modules/2.6.30/kernel/net/802/stp.ko /lib/modules/2.6.30/kernel/net/llc/llc.ko
+/lib/modules/2.6.30/kernel/net/802/stp.ko: /lib/modules/2.6.30/kernel/net/llc/llc.ko
+/lib/modules/2.6.30/kernel/net/802/psnap.ko: /lib/modules/2.6.30/kernel/net/llc/llc.ko
+/lib/modules/2.6.30/kernel/net/802/p8022.ko: /lib/modules/2.6.30/kernel/net/llc/llc.ko
+/lib/modules/2.6.30/kernel/fs/nls/nls_iso8859-1.ko:
+/lib/modules/2.6.30/kernel/fs/nls/nls_cp850.ko:
+/lib/modules/2.6.30/kernel/fs/nls/nls_cp437.ko:
+/lib/modules/2.6.30/kernel/fs/mbcache.ko:
+/lib/modules/2.6.30/kernel/fs/jbd/jbd.ko:
+/lib/modules/2.6.30/kernel/fs/fuse/fuse.ko:
+/lib/modules/2.6.30/kernel/fs/fat/vfat.ko: /lib/modules/2.6.30/kernel/fs/fat/fat.ko
+/lib/modules/2.6.30/kernel/fs/fat/fat.ko:
+/lib/modules/2.6.30/kernel/fs/ext3/ext3.ko: /lib/modules/2.6.30/kernel/fs/jbd/jbd.ko /lib/modules/2.6.30/kernel/fs/mbcache.ko
+/lib/modules/2.6.30/kernel/fs/ext2/ext2.ko:
+/lib/modules/2.6.30/kernel/drivers/usb/storage/usb-storage.ko: /lib/modules/2.6.30/kernel/drivers/scsi/scsi_mod.ko
+/lib/modules/2.6.30/kernel/drivers/usb/serial/usbserial.ko:
+/lib/modules/2.6.30/kernel/drivers/usb/serial/pl2303.ko: /lib/modules/2.6.30/kernel/drivers/usb/serial/usbserial.ko
+/lib/modules/2.6.30/kernel/drivers/usb/serial/option.ko: /lib/modules/2.6.30/kernel/drivers/usb/serial/usbserial.ko
+/lib/modules/2.6.30/kernel/drivers/usb/serial/ftdi_sio.ko: /lib/modules/2.6.30/kernel/drivers/usb/serial/usbserial.ko
+/lib/modules/2.6.30/kernel/drivers/usb/serial/cp210x.ko: /lib/modules/2.6.30/kernel/drivers/usb/serial/usbserial.ko
+/lib/modules/2.6.30/kernel/drivers/usb/host/ohci-hcd.ko:
+/lib/modules/2.6.30/kernel/drivers/usb/host/ehci-hcd.ko:
+/lib/modules/2.6.30/kernel/drivers/usb/class/usblp.ko:
+/lib/modules/2.6.30/kernel/drivers/usb/class/cdc-wdm.ko:
+/lib/modules/2.6.30/kernel/drivers/usb/class/cdc-acm.ko:
+/lib/modules/2.6.30/kernel/drivers/scsi/sg.ko: /lib/modules/2.6.30/kernel/drivers/scsi/scsi_mod.ko
+/lib/modules/2.6.30/kernel/drivers/scsi/sd_mod.ko: /lib/modules/2.6.30/kernel/drivers/scsi/scsi_mod.ko
+/lib/modules/2.6.30/kernel/drivers/scsi/scsi_wait_scan.ko:
+/lib/modules/2.6.30/kernel/drivers/scsi/scsi_mod.ko:
+/lib/modules/2.6.30/kernel/drivers/net/usb/zaurus.ko: /lib/modules/2.6.30/kernel/drivers/net/usb/cdc_ether.ko /lib/modules/2.6.30/kernel/drivers/net/usb/usbnet.ko /lib/modules/2.6.30/kernel/drivers/net/mii.ko
+/lib/modules/2.6.30/kernel/drivers/net/usb/usbnet.ko: /lib/modules/2.6.30/kernel/drivers/net/mii.ko
+/lib/modules/2.6.30/kernel/drivers/net/usb/rtl8150.ko:
+/lib/modules/2.6.30/kernel/drivers/net/usb/rndis_host.ko: /lib/modules/2.6.30/kernel/drivers/net/usb/cdc_ether.ko /lib/modules/2.6.30/kernel/drivers/net/usb/usbnet.ko /lib/modules/2.6.30/kernel/drivers/net/mii.ko
+/lib/modules/2.6.30/kernel/drivers/net/usb/qmi_wwan.ko: /lib/modules/2.6.30/kernel/drivers/net/usb/usbnet.ko /lib/modules/2.6.30/kernel/drivers/net/mii.ko /lib/modules/2.6.30/kernel/drivers/usb/class/cdc-wdm.ko
+/lib/modules/2.6.30/kernel/drivers/net/usb/pegasus.ko: /lib/modules/2.6.30/kernel/drivers/net/mii.ko
+/lib/modules/2.6.30/kernel/drivers/net/usb/net1080.ko: /lib/modules/2.6.30/kernel/drivers/net/usb/usbnet.ko /lib/modules/2.6.30/kernel/drivers/net/mii.ko
+/lib/modules/2.6.30/kernel/drivers/net/usb/kaweth.ko:
+/lib/modules/2.6.30/kernel/drivers/net/usb/hw_cdc_driver.ko: /lib/modules/2.6.30/kernel/drivers/net/mii.ko
+/lib/modules/2.6.30/kernel/drivers/net/usb/cdc_subset.ko: /lib/modules/2.6.30/kernel/drivers/net/usb/usbnet.ko /lib/modules/2.6.30/kernel/drivers/net/mii.ko
+/lib/modules/2.6.30/kernel/drivers/net/usb/cdc_ncm.ko: /lib/modules/2.6.30/kernel/drivers/net/usb/usbnet.ko /lib/modules/2.6.30/kernel/drivers/net/mii.ko
+/lib/modules/2.6.30/kernel/drivers/net/usb/cdc_ether.ko: /lib/modules/2.6.30/kernel/drivers/net/usb/usbnet.ko /lib/modules/2.6.30/kernel/drivers/net/mii.ko
+/lib/modules/2.6.30/kernel/drivers/net/usb/catc.ko:
+/lib/modules/2.6.30/kernel/drivers/net/usb/asix.ko: /lib/modules/2.6.30/kernel/drivers/net/usb/usbnet.ko /lib/modules/2.6.30/kernel/drivers/net/mii.ko
+/lib/modules/2.6.30/kernel/drivers/net/mii.ko:

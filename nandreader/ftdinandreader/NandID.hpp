@@ -15,6 +15,7 @@ public:
   int getEraseSz();
 	bool isLargePage();
 	int getAddrByteCount();
+  int getEraseAddrByteCount();
 private:
 	typedef struct {
 		const char *name;

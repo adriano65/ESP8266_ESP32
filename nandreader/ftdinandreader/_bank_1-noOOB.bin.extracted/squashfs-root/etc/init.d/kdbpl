@@ -1,0 +1,31 @@
+#!/bin/sh
+
+PID_FILE='/var/run/kdbpl.pid'
+PROGRAM='/usr/bin/kdbpl'
+
+case $1 in
+  start)
+    # start todd
+    if [ -f "$PROGRAM" ] ; then
+      /bin/echo "kdbpl start ..."
+      $PROGRAM -d -n KDB
+      echo $! > $PID_FILE
+    fi
+    ;;
+  stop)
+    # stop todd
+    if [ -f "$PROGRAM" ] ; then
+      /bin/echo "kdbpl stop ..."
+      if [ -f "$PID_FILE" ] ; then
+        KDBPL_PID=$(cat ${PID_FILE})
+        kill ${KDBPL_PID}
+        rm -f ${PID_FILE}
+      fi
+    fi
+    ;;
+  *)
+    
+esac
+
+
+

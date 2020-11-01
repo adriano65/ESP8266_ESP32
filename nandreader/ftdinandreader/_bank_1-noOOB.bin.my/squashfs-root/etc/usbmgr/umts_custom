@@ -1,0 +1,376 @@
+#!/bin/sh
+DEV_FILE=/var/tmp/mobile_conf/$VENDOR:$PRODUCT
+CONF_FILE=/var/tmp/mobile.conf
+COMP_TEMP_FILE=/var/tmp/mobile_comp.conf
+
+SYSFS_DEV=/sys/class/usb_device/usbdev$BUS.$DEV
+SYSFS_DEVICE=$SYSFS_DEV/device
+
+if [ -e $DEV_FILE ]; then
+. $DEV_FILE
+else
+ exit 0
+fi
+
+## UTILITY FUNCTIONS ##
+set_nr_interfaces()
+{
+   NUMINTERFACES=$(cd $SYSFS_DEVICE; cat bNumInterfaces | sed -e 's/^[ ]*//')
+}
+
+#$1=ttyprefix $2=interface
+find_tty()
+{
+  PR=$1
+  IF=$2    
+
+  dev=$(cd $SYSFS_DEVICE; find -name $PR? |grep ":1.$IF")
+
+  #dev is of the form ./2-2:1.3/ttyUSB3 or ./2-2:1.3/tty:ttyACM0
+  ttyf=$(echo $dev | cut -d / -f 3)
+
+  if [ "$ttyf" = "" ] ; then
+    tty=NOTFOUND
+  else    
+    tty=/dev/usb/$(echo $dev | cut -d / -f 3 | cut -d : -f 2)
+    #set num_ep
+    numep=$(cd $SYSFS_DEVICE; cat ./$(echo $dev | cut -d / -f 2)/bNumEndpoints)
+  fi
+
+}
+
+write_conffile()
+{
+echo "VENDOR=$VENDOR
+PRODUCT=$PRODUCT
+ATPORT=$ATPORT
+DATAPORT=$DATAPORT
+NUMINTERFACES=$NUMINTERFACES
+ATINTERFACE=$FOUND_AT_INTERFACE
+DATAINTERFACE=$FOUND_DATA_INTERFACE
+SETPROFILE=$SET_PROFILE
+PDPCOUNT=$PDPCOUNT
+MODEMBUS=$BUS
+MODEMDEV=$DEV" > $CONF_FILE
+}
+
+check_set_companion()
+{
+  C_FILE=/sys/class/usb_host/usb_host$BUS/companion
+  if [ -e $C_FILE ] ; then
+    echo "Force device to USB1.1"
+    sleep 3
+    #sysfs dir looks as /sys/devices/pci0000:00/0000:00:0a.0/usb1/1-2, need last char
+    C_PORT=$(cd $SYSFS_DEVICE; pwd | cut -d / -f 7|cut -d '-' -f 2)
+
+    #Need to try a few times
+    i="0"
+    while [ $i -lt 10 ]
+    do
+      if [ -e $SYSFS_DEV ] ; then
+        echo "Try to switch $i"
+        echo "-$C_PORT" > $C_FILE
+        echo "$C_PORT" > $C_FILE
+        sleep 3
+      else
+        #Store info for restore
+        echo "COMPANION_FILE=$C_FILE
+              COMPANION_PORT=$C_PORT" > $COMP_TEMP_FILE
+        sleep 3
+        exit 0
+      fi
+    i=$(( $i + 1 ))
+    done
+    
+  fi
+}
+
+restore_companion()
+{
+  echo "Restore companion $FORCE_USB11"
+
+  if [ -e $COMP_TEMP_FILE ] ; then
+    . $COMP_TEMP_FILE
+    echo "-$COMPANION_PORT" > $COMPANION_FILE
+    rm -f $COMP_TEMP_FILE 
+  fi
+
+}
+
+check_modeswitch()
+{
+  if [ ! -z "$MODESWITCH_PARAM" ] ; then
+    #if AT_INTERFACE set, the modem and storage vid:pid are different
+    if [ -z "$AT_INTERFACE" ] ; then
+      DO_MODESWITCH=1
+    else
+      #Need to check nr interfaces
+      if [ "$NUMINTERFACES" = "1" ] ; then
+        DO_MODESWITCH=1
+      fi
+    fi
+  fi
+}
+
+
+## CDC_ACM DRIVER ##
+#$1=skipintf
+cdcacm_scan_intfs()
+{
+  i="0"
+
+  scan_intf=-1
+
+  while [ $i -lt $NUMINTERFACES ]
+  do
+    find_tty tty:ttyACM $i
+    if [ "$tty" != "NOTFOUND" ] && [ "$tty" != "$1" ] ; then
+      #/usr/bin/sercom -t $tty
+      #Check exit code
+      #if [ "$?" = "1" ] ; then
+      if [ "1" = "1" ] ; then
+        scan_intf=$i
+        echo " Interface $i: OK"
+        break
+      else
+        echo " Interface $i: NOK"
+      fi
+    fi
+
+    i=$(( $i + 1 ))
+  done
+
+}
+
+try_cdcacm_driver()
+{
+  rmmod cdc-acm.ko
+  insmod /lib/modules/2.6.30/kernel/drivers/usb/class/cdc-acm.ko
+  sleep 2
+  
+  if [ "$AT_INTERFACE" = "-1" ] ; then
+    echo "Detecting AT Interface"
+    cdcacm_scan_intfs dummy
+    FOUND_AT_INTERFACE=$scan_intf
+  else
+    find_tty tty:ttyACM $AT_INTERFACE
+    if [ "$tty" != "NOTFOUND" ] ; then
+      FOUND_AT_INTERFACE=$AT_INTERFACE
+    fi
+  fi
+  ATPORT=$tty
+
+  if [ "$DATA_INTERFACE" = "-1" ] ; then
+    echo "Detecting DATA Interface"
+    cdcacm_scan_intfs $ATPORT
+    FOUND_DATA_INTERFACE=$scan_intf    
+  else
+    find_tty tty:ttyACM $DATA_INTERFACE
+    if [ "$tty" != "NOTFOUND" ] ; then
+      FOUND_DATA_INTERFACE=$DATA_INTERFACE
+    fi
+  fi
+  DATAPORT=$tty
+
+  #Set data to at interface if not found...
+  if [ "$DATA_INTERFACE" = "-1" ] && [ "$FOUND_DATA_INTERFACE" = "-1" ] ; then
+    FOUND_DATA_INTERFACE=$FOUND_AT_INTERFACE
+    DATAPORT=$ATPORT
+  fi
+
+  if [ "$FOUND_AT_INTERFACE" = "-1" ] ; then
+    rmmod cdc-acm.ko
+  fi
+
+}
+
+## OPTION DRIVER ##
+#$1=numep
+option_scan_intfs()
+{
+  EP=$1
+  i="0"
+
+  scan_intf=-1
+
+  while [ $i -lt $NUMINTERFACES ]
+  do
+    find_tty ttyUSB $i
+    if [ "$tty" != "NOTFOUND" ] && [ "$EP" = "$numep" ] ; then
+      /usr/bin/sercom -t $tty
+      #Check exit code
+      if [ "$?" = "1" ] ; then
+        scan_intf=$i
+        echo " Interface $i (#ep: $EP): OK"
+        break
+      else
+        echo " Interface $i (#ep: $EP): NOK"
+      fi
+    fi
+
+    i=$(( $i + 1 ))
+  done
+
+}
+
+try_option_driver()
+{
+  rmmod option.ko
+  insmod /lib/modules/2.6.30/kernel/drivers/usb/serial/option.ko vendor=$VENDOR product=$PRODUCT
+  sleep 2
+
+  if [ "$AT_INTERFACE" = "-1" ] ; then
+    #Scan ports with 2 ep
+    echo "Detecting AT Interface"
+    option_scan_intfs 02
+    FOUND_AT_INTERFACE=$scan_intf
+  else
+    find_tty ttyUSB $AT_INTERFACE
+    if [ "$tty" != "NOTFOUND" ] ; then
+      FOUND_AT_INTERFACE=$AT_INTERFACE
+    fi
+  fi
+  ATPORT=$tty
+
+  if [ "$DATA_INTERFACE" = "-1" ] ; then
+    #Scan ports with 3 ep
+    echo "Detecting DATA Interface"
+    option_scan_intfs 03
+    FOUND_DATA_INTERFACE=$scan_intf
+  else
+    find_tty ttyUSB $DATA_INTERFACE
+    if [ "$tty" != "NOTFOUND" ] ; then
+      FOUND_DATA_INTERFACE=$DATA_INTERFACE
+    fi
+  fi
+  DATAPORT=$tty
+}
+
+try_qmi_wwan_driver()
+{
+  rmmod qmi_wwan.ko
+  echo "modprobe qmi_wwan"
+  modprobe qmi_wwan
+  sleep 2
+}
+try_cdc_ncm_driver()
+{
+  rmmod cdc_ncm.ko
+  echo "modprobe cdc_ncm"
+  modprobe cdc_ncm
+  sleep 2
+}
+
+try_hw_cdc_driver()
+{
+  rmmod hw_cdc_driver.ko
+  echo "modprobe hw_cdc_driver"
+  modprobe hw_cdc_driver
+  sleep 2
+}
+try_bridge_driver()
+{
+  rmmod bridge.ko
+  echo "modprobe bridge"
+  modprobe bridge
+  sleep 2
+}
+bridge_connection()
+{
+  echo "bridge adding"
+  brctl addbr mybr
+  sleep 2
+  brctl addif mybr veth1
+  sleep 2
+  brctl addif mybr wwan0
+  sleep 1
+  ifconfig veth1 0.0.0.0 up
+  sleep 1
+  ifconfig wwan0 0.0.0.0 up
+  sleep 1
+  ifconfig mybr up
+  sleep 4
+}
+
+bridge_disconnect()
+{
+  ifconfig mybr down
+  brctl delif mybr veth1
+  brctl delif mybr wwan0
+  brctl delbr mybr
+  sleep 2
+}
+
+
+
+### MAIN ###
+
+case $ACTION in
+  add)
+    echo "Found umts device $NAME ($BUS $VENDOR:$PRODUCT)"
+    
+    set_nr_interfaces
+    
+    check_modeswitch
+
+    if [ ! -z "$DO_MODESWITCH" ] ; then
+      /usr/bin/usb_modeswitch $MODESWITCH_PARAM
+    else
+
+      if [ "$FORCE_USB11" = "1" ] ; then
+        check_set_companion
+      fi
+
+      FOUND_AT_INTERFACE=-1
+      FOUND_DATA_INTERFACE=-1
+
+      try_cdcacm_driver
+
+      if [ "$NDIS" = "1" ] ; then
+        try_qmi_wwan_driver
+ 	try_hw_cdc_driver
+        try_cdc_ncm_driver
+        try_bridge_driver
+      fi
+
+      if [ "$FOUND_AT_INTERFACE" = "-1" ] ; then
+        try_option_driver
+      fi
+      
+      if [ "$NDIS" = "1" ] ; then
+        bridge_connection
+      fi
+      
+      #Try to use the internal flash drive
+      /etc/usbmgr/storage
+      
+      write_conffile
+
+    fi
+  ;;
+	
+  remove)
+    echo "Removed umts device $NAME ($BUS $VENDOR:$PRODUCT)"
+      if [ -e "$CONF_FILE" ] ; then
+        . $CONF_FILE
+        #Only remove if the bus and dev are correct
+        if [ "$MODEMBUS" = "$BUS" ] && [ "$MODEMDEV" = "$DEV" ] ; then
+          restore_companion
+	  if [ "$NDIS" = "1" ] ; then
+          bridge_disconnect
+          rmmod qmi_wwan
+          rmmod cdc_wdm
+          rmmod cdc_ncm
+          rmmod hw_cdc_driver
+          rmmod bridge
+          fi
+          rmmod option.ko
+          rmmod cdc-acm.ko
+          rm -f $CONF_FILE
+        fi
+      fi
+  ;;
+esac
+
+exit 0
+

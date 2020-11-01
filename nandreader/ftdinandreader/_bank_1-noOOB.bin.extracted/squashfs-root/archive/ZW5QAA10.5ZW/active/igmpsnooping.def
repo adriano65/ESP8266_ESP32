@@ -1,0 +1,9 @@
+ifconfig brname=bridge intf=OBC portmode=Auto fastleave=enabled exptrack=disabled mrdp=enabled rgmp=disabled
+ifconfig brname=bridge intf=ethport1 portmode=Auto fastleave=disabled exptrack=disabled mrdp=enabled rgmp=disabled
+ifconfig brname=bridge intf=ethport2 portmode=Auto fastleave=disabled exptrack=disabled mrdp=enabled rgmp=disabled
+ifconfig brname=bridge intf=ethport3 portmode=Auto fastleave=disabled exptrack=disabled mrdp=enabled rgmp=disabled
+ifconfig brname=bridge intf=ethport4 portmode=Auto fastleave=disabled exptrack=disabled mrdp=enabled rgmp=disabled
+ifconfig brname=bridge intf=bri_ge portmode=Router fastleave=disabled exptrack=disabled mrdp=enabled rgmp=disabled
+ifconfig brname=bridge intf=vdsl2 portmode=Router fastleave=disabled exptrack=disabled mrdp=enabled rgmp=disabled
+ifconfig brname=bridge intf=virt portmode=Auto fastleave=disabled exptrack=disabled mrdp=enabled rgmp=disabled
+config brname=bridge state=enabled floodrp=disabled floodmcast=disabled queryto=140

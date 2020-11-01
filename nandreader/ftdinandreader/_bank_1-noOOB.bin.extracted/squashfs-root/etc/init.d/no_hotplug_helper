@@ -1,0 +1,2 @@
+echo "Disabling hotplug helper"
+echo '' > /proc/sys/kernel/hotplug

@@ -1,0 +1,79 @@
+add name=wan type=intf intfgroup=wan
+add name=local type=intf intfgroup=local
+add name=lan type=intf intfgroup=lan
+add name=tunnel type=intf intfgroup=tunnel
+add name=dmz type=intf intfgroup=dmz
+add name=guest type=intf intfgroup=guest
+add name IPTV_wan type intf intf IPTV
+add name=from_loop type=intf intf=loop
+add name=private type=ip addr=10.0.0.0/8
+add name=private type=ip addr=172.[16-31].*.*
+add name=private type=ip addr=192.168.1.0/24
+add name=ping_diag_dst type=ip addr=1.1.1.1/32 
+add name=lanSubnet type=ip addr=192.168.1.0/24
+add name=icmp type=serv proto=icmp
+add name=igmp type=serv proto=igmp
+add name=ftp type=serv proto=tcp dstport=ftp
+add name=telnet type=serv proto=tcp dstport=telnet
+add name=http type=serv proto=tcp dstport=www-http
+add name=httpproxy type=serv proto=tcp dstport=httpproxy
+add name=https type=serv proto=tcp dstport=443
+add name=RPC type=serv proto=tcp dstport=135
+add name=NBT type=serv proto=udp dstport=netbios-ns
+add name=NBT type=serv proto=udp dstport=netbios-dgm
+add name=NBT type=serv proto=tcp dstport=netbios-ssn
+add name=SMB type=serv proto=tcp dstport=445
+add name=imap type=serv proto=tcp dstport=imap2
+add name=imap3 type=serv proto=tcp dstport=imap3
+add name=imap4-ssl type=serv proto=tcp dstport=585
+add name=imaps type=serv proto=tcp dstport=993
+add name=pop2 type=serv proto=tcp dstport=pop2
+add name=pop3 type=serv proto=tcp dstport=pop3
+add name=pop3s type=serv proto=tcp dstport=995
+add name=smtp type=serv proto=tcp dstport=smtp
+add name=ssh type=serv proto=tcp dstport=22
+add name=dns type=serv proto=tcp dstport=dns
+add name=dns type=serv proto=udp dstport=dns
+add name=nntp type=serv proto=tcp dstport=nntp
+add name=ipsec type=serv proto=ah
+add name=ipsec type=serv proto=esp
+add name=ipsec type=serv proto=udp dstport=ike
+add name=ipsec type=serv proto=udp dstport=4500
+add name=esp type=serv proto=esp
+add name=ah type=serv proto=ah
+add name=ike type=serv proto=udp dstport=ike
+add name=DiffServ type=serv dscp=!cs0
+add name=h323 type=serv proto=tcp dstport=h323
+add name=h323 type=serv proto=udp dstport=h323
+add name=h323 type=serv proto=tcp dstport=1718
+add name=h323 type=serv proto=udp dstport=1718
+add name=h323 type=serv proto=tcp dstport=1719
+add name=h323 type=serv proto=udp dstport=1719
+add name=dhcp type=serv proto=udp dstport=bootpc
+add name=dhcp type=serv proto=udp dstport=bootps
+add name=rtsp type=serv proto=udp dstport=554
+add name=rtsp type=serv proto=tcp dstport=554
+add name=ssdp_ip type=ip addr=239.255.255.250
+add name=ssdp_serv type=serv proto=udp dstport=1900
+add name=mdap_ip type=ip addr=224.0.0.103
+add name=mdap_serv type=serv proto=udp dstport=3235
+add name=syslog type=serv proto=udp dstport=syslog
+add name=Serv_CS5 type=serv dscp=cs5
+add name=Serv_CS1 type=serv dscp=cs1
+add name=Serv_CS3 type=serv dscp=cs3
+add name=mgmt_route_targets type=ip addr=0.0.0.0/32
+add name=cwmp-s type=serv proto=tcp dstport=7170
+add name=stb_hosts type=ip addr=0.0.0.0/32
+add name=ntp type=serv proto=udp dstport=123
+add name=VoIP-Inc-SIP-UDP type=serv proto=udp dstport=5060
+add name=VoIP-Inc-SIP-TCP type=serv proto=tcp dstport=5060
+add name=extua type=serv  proto=udp srcport=sip
+add name incoming-sips-rtp type serv proto udp dstport 16384 dstportend 32767
+add name incoming-voice-rtp type serv proto udp dstport 1024 dstportend 1151
+add name VoIP-Inc-SIPS type serv proto tcp dstport 5060
+add name VoIP-Inc-SIP type serv proto tcp dstport 5070
+add name=ipv4_traffic type=ip addr=*.*.*.*
+add name=ipv6_traffic type=ip addr=::/0
+add name=data_ip type=ip addr=1.1.1.1 mask 255.255.255.255
+add name=mgmt_ip type=ip addr=2.2.2.2 mask 255.255.255.255
+

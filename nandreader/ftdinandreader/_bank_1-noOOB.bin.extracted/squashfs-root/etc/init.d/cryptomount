@@ -1,0 +1,26 @@
+#!/bin/sh
+
+case $1 in
+    start)
+        /bin/echo "Mounting encrypted partitions ..."
+	insmod /lib/modules/`uname -r`/extra/loop.ko
+	
+	MTD=$(cat /proc/mtd | grep -i archivefs | sed -n "s/\(mtd\)\(.*\):\(.\)*/\2/p")
+										  
+	if [ -z $MTD ]; then
+	    MTD=3
+	    echo "Warning: assuming 'archivefs' is on mtdblock3"
+	fi
+	
+	/usr/sbin/fssetup -k /etc/archfsopts /dev/loop0 /dev/mtdblock${MTD}
+	
+	mount -t squashfs -o ro /dev/loop0 /archive
+        ;;
+    stop)
+        umount /archive
+	losetup -d /dev/loop0
+        ;;
+    *)
+
+esac
+

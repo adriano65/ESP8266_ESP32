@@ -1,0 +1,96 @@
+#!/bin/sh
+
+. /etc/cgroup-partitioning.conf
+
+SDKCHROOT_DIR=/rw/sdkdef/sdkchroot
+
+CGROUPS_PLATFORM_DIR=${CGROUPS_BASE_DIR}/$PLATFORM_SUB_CGROUP_NAME
+CGROUPS_MIDDLEWARE_DIR=${CGROUPS_BASE_DIR}/$MIDDLEWARE_SUB_CGROUP_NAME
+CGROUPS_APPLICATIONS_DIR=${CGROUPS_BASE_DIR}/$APPLICATIONS_SUB_CGROUP_NAME
+
+CGROUPS_BASE_TASKS=${CGROUPS_BASE_DIR}/tasks
+CGROUPS_PLATFORM_TASKS=${CGROUPS_PLATFORM_DIR}/tasks
+CGROUPS_MIDDLEWARE_TASKS=${CGROUPS_MIDDLEWARE_DIR}/tasks
+CGROUPS_APPLICATIONS_TASKS=${CGROUPS_APPLICATIONS_DIR}/tasks
+
+if [ ! -d $CGROUPS_BASE_DIR ]; then
+  mkdir $CGROUPS_BASE_DIR
+fi
+
+
+case $1 in
+   
+   # start the component
+   start)
+
+     /bin/echo "cgroup_partitioning start ..."
+     mount -t cgroup -o all services $CGROUPS_BASE_DIR
+
+     if [ ! -d $CGROUPS_PLATFORM_DIR ]; then
+       mkdir $CGROUPS_PLATFORM_DIR
+     fi
+     if [ ! -d $CGROUPS_MIDDLEWARE_DIR ]; then
+       mkdir $CGROUPS_MIDDLEWARE_DIR
+     fi
+     if [ ! -d $CGROUPS_APPLICATIONS_DIR ]; then
+       mkdir $CGROUPS_APPLICATIONS_DIR
+     fi
+
+     # Move middleware PIDs to middleware cgroup
+     pid_list=`ps | grep middleware | grep 'usr/bin' | cut -f2 -d " "`
+     for i in $pid_list
+     do
+       /bin/echo $i > $CGROUPS_MIDDLEWARE_TASKS
+     done
+
+     # Move other PIDs to platform cgroup
+     cat $CGROUPS_BASE_TASKS | while read task; do
+       /bin/echo $task > $CGROUPS_PLATFORM_TASKS
+     done
+
+     if [ ! -z $PLATFORM_CPU_SHARE ]; then
+       /bin/echo $PLATFORM_CPU_SHARE > ${CGROUPS_PLATFORM_DIR}/cpu.shares
+     fi
+     if [ ! -z $MIDDLEWARE_CPU_SHARE ]; then
+       /bin/echo $MIDDLEWARE_CPU_SHARE > ${CGROUPS_MIDDLEWARE_DIR}/cpu.shares
+     fi
+     if [ ! -z $APPLICATIONS_CPU_SHARE ]; then
+       /bin/echo $APPLICATIONS_CPU_SHARE > ${CGROUPS_APPLICATIONS_DIR}/cpu.shares
+     fi
+     
+     if [ ! -z $PLATFORM_MEMORY_LIMIT ]; then
+       /bin/echo $PLATFORM_MEMORY_LIMIT > ${CGROUPS_PLATFORM_DIR}/memory.limit_in_bytes
+     fi
+     if [ ! -z $MIDDLEWARE_MEMORY_LIMIT ]; then
+       /bin/echo $MIDDLEWARE_MEMORY_LIMIT > ${CGROUPS_MIDDLEWARE_DIR}/memory.limit_in_bytes
+     fi
+     if [ ! -z $APPLICATIONS_MEMORY_LIMIT ]; then
+       /bin/echo $APPLICATIONS_MEMORY_LIMIT > ${CGROUPS_APPLICATIONS_DIR}/memory.limit_in_bytes
+     fi
+     ;;
+   # stop the component
+   stop)
+
+     /bin/echo "cgroup_partitioning stop ..."
+   
+     cat $CGROUPS_APPLICATIONS_TASKS $CGROUPS_PLATFORM_TASKS $CGROUPS_MIDDLEWARE_TASKS | while read task; do
+       /bin/echo $task > $CGROUPS_BASE_TASKS
+     done
+
+     if [ -d $CGROUPS_PLATFORM_DIR ]; then
+       rmdir $CGROUPS_PLATFORM_DIR
+     fi
+     if [ -d $CGROUPS_MIDDLEWARE_DIR ]; then
+       rmdir $CGROUPS_MIDDLEWARE_DIR
+     fi
+     if [ -d $CGROUPS_APPLICATIONS_DIR ]; then
+       rmdir $CGROUPS_APPLICATIONS_DIR
+     fi
+
+     umount $CGROUPS_BASE_DIR 
+     rmdir $CGROUPS_BASE_DIR 
+
+     ;;
+   *)
+   
+esac

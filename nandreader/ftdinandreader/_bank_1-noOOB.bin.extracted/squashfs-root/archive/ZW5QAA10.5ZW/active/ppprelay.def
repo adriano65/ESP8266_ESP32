@@ -1,0 +1,3 @@
+ifadd intf=bridge
+ifadd intf=ethoa_8_35
+ifadd intf=user_835

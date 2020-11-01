@@ -1,0 +1,31 @@
+#!/bin/sh
+
+ID_FILE='/var/run/omcipmd'
+BIN_FILE='/usr/bin/omcipmd'
+BIN_PATH=/usr/bin/omcipmd
+
+case $1 in
+    start)
+	# start omcipmd 
+	if [ -f "$BIN_FILE" ] ; then
+		/bin/echo "omcipmd start ..."
+          ${BIN_PATH} & 
+	fi
+	;;
+    stop)
+	# stop omcipmd
+	if [ -f "$BIN_FILE" ] ; then
+            /bin/echo "omcipmd stop ..."
+		if [ -f "$ID_FILE" ] ; then
+      OMCIPMD_ID=$(cat ${ID_FILE});
+      /bin/echo ${OMCIPMD_ID}
+      kill ${OMCIPMD_ID}
+			rm -f ${ID_FILE}
+		fi
+	fi
+  ;;
+    *)
+	
+esac
+
+

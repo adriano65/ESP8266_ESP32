@@ -1,0 +1,56 @@
+#!/bin/sh
+
+# udhcpc script edited by Tim Riker <Tim@Rikers.org>
+
+[ -z "$1" ] && echo "Error: should be called from udhcpc" && exit 1
+
+RESOLV_CONF="/etc/resolv.conf"
+[ -n "$broadcast" ] && BROADCAST="broadcast $broadcast"
+[ -n "$subnet" ] && NETMASK="netmask $subnet"
+
+case "$1" in
+	deconfig)
+		/sbin/ifconfig $interface 0.0.0.0
+		;;
+
+	renew|bound)
+		/sbin/ifconfig $interface $ip $BROADCAST $NETMASK
+
+		if [ -n "$router" ] ; then
+			echo "deleting routers"
+			while route del default gw 0.0.0.0 dev $interface ; do
+				:
+			done
+
+			metric=0
+			for i in $router ; do
+				route add default gw $i dev $interface metric $((metric++))
+			done
+		fi
+
+		# Fix for Tessa - 406  Samba server not reachable from \\192.168.1.1 
+		NET=$(echo $i |sed 's/\([0-9]*.[0-9]*.[0-9]*\).*/\1/')
+		route add -net $NET.0 $NETMASK gw $i
+		# this /dl/rw/nmonip is used by samba to hack the spoolss to reply the printer information correctly
+		echo $i > /rw/dl/nmonip
+
+		# update resolf.conf
+		echo -n > $RESOLV_CONF
+		[ -n "$domain" ] && echo search $domain >> $RESOLV_CONF
+		for i in $dns ; do
+			echo adding dns $i
+			echo nameserver $i >> $RESOLV_CONF
+		done
+
+		# update hostname FQDN
+		hostname=`hostname`
+		hostname=${hostname%%.*}
+		if [ -n "$domain" ]; then
+			hostname $hostname.$domain
+		else
+			hostname $hostname
+		fi
+		;;
+esac
+
+exit 0

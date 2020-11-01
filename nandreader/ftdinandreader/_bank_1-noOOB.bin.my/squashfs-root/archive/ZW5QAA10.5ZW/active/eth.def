@@ -1,0 +1,20 @@
+ifadd intf=mgmt_837
+ifconfig intf=mgmt_837 dest bridge vlan mgmt wan enabled priomap=disabled
+ifattach intf=mgmt_837
+ifadd intf=user_835
+ifconfig intf=user_835 dest bridge vlan data priomap=disabled
+ifattach intf=user_835
+ifadd intf=dummy
+ifadd intf=ethoa_8_35
+ifconfig intf=ethoa_8_35 dest=atm_8_35 vlan=default priotag=disabled
+ifattach intf=ethoa_8_35
+ifconfig intf=mgmt_837 priority=5
+ifconfig intf=user_835 priority=0
+ifadd intf=ethoa_8_36
+ifconfig intf=ethoa_8_36 dest=atm_8_36 vlan=default priotag=disabled
+ifadd intf=video_836
+ifconfig intf=video_836 priority=3
+ifconfig intf=video_836 dest bridge vlan video wan enabled
+fap map tmprio=0 intlowprio=0 inthiprio=7
+fap map tmprio=1 intlowprio=8 inthiprio=11
+fap map tmprio=3 intlowprio=12 inthiprio=15

@@ -1,0 +1,38 @@
+#!/bin/sh
+
+#Link qtn fw in a ramdisk
+RAMDISK_PATH=/tmp/qtn
+
+case $1 in
+    start)
+        mkdir -p $RAMDISK_PATH
+        ln -s /qtn/qtn-uboot $RAMDISK_PATH/qtn-uboot
+        ln -s /qtn/qtn-linux.lzma $RAMDISK_PATH/qtn-linux.lzma
+        ln -s /qtn/software_version.txt $RAMDISK_PATH/software_version.txt
+
+        #Check for qtn_custo.env in archive
+        ARCHIVE_FILE=$(find /archive -name qtn_custo.env -type f | grep "active/qtn_custo.env" )
+        if [ "$ARCHIVE_FILE" != "" ] ; then
+            ln -s $ARCHIVE_FILE $RAMDISK_PATH/qtn_custo.env
+        else
+            touch $RAMDISK_PATH/qtn_custo.env
+        fi
+      
+        #Check for qtn_custo.sh in archive
+        ARCHIVE_FILE=$(find /archive -name qtn_custo.sh -type f | grep "active/qtn_custo.sh" )
+        if [ "$ARCHIVE_FILE" != "" ] ; then
+            ln -s $ARCHIVE_FILE $RAMDISK_PATH/qtn_custo.sh
+        else
+            touch $RAMDISK_PATH/qtn_custo.sh
+        fi
+	;;
+
+    stop)
+        rm -rf $RAMDISK_PATH
+	;;
+    *)
+	
+esac
+
+
+

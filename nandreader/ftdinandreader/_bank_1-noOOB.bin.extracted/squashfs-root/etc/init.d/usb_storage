@@ -1,0 +1,674 @@
+#!/bin/sh
+
+# make everything to work relatively
+# so we have a fake "ROOT"
+# this script is located in ROOT/etc/init.d 
+# thus root is ROOT/etc/init.d/../..
+#MYSCRIPTDIR=$(dirname $(pwd)/$0)
+case $0 in
+/*)
+	# absolute path
+	MYSCRIPTDIR="$(dirname ${0})"
+	;;
+*)
+	# relative path
+	MYSCRIPTDIR="$(dirname $(pwd)/${0})"
+	;;
+esac
+
+
+MYROOT="${MYSCRIPTDIR}/../.."
+
+
+. ${MYROOT}/etc/advancedservices.conf
+
+CANONICAL_MOUNT_DIR_BASE="/var/uuidmount/"
+CANONICAL_MOUNT_DIR="${MYROOT}${CANONICAL_MOUNT_DIR_BASE}"
+MOUNT_DIR_BASE="/var/usbmount"
+MOUNT_DIR="${MYROOT}${MOUNT_DIR_BASE}"
+UBIN_DIR="${MYROOT}/usr/bin"
+export LD_LIBRARY_PATH="${MYROOT}/lib"
+
+# look for nobody UID and GID
+U_ID=$(id -u nobody)
+G_ID=$(id -g nobody)
+
+#Make sure there is only one managed disk
+MD_FLAG="no"
+
+#samba global variables
+GSMBD_WAS_RUNNING="x"
+
+# list all mountable partitions
+mountable_partitions()
+{
+#now we only have sdx1-14, so ignore others
+	fdisk -l $1 | grep '^\/dev\/' | grep -v Extended | grep -v Ext.d | grep -v 'sd.1[5-9]' | cut -d ' ' -f 1 | cut -c 6-
+}
+
+# determine filesystem type
+fstype()
+{
+	PARTITIONDEV=$1
+
+	# most likely: FAT32
+	if [ x`dd if=/dev/$PARTITIONDEV bs=1 count=5 skip=82 2> /dev/null` = "xFAT32" ] ; then
+		echo "FAT32"
+		return
+	fi
+
+	# NTFS
+	if [ x`dd if=/dev/$PARTITIONDEV bs=1 count=4 skip=3 2> /dev/null` = "xNTFS" ] ; then
+		echo "NTFS"
+		return
+	fi
+
+	# less likely: FAT12, FAT16
+	SIGNATURE=`dd if=/dev/$PARTITIONDEV bs=1 count=5 skip=54 2> /dev/null`
+	if [ x$SIGNATURE = "xFAT16" ] ; then
+		echo "FAT16"
+		return
+	fi
+
+	if [ x$SIGNATURE = "xFAT12" ] ; then
+		echo "FAT12"
+		return
+	fi
+  # EXT3
+  # the superblock is located at offset 1024
+  # at offset 56 within the superblock the EXT2/EXT3/EXT4 magic (53ef) can be read
+  if dd if=/dev/$PARTITIONDEV bs=1 count=2 skip=1080 | hexdump | grep -q 53ef ; then
+    # flag EXT3_FEATURE_COMPAT_HAS_JOURNAL (0x04) identifies an Ext3 FS
+		if [ $((0x`hexdump -x -n 2 -s 1116 /dev/$PARTITIONDEV | head -n 1 | sed 's/  */ /g' | cut -d ' ' -f 2` & 0x0400 )) -gt 0 ]; then
+      echo "EXT3";
+		else
+			echo "EXT2";
+		fi
+    return
+  fi
+	SIGNATURE=`dd if=/dev/$PARTITIONDEV bs=1 count=2 skip=1024 2> /dev/null`
+	[ x$SIGNATURE = "xH+" -o x$SIGNATURE = "xHX" ] && { echo "HFS+"; return; } 
+	# TODO we need a reliable way to detect HFS(+/J/X) volumes. For now, they are reported as "Unknown"
+	echo "Unknown"
+}
+
+#check for valid partition table
+has_partitiontable()
+{
+	PARTITIONDEV=$1
+	
+	# first check: bytes 510-511 should read 55h AAh
+	SIGNATURE=`hexdump -x -n 2 -s 510 /dev/$PARTITIONDEV | head -n 1 | sed 's/  */ /g' | cut -f 2 -d ' '`
+	if [ "x$SIGNATURE" = "x55aa" ] ; then
+		# second check: first sector shouldn't be a FAT boot sector
+		# Annoyingly, these have the same signature as MBR records.
+		# We'll distinguish them based on the first 3 bytes of the sector: if it's
+		# eb 3c 90, we're definitely dealing with a FAT boot sector. Otherwise, we
+		# assume it's a proper MBR
+		#SIGNATURE=`hexdump -x -n 3 -s 0 /dev/$PARTITIONDEV | head -n 1 | sed 's/  */ /g' | cut -f 2-3 -d ' '`
+		#if [ ! "x$SIGNATURE" = "xeb3c 9000" ] ; then
+		#	echo "YES"
+		#	return
+		#fi
+		
+    # apparently the previous check was too strict it should test for eb XX 90, so replace the 3rd and 4th character with X
+		SIGNATURE=`hexdump -x -n 3 -s 0 /dev/$PARTITIONDEV | head -n 1 | sed 's/  */ /g' | cut -f 2-3 -d ' ' | sed 's/\(..\)\(..\)/\1XX/'`
+		if [ "x$SIGNATURE" = "xebXX 9000" ] ; then
+			echo "NO"
+			return
+		fi
+
+		# or in case of 16 bit: check for e9XX XX so replace the two characters after the space also with 'XX'
+		SIGNATURE=`echo $SIGNATURE | sed 's/\(.... \)\(..\)/\1XX/'`
+		if [ "x$SIGNATURE" = "xe9XX XX00" ] ; then
+			echo "NO"
+			return
+		fi
+
+        echo "YES"
+        return
+	fi
+
+	echo "NO"
+}
+
+to_stop_samba()
+{
+	/etc/init.d/samba stop
+}
+
+to_start_samba()
+{
+	/etc/init.d/samba start
+}
+
+prepare_manageddisk_media_folders()
+{
+ if test -d $HDTOOLSDIR
+ then
+  echo "Preparing the filesystem for the upnp av service..."
+  if test -d $HDTOOLSDIR/$MEDIADIR/$PICTURESDIR
+        then
+         echo $PICTURESDIR" directory already exist."
+        else
+         echo "Creating "$PICTURESDIR" directory structure"
+				 # to set write permission for picture directory, bug fix CPE_P00045572
+         mkdir -p -m 777 $HDTOOLSDIR/$MEDIADIR/$PICTURESDIR
+        fi
+
+  if test -d $HDTOOLSDIR/$MEDIADIR/$MUSICDIR
+        then
+         echo $MUSICDIR" directory already exist."
+        else
+         echo "Creating "$MUSICDIR" directory structure"
+				 # to set write permission for music directory, bug fix CPE_P00045572
+         mkdir -p -m 777 $HDTOOLSDIR/$MEDIADIR/$MUSICDIR
+        fi
+
+  if test -d $HDTOOLSDIR/$MEDIADIR/$MOVIESDIR
+        then
+         echo $MOVIESDIR" directory already exist."
+        else
+         echo "Creating "$MOVIESDIR" directory structure"
+				 # to set write permission for movies directory, bug fix CPE_P00045572
+         mkdir -p -m 777 $HDTOOLSDIR/$MEDIADIR/$MOVIESDIR
+        fi
+ fi
+}
+
+#set a marker file on the managed disk and in the flash
+mark_managed_disk()
+{
+   PARTITIONDEV=$1 
+
+   if [ -L $HDTOOLSDIR ]; then
+	rm -f $HDTOOLSDIR
+   else
+	rm -rf $HDTOOLSDIR
+   fi
+   ln -s $MOUNT_DIR/$PARTITIONDEV $HDTOOLSDIR
+   
+   #if we use the markerbased method of defining a managed disk, we need to set the marker at this point
+   if [ $MANAGEDDISKMETHOD = "marker" ]; then
+    echo "adding marker to managed disk and save a copy in the flash"
+    echo "MANAGED_DISK_MARKER: "`date` > $FLASHCONFIGDIR/manageddisk_marker
+
+    if test -d $HDTOOLSDIR/$SETTINGSDIR
+    then
+       echo "Settings directory already exists."
+    else
+       echo "Creating Settings directory structure"
+       mkdir -p $HDTOOLSDIR/$SETTINGSDIR
+    fi
+    cp -f $FLASHCONFIGDIR/manageddisk_marker $MOUNT_DIR/$PARTITIONDEV/$SETTINGSDIR
+		
+		# to create Shared directory for managed disk, bug fix CPE_P00030893
+		# to set write permission for Shared directory, bug fix CPE_P00034965
+		if test -d $HDTOOLSDIR/$SHAREDDIR
+    then
+       echo "Shared directory already exists."
+    else
+       echo "Creating a Shared directory !"
+       mkdir -p -m 777 $HDTOOLSDIR/$SHAREDDIR
+    fi
+			
+	  prepare_manageddisk_media_folders
+
+   fi
+}
+
+unmark_managed_disk()
+{
+  PARTITIONDEV=$1  
+  LINK=`readlink $HDTOOLSDIR`
+  if [ $LINK = $MOUNT_DIR/$PARTITIONDEV ]; then
+   echo "Managed disk removed: unmarking managed disk: " $PARTITIONDEV
+   if [ -L $HDTOOLSDIR ]; then
+	rm -f $HDTOOLSDIR
+   else
+	rm -rf $HDTOOLSDIR
+   fi
+   rm $FLASHCONFIGDIR/manageddisk_marker
+  fi
+}
+
+find_storage_device()
+{
+    PARITIONDEV=$1
+    MOUNTDIR=$2
+    BUSNUM=$3
+    DEVNUM=$4
+    DEVICEDIR=$5
+    HAS_PARTITIONS=$6
+
+    curdevnum=`cat $DEVICEDIR/devnum`
+    if [ $? = 0 ] && [ $curdevnum = $DEVNUM ]; then
+        device=`echo $PARTITIONDEV | sed -e 's/[0-9]*$//'`
+        if [ $? != 0 ]; then
+            return 1
+        fi
+
+        if [ "x$HAS_PARTITIONS" = "xNO" ]; then
+            #startsector="0"
+            #endsector="999"
+            sectors=`cat /proc/partitions | grep $device | tr -s ' ' | cut -d ' ' -f3,4`
+            if [ $? != 0 ]; then
+                return 1
+            fi
+        else
+            #get start and end sector of the partition used to generate a unique name
+			#'$PARTITIONDEV ' is must, consider sda10 ...
+            sectors=`fdisk -l /dev/$device | grep "$PARTITIONDEV " | sed -e 's/\*/ /;s/\?/ /' | tr -s ' ' | cut -d ' ' -f2,3`
+            if [ $? != 0 ]; then
+                return 1
+            fi
+        fi
+
+	if [ "x$HAS_PARTITIONS" = "xNO" ]; then
+		startsector=1
+	else
+        startsector=`echo $sectors | cut -d ' ' -f1`
+	fi
+        endsector=`echo $sectors | cut -d ' ' -f2`
+
+        if [ -e $DEVICEDIR/serial ]; then
+            serial=`cat $DEVICEDIR/serial | sed -e 's/^[ \t]*//;s/[ \t]*$//'`
+        fi
+
+        if [ "x$serial" = "x" ]; then
+            serial = "dymmyserial"
+        fi
+
+        if [ -e $DEVICEDIR/idVendor ]; then
+            vendorId=`cat $DEVICEDIR/idVendor | sed -e 's/^[ \t]*//;s/[ \t]*$//'`
+        fi
+
+        if [ -e $DEVICEDIR/idProduct ]; then
+            productId=`cat $DEVICEDIR/idProduct | sed -e 's/^[ \t]*//;s/[ \t]*$//'`
+        fi
+
+        if [ -e $MOUNTDIR/${vendorId}_${productId}_${serial}_${startsector}_${endsector} ]; then
+            index=1
+            while [ -e $MOUNTDIR/${vendorId}_${productId}_${serial}_${startsector}_${endsector}_${index} ]
+            do
+                let index=index+1 
+            done
+
+            echo "$MOUNTDIR/${vendorId}_${productId}_${serial}_${startsector}_${endsector}_${index}"
+        else
+            echo "$MOUNTDIR/${vendorId}_${productId}_${serial}_${startsector}_${endsector}"
+        fi
+
+        return 0
+    fi
+
+    #recursively find the device in subdirs in case it is attached to a hub
+    DEVICESUBDIRS=`ls -1d $DEVICEDIR*/ | grep ${DEVICEDIR}${BUSNUM} | grep -v ":"`
+    for subdir in $DEVICESUBDIRS
+    do
+        find_storage_device $PARTITIONDEV $MOUNTDIR $BUSNUM $DEVNUM $subdir $HAS_PARTITIONS
+        if [ $? = 0 ]; then
+            return 0
+        fi
+    done
+
+    return 1
+}
+
+get_canonical_mountpoint()
+{
+    PARTITIONDEV=$1
+    MOUNTDIR=$2
+    DEVNUM=$3
+    HAS_PARTITIONS=$4
+
+    BUSNUM=$(($DEVNUM >> 8))
+    DEVNUM=$(($DEVNUM & 255))
+            
+    DEVICEDIRS=`ls -1d /sys/bus/usb/devices/usb$BUSNUM/*/ | grep /sys/bus/usb/devices/usb$BUSNUM/$BUSNUM | grep -v ":"`
+    for dir in $DEVICEDIRS
+    do
+        find_storage_device $PARTITIONDEV $MOUNTDIR $BUSNUM $DEVNUM $dir $HAS_PARTITIONS
+        if [ $? = 0 ]; then
+            return 0
+        fi
+    done
+
+    return 1
+}
+
+#rmmod_unused_drivers()
+#{
+#        if [ x`lsmod | grep '^ufsd ' | cut -f 3 -d ' '` = "x0" ]; then
+#            rmmod ufsd
+#        fi
+#        if [ x`lsmod | grep 'ext2' | cut -f 3 -d ' '` = "x0" ]; then
+#          modprobe -r ext2
+#        fi
+#        if [ x`lsmod | grep 'ext3' | cut -f 3 -d ' '` = "x0" ]; then
+#          modprobe -r ext3
+#        fi
+#}
+	
+mount_partition()
+{
+	PARTITIONDEV=$1
+	DEVNUM=$2
+    HAS_PARTITIONS=$3
+
+	mountpoint=`get_canonical_mountpoint $PARTITIONDEV $CANONICAL_MOUNT_DIR $DEVNUM $HAS_PARTITIONS`
+	if [ $? != 0 ]; then
+		echo "Mount partition: Failed to generate unique id $PARTITIONDEV $DEVNUM"
+		return
+    fi
+
+#echo "checking $PARTITIONDEV $DEVNUM"
+	${UBIN_DIR}/scsi_info /dev/$PARTITIONDEV > /dev/null
+	FSTYPE="Unknown"
+	if [ $? = 0 ] && [ -z "$(grep "^/dev/${PARTITIONDEV}\>" /proc/mounts)" ]; then
+#	echo "Trying to mounting device: $PARTITIONDEV"
+		mkdir -p "${mountpoint}";
+
+		FSTYPE=`fstype $PARTITIONDEV`
+
+		case "x$FSTYPE" in
+			xFAT32 | xFAT16 | xFAT12)
+				mount "/dev/$PARTITIONDEV" "${mountpoint}" -t vfat -o noatime -o umask=000 -o codepage=850,iocharset=iso8859-1
+				MRC=$?
+				if [ $MRC != 0 ]; then
+					mount "/dev/$PARTITIONDEV" "${mountpoint}" -t msdos -o noatime -o umask=000 -o codepage=850,iocharset=iso8859-1
+					MRC=$?
+				fi
+				;;
+
+			xNTFS | xHFS+ | xUnknown)
+				if [ -e /lib/modules/ufsd.ko ]; then
+					# insmod if necessary
+					if [ "`lsmod | grep ufsd`" = "" ]; then
+						insmod /lib/modules/ufsd.ko
+					fi
+					mount "/dev/$PARTITIONDEV" "${mountpoint}" -t ufsd -o noatime,sparse,nocase,nobuf -o uid=000 -o gid=000 -o umask=000 -o codepage=850,iocharset=iso8859-1
+					MRC=$?
+				else
+					MRC=1
+				fi
+				;;
+
+		        xEXT3)
+				echo EXT3
+				MRC=1
+		  	        ;;
+
+		        xEXT2)
+				echo EXT2
+				MRC=1
+				;;
+
+		esac
+                mkdir -p "${mountpoint}"/.mvfs
+				chmod 777 "${mountpoint}"/.mvfs
+                touch "${mountpoint}"/.mvfs/tagdb
+				chmod 777 "${mountpoint}"/.mvfs/tagdb
+		if [ $MRC != 0 ]; then
+			echo "mount $PARTITIONDEV NOK"
+			rmdir "${mountpoint}";
+			${MYROOT}/usr/bin/storagecl -t disk -o add -p partition -a $PARTITIONDEV -f ${mountpoint} -r $FSTYPE -s 0 -m "Mounting error: wrong formatting" -M 0
+		else
+			echo "mount $PARTITIONDEV OK"
+			df /dev/$PARTITIONDEV 
+			# create symlink in /var/usbmount/$PARTITIONDEV
+			ln -sf "${mountpoint}" "$MOUNT_DIR/$PARTITIONDEV"
+				${MYROOT}/usr/bin/storagecl -t disk -o add -p partition -a $PARTITIONDEV -f "${mountpoint}" -r $FSTYPE -s 1 -m "Mounted successfully" -M 0
+			fi
+		fi
+
+        to_stop_samba
+        sleep 5
+        to_start_samba
+#	rmmod_unused_drivers
+}
+
+umount_partition()
+{
+    PARTITIONDEV=$1
+    UNMOUNTED="no"
+    ISMANAGED=$2
+    SMBD_STATUS=0 # 0 means that cifs service is stopped (otherwise it is running)
+
+#echo "Umounting device: $PARTITIONDEV"
+
+    #   unmark_managed_disk $PARTITIONDEV
+
+    link="${MOUNT_DIR}/${PARTITIONDEV}"
+    realmount=`realpath "${link}"`
+
+    # check whether the partition is actually mounted
+    grep -q "^/dev/${PARTITIONDEV}\>" /proc/mounts
+    if [ $? != 0 ]; then
+        # not mounted
+	UNMOUNTED="yes"
+    else
+	umount "/dev/${PARTITIONDEV}"
+        if [ $? != 0 ]; then
+            echo "umount ${PARTITIONDEV} NOK"
+        else
+            echo "umount ${PARTITIONDEV} OK"
+            UNMOUNTED="yes"
+        fi
+    fi
+
+    if [ "$UNMOUNTED" = "yes" ]; then
+	if [ -L "${link}" ]; then
+	    rm "${link}"
+	fi
+
+	if [ -d "${realmount}" ] ; then
+	    rmdir "${realmount}"
+	fi
+
+        if [ $ISMANAGED = "1" ]; then
+            if [ -L $HDTOOLSDIR ]; then
+                echo "remove the symbolic link of the managed disk"
+                rm $HDTOOLSDIR
+            fi
+        fi
+
+#	rmmod_unused_drivers
+        return 0
+    else
+        return 1
+    fi
+}
+
+mount_all_partitions()
+{
+    DISKDEV=$1
+    DEVNUM=$2
+	#echo "Mounting all partitions of $DISKDEV"
+    
+    HAVE_PARTITIONS=`has_partitiontable $DISKDEV`
+    if [ $HAVE_PARTITIONS = YES ] ; then
+        # mount individual partitions
+	    for partition in `mountable_partitions /dev/$DISKDEV`
+	    do
+		mount_partition $partition $DEVNUM $HAVE_PARTITIONS
+	    done
+    else
+		# try to mount whole disk as one partition (happens with some USB drives)
+		mount_partition $DISKDEV $DEVNUM $HAVE_PARTITIONS
+    fi
+}
+
+umount_all_partitions()
+{
+    DISKDEV=$1
+    ISMANAGED=$2
+
+    FAILED=0
+#echo "Unmounting all partitions of $DISKDEV"
+
+    #try to unmount one big partition on the disk
+    umount_partition $DISKDEV $ISMANAGED
+
+    #try to umount partitions
+    for partition in `ls $MOUNT_DIR/ | grep $DISKDEV`
+    do
+	if [ -d $MOUNT_DIR/$partition ]; then 
+#echo "umount $partition"
+	    umount_partition $partition $ISMANAGED
+        if [ $? != 0 ]; then
+            FAILED=1
+        fi
+    fi
+    done
+    return $FAILED
+}
+
+mount_usbdisk()
+{
+	DEVNUM=$1
+	DISKDEV=`${UBIN_DIR}/usbdevnum2mscdev $DEVNUM`
+
+	if [ ! "$DISKDEV" ]; then
+		ITR=0
+		SCAN_DELAY=1
+		sleep 5
+		while [ $ITR -lt 10 ]; do
+#echo "Device $DEVNUM is not yet ready. Wait for $SCAN_DELAY seconds and retry..."
+			sleep $SCAN_DELAY
+			let "ITR++"
+			DISKDEV=`${UBIN_DIR}/usbdevnum2mscdev $DEVNUM`
+			if [ "$DISKDEV" ]; then
+			   break
+			fi
+		done
+	fi
+
+	if [ -b "/dev/$DISKDEV" ]; then
+#	echo disk dev is $DISKDEV
+
+		#add disk to mbus
+		${MYROOT}/usr/bin/storagecl -t disk -o add -p disk_number -a $DISKDEV -v $DEVNUM
+		#some disks require some time to get ready
+		sleep 1
+		mount_all_partitions $DISKDEV $DEVNUM
+#/etc/init.d/samba update
+	else
+		echo Usb device $DEVNUM is not a disk
+	fi
+}
+
+umount_usbdisk()
+{
+    DEVNUM=$1
+    #the storage client will call umount_disk(), after determining which device needs to be unmounted
+    ${MYROOT}/usr/bin/storagecl -t disk -o remove -p disk -v $DEVNUM
+}
+
+umount_disk() 
+{
+    DISKDEV=$1
+    ISMANAGED=$2
+    umount_all_partitions $DISKDEV $ISMANAGED
+    return $?
+}
+
+mount_all_usbdisks()
+{
+    echo "mount all usbdisks not implemented !" 
+}
+script_busy="/tmp/storage_script_busy"
+touch $script_busy
+case $1 in
+    start)
+		modprobe scsi_mod
+		modprobe sd_mod
+		modprobe usb-storage
+		modprobe fat
+		modprobe vfat  # can handle FAT12/16/32
+		modprobe nls_cp437
+		modprobe nls_iso8859-1
+		modprobe nls_cp850
+		[ ! -d $MOUNT_DIR ] && mkdir -p $MOUNT_DIR
+		[ ! -d $CANONICAL_MOUNT_DIR ] && mkdir -p $CANONICAL_MOUNT_DIR
+		[ ! -d $MVFS_MOUNT_DIR ] && mkdir $MVFS_MOUNT_DIR
+        ;;
+    mount_all)
+		mount_all_usbdisks
+		;;
+    mount_partition)
+		mount_partition $2
+		;;
+    umount_partition)
+		# Here you can put services that could potentially block an unmount
+		# We do not want to be rude, but if the user is really trying the limits and just thinks he can use a disk via a service and plugs
+		# it out at the same time, we have to act
+		# and kick all services.
+		# This is really a last resort. In most cases the user should play nice and should not just plug out the disk while doing something with it.
+		#TODO: THIS IS A TEMPORARY FIX: move this to the storage plugin, this plugin should know a lot more about what services to kick
+		to_stop_samba
+		umount_partition $2
+		to_start_samba
+		;;
+    umount_all)
+		umount_all_usbdisks
+		;;
+    mount_usbdisk)
+		mount_usbdisk $2
+		;;		
+    umount_usbdisk)
+		umount_usbdisk $2
+		;;
+    umount_disk)
+		# Here you can put services that could potentially block an unmount
+		# We do not want to be rude, but if the user is really trying the limits and just thinks he can use a disk via a service and plugs
+		# it out at the same time, we have to act
+		# and kick all services.
+		# This is really a last resort. In most cases the user should play nice and should not just plug out the disk while doing something with it.
+		#TODO: THIS IS A TEMPORARY FIX: move this to the storage plugin, this plugin should know a lot more about what services to kick
+		to_stop_samba
+		umount_disk $2 $3
+		FAILED=$?
+		to_start_samba
+		if [ $FAILED != 0 ]; then
+			exit 1
+		fi
+		;;
+    mark_manageddisk)
+		mark_managed_disk $2
+		;;
+    unmark_manageddisk)
+		unmark_managed_disk $2
+		;;
+    mounted_disks)
+		# 
+		# Check if there are mounted usb-disks
+		# It's being used by "usb-host stop"
+		#
+		mount | grep $CANONICAL_MOUNT_DIR_BASE > /dev/null
+		exit $?
+		;;
+    stop)
+		$0 umount_all
+		rmmod vfat
+		rmmod fat
+		rmmod usb-storage
+		rmmod sd_mod
+		rmmod scsi_mod
+        ;;
+
+	restart)
+		echo "Restart usb storage\n"
+		umount_all
+		rmmod usb-storage
+		insmod usb-storage
+		mount_all 
+		;;
+    *)
+        echo "do nothing"
+        ;;
+
+esac
+
+sleep 1
+rm -f $script_busy

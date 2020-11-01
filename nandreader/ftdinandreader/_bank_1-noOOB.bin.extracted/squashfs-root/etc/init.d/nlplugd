@@ -1,0 +1,31 @@
+#!/bin/sh
+
+ID_FILE='/var/run/nlplugd.pid'
+BIN_FILE='/usr/bin/nlplugd'
+BIN_PATH=/usr/bin/nlplugd
+
+case $1 in
+    start)
+	# start nlplugd
+	if [ -f "${BIN_FILE}" ] ; then
+		/bin/echo "nlplugd start ..."
+    ${BIN_PATH} -d
+	fi
+	;;
+    stop)
+	# stop nlplugd
+	if [ -f "${BIN_FILE}" ] ; then
+		/bin/echo "nlplugd stop ..."
+		if [ -f "${ID_FILE}" ] ; then
+      NLPLUGD_ID=$(cat ${ID_FILE});
+      /bin/echo ${NLPLUGD_ID}
+      kill ${NLPLUGD_ID}
+			rm -f ${ID_FILE}
+		fi
+	fi
+  ;;
+    *)
+	
+esac
+
+

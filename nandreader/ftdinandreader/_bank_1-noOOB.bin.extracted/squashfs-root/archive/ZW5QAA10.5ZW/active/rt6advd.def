@@ -1,0 +1,4 @@
+ifadd intf=LocalNetwork
+ifconfig intf=LocalNetwork maxinterval=600 mininterval=200 mflag=no oflag=yes reachabletime=0 curhoplimit=64 deflifetime=1800 
+pdadd intf=LocalNetwork subnet-id=::/64 interface-id=slaac
+ifattach intf=LocalNetwork

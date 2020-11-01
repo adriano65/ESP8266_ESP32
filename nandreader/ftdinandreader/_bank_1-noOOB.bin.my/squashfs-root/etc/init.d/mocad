@@ -1,0 +1,28 @@
+#!/bin/sh
+
+# CPE_P00087283: JHA: '/etc/init.d/mocad stop' doesn't stop mocad
+ID_FILE='/var/run/mocad.pid'
+BIN_FILE='/usr/bin/mocad'
+
+case $1 in
+    start)
+	if [ -f "$BIN_FILE" ] ; then
+        /bin/echo "mocad start ..."
+        /usr/bin/mocad -n wan -d 
+	fi
+	;;
+    stop)
+	if [ -f "$BIN_FILE" ] ; then
+		/bin/echo "mocad stop ..."
+		if [ -f "$ID_FILE" ] ; then
+			MOCAD_ID=$(cat ${ID_FILE})
+			/bin/echo ${MOCAD_ID}
+			kill ${MOCAD_ID}
+			rm -f ${ID_FILE}
+		fi
+	fi
+	;;
+    *)
+	
+esac
+

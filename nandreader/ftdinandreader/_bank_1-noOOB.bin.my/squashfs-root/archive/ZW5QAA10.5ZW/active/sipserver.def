@@ -1,0 +1,84 @@
+config areacode="" maxsessions=30 rtpportrange=16384-32767 urimatch=full voipservicetype=SIP_GW max#mapsperextua=all regevent=disabled  p-preferred-id=FirstPAU
+
+realm flush
+realm add id 1 realm modemtelecom.homenet.telecomitalia.it
+realm add id 2 realm digest.telecomitalia.it
+
+outbreg flush
+outbreg add id=1 port=5060 address=telecomitalia.it
+outbreg add id=2 port=5060 address=telecomitalia.it
+outbreg add id=3 port=5060 address=telecomitalia.it
+outbreg add id=4 port=5070 address=127.0.0.1
+outbproxy flush
+outbproxy add id=1 port=undefined address=""
+outbproxy add id=2 port=undefined address=""
+outbproxy add id=3 port=undefined address=""
+outbproxy add id=4 port=5070 address=127.0.0.1
+  
+intua flush
+intua add id=1  aor=**11@modemtelecom.homenet.telecomitalia.it username=**11 password=11 status=enabled Realm 1 linename="FXS 1" uaport=5065 PhyAssignment "Assigned"
+intua add id=2  aor=**02@modemtelecom.homenet.telecomitalia.it username=**02 password=02 status=enabled Realm 1 linename="Telefono IP 2" uaport=5065
+intua add id=3  aor=**03@modemtelecom.homenet.telecomitalia.it username=**03 password=03 status=enabled Realm 1 linename="Telefono IP 3" uaport=5065
+intua add id=4  aor=**04@modemtelecom.homenet.telecomitalia.it username=**04 password=04 status=enabled Realm 1 linename="Telefono IP 4" uaport=5065
+intua add id=5  aor=**05@modemtelecom.homenet.telecomitalia.it username=**05 password=05 status=enabled Realm 1 linename="Telefono IP 5" uaport=5065
+intua add id=6  aor=**06@modemtelecom.homenet.telecomitalia.it username=**06 password=06 status=enabled Realm 1 linename="Telefono IP 6" uaport=5065
+intua add id=7  aor=**07@modemtelecom.homenet.telecomitalia.it username=**07 password=07 status=enabled Realm 1 linename="Telefono IP 7" uaport=5065
+intua add id=8  aor=**08@modemtelecom.homenet.telecomitalia.it username=**08 password=08 status=enabled Realm 1 linename="Telefono IP 8" uaport=5065
+intua add id=9  aor=**09@modemtelecom.homenet.telecomitalia.it username=**09 password=09 status=enabled Realm 1 linename="Telefono IP 9" uaport=5065
+intua add id=10 aor=**10@modemtelecom.homenet.telecomitalia.it username=**10 password=10 status=enabled Realm 1 linename="Telefono IP 10" uaport=5065
+intua add id=11  aor=**01@modemtelecom.homenet.telecomitalia.it username=**01 password=01 status=enabled Realm 1 linename="Telefono IP 1" uaport=5065 PhyAssignment "Not Assigned"
+intua add id=12  aor=**12@modemtelecom.homenet.telecomitalia.it username=**12 password=12 status=enabled Realm 1 linename="FXS 2" uaport=5065
+intua add id=13  aor=**13@modemtelecom.homenet.telecomitalia.it username=**13 password=13 status=enabled Realm 1 linename="DECT 1" uaport=5065
+intua add id=14  aor=**14@modemtelecom.homenet.telecomitalia.it username=**14 password=14 status=enabled Realm 1 linename="DECT 2" uaport=5065
+intua add id=15  aor=**15@modemtelecom.homenet.telecomitalia.it username=**15 password=15 status=enabled Realm 1 linename="DECT 3" uaport=5065
+intua add id=16  aor=**16@modemtelecom.homenet.telecomitalia.it username=**16 password=16 status=enabled Realm 1 linename="DECT 4" uaport=5065
+intua add id=17  aor=**17@modemtelecom.homenet.telecomitalia.it username=**17 password=17 status=enabled Realm 1 linename="DECT 5" uaport=5065
+
+extua flush
+extua add id=1  intf=Telecom_Italia sipport=5060 outboundregistrar=1 outboundproxy=1 registerexpire=3600 status=disabled Realm 2
+extua transparent id=1 type=clip
+extua transparent id=1 type=clir
+extua add id=2  intf=Telecom_Italia sipport=5060 outboundregistrar=2 outboundproxy=2 registerexpire=3600 status=disabled Realm 2
+extua transparent id=2 type=clip
+extua transparent id=2 type=clir
+extua add id=3  intf=Telecom_Italia sipport=5060 outboundregistrar=3 outboundproxy=3 registerexpire=3600 status=disabled Realm 2
+extua transparent id=3 type=clip
+extua transparent id=3 type=clir
+extua add id=4  intf=loop sipport=5090 outboundregistrar=4 outboundproxy=4 registerexpire=0 status=disabled forfxo=enabled Realm 2
+extua transparent id=4 type=clip
+extua transparent id=4 type=clir
+
+registrar config mode=process registerexpire=3600
+registrar bind flush 
+registrar bind add intf LocalNetwork sipport 5065
+registrar bind add intf loop sipport 5065
+
+inboundauth intua config BYE=disabled 
+inboundauth intua config INFO=disabled 
+inboundauth intua config INVITE=enabled
+inboundauth intua config NOTIFY=disabled
+inboundauth intua config OPTIONS=disabled
+inboundauth intua config PING=disabled
+inboundauth intua config PRACK=disabled
+inboundauth intua config REFER=disabled
+inboundauth intua config REGISTER=enabled
+inboundauth intua config SUBSCRIBE=disabled
+inboundauth intua config UPDATE=disabled
+
+inboundauth extua config BYE=disabled 
+inboundauth extua config INFO=disabled 
+inboundauth extua config INVITE=disabled
+inboundauth extua config NOTIFY=disabled
+inboundauth extua config OPTIONS=disabled
+inboundauth extua config PING=disabled
+inboundauth extua config PRACK=disabled
+inboundauth extua config REFER=disabled
+inboundauth extua config REGISTER=enabled
+inboundauth extua config SUBSCRIBE=disabled
+inboundauth extua config UPDATE=disabled
+
+
+config extrareregistrations=enabled
+config omit_displayname=yes
+
+

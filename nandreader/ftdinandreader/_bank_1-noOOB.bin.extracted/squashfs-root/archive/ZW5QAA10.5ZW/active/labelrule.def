@@ -1,0 +1,18 @@
+chain add chain=rt_user_labels
+chain add chain=rt_default_labels
+chain add chain=qos_user_labels
+chain add chain=qos_default_labels
+chain add chain=cc_routing_labels
+rule add chain=rt_user_labels dstip=mgmt_route_targets state=enabled log=disabled label=modemToACS
+rule add chain=rt_user_labels dstip=ping_diag_dst serv=icmp log=disabled state=enabled label=label_ping_diag
+rule add chain=rt_user_labels srcintf=from_loop serv=extua state=enabled label modemToACS
+rule add chain=rt_default_labels index=1 clink=cc_routing_labels log=disabled state=enabled label=link
+rule add chain=qos_user_labels index=1  serv=dns state=enabled label=Management
+rule add chain=qos_user_labels index=2  serv=icmp state=enabled label=Management
+rule add chain=qos_user_labels index=3  serv=ntp  state=enabled label=Management
+rule add chain qos_user_labels index 4 name incoming-sips-rtp srcintf wan serv incoming-sips-rtp state enabled label VoIP
+rule add chain qos_user_labels index 5 name incoming-voice-rtp srcintf wan serv incoming-voice-rtp state enabled label VoIP
+rule add chain qos_user_labels index 6 name incoming-sips-sip srcintf wan serv VoIP-Inc-SIPS state enabled label VoIP
+rule add chain qos_user_labels index 7 name incoming-voice-sip srcintf wan serv VoIP-Inc-SIP state enabled label VoIP
+rule add chain=qos_user_labels index 8  name=IPTV_labels state=enabled label=IPTV srcintf IPTV_wan
+

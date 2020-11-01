@@ -1,0 +1,2 @@
+config sysContact="Service Provider" sysName=$_PROD_FRIENDLY_NAME sysLocation="Customer Premises"
+community add index=ROCommunity securityname=ROCommunity communityname=public

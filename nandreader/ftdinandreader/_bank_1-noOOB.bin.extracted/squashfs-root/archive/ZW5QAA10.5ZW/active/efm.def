@@ -1,0 +1,5 @@
+qos config intf efmif1 queues 4 priority strict
+qos queue config intf queue_e0 subprio 0 maxpackets 900 loprio 0 hiprio 4
+qos queue config intf queue_e1 subprio 1 maxpackets 800 loprio 5 hiprio 9
+qos queue config intf queue_e2 subprio 2 maxpackets 600 loprio 10 hiprio 13
+qos queue config intf queue_e3 subprio 3 maxpackets 500 loprio 14 hiprio 15

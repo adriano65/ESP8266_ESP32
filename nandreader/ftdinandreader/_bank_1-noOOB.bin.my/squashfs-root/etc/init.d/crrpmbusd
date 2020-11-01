@@ -1,0 +1,27 @@
+#!/bin/sh
+
+ID_FILE='/var/run/crrpmbusd.pid'
+BIN_FILE='/usr/bin/crrpmbusd'
+
+case $1 in
+    start)
+	if [ -f "$BIN_FILE" ] ; then
+        /bin/echo "crrpmbusd start ..."
+        /usr/bin/crrpmbusd 
+	fi
+	;;
+    stop)
+	if [ -f "$BIN_FILE" ] ; then
+		/bin/echo "crrpmbusd stop ..."
+		if [ -f "$ID_FILE" ] ; then
+			CRRPMBUSD_ID=$(cat ${ID_FILE})
+			/bin/echo ${CRRPMBUSD_ID}
+			kill ${CRRPMBUSD_ID}
+			rm -f ${ID_FILE}
+		fi
+	fi
+	;;
+    *)
+	
+esac
+

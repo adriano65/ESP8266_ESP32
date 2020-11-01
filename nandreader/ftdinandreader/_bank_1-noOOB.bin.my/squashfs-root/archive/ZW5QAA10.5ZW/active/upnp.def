@@ -1,0 +1,2 @@
+config maxage=1800 writemode=natonly safenat=enabled onlydefault=enabled
+debug traceconfig level=0

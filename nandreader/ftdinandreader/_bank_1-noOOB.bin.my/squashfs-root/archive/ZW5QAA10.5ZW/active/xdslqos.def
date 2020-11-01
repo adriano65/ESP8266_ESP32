@@ -1,0 +1,17 @@
+config automode=enabled autothreshold(x100kps)=100 priority=strict wrrminupdatetime=0 wrrextupdatetime=0 dropcrcerrorframes=disabled droplongframes=disabled maxframesize=1536 minframesize=64
+class config default=0 ethprio=disabled ethtype=disabled ipv4tos=enabled ipv6tc=disabled
+class eprio config prioclass=0
+class ipv4tos add tos=184 tosrangeend=184 class=7
+class ipv4tos add tos=144 tosrangeend=144 class=7
+queue config queue=0 state=disabled wrrminquanthigh=0 wrrminquantlow=0 wrrextquanthigh=0 wrrextquantlow=0 txhwm=350 txlwm=32
+queue config queue=1 state=disabled wrrminquanthigh=0 wrrminquantlow=0 wrrextquanthigh=0 wrrextquantlow=0 txhwm=50 txlwm=32
+queue config queue=2 state=disabled wrrminquanthigh=0 wrrminquantlow=0 wrrextquanthigh=0 wrrextquantlow=0 txhwm=50 txlwm=32
+queue config queue=3 state=disabled wrrminquanthigh=0 wrrminquantlow=0 wrrextquanthigh=0 wrrextquantlow=0 txhwm=50 txlwm=32
+queue map class=0 queue=0 drop=never
+queue map class=1 queue=0 drop=never
+queue map class=2 queue=0 drop=never
+queue map class=3 queue=0 drop=never
+queue map class=4 queue=0 drop=never
+queue map class=5 queue=0 drop=never
+queue map class=6 queue=0 drop=never
+queue map class=7 queue=3 drop=never

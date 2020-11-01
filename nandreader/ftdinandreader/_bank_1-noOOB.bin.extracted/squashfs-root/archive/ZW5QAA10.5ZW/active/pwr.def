@@ -1,0 +1,3 @@
+wlan-pwr-options single-rxchain=enabled
+config eco-manager=enabled cpu-microsleep=disabled cpu-lowspeed=disabled usb-controller=enabled wlan-pwrcontrol=enabled
+debug traceconfig state=disabled

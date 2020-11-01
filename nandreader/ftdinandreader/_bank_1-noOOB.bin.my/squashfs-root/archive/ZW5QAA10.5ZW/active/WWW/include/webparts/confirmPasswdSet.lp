@@ -1,0 +1,34 @@
+<div class='contentcontainer'>
+<div class='contentitem'>
+ <table cellspacing='0' cellpadding='0' width='100%' class="width790 marleft5 martop5">
+                  <tr>
+                    <td class="verticalAlign padleft35">
+                      <div class="width50 fleft"><img src='images/warn__xl.png' alt='Technicolor Gateway'></div>
+					  <div class="errInfo"><%=translate([==[Info]==])%></div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="verticalAlign">
+                      <table width='100%' cellspacing='0' cellpadding='0' class="PageMessage" style="text-align:left">
+                        <tr>
+                          <td class="errorMessage">
+						  <%=translate([==[You are about to make changes]==])%>.</td></tr>
+            <tr>
+                          <td class="errorDesc">
+				<p><%=translate([==[Warning: the activation of the capability makes it necessary to enter your password each time you access the management pages of the Modem]==])%></p>
+                <p class="paddtop10"><%=translate([==[Click "Next" to confirm or click "Cancel" to return to previous page]==])%>.</p>
+				<br/></td> </tr></table>
+                  </td></tr>
+                    <tr><td>
+                     <table  cellspacing='0' cellpadding='0' class="fontSize padtop10 width790">
+                      <tr> <td class="verticalAlign fright">
+			<a class="fright" onclick='submitConfirm()' href="#"><div class='midarea6-1 mainButton' name="thb13"><%=translate([==[Next]==])%></div></a></td>
+		    <td  class="verticalAlign" style="padding-left:15px;">
+			<a onclick='cancelConfirm()' href="#"><div class='midarea6-1 mainButton' name="thb12"><%=translate([==[Cancel]==])%></div></a></td></tr></table></td>
+            </tr>
+				<!-- <input type="button" class="button" onclick='submitConfirm()' value="<%=translate([==[Next]==])%> &gt;" name="thb13" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="button" class="button" onclick='cancelConfirm()' value="<%=translate([==[Cancel]==])%>" name="thb12" /> -->
+            </table>
+</div>
+</div>
+

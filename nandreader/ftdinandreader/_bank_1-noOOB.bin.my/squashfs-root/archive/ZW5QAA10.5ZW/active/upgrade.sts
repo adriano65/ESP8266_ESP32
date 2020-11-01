@@ -1,0 +1,2 @@
+# Moved to Day2_upgrade.sts to mark a clear split in the upgrade.sts workings
+# This file is kept as it it is used to differ between a bli (not present) and an rbi (present)

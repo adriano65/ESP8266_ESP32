@@ -1,0 +1,33 @@
+config state=enabled ipver any keep=disabled tcpchecks=none udpchecks=enabled icmpchecks=disabled logdefault=disabled logthreshold=enabled tcpwindow=65536 syslog=enabled
+debug traceconfig tcpchecks=disabled icmpchecks=disabled sink=none forward=none source=none
+rule add chain=forward_level_BlockAll index=1  name=AnyTraffic                                          log=disabled state=enabled action=drop
+rule add chain=forward_level_Standard index=1  name=FromLAN    srcintf=lan                               log=disabled state=enabled action=accept
+rule add chain=forward_level_Disabled index=1  name=AnyTraffic                                           log=disabled state=enabled action=accept
+rule add chain=source_fire            index=1  name=AnyTraffic                                           log=disabled state=enabled action=accept
+chain add chain=forward_dmz
+rule add chain=forward_custom clink=forward_dmz action=link
+rule add chain=sink_fire index=1 srcintf=lan serv=cwmp-s log=disabled state=enabled action=deny
+rule add chain=sink_fire index=2 srcintf=lan dstip=data_ip serv=http log=disabled state=enabled action=deny
+rule add chain=sink_fire index=3 srcintf=lan dstip=mgmt_ip serv=http log=disabled state=enabled action=deny
+level set name ipv4lowipv6off 
+chain add chain=TIAccessList
+rule add chain=forward index=1 clink=TIAccessList log=enabled state=enabled action=link
+chain add chain=TIExcludedIPList
+rule add chain=forward index=1 clink=TIExcludedIPList log=enabled state=enabled action=link
+chain add chain=forward_public_lan
+rule add chain=forward index=1 clink=forward_public_lan state=enabled action=link name=publiclan2wan
+chain add chain=lan2publiclan
+rule add chain=forward index=1 clink=lan2publiclan state=enabled action=link name=lan2publiclan
+chain add chain=block_wan2lan_private
+rule add chain=forward index=5 clink=block_wan2lan_private state=enabled action=link name=block_wan2lan_priv
+rule add chain=block_wan2lan_private index=1 srcip=lanSubnet srcintf=wan dstintf=lan state=enabled action=drop
+chain add chain TI_IPV6ACL_chain
+rule add chain=forward_level_ipv4lowipv6off name=IPv4Low srcintf=lan srcip= ipv4_traffic action=accept
+rule add chain=forward_level_ipv4lowipv6off name=IPv6OFF srcip="ipv6_traffic" dstip="ipv6_traffic" action=accept
+rule add chain=forward_level_ipv4lowipv6on  name=wan_ACL clink=TI_IPV6ACL_chain srcintf=wan action=link
+rule add chain=forward_level_ipv4lowipv6on name=IPv4Low srcintf=lan srcip= ipv4_traffic action=accept
+rule add chain=forward_level_ipv4lowipv6on name=IPv6ON  srcintf=lan srcip="ipv6_traffic"  action=accept
+rule add chain=forward_level_ipv4offipv6on  name=wan_ACL clink=TI_IPV6ACL_chain srcintf=wan action=link
+rule add chain=forward_level_ipv4offipv6on name=IPv6ON  srcintf=lan srcip="ipv6_traffic"  action=accept
+rule add chain=forward_level_ipv4offipv6on name=IPv4OFFD srcip= ipv4_traffic dstip= ipv4_traffic action=accept
+rule add chain=forward_level_ipv4offipv6off name IPv6OFF_IPV4OFF action=accept

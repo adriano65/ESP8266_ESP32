@@ -1,0 +1,8 @@
+add name=BlockAll index=1 readonly=enabled udptrackmode=strict service=disabled proxy=disabled text="Use this Security Level to block all traffic from and to the Internet. Game and Application sharing is not allowed by the firewall."
+add name=Standard index=2 readonly=enabled udptrackmode=loose service=enabled proxy=enabled text="Use this Security Level to allow all outgoing connections and block all incoming traffic. Game and Application sharing is allowed by the firewall.."
+add name=Disabled index=3 readonly=enabled udptrackmode=loose service=enabled proxy=enabled text="Disable the firewall. All traffic is allowed to pass through your SpeedTouch. Game and Application sharing is allowed by the firewall."
+add name=ipv4offipv6off index=4 readonly=enabled udptrackmode=loose service=enabled proxy=enabled text="All traffic is allowed to pass through your SpeedTouch." 
+add name=ipv4offipv6on index=5 readonly=enabled udptrackmode=loose service=enabled proxy=enabled text="Use this Security Level to accept all ipv4 traffic and accept all ipv6 traffic from lan and accept all ipv6 traffic from wan defined in ACL chain ."
+add name=ipv4lowipv6on index=6 readonly=enabled udptrackmode=loose service=enabled proxy=enabled text="accept all ipv4 traffic from lan.accept all ipv6 traffic from lan.accept all ipv6 traffic from wan defined in ACL chain"
+add name=ipv4lowipv6off index=7 readonly=enabled udptrackmode=loose service=enabled proxy=enabled text="accept all ipv4 traffic from lan and accept all ipv6 traffic"
+set name=Disabled

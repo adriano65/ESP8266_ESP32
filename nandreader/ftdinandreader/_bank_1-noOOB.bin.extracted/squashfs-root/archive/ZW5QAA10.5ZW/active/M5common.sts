@@ -1,0 +1,208 @@
+:eth bridge ifconfig brname=bridge intf=vdsl2 prioconfig=overwrite ipprec=dscp
+:eth bridge ifconfig brname=bridge intf=bri_ge prioconfig=overwrite ipprec=dscp
+:eth bridge ifconfig brname=bridge intf=br_video prioconfig=overwrite ipprec=dscp
+:eth bridge ifconfig brname=bridge intf=WLAN prioconfig=overwrite ipprec=dscp
+:eth bridge ifconfig brname=bridge intf=WLAN5G prioconfig=overwrite ipprec=dscp
+:eth bridge ifconfig brname=bridge intf=WLAN2 prioconfig=overwrite ipprec=dscp
+:eth bridge ifconfig brname=bridge intf=WLAN5 prioconfig=overwrite ipprec=dscp
+:eth bridge ifconfig brname=bridge intf=OBC prioconfig=overwrite ipprec=dscp
+:eth bridge ifattach intf=ethport2 logging=disabled
+:eth bridge ifattach intf=ethport3 logging=disabled
+:eth bridge ifattach intf=ethport4 logging=disabled
+:eth bridge ifattach intf=bri_ge logging=disabled
+:eth bridge ifattach intf=br_video logging=disabled
+:eth bridge ifattach intf=vdsl2 logging=disabled
+:eth bridge ifattach intf=WLAN logging=disabled
+:eth bridge ifattach intf=WLAN5G logging=disabled
+:eth bridge ifattach intf=WLAN2 logging=disabled
+:eth bridge ifattach intf=WLAN5 logging=disabled
+:eth bridge ifattach intf=virt logging=disabled
+:eth bridge iconfig age=300 filter=none vlan=enabled
+:eth bridge idynvlan config timeout=180
+:eth bridge ippriomap brname=bridge type=dscp dscpidx=dscp_0_7 precedencemap=4,4,4,4,4,4,4,4
+:eth bridge ippriomap brname=bridge type=dscp dscpidx=dscp_16_23 precedencemap=0,0,0,0,0,0,0,0
+:eth bridge ippriomap brname=bridge type=dscp dscpidx=dscp_32_39 precedencemap=11,11,11,11,11,11,11,11
+:eth bridge ippriomap brname=bridge type=dscp dscpidx=dscp_48_55 precedencemap=15,15,15,15,15,15,15,15
+:eth bridge ippriomap brname=bridge type=dscp dscpidx=dscp_56_63 precedencemap=15,15,15,15,15,15,15,15
+:eth bridge ippriomap brname=bridge type=tos tostable=Default precedencemap=4,0,0,4,10,10,15,15
+:eth bridge ippriomap brname=bridge type=tos tostable=MinimizeDelay precedencemap=4,0,0,4,10,10,15,15
+:eth bridge ippriomap brname=bridge type=tos tostable=MaximizeThroughput precedencemap=4,0,0,4,10,10,15,15
+:eth bridge ippriomap brname=bridge type=tos tostable=MaximizeReliability precedencemap=4,0,0,4,10,10,15,15
+:eth bridge ippriomap brname=bridge type=tos tostable=MinimizeCost precedencemap=4,0,0,4,10,10,15,15
+:eth bridge ippriomap brname=bridge type=dscp dscpidx=dscp_8_15 precedencemap=4,4,4,4,4,4,4,4
+:eth bridge ippriomap brname=bridge type=dscp dscpidx=dscp_24_31 precedencemap=10,10,10,10,10,10,10,10
+:eth bridge ippriomap brname=bridge type=dscp dscpidx=dscp_40_47 precedencemap=15,15,15,15,15,15,15,15
+:eth bridge ifconfig intf bri_ge priotransparent=enabled dynprio=enabled
+:eth bridge ifconfig intf vdsl2 priotransparent=enabled dynprio=enabled
+:eth ifconfig intf=mgmt_837 priomap=disabled priority=5
+:eth ifconfig intf=user_835 priomap=disabled priority=0
+:eth ifadd intf=ethoa_8_36
+:eth ifconfig intf=ethoa_8_36 dest=atm_8_36 vlan=default priotag=disabled
+:eth ifadd intf=video_836
+:eth ifconfig intf=video_836 dest bridge vlan video wan enabled
+:eth fap map tmprio=0 intlowprio=0 inthiprio=7
+:eth fap map tmprio=1 intlowprio=8 inthiprio=11
+:eth fap map tmprio=3 intlowprio=12 inthiprio=15
+:eth switch qos config state=enabled nbrOfQueues=4 rxbackpressure=disabled txbackpressure=disabled realtime=enabled nbrOfRealtime=3
+:eth switch qos ifconfig port=1 mode=acc_lan
+:eth switch qos ifconfig port=2 mode=acc_lan
+:eth switch qos ifconfig port=3 mode=acc_lan
+:eth switch qos ifconfig port=4 mode=acc_lan
+:eth switch qos ifconfig port=5 mode=acc_wan
+:eth bridge vlan ifadd brname=bridge name=video intf=OBC untagged=disabled
+:eth bridge vlan ifconfig intf OBC name video untagged disabled
+:ip config arpcachetimeout=180 arpclass=15
+:ip ifconfig intf=LocalNetwork mtu=1500 group=lan linksensing=disabled primary=enabled symmetric=enabled arpcachetimeout 180
+:ip ifdelete intf IPTV
+:ip ifconfig intf=ppp_0 autoconf=enabled ipv4=enabled
+:ip ifconfig intf Telecom_Italia ipv6 disabled
+:ip rtadd dst 192.168.1.0 dstmsk 255.255.255.0 label modemToACS intf LocalNetwork
+:ip rtadd dst=5.97.116.128/26 intf=Telecom_Italia
+:ip rtadd dst=5.97.116.0/26 intf=Telecom_Italia
+:ip rtadd dst=5.97.54.0/26 intf=Telecom_Italia
+:ip rtadd dst=5.97.52.0/26 intf=Telecom_Italia
+:ip config ipv6 disabled
+:ip aip hw fap prio=10
+:ip aip hw config ipv6=enabled
+:connection bind application=HTTPI port=80
+:connection bind application=HTTPI port=1080
+:connection bind application=HTTPI port=8080
+:connection timerconfig timer=tcpkill value=5
+:connection timerconfig timer=udpkill value=5
+:cwmp config rpcupload=enabled
+:dhcp client ifadd intf IPTV
+:dhcp client rqoptions add intf=IPTV option=classfull-static-routes index=1
+:dhcp client rqoptions add intf=IPTV option=classless-static-routes index=2
+:dhcp client txoptions add intf=IPTV option=vendor-specific_info value=(clientid)666c617368 index=1
+:dhcp client txoptions add intf=IPTV option=vendor-class-id value=(clientid)706972656c6c692d737462 index=2
+:dhcp clientv6 ifadd intf=ppp_0
+:dhcp clientv6 ifconfig intf=ppp_0 iana=0 iapd=1 listenra=disabled rapidcommit=enabled dnsmetric 50
+:dhcp clientv6 oro add intf=ppp_0 option=domain-name-servers
+:dhcp clientv6 oro add intf=ppp_0 dhcp-reconfigure-accept
+:dhcp clientv6 ifattach intf=ppp_0
+:dhcp clientv6 debug traceconfig state=disabled
+:dhcp serverv6 debug traceconfig state=disabled
+:dhcp serverv6 option add name=dns-search-list
+:dhcp serverv6 option modify name=dns-search-list policy=requested
+:dhcp serverv6 option fieldadd name=dns-search-list option=domain-name-search value=homenet.telecomitalia.it
+:dhcp serverv6 pool add name=LAN6_pool
+:dhcp serverv6 pool config name=LAN6_pool state=enabled intf=LocalNetwork localdns=enabled
+:dhcp serverv6 pool optionadd name=LAN6_pool optionname=dns-search-list
+:mbus debug loadobjects dmtree=atomic path=DNS.Server.Route
+:dns server forward dnsset flush
+:dns server forward rule flush
+:dns server forward rule add idx=100 set=100 domain=ntp-tr069-1.interbusiness.it
+:dns server forward rule add idx=101 set=101 domain=ntp-tr069-2.interbusiness.it
+:dns server forward rule add idx=102 set=102 domain=regman-tl.interbusiness.it
+:dns server forward rule add idx=103 set=103 domain=reteims.telecomitalia.it
+:dns server forward rule add idx=104 set=104 domain=imswline.telecomitalia.it
+:dns server forward rule add idx=105 set=105 domain=imsw.telecomitalia.it
+:dns server forward rule add idx=106 set=106
+:dns server forward rule add idx=107 set=107
+:dns server forward dnsset add set=100 dns=0.0.0.0 label=modemToACS metric=0 intf=Telecom_Italia
+:dns server forward dnsset add set=101 dns=0.0.0.0 label=modemToACS metric=0 intf=Telecom_Italia
+:dns server forward dnsset add set=102 dns=0.0.0.0 label=modemToACS metric=0 intf=Telecom_Italia
+:dns server forward dnsset add set=103 dns=0.0.0.0 label=modemToACS metric=0 intf=Telecom_Italia
+:dns server forward dnsset add set=104 dns=0.0.0.0 label=modemToACS metric=0 intf=Telecom_Italia
+:dns server forward dnsset add set=105 dns=0.0.0.0 label=modemToACS metric=0 intf=Telecom_Italia
+:dns server forward dnsset add set=100 dns=2001:4b18:1050:916f::53:c001 label=modemToACS metric=50 intf=Telecom_Italia
+:dns server forward dnsset add set=100 dns=2001:4b18:1050:916f::53:c002 label=modemToACS metric=50 intf=Telecom_Italia
+:dns server forward dnsset add set=106 dns=151.99.0.100 metric=50 intf=ppp_0
+:dns server forward dnsset add set=107 dns=151.99.125.1 metric=50 intf=ppp_0
+:dns server forward dnsset add set=106 dns=0.0.0.0 metric=10 intf=ppp_0
+:dns server config filter=disabled
+:dyndns service modify name=dyndns updateinterval=86400
+:dyndns service modify name=statdns  updateinterval=86400
+:dyndns service modify name=No-IP updateinterval=86400
+:dyndns service modify name=DtDNS  updateinterval=86400
+:env set var IPv6UserConfigurable value false
+:env set var=GUI_New_Modem_IP value=""
+:env set var=GUI_New_Modem_IP_Mask value=""
+:env unset var=IPTVConfigPresent
+:expr add name IPTV_wan type intf intf IPTV
+:expr add name=Serv_CS5 type=serv dscp=cs5
+:expr add name=Serv_CS1 type=serv dscp=cs1
+:expr add name=Serv_CS3 type=serv dscp=cs3
+:expr add name=stb_hosts type=ip addr=0.0.0.0/32
+:expr modify name VoIP-Inc-SIPS type serv proto tcp index 1 dstport=5060
+:expr modify name VoIP-Inc-SIP type serv proto tcp index 1 dstport=5070
+:expr add name=ipv4_traffic type=ip addr=*.*.*.*
+:expr add name=ipv6_traffic type=ip addr=::/0
+:expr add name=data_ip type=ip addr=1.1.1.1 mask 255.255.255.255
+:expr add name=mgmt_ip type=ip addr=2.2.2.2 mask 255.255.255.255
+:firewall level flush
+:firewall level add name=BlockAll index=1 readonly=enabled udptrackmode=strict service=disabled proxy=disabled text="Use this Security Level to block all traffic from and to the Internet. Game and Application sharing is not allowed by the firewall."
+:firewall level add name=Standard index=2 readonly=enabled udptrackmode=loose service=enabled proxy=enabled text="Use this Security Level to allow all outgoing connections and block all incoming traffic. Game and Application sharing is allowed by the firewall.."
+:firewall level add name=Disabled index=3 readonly=enabled udptrackmode=loose service=enabled proxy=enabled text="Disable the firewall. All traffic is allowed to pass through your SpeedTouch. Game and Application sharing is allowed by the firewall."
+:firewall level add name=ipv4offipv6off index=4 readonly=enabled udptrackmode=loose service=enabled proxy=enabled text="All traffic is allowed to pass through your SpeedTouch."
+:firewall level add name=ipv4offipv6on index=5 readonly=enabled udptrackmode=loose service=enabled proxy=enabled text="Use this Security Level to accept all ipv4 traffic and accept all ipv6 traffic from lan and accept all ipv6 traffic from wan defined in ACL chain ."
+:firewall level add name=ipv4lowipv6on index=6 readonly=enabled udptrackmode=loose service=enabled proxy=enabled text="accept all ipv4 traffic from lan.accept all ipv6 traffic from lan.accept all ipv6 traffic from wan defined in ACL chain"
+:firewall level add name=ipv4lowipv6off index=7 readonly=enabled udptrackmode=loose service=enabled proxy=enabled text="accept all ipv4 traffic from lan and accept all ipv6 traffic"
+:firewall level set name=Disabled
+:firewall rule add chain=forward_level_BlockAll index=1 name=AnyTraffic log=disabled state=enabled action=drop
+:firewall rule add chain=forward_level_Standard index=1 name=FromLAN srcintf=lan log=disabled state=enabled action=accept
+:firewall rule add chain=forward_level_Disabled index=1 name=AnyTraffic log=disabled state=enabled action=accept
+:firewall rule add chain=forward_level_ipv4offipv6off index=1 name=IPv6OFF_IPV4OFF log=disabled state=enabled action=accept
+:firewall config ipver any
+:firewall level set name ipv4lowipv6off
+:firewall chain add chain TI_IPV6ACL_chain
+:firewall rule add chain=forward_level_ipv4lowipv6off name=IPv4Low srcintf=lan srcip= ipv4_traffic action=accept
+:firewall rule add chain=forward_level_ipv4lowipv6off name=IPv6OFF srcip="ipv6_traffic" dstip="ipv6_traffic" action=accept
+:firewall rule add chain=forward_level_ipv4lowipv6on  name=wan_ACL clink=TI_IPV6ACL_chain srcintf=wan action=link
+:firewall rule add chain=forward_level_ipv4lowipv6on name=IPv4Low srcintf=lan srcip= ipv4_traffic action=accept
+:firewall rule add chain=forward_level_ipv4lowipv6on name=IPv6ON  srcintf=lan srcip="ipv6_traffic"  action=accept
+:firewall rule add chain=forward_level_ipv4offipv6on  name=wan_ACL clink=TI_IPV6ACL_chain srcintf=wan action=link
+:firewall rule add chain=forward_level_ipv4offipv6on name=IPv6ON  srcintf=lan srcip="ipv6_traffic"  action=accept
+:firewall rule add chain=forward_level_ipv4offipv6on name=IPv4OFFD srcip= ipv4_traffic dstip= ipv4_traffic action=accept
+:firewall rule modify chain=forward_level_ipv4offipv6off name IPv6OFF_IPV4OFF action=accept
+:firewall rule flush chain=sink_fire
+:firewall rule add chain=sink_fire index=1 srcintf=lan serv=cwmp-s log=disabled state=enabled action=deny
+:firewall rule add chain=sink_fire index=2 srcintf=lan dstip=data_ip serv=http log=disabled state=enabled action=deny
+:firewall rule add chain=sink_fire index=3 srcintf=lan dstip=mgmt_ip serv=http log=disabled state=enabled action=deny
+:igmp proxy ifconfig intf=IPTV state=upstream
+:label add name=IPTV
+:label modify name=Management inheritance=enabled fapprio=enabled
+:label modify name=VoIP fapprio=enabled
+:label modify name=IPTV classification=overwrite defclass=10 ackclass=10 bidirectional=enabled inheritance=enabled tosmarking=enabled precedence=flash fapprio=enabled
+:label rule add chain=qos_user_labels index 8  name=IPTV_labels state=enabled label=IPTV srcintf IPTV_wan
+:nat tmpladd intf=IPTV type=nat inside_addr=192.168.1.2-192.168.1.254 outside_addr=0.0.0.1
+:nat ifconfig intf IPTV translation disabled
+:nomap tiwancondev addpppcon Name=ppp_0 Conditional=enabled
+:nomap tiqosclassification config DefaultEthernetPriorityMark 0
+:nomap tiqosclassification ruleconfig Index 1 Order 1 Enable true Alias VLAN835 EthernetPriorityMark 0 VLANIDCheck 835
+:nomap tiqosclassification ruleconfig Index 2 Order 2 Enable true Alias VLAN836 EthernetPriorityMark 3 VLANIDCheck 836
+:nomap tiqosclassification ruleconfig Index 3 Order 3 Enable true Alias VLAN837 EthernetPriorityMark 5 VLANIDCheck 837
+:nomap tisipext_fxo add UserAgentDomain=telecomitalia.it UserAgentPort=5060 OutboundProxy="" OutboundProxyPort=0 RegisterExpires=3600
+:ppp ifconfig intf=Telecom_Italia gracefulrestart enabled ipv6 disabled
+:ppp ifconfig intf=ppp_0 gracefulrestart enabled
+:ppp ifconfig intf=ppp_0 ipv4 enabled
+:ip ifconfig intf=loop mtu=4096
+:ip rt6advd ifadd intf=LocalNetwork
+:ip rt6advd ifconfig intf=LocalNetwork maxinterval=600 mininterval=200 mflag=no oflag=yes reachabletime=0 curhoplimit=64 deflifetime=1800 
+:ip rt6advd pdadd intf=LocalNetwork subnet-id=::/64 interface-id=slaac
+:ip rt6advd ifattach intf=LocalNetwork
+:script delete name="dhcr_video"
+:script add name="dhcr_video" command="eth bridge dynvlan add hwaddr $1 vlan video prio $2 mode both dynamic enabled"
+:dmscd config configFileName=$BSFTConfigFileName serverURI https://dmvpbx20.impresasemplice.it/dms/AG_Plus_TCH maxretries 5
+:eth filter operand add operand=pppd_blk
+:eth filter operand add operand=pppd_blk_padi
+:eth filter operand config operand=pppd_blk type=Match operator=Equal protocollevel=EthernetFrame length=2 mask=ffff value=8863 offset=12
+:eth filter operand config operand=pppd_blk_padi type=Match operator=Equal protocollevel=EthernetFrame length=1 mask=ff value=09 offset=15
+:eth filter template add filter=ppp_lan_block location=Ingress level=0 tracing=disabled mark=enabled
+:eth filter template ruleadd filter=ppp_lan_block operand=pppd_blk negate=disabled order=0 operator=AND
+:eth filter template ruleadd filter=ppp_lan_block operand=pppd_blk_padi negate=disabled order=0 operator=AND
+:eth bridge filter add brname=bridge name=PPP_LAN_BLOCK filter=ppp_lan_block state=enabled
+:eth bridge filter ifadd brname=bridge name=PPP_LAN_BLOCK intf=OBC
+:eth bridge filter forwarding brname=bridge name=PPP_LAN_BLOCK mode=ToFwdIntfsOnly
+:eth bridge filter fwdintfadd intf=vdsl2 brname=bridge name=PPP_LAN_BLOCK
+:eth bridge filter fwdintfadd intf=bri_ge brname=bridge name=PPP_LAN_BLOCK
+:eth bridge filter attach brname=bridge name=PPP_LAN_BLOCK
+:script add name="eth_bridge_filter" command="eth bridge filter ifdel brname=bridge name=PPP_LAN_BLOCK intf=OBC"
+:script add name="eth_bridge_filter" command="eth bridge filter ifadd brname=bridge name=PPP_LAN_BLOCK intf=OBC"
+:script add name="eth_bridge_filter" command="eth bridge filter forwarding brname=bridge name=PPP_LAN_BLOCK mode=ToFwdIntfsOnly"
+:script add name="eth_bridge_filter" command="eth bridge filter fwdintfdel intf=vdsl2 brname=bridge name=PPP_LAN_BLOCK"
+:script add name="eth_bridge_filter" command="eth bridge filter fwdintfdel intf=bri_ge brname=bridge name=PPP_LAN_BLOCK"
+:script add name="eth_bridge_filter" command="eth bridge filter fwdintfadd intf=vdsl2 brname=bridge name=PPP_LAN_BLOCK"
+:script add name="eth_bridge_filter" command="eth bridge filter fwdintfadd intf=bri_ge brname=bridge name=PPP_LAN_BLOCK"
+:script add name="eth_bridge_filter" command="eth bridge filter detach brname=bridge name=PPP_LAN_BLOCK"
+:script add name="eth_bridge_filter" command="eth bridge filter attach brname=bridge name=PPP_LAN_BLOCK"

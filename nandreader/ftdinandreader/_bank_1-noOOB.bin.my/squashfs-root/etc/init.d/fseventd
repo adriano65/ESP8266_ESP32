@@ -1,0 +1,34 @@
+#!/bin/sh
+
+VERBOSE=0
+
+# dbg_echo messages are only printed when the VERBOSE flag is set.
+dbg_echo() # (str)
+{
+	str=$1
+	if [ $VERBOSE -eq 1 ]; then
+		echo $str
+	fi
+}
+
+case $1 in
+	start)
+		if [ -x /usr/bin/fseventd ]; then
+			echo " start fseventd ..."
+			/usr/bin/fseventd -d
+			echo " fseventd is started."
+		else
+			dbg_echo " start fseventd ..."
+			dbg_echo " fseventd not present."
+		fi
+		;;
+	stop)
+		killall fseventd
+		;;
+	*)
+		echo "Usage $0 [start|stop]"
+		exit 1
+		;;
+
+esac
+

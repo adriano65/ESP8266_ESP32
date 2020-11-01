@@ -1,0 +1,35 @@
+#!/bin/sh
+
+set -e
+
+KDBFS_FS="/usr/bin/kdbfs"
+KDBFS_MOUNT_DIR="/var/kdbfs"
+
+kdbfs_umount()
+{
+  umount "${KDBFS_MOUNT_DIR}" 2>/dev/null
+}
+
+kdbfs_mount()
+{
+  mkdir -p "${KDBFS_MOUNT_DIR}"
+  "${KDBFS_FS}" "${KDBFS_MOUNT_DIR}"
+}
+
+case "$1" in
+  start|mount)
+    kdbfs_mount
+    ;;
+  stop|umount)
+    kdbfs_umount
+    ;;
+  *)
+    echo "Usage: $0 {start|stop}"
+    echo
+    echo "  $0 start"
+    echo "	Will mount the meta-view filesystem as ${KDBFS_MOUNT_DIR}."
+    echo "  $0 stop"
+    echo "	Will unmount the meta-view filesystem."
+esac
+
+exit 0

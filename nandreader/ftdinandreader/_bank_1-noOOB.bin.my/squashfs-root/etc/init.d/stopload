@@ -1,0 +1,5 @@
+#!/bin/sh
+
+. /etc/init.d/mbusd_util
+
+mbusd_phase_wait_for ${MBUSD_LOADPHASE_DONE}

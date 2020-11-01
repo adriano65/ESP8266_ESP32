@@ -5,14 +5,14 @@ RM = /bin/rm
 ifeq ($(shell uname -s),Darwin)
 	LIBNAME=libftdi1
 else
-	LIBNAME=libftdi
+	LIBNAME=libftdi1
 endif
 
 
 CFLAGS = -c -O3 -g -ggdb -Wall -Wextra -Wno-unused-parameter
 CFLAGS += $(shell pkg-config --cflags $(LIBNAME))
 
-LDFLAGS = $(shell pkg-config --libs $(LIBNAME))
+LDFLAGS = $(shell pkg-config --libs $(LIBNAME)) -L/usr/local/lib/
 
 BIN = NandTool
 SRCS = FtdiNand.cpp  NandChip.cpp  NandData.cpp  NandDataLP.cpp  NandDataSP.cpp  NandID.cpp  NandTool.cpp  stdafx.cpp

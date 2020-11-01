@@ -1,0 +1,36 @@
+local RG_PATH = "ResourceGate"
+
+local function getResourcePath(id, file)
+    assert( string.find(id, "'") == nil, "String shouldn't contain apostrophe/quotes")
+    if file == nil then
+        file = "" 
+    end
+    local reply, error = pcall(mbus.modify,
+        function()
+            local ret = mbus.setParameters{path=RG_PATH, param={FileCheck=file}, filter = "(== ID '"..id.."')"}
+            assert(next(ret[RG_PATH][1]["param"]) ~= nil, "Should not happen..")
+        end
+    )
+    
+    assert(reply == true and error == false, "Something went wrong ?! Hack attempt ?!")
+    local path = ""
+
+    local obj, errors = mbus.getParameters {path = RG_PATH, filter = "(== ID '"..id.."')"}
+    assert(obj[RG_PATH][1] ~= nil, "Resource Gate not found")
+    path = obj[RG_PATH][1].param["Path"]
+    
+    if file ~= "" then
+        path = path .. "/" .. file
+        --print("The new Path is " .. path)
+    end
+
+    return path
+end
+
+local id = cgilua.QUERY.id
+local file = cgilua.QUERY.file
+assert(id, "There was no ID parameter provided")
+
+local path = getResourcePath(id, file)
+util.file.downloadEx(tostring(path), 1)
+

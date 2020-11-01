@@ -1,0 +1,30 @@
+#!/bin/sh
+
+. /etc/init.d/mbusd_util
+
+case $1 in
+    start)
+        TELLER=0
+        # linux application configuration
+        /bin/echo "linux application start ..."
+        rm -f /var/run/linux_appl
+        rm -f /var/run/init_finished
+        mbusd_set_loadapp linux_appl
+	PRE=""
+	[ -f /etc/linuxappl_extra ] && . /etc/linuxappl_extra
+        REBUS_REQRSP_TIMEOUT=5:0 ${PRE} ../../nmon/linux_appl.exe /dev/nmon/nmontrace /dev/nmon/nmonerr /archive/ &
+        sleep 10;
+        while [ ! -f /var/run/linux_appl ]
+        do
+           TELLER=`expr ${TELLER} + 1`
+           echo "wait for linux_appl to initialize (${TELLER})"
+           sleep 1;
+        done
+        ;;
+    stop)
+        killall -9 linux_appl
+        ;;
+    *)
+
+esac
+

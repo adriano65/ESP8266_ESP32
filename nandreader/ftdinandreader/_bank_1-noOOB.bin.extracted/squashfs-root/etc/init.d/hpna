@@ -1,0 +1,8 @@
+#!/bin/sh
+
+HPNA_MAC=`/usr/bin/hpna/hpnagetmac`
+if [ "${HPNA_MAC}" != "" ]
+then
+    /bin/echo "Loading HomePNA firmware and setting MAC address: "${HPNA_MAC}
+    /bin/cp /usr/bin/hpna/firmware/CG3210H-194RC27-Profile2_Master-Coax_12-44_M1_12-28.bin /tmp/hpna_firmware && /usr/bin/hpna/loadfw -f /tmp/hpna_firmware -p ${HPNA_MAC} && rm -f /tmp/hpna_firmware
+fi

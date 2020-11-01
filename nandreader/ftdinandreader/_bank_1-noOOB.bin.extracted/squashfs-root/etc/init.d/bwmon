@@ -1,0 +1,27 @@
+#!/bin/sh
+
+ID_FILE='/var/run/bwmon.pid'
+BIN_FILE='/usr/bin/bwmon'
+
+case $1 in
+    start)
+	if [ -f "$BIN_FILE" ] ; then
+		/bin/echo "bwmon start ..."
+		/usr/bin/bwmon -d
+	fi
+	;;
+    stop)
+	if [ -f "$BIN_FILE" ] ; then
+		/bin/echo "bwmon stop ..."
+		if [ -f "$ID_FILE" ] ; then
+			BWMON_ID=$(cat ${ID_FILE})
+			/bin/echo ${BWMON_ID}
+			kill ${BWMON_ID}
+			rm -f ${ID_FILE}
+		fi
+	fi
+	;;
+    *)
+	
+esac
+

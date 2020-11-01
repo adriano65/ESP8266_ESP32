@@ -1,0 +1,217 @@
+category add name=Virtual
+
+add name "DNS ALG" mode server category=Virtual
+rule add name "DNS ALG" protocol=udp portrange=53
+
+add name="FTP" mode=server category=Virtual
+rule add name="FTP" protocol=tcp portrange=21
+
+add name="FTPS" mode=server category=Virtual
+rule add name="FTPS" protocol=tcp portrange=21
+rule add name="FTPS" protocol=tcp portrange=989
+rule add name="FTPS" protocol=tcp portrange=990
+
+add name "H.323 RAS" mode server category=Virtual
+rule add name "H.323 RAS" protocol=udp portrange=1719
+
+add name="HTTP" mode=server category=Virtual
+rule add name="HTTP" protocol=tcp portrange=80
+
+add name="HTTP Secondary" mode=server category=Virtual
+rule add name="HTTP Secondary" protocol=tcp portrange=8080
+
+add name="HTTPS" mode=server category=Virtual
+rule add name="HTTPS" protocol=tcp portrange=443
+
+add name="HTTPS Secondary" mode=server category=Virtual
+rule add name="HTTPS Secondary" protocol=tcp portrange=8443
+
+add name="IMAP" mode=server category=Virtual
+rule add name="IMAP" protocol=tcp portrange=143
+
+add name="IPSec" mode=server category=Virtual
+rule add name="IPSec" protocol=udp portrange=500
+
+add name "L2TP" mode server category=Virtual
+rule add name "L2TP" protocol=udp portrange=1701
+
+add name="NNTP" mode=server category=Virtual
+rule add name="NNTP" protocol=tcp portrange=119
+
+add name="POP3" mode=server category=Virtual
+rule add name="POP3" protocol=tcp portrange=110
+
+add name="PPTP" mode=server category=Virtual
+rule add name="PPTP" protocol=tcp portrange=1723
+
+add name="Remote Management" mode=server category=Virtual
+rule add name="Remote Management" protocol=tcp portrange=7020
+
+add name="Remote Management SSL" mode=server category=Virtual
+rule add name="Remote Management SSL" protocol=tcp portrange=7021
+
+add name="SMTP" mode=server category=Virtual
+rule add name="SMTP" protocol=tcp portrange=25
+
+add name="SNMP" mode=server category=Virtual
+rule add name="SNMP" protocol=udp portrange=161
+
+add name "SSH" mode server category=Virtual
+rule add name "SSH" protocol=TCP portrange=22
+
+add name="Telnet" mode=server category=Virtual
+rule add name="Telnet" protocol=tcp portrange=23
+
+add name="Telnet Secondary" mode=server category=Virtual
+rule add name="Telnet Secondary" protocol=tcp portrange=8023
+
+add name="Telnet SSL" mode=server category=Virtual
+rule add name="Telnet SSL" protocol=tcp portrange=992
+
+add name="Windows Remote Desktop" mode=server category=Virtual
+rule add name="Windows Remote Desktop" protocol=tcp portrange=3389
+
+add name="Wake-On-LAN" mode=server category=Virtual
+rule add name="Wake-On-LAN" protocol=udp portrange=0
+rule add name="Wake-On-LAN" protocol=udp portrange=7
+rule add name="Wake-On-LAN" protocol=udp portrange=9
+
+add name="AIM Talk" mode=client
+rule add name="AIM Talk" protocol=tcp portrange=5190 triggerport=4099 triggerprotocol=tcp
+
+add name="BearShare" mode=server
+rule add name="BearShare" protocol=tcp portrange=6346
+
+add name="BitTorrent" mode=client
+rule add name="BitTorrent"  protocol=tcp portrange=6881-6889
+
+add name="CarbonCopy32" mode=server
+rule add name="CarbonCopy32" protocol=tcp portrange=1024-1680
+
+add name="Checkpoint FW1 VPN" mode=server
+rule add name="Checkpoint FW1 VPN" protocol=any portrange=2599
+
+add name="Counter Strike" mode=server
+rule add name="Counter Strike" protocol=udp portrange=1200
+rule add name="Counter Strike" protocol=udp portrange=27000-27015
+rule add name="Counter Strike" protocol=tcp portrange=27030-27039
+
+add name="DirectX 7" mode=server
+rule add name="DirectX 7" protocol=udp portrange=2302-2400
+rule add name="DirectX 7" protocol=udp portrange=47624
+
+add name="DirectX 8" mode=server
+rule add name="DirectX 8" protocol=udp portrange=2302-2400
+rule add name="DirectX 8" protocol=udp portrange=6073
+
+add name="DirectX 9" mode=server
+rule add name="DirectX 9" protocol=udp portrange=2302-2400
+rule add name="DirectX 9" protocol=udp portrange=6073
+
+add name="DirectX Games" mode=server
+rule add name="DirectX Games" protocol=any portrange=47624-47625
+rule add name="DirectX Games" protocol=any portrange=2300-2400
+rule add name="DirectX Games" protocol=tcp portrange=28800-28912
+
+add name="eDonkey" mode=server
+rule add name="eDonkey" protocol=tcp portrange=4662
+rule add name="eDonkey" protocol=udp portrange=5737
+
+add name="eMule" mode=server
+rule add name="eMule" protocol=tcp portrange=4662
+rule add name="eMule" protocol=udp portrange=4672
+
+add name="Gamespy Arcade" mode=server
+rule add name="Gamespy Arcade" protocol=udp portrange=6500
+rule add name="Gamespy Arcade" protocol=udp portrange=6700
+rule add name="Gamespy Arcade" protocol=udp portrange=12300
+rule add name="Gamespy Arcade" protocol=udp portrange=27900
+rule add name="Gamespy Arcade" protocol=tcp portrange=28900
+rule add name="Gamespy Arcade" protocol=udp portrange=23000-23009
+
+add name="iMesh" mode=server
+rule add name=iMesh protocol=tcp portrange=1214
+
+add name="KaZaA" mode=server
+rule add name=KaZaA protocol=tcp portrange=1214
+
+add name="Mail Server (SMTP)" mode=server
+rule add name="Mail Server (SMTP)" protocol=any portrange=25
+
+add name="Microsoft Remote Desktop" mode=server
+rule add name="Microsoft Remote Desktop" protocol=any portrange=3389
+
+add name="MSN Game Zone" mode=server
+rule add name="MSN Game Zone" protocol=any portrange=6667
+rule add name="MSN Game Zone" protocol=any portrange=28800-29000
+
+add name="MSN Game Zone (DX)" mode=server
+rule add name="MSN Game Zone (DX)" protocol=any portrange=2300-2400
+rule add name="MSN Game Zone (DX)" protocol=any portrange=47624
+
+add name="MSN Messenger" mode=server
+rule add name="MSN Messenger" protocol=tcp portrange=1863
+
+add name="MyHome Bticino" mode=server
+rule add name="MyHome Bticino" protocol=tcp portrange=443
+rule add name="MyHome Bticino" protocol=tcp portrange=20000
+
+add name="Neverwinter Nights" mode=server
+rule add name="Neverwinter Nights" protocol=udp portrange=5120-5300
+rule add name="Neverwinter Nights" protocol=udp portrange=6500
+rule add name="Neverwinter Nights" protocol=udp portrange=6667
+rule add name="Neverwinter Nights" protocol=udp portrange=27900
+rule add name="Neverwinter Nights" protocol=udp portrange=28900
+
+add name="NNTP Server" mode=server
+rule add name="NNTP Server" protocol=any portrange=119
+
+add name="Play-Station2" mode=server
+rule add name="Play-Station2" protocol=tcp portrange=10070-10080
+rule add name="Play-Station2" protocol=udp portrange=10070
+
+add name="Secure Shell Server (SSH)" mode=server
+rule add name="Secure Shell Server (SSH)" protocol=tcp portrange=22
+
+add name="Steam Games" mode=server
+rule add name="Steam Games" protocol=tcp portrange=27030-27039
+rule add name="Steam Games" protocol=udp portrange=1200
+rule add name="Steam Games" protocol=udp portrange=27000-27015
+
+add name "Steam Client" mode server
+rule add name "Steam Client" protocol tcp portrange 27020-27039
+rule add name "Steam Client" protocol udp portrange 1200
+rule add name "Steam Client" protocol udp portrange 27000-27015
+
+add name "Steam Server" mode server
+rule add name "Steam Server" protocol any portrange 27015
+rule add name "Steam Server" protocol udp portrange 27020
+
+add name="VNC" mode=server
+rule add name="VNC" protocol=any portrange=5500
+rule add name="VNC" protocol=any portrange=5800
+rule add name="VNC" protocol=any portrange=5900
+
+add name="Webcam (TrueTech)" mode=server
+rule add name="Webcam (TrueTech)" protocol=tcp portrange=2047
+
+add name="Webcam32" mode=server
+rule add name="Webcam32" protocol=tcp portrange=81
+
+add name "World of Warcraft" mode server
+rule add name "World of Warcraft" protocol tcp portrange 3724
+
+add name="XBoX" mode=server
+rule add name="XBoX" protocol=udp portrange=88
+rule add name="XBoX" protocol=any portrange=3074
+
+add name="Xbox Live" mode=server
+rule add name="Xbox Live" protocol=any portrange=88 mode=auto
+rule add name="Xbox Live" protocol=any portrange=3074 mode=auto
+
+add name="Xbox One Live" mode=server
+rule add name="Xbox One Live" protocol=any portrange=88 mode=auto
+rule add name="Xbox One Live" protocol=any portrange=3074 mode=auto
+rule add name="Xbox One Live" protocol=any portrange=3544 mode=auto
+rule add name="Xbox One Live" protocol=any portrange=4500 mode=auto
+

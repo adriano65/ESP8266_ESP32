@@ -1,0 +1,4 @@
+syslog config syslog=unauthorized
+intercept config WDSpoofedIP=198.18.1.1 servertimeout=10 connecterrorurl=/noconnect.html categoryerrorurl=/noconnect.html monitorintercepturl=/noconnect.html unauthorizedrequrl=/urlfilter.html imageredirect=enabled imageredirecturl=/images/spacer.gif alwaysuseip=disabled
+urlfilter config state=disabled blockproxy=disabled blockipaddress=disabled blockobscuredip=disabled defaultaction=accept
+config state=automatic

@@ -1,0 +1,32 @@
+#!/bin/sh
+
+case $1 in
+    start)
+            if ! [ -e /usr/bin/cifscl ]; then
+                exit 1
+            fi
+			TELLER=0
+			rm -f /var/run/cifscl
+			echo "cifs plug-in: initializing ..."
+			/usr/bin/cifscl -d 
+			while [ ! -f /var/run/cifscl ]
+			do
+      	TELLER=`expr ${TELLER} + 1`
+				echo "samba: wait for cifscl plug-in to initialize (${TELLER})"
+				sleep 1;  
+				if [ "$TELLER" -eq 20 ]; then
+           		echo " cifscl plug-in time out"
+            	break
+				fi
+				done				
+				echo " cifs plug-in is started "
+				;;
+    stop)
+    	killall cifscl 
+			;;
+    *)
+			echo "Usage $0 [start|stop]"
+			exit 1
+			;;
+
+esac

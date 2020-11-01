@@ -1,0 +1,71 @@
+:voice cac config max#portsperprofile one
+:voice services 3gpp config 3GPP3PTYjoin refer_user2focus
+:voice config static_intf enabled intf Telecom_Italia
+:sipserver outbreg flush
+:sipserver outbreg add id=1 port=5060 address=telecomitalia.it
+:sipserver outbreg add id=2 port=5060 address=telecomitalia.it
+:sipserver outbreg add id=3 port=5060 address=telecomitalia.it
+:sipserver outbreg add id=4 port=5070 address=127.0.0.1
+:sipserver outbproxy flush
+:sipserver outbproxy add id=1 port=undefined address=""
+:sipserver outbproxy add id=2 port=undefined address=""
+:sipserver outbproxy add id=3 port=undefined address=""
+:sipserver outbproxy add id=4 port=5070 address=127.0.0.1
+:sipserver config extrareregistrations=enabled
+
+:voice tone patterntable modify id=211 power1=-17
+:voice tone patterntable modify id=213 power1=-17
+:voice tone patterntable modify id=215 power1=-17
+:voice services soc modify id=6 function=Establish3Party SOC=HF3
+:voice services soc modify id=13 function=From3PartyRetreiveBAndC SOC=HF3
+:voice services soc modify id=14 function=From3PartyRetreiveBAndC SOC=HF3
+:voice services soc add function=From3PartyHoldConf SOC=HF
+:voice services 3gpp config 3GPP3PTY enabled
+:voice services config cw_timer 120
+:voice sip2fxo config session-expires=130 min-se=100
+:voice sip config omit_displayname=yes symmetricDynRTPPayload=enabled PRACK=when_supported regexpire_Tbefore=0 regpersistency=disabled
+:voice sip responsemap delete responsecode 603
+:voice sip responsemap delete responsecode 600
+:voice codec dynamic config type=rfc2833 payloadtype=101
+:voice codec dynamic config type=g726_40 payloadtype=102
+:voice codec dynamic config type=ilbc payloadtype=103
+:voice codec dynamic config type=amr payloadtype=104
+:voice config no-answer-timer=200
+:voice dialplan delete prefix=*67#
+:voice dialplan add prefix=*67# defaultport=VoIP fallbackport=NA priority=NA fallback=disabled minimumdigits=4 maximumdigits=30 posofmodify=0 remnumdigits=0 rescan=no data=no action=ROUTE_incl_eon
+
+:dmscd config configFileName=$BSFTConfigFileName serverURI https://dmvpbx20.impresasemplice.it/dms/AG_Plus_TCH maxretries 5
+
+:service host rule add name="Wake-On-LAN" protocol=udp portrange=0
+:service system modify name=IGMP-Proxy qoslabel=IPTV
+:service system modify name=DHCP-S qoslabel=Management
+:service system ifadd name=PINGv6_RESP group=lan
+:service system modify name=PINGv6_RESP state=enabled
+:service system modify name=DHCPv6-S state=enabled qoslabel=Management
+:service system modify name=MLD-Proxy state=disabled qoslabel=Management
+:service system modify name=IP_REDIR state=disabled qoslabel=Management
+:service system modify name=IPv6_MANAGEMENT qoslabel=Management
+:service system modify name=SLA_ICMPv6_PING state=enabled
+:service system modify name=UPGD-C routelabel=modemToACS
+:tls https-server config state=enabled
+:upnp config onlydefault=enabled
+:webserver ssl commonname add commonname=homenet.telecomitalia.it
+:wireless radio radio_id=1 frameburst=disabled
+:wireless acs config state=Selecting mode=Optimized rescanperiod=86400 rescandelay=180 rescandelaypolicy=NoTraffic rescandelaymaxevents=999 chmonitorperiod=5 chfailtriggervalid=2 chfailmaxevents=4 chfaillockoutperiod=28800 radio_id=0
+:wireless acs config state=Selecting mode=Custom1 rescanperiod=86400 rescandelay=180 rescandelaypolicy=NoTraffic rescandelaymaxevents=999 chmonitorperiod=5 chfailtriggervalid=2 chfailmaxevents=4 chfaillockoutperiod=28800 radio_id=1
+:wireless acs debug config radio_id=0 txtrafficthreshold=2 rxtrafficthreshold=2 trafficsenseperiod=10 chanimtracing=disabled traffictracing=disabled tracelevel=0 interferencespan=2 chnoisethreshold=40 chscorethreshold=25
+:wireless acs debug acsprofile radio_id=0 value="-55 45 -200 0 -100 -50 0 -5 -50" profile_id=4
+:wireless acs debug acsprofile radio_id=0 value="-70 45 -1 -50 -100 -10 -10 -5 -50" profile_id=5
+:wireless acs debug config radio_id=1 txtrafficthreshold=2 rxtrafficthreshold=2 trafficsenseperiod=10 chanimtracing=disabled traffictracing=disabled tracelevel=0 interferencespan=2 chnoisethreshold=40 chscorethreshold=25
+:wireless acs debug acsprofile radio_id=1 value="-65 40 -400 -100 -100 -1 -100 -5 -100" profile_id=4
+:wireless acs debug acsprofile radio_id=1 value="-70 45 -1 -50 -100 -10 -10 -5 -50" profile_id=5
+:wireless wps config ssid_id=0 radio_id=0 credentialformat=passphrase
+:wireless wps config ssid_id=0 radio_id=1 credentialformat=passphrase
+:wireless wps config ssid_id=1 radio_id=0 credentialformat=passphrase
+:wireless wps config ssid_id=1 radio_id=1 credentialformat=passphrase
+:wireless mssid ifconfig ssid_id=0 radio_id=0 overrulepriomap=enabled prio2vlan=4,0,0,0,0,0,0,0,4,4,4,6,6,6,6,6 vlan2prio=4,0,2,4,10,10,14,15
+:wireless mssid ifconfig ssid_id=1 radio_id=0 overrulepriomap=enabled prio2vlan=4,0,0,0,0,0,0,0,4,4,4,6,6,6,6,6 vlan2prio=4,0,2,4,10,10,14,15
+:wireless mssid ifconfig ssid_id=0 radio_id=1 overrulepriomap=enabled prio2vlan=4,0,0,0,0,0,0,0,4,4,4,6,6,6,6,6 vlan2prio=4,0,2,4,10,10,14,15
+:wireless mssid ifconfig ssid_id=1 radio_id=1 overrulepriomap=enabled prio2vlan=4,0,0,0,0,0,0,0,4,4,4,6,6,6,6,6 vlan2prio=4,0,2,4,10,10,14,15
+:pwr config  cpu-microsleep=enabled cpu-lowspeed=enabled
+

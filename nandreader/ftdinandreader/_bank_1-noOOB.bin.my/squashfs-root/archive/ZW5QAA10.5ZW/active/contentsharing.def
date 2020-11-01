@@ -1,0 +1,2 @@
+cifs config state=enabled workgroup=WORKGROUP name=modemtelecom comment="TI Alice Gateway"
+upnp config state=enabled friendlyname=ModemTelecom

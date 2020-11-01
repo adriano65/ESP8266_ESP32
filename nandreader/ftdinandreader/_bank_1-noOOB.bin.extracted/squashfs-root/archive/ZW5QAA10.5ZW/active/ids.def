@@ -1,0 +1,2 @@
+config state=enabled
+signature modify signature=spoofed_packet state=disabled

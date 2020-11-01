@@ -1,0 +1,16 @@
+#!/bin/sh
+
+IFS="
+"
+total=0
+used=0
+for i in $(/bin/df| grep "/sda") ; do
+	IFS=" "
+	total_tmp=$(/bin/echo $i | /usr/bin/cut -d" " -f 2 )
+  	total=$(($total+$total_tmp))	
+	used_tmp=$(/bin/echo $i | /usr/bin/cut -d" " -f 4)
+	used=$(($used+$used_tmp))
+done
+/bin/echo "$total $used" 
+
+

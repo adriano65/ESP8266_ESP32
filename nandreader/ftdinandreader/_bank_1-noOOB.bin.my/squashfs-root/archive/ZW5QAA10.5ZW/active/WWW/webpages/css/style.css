@@ -1,0 +1,342 @@
+.tdScura {
+
+   background-color: #53669E;   
+
+   border-color: #000000;
+
+   color: #FFFFFF;
+
+   font-family: Arial !important;
+
+   font-size: 12px;   
+
+   font-weight: bold;   
+
+   text-decoration: none;
+
+}
+
+.trScura {
+
+   background-color: #ADADAD;   
+
+   border-color: #000000;
+
+   color: #FFFFFF;
+
+   font-family: Arial !important;
+
+   font-size: 16px;   
+
+   font-weight: bold;   
+
+   text-decoration: none;
+
+}
+
+.tdChiara {
+
+   background-color: #B6C4E9;   
+
+   border-color: #000000;
+
+   color: #53669E;
+
+   font-family: Arial !important;
+
+   font-size: 12px;   
+
+   font-weight: bold;   
+
+   text-decoration: none;
+
+}
+
+
+
+.tdChiaraC {
+
+   background-color: #B6C4E9;   
+
+   border-color: #000000;
+
+   color: #53669E;
+
+   font-family: Arial !important;
+
+   font-size: 12px;   
+
+   font-weight: bold;   
+
+   text-decoration: none;
+
+   text-align: center;
+
+}
+
+.tdChiara50 {
+
+   background-color: #B6C4E9;   
+
+   border-color: #000000;
+
+   color: #53669E;
+
+   font-family: Arial !important;
+
+   font-size: 12px;   
+
+   font-weight: bold;   
+
+   text-decoration: none;
+
+   height: 45px;
+
+   text-align: center;
+
+}
+
+.trChiara {
+
+   background-color: #B6C4E9;   
+
+   border-color: #000000;
+
+   color: #53669E;
+
+   font-family: Arial !important;
+
+   font-size: 16px;   
+
+   font-weight: bold;   
+
+   text-decoration: none;
+
+}
+
+.tdBianca {
+
+    
+
+   border-color: #000000;
+
+   color: #000000;
+
+   font-family: Arial !important;
+
+   font-size: 12px;   
+
+   font-weight: bold;   
+
+   text-decoration: none;
+
+}
+
+
+
+.tdBiancaC{
+
+   padding-top: 12px;
+
+   padding-bottom: 12px; 
+
+    
+
+   border-color: #000000;
+
+   color: #000000;
+
+   font-family: Arial !important;
+
+   font-size: 12px;   
+
+   font-weight: bold;   
+
+   text-decoration: none;
+
+   text-align: center;
+  
+   line-height: 1.5;
+
+}
+
+
+
+.tdOrange {
+
+   border-color: #000000;
+
+   color: #FF9900;
+
+   font-family: Arial !important;
+
+   font-size: 12px;   
+
+   font-weight: bold;   
+
+   text-decoration: none;
+
+   text-align: left;
+
+}
+
+
+
+.tdGreen {
+
+    
+
+   border-color: #000000;
+
+   color: #00CC00;
+
+   font-family: Arial !important;
+
+   font-size: 12px;   
+
+   font-weight: bold;   
+
+   text-decoration: none;
+
+   text-align: left;
+
+}
+
+
+
+.tdGreenC {
+
+    
+
+   border-color: #000000;
+
+   color: #00CC00;
+
+   font-family: Arial !important;
+
+   font-size: 12px;   
+
+   font-weight: bold;   
+
+   text-decoration: none;
+
+   text-align: center;
+
+}
+
+
+
+.tdRed {
+
+   border-color: #000000;
+
+   color: #FF0000;
+
+   font-family: Arial !important;
+
+   font-size: 12px;   
+
+   font-weight: bold;   
+
+   text-decoration: none;
+
+   text-align: left;
+
+}
+
+
+
+.tdRedC {
+
+    
+
+   border-color: #000000;
+
+   color: #FF0000;
+
+   font-family: Arial !important;
+
+   font-size: 12px;   
+
+   font-weight: bold;   
+
+   text-decoration: none;
+
+   text-align: center;
+
+}
+
+
+
+.titolo {
+
+   font-family: Arial !important;
+
+   color: #53669E;
+
+   font-size: 24px;   
+
+   font-weight: bold;   
+
+   text-decoration: none;
+
+}
+
+.tableBg {
+
+   background-color: #EAEAFF;
+
+}
+.button {
+
+}
+.tablePB { 
+
+	BORDER-RIGHT: #000000 1px solid;
+
+	BORDER-TOP: #000000 1px solid;
+
+	BORDER-LEFT: #000000 1px solid;
+
+	BORDER-BOTTOM: #000000 1px solid;
+
+	BACKGROUND-COLOR: #ffffff;}
+.pbtdwhite {
+
+	BACKGROUND-COLOR: #ffffff;}
+
+
+
+.pbtdcolor0 {
+
+	BACKGROUND-COLOR: #c3d6f8;}
+
+	
+
+.pbtdcolor1 {
+
+	BACKGROUND-COLOR: #b3c6e8;}
+
+	
+
+.pbtdcolor2 {
+
+	BACKGROUND-COLOR: #a3b6d8;}
+
+	
+
+.pbtdcolor3 {
+
+	BACKGROUND-COLOR: #93a6c8;}
+
+	
+
+.pbtdcolor4 {
+
+	BACKGROUND-COLOR: #8396b8;}
+
+	
+
+.pbtdcolor5 {
+
+	BACKGROUND-COLOR: #7386a8;}  

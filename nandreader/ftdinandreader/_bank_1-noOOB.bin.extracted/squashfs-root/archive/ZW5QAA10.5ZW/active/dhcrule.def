@@ -1,0 +1,6 @@
+add name=option43rule type=option option=vendor-specific_info
+add name=option60rule type=option option=vendor-class-identifier value="(ascii)dslforum.org" match=as_substring
+add name=option125rule type=option option=vi-vendor-specific-info
+add name IPTV type option option vendor-class-identifier value (ascii)stb match as_substring
+add name noIPTV type option option !vendor-class-identifier value (ascii)stb match as_substring
+debug traceconfig state=disabled

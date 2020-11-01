@@ -1,0 +1,8 @@
+add filter=ModifyIPHeader
+config filter=ModifyIPHeader mark=enabled
+ruleadd filter=ModifyIPHeader operand=CheckPPP
+ruleadd filter=ModifyIPHeader operand=CheckIP
+ruleadd filter=ModifyIPHeader operand=ModifyDSCP
+add filter=ppp_lan_block location=Ingress level=0 tracing=disabled mark=enabled
+ruleadd filter=ppp_lan_block operand=pppd_blk negate=disabled order=0 operator=AND
+ruleadd filter=ppp_lan_block operand=pppd_blk_padi negate=disabled order=0 operator=AND

@@ -1,0 +1,4 @@
+config state=disabled qi=125 qri=10 lmqi=1 rv=2 requirera=disabled localgroup=disabled
+ifconfig intf=LocalNetwork state=downstream version=IGMPv3 fastleave=disabled exptrack=disabled
+ifconfig intf=Telecom_Italia state=inactive
+ifconfig intf=IPTV state=upstream

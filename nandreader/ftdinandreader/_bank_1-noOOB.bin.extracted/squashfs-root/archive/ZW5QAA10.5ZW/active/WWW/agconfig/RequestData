@@ -1,0 +1,25 @@
+<%
+	cgilua.lp.include("lp/xml.lp")
+	
+	local configurationData = cgilua.QUERY["ConfigurationData"]
+	local CallerId = cgilua.QUERY["CallerId"]
+	if configurationData==nil or CallerId==nil or CallerId=="" then
+		httperror(400, "Bad Request")
+		return
+	end	
+	
+	if tonumber(CallerId) < 800 or tonumber(CallerId) >850 then
+		httperror(530, "Client SW not valid")
+		return
+	end
+	
+	local isRightObj = string.find(configurationData, "Device.")
+	if configurationData=="Device" or isRightObj ~= nil then
+		xmlCreate(configurationData)	
+		cgilua.redirect("/AGConfig.xml")				
+	else
+		httperror(400, "Bad Request")
+		return
+	end
+
+%>

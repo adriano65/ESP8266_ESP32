@@ -1,0 +1,38 @@
+#!/bin/sh
+
+# Usage: ./cleanconfig bank_id 
+# This script cleans the configuration files of the bank. It skips the file version.info.
+
+DEBUG=1
+#DEBUG=0
+
+info()
+{
+	if [ $DEBUG -gt 0 ]; then
+		echo "`basename $0`: $@"
+	fi
+}
+
+usage()
+{
+	echo "Usage: `basename $0` bank_id"
+}
+
+bank_id=$1
+
+if [ -z "$bank_id" ]; then
+	usage
+	exit 1
+fi
+
+bank_dir="/userfs/config-bank-$bank_id/"
+
+if [ ! -d $bank_dir ]; then
+	info "$bank_dir doesn't exist"
+else
+	#info "Clean configuration of bank $bank_id"
+	(cd $bank_dir && rm -Rf *)
+fi
+
+exit 0
+

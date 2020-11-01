@@ -1,0 +1,31 @@
+#!/bin/sh
+
+ID_FILE='/var/run/autoipd.pid'
+BIN_FILE='/usr/bin/autoipd'
+BIN_PATH=/usr/bin/autoipd
+
+case $1 in
+    start)
+	# start autoipd
+	if [ -f "$BIN_FILE" ] ; then
+	#	/bin/echo "autoipd start ..."
+    ${BIN_PATH} -d
+	fi
+	;;
+    stop)
+	# stop autoipd
+	if [ -f "$BIN_FILE" ] ; then
+  # /bin/echo "autoipd stop ..."
+		if [ -f "$ID_FILE" ] ; then
+      AUTOIPD_ID=$(cat ${ID_FILE});
+      /bin/echo ${AUTOIPD_ID}
+      kill ${AUTOIPD_ID}
+			rm -f ${ID_FILE}
+		fi
+	fi
+  ;;
+    *)
+	
+esac
+
+

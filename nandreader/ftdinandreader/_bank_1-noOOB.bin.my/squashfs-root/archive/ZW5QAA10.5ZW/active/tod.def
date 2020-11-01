@@ -1,0 +1,10 @@
+config acchain=forward_timeofday state=enabled
+action add id 0
+action setvaladd actionid=0
+action paramadd actionid=0 setvalueid=0 id=0 object=WLAN param=Enable value=1 on=active
+action paramadd actionid=0 setvalueid=0 id=1 object=WLAN param=Enable value=0 on=inactive
+schedule add id=0 type=action
+schedule modify scheduleid=0 name=WIFI_ON_OFF
+schedule dayadd scheduleid=0 weekday=all id=0
+schedule timeadd scheduleid=0 dayid=0 starthour=07 startminute=00 endhour=12 endminute=00 action=0
+schedule timeadd scheduleid=0 dayid=0 starthour=12 startminute=00 endhour=22 endminute=00 action=0

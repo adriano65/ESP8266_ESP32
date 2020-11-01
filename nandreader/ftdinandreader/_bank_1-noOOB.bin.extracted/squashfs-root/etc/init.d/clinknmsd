@@ -1,0 +1,37 @@
+#!/bin/sh
+
+# This is the init script for the Entropic clinknmsd daemon.
+
+CLINKNMSD=/usr/bin/clinknmsd
+
+case $1 in
+  start)
+
+    # Start clinknmsd
+    if ! [ -e $CLINKNMSD ] ; then
+      echo "Entropic: $CLINKNMSD does not exist!  Exiting."
+      exit 2
+    fi
+
+    echo "Entropic: $CLINKNMSD starting..."
+
+    $CLINKNMSD &
+    ;;
+
+  stop)
+    # Get the pid of the clinknmsd process
+    clinknmsd_pid=`ps | grep $CLINKNMSD | grep -v grep | sed 's/^ *\([0-9]*\).*/\1/'`
+    if [ "x_$clinknmsd_pid" != "x_" ] ; then
+      kill $clinknmsd_pid
+    else
+      echo "Entropic: Cannot stop $CLINKNMSD.  $CLINKNMSD is not running."
+    fi
+
+    ;;
+
+  *)
+    echo "Entropic: $CLINKNMSD usage: $0 [start|stop]"
+    exit 3
+    ;;
+
+esac

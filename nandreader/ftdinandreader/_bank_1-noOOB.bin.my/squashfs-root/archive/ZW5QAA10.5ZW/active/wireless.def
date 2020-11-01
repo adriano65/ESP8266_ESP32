@@ -1,0 +1,37 @@
+radio radio_id=0 country=EU channelwidth=20/40
+radio radio_id=0 frameburst=disabled
+radio radio_id=1 country=IT channelwidth=20/40
+radio radio_id=1 frameburst=disabled
+qos config radio_id=0 mode=wmm
+qos config radio_id=1 mode=wmm
+ifconfig ssid=$WL0_SSID channel=auto flags=bootup
+mssid ifconfig radio_id=0 ssid_id=0 secmode wpa-psk WPAPSKversion=WPA+WPA2 ssid_enable=1 ap_enable=1
+mssid ifadd radio_id=1 ssid=$WL0_SSID
+mssid ifconfig radio_id=1 ssid_id=0 secmode wpa-psk WPAPSKversion=WPA+WPA2 ssid_enable=1 ap_enable=1
+mssid ifconfig radio_id=1 ssid_id=0 stationhistory=enabled
+mssid ifattach radio_id=1 ssid_id=0
+mssid ifadd radio_id=0 ssid=$WL_GUEST_SSID
+mssid ifconfig radio_id=0 ssid_id=1 secmode wpa-psk WPAPSKversion=WPA+WPA2 ssid_enable=1 ap_enable=0 disconnect_time=3600
+mssid ifconfig radio_id=0 ssid_id=1 WEPkey guest00000000 WPAPSKkey guest@000000 stationhistory=enabled
+mssid ifadd radio_id=1 ssid=$WL_GUEST_SSID
+mssid ifconfig radio_id=1 ssid_id=1 secmode wpa-psk WPAPSKversion=WPA+WPA2 ssid_enable=1 ap_enable=0 disconnect_time=3600
+mssid ifconfig radio_id=1 ssid_id=1 WEPkey guest00000000 WPAPSKkey guest@000000 stationhistory=enabled
+mssid ifconfig ssid_id=0 radio_id=0 overrulepriomap=enabled prio2vlan=4,0,0,0,0,0,0,0,4,4,4,6,6,6,6,6 vlan2prio=4,0,2,4,10,10,14,15
+mssid ifconfig ssid_id=1 radio_id=0 overrulepriomap=enabled prio2vlan=4,0,0,0,0,0,0,0,4,4,4,6,6,6,6,6 vlan2prio=4,0,2,4,10,10,14,15
+mssid ifconfig ssid_id=0 radio_id=1 overrulepriomap=enabled prio2vlan=4,0,0,0,0,0,0,0,4,4,4,6,6,6,6,6 vlan2prio=4,0,2,4,10,10,14,15
+mssid ifconfig ssid_id=1 radio_id=1 overrulepriomap=enabled prio2vlan=4,0,0,0,0,0,0,0,4,4,4,6,6,6,6,6 vlan2prio=4,0,2,4,10,10,14,15
+wps config radio_id=0 ssid_id=0 state=enabled
+wps config radio_id=1 ssid_id=0 state=enabled
+:wireless wps config ssid_id=0 radio_id=0 credentialformat=passphrase
+:wireless wps config ssid_id=0 radio_id=1 credentialformat=passphrase
+:wireless wps config ssid_id=1 radio_id=0 credentialformat=passphrase
+:wireless wps config ssid_id=1 radio_id=1 credentialformat=passphrase
+acs config state=Selecting mode=Optimized rescanperiod=86400 rescandelay=180 rescandelaypolicy=NoTraffic rescandelaymaxevents=999 chmonitorperiod=5 chfailtriggervalid=2 chfailmaxevents=4 chfaillockoutperiod=28800 radio_id=0
+acs config state=Selecting mode=Custom1 rescanperiod=86400 rescandelay=180 rescandelaypolicy=NoTraffic rescandelaymaxevents=999 chmonitorperiod=5 chfailtriggervalid=2 chfailmaxevents=4 chfaillockoutperiod=28800 radio_id=1
+acs debug config radio_id=0 txtrafficthreshold=2 rxtrafficthreshold=2 trafficsenseperiod=10 chanimtracing=disabled traffictracing=disabled tracelevel=0 interferencespan=2 chnoisethreshold=40 chscorethreshold=25
+acs debug acsprofile radio_id=0 value="-55 45 -200 0 -100 -50 0 -5 -50" profile_id=4
+acs debug acsprofile radio_id=0 value="-70 45 -1 -50 -100 -10 -10 -5 -50" profile_id=5
+acs debug config radio_id=1 txtrafficthreshold=2 rxtrafficthreshold=2 trafficsenseperiod=10 chanimtracing=disabled traffictracing=disabled tracelevel=0 interferencespan=2 chnoisethreshold=40 chscorethreshold=25
+acs debug acsprofile radio_id=1 value="-65 40 -400 -100 -100 -1 -100 -5 -100" profile_id=4
+acs debug acsprofile radio_id=1 value="-70 45 -1 -50 -100 -10 -10 -5 -50" profile_id=5
+

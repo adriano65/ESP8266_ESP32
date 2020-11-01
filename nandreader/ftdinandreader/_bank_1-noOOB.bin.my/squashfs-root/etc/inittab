@@ -1,0 +1,19 @@
+# For hardware and initial file system initialization
+::sysinit:/etc/init.d/rcS
+::restart:/sbin/init
+
+# For normal module initializtion, include linuxappl
+#::waitbg:/etc/init.d/rc 1
+# The runlevel depends on the bootmode, i.e.
+# bootmode is normal : runlevel 1 (normal case)
+# bootmode is reduced memory : runlevel is 3.  Same as runlevel 1, but some applications are
+# not started.
+#
+# runlevel is queried/selected by the 'rc' script
+#
+
+::waitbg:/etc/init.d/rc
+# Others
+
+#login shell
+ttyS0::askfirst:/bin/login

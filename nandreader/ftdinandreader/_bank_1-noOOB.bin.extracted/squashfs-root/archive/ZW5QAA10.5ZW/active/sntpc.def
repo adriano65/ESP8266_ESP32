@@ -1,0 +1,5 @@
+add name=ntp-tr069-1.interbusiness.it version=3
+add name=ntp-tr069-2.interbusiness.it version=3
+config poll=720 pollpresync=5
+config state=enabled
+debug traceconfig state=disabled

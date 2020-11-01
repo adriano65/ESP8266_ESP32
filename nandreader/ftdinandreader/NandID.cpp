@@ -199,15 +199,21 @@ int NandID::getAddrByteCount() {
          else {
 			        cyc=4;
 		          }
-	} else {
+	  }
+  else {
 		if (m_nandChipSzMB<=64) {
 			cyc=3; 
-		} else {
+		  }
+    else {
 			cyc=4;
-		}
+		  }
 	}
 	return cyc;
 }
 
+int NandID::getEraseAddrByteCount() {
+	int cyc=3;
+	return cyc;
+}
 
 

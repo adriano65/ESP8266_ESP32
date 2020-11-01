@@ -1,0 +1,15 @@
+#!/bin/sh
+
+smb_update()
+{
+	smbbusy="/var/tmp/smbbusy"
+	lock=`smbstatus -L | grep 'uuid'`
+	if [ "$lock" = "" ]; then
+		echo 0 >$smbbusy
+	else
+		echo 1 >$smbbusy
+	fi
+}
+
+smb_update	
+

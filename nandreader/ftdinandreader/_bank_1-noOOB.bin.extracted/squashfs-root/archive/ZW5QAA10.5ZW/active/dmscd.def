@@ -1,0 +1,1 @@
+config configFileName=$BSFTConfigFileName serverURI https://dmvpbx20.impresasemplice.it/dms/AG_Plus_TCH maxretries 5

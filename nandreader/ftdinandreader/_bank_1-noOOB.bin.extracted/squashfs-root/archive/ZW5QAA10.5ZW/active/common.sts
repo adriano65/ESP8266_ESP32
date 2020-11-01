@@ -1,0 +1,62 @@
+:expr add name VoIP-Inc-SIPS type serv proto udp dstport 5060
+:expr add name VoIP-Inc-SIP type serv proto udp dstport 5070
+:label rule add chain qos_user_labels index=6 name incoming-sips-sip srcintf wan serv VoIP-Inc-SIPS state enabled label VoIP
+:label rule add chain qos_user_labels index=7 name incoming-voice-sip srcintf wan serv VoIP-Inc-SIP state enabled label VoIP
+:sipserver extua modify id=1 intf=Telecom_Italia sipport=sip outboundregistrar=1 outboundproxy=1 Realm=2  
+:sipserver extua modify id=2 intf=Telecom_Italia sipport=sip outboundregistrar=2 outboundproxy=2 Realm=2  
+:sipserver extua modify id=3 intf=Telecom_Italia sipport=sip outboundregistrar=3 outboundproxy=3 Realm=2  
+:sipserver extua modify id=4 intf=Telecom_Italia sipport=sip outboundregistrar=4 outboundproxy=4 Realm=2  
+:connection bind application CONE(UDP) port=3074
+:connection bind application CONE(UDP) port=88
+:nat tmpladd intf=ppp_0 type=nat outside_addr=0.0.0.1 inside_addr=127.0.0.2 access_list=127.0.0.2 protocol=icmp outside_port=8-8 inside_port=8-8 weight=10 creator_name=Undefined
+:pwr config eco-manager=enabled cpu-microsleep=disabled cpu-lowspeed=disabled usb-controller=enabled wlan-pwrcontrol=enabled
+:wansensing config state=disabled
+:wansensing mode delete name=NONE
+:wansensing mode delete name=ADSL
+:wansensing mode delete name=VDSL
+:wansensing mode delete name=ETH
+:wansensing mode add name=NONE maininterval=25 scriptname=TI-auto-sensing-script
+:wansensing mode add name=ADSL maininterval=25 scriptname=TI-adsl-script
+:wansensing mode add name=ETH maininterval=25 scriptname=TI-eth-script
+:wansensing mode add name=VDSL maininterval=25 scriptname=TI-vdsl-script
+:wansensing config state=enabled
+:voice services config mwi_phone both
+:voice tone patterntable add id 65 tone on freq1 425 power1 -6 duration 100 nextentry 66
+:voice tone patterntable add id 66 tone on freq1 0 power1 0 duration 100 nextentry 67
+:voice tone patterntable add id 67 tone on freq1 425 power1 -6 duration 100 nextentry 0
+:voice tone descrtable modify tone=mwi status=enabled patternentryid=65 maxduration=3000 repeatafter=1000 delay 400 nexttone dial
+:firewall rule flush chain=sink_fire
+:firewall rule add chain=sink_fire index=1 srcintf=lan serv=cwmp-s log=disabled state=enabled action=deny
+
+
+
+:dns server route add dns 0.0.0.0 label modemToACS intf Telecom_Italia  metric  0 domain reteims.telecomitalia.it
+:dns server route add dns 0.0.0.0 label modemToACS intf Telecom_Italia  metric  0 domain imswline.telecomitalia.it
+:dns server route add dns 0.0.0.0 label modemToACS intf Telecom_Italia  metric  0 domain imsw.telecomitalia.it
+:label rule add chain=rt_user_labels srcintf=from_loop serv=extua state=enabled label modemToACS
+:connection bind application CONE(UDP) port 3544
+:connection bind application CONE(UDP) port 4500
+:service host add name="Xbox One Live" mode=server
+:service host rule add name="Xbox One Live" protocol=any portrange=88 mode=auto
+:service host rule add name="Xbox One Live" protocol=any portrange=3074 mode=auto
+:service host rule add name="Xbox One Live" protocol=any portrange=3544 mode=auto
+:service host rule add name="Xbox One Live" protocol=any portrange=4500 mode=auto
+
+:dhcp server option instdelete name=option60
+:dhcp rule delete name=option60rule
+:dhcp rule add name=option60rule type=option option=vendor-class-identifier value=(ascii)dslforum.org match=as_substring
+:dhcp server option instadd name=option60 tmplname=VendorClassId policy=rules value="(ascii)dslforum.org"
+:dhcp server option ruleadd name=option60 rulename=option60rule
+:dhcp server option instdelete name=option43 suboption=2
+:dhcp server option instdelete name=option43 suboption=3
+:dhcp server option instdelete name=option43 suboption=4
+:dhcp server option instdelete name=option43 suboption=5
+:dhcp server option instadd name=option43 tmplname=VendorSpecificInf suboption=2 value=(env)CONF_PROVIDER
+:dhcp server option ruledelete name=option43 rulename=option43rule
+:dhcp server option ruleadd name=option43 rulename=option60rule
+:dhcp server pool config name LocalNetwork_default state disabled
+:dhcp server pool optadd name=LocalNetwork_default instname=option43
+:dhcp server pool optadd name=LocalNetwork_default instname=option60
+:dhcp server pool config name LocalNetwork_default state enabled
+
+:voice services deactivate  type=transfer

@@ -1,0 +1,1 @@
+config state=enabled scantime=10 autosave=disabled trace=disabled

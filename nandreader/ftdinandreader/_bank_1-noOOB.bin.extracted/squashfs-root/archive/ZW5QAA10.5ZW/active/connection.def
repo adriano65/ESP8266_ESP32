@@ -1,0 +1,47 @@
+appconfig application=JABBER trace=disabled timeout=120
+appconfig application=CU/SeeMe trace=enabled
+appconfig application=RAUDIO(PNA) trace=enabled
+appconfig application=RTSP trace=enabled
+appconfig application=ILS timeout=300
+appconfig application=H245 timeout=300
+appconfig application=H323 trace=enabled
+appconfig application=IRC trace=enabled timeout=300
+appconfig application=LOOSE(UDP) trace=enabled timeout=300
+appconfig application=FTP trace=enabled
+appconfig application=PPTP trace=enabled
+appconfig application=ESP timeout=900
+appconfig application=IKE trace=disabled timeout=900 floating=enabled
+bind application=PPTP port=1723-1723
+bind application=CU/SeeMe port=7648-7648
+bind application=RAUDIO(PNA) port=7070-7070
+bind application=RTSP port=554-554
+bind application=ILS port=389-389
+bind application=ILS port=1002-1002
+bind application=H323 port=1720-1720
+bind application=IRC port=6660-6669
+bind application=FTP port=21-21
+bind application=JABBER port=5222-5222
+bind application=JABBER port=15222-15222
+bind application=GAME(UDP) port=27010-27011
+bind application=LOOSE(UDP) port=67
+bind application=LOOSE(UDP) port=69
+bind application=CONE(UDP) port=3478
+bind application CONE(UDP) port=3074
+bind application CONE(UDP) port=88
+bind application CONE(UDP) port=3544
+bind application CONE(UDP) port=4500
+bind application=ESP port=0
+bind application=IKE port=500-500
+bind application=HTTPI port=80
+bind application=HTTPI port=1080
+bind application=HTTPI port=8080
+config configchangemode=immediate probes=disabled 
+debug trace=disabled
+timerconfig timer=tcpidle value=5
+timerconfig timer=tcpneg value=120
+timerconfig timer=tcpkill value=5
+timerconfig timer=udpidle value=5
+timerconfig timer=udpkill value=5
+timerconfig timer=icmpkill value=60
+timerconfig timer=ipidle value=10
+timerconfig timer=ipkill value=1

@@ -1,0 +1,125 @@
+:service system modify name=SIP_SERVER state=enabled
+:service system modify name VOIP_SIP state=enabled
+:voice profile flush
+:voice profile add SIP_URI=**11@modemtelecom.homenet.telecomitalia.it voiceport=FXS1 username=**11 password=11 enable=enabled shouldregister=no
+:voice profile add SIP_URI=**12@modemtelecom.homenet.telecomitalia.it voiceport=FXS2 username=**12 password=12 enable=enabled shouldregister=no
+:voice profile add SIP_URI=**13@modemtelecom.homenet.telecomitalia.it voiceport=DECT1 username=**13 password=13 enable=enabled shouldregister=no
+:voice profile add SIP_URI=**14@modemtelecom.homenet.telecomitalia.it voiceport=DECT2 username=**14 password=14 enable=enabled shouldregister=no
+:voice profile add SIP_URI=**15@modemtelecom.homenet.telecomitalia.it voiceport=DECT3 username=**15 password=15 enable=enabled shouldregister=no
+:voice profile add SIP_URI=**16@modemtelecom.homenet.telecomitalia.it voiceport=DECT4 username=**16 password=16 enable=enabled shouldregister=no
+:voice profile add SIP_URI=**17@modemtelecom.homenet.telecomitalia.it voiceport=DECT5 username=**17 password=17 enable=enabled shouldregister=no
+:voice profile add SIP_URI=FXO voiceport=SIMFXO username=FXO password=FXO enable=enabled outboundproxy=127.0.0.1 outboundproxyport=5090 shouldregister=no
+:voice portmap delete voiceport SIMFXO profile 0
+:voice uamap delete profile 0 voiceport SIMFXO
+:voice cac config max#portsperprofile all
+:voice config intf loop
+:voice sip config useragentdomain=modemtelecom.homenet.telecomitalia.it primregaddr=modemtelecom.homenet.telecomitalia.it phonecontext=+39 regport=5065 CWreply=180
+:voice services 3gpp config 3GPP3PTYjoin refer_focus2user
+:sipserver config omit_displayname=yes
+:sipserver config maxsessions=30 regevent=disabled p-preferred-id=FirstPAU
+:sipserver realm flush
+:sipserver realm add id 1 realm something
+:sipserver realm add id 2 realm something2
+:sipserver realm flush
+:sipserver realm add id 1 realm modemtelecom.homenet.telecomitalia.it
+:sipserver realm add id 2 realm digest.telecomitalia.it
+:sipserver outbreg modify id=1 port=5060 address=telecomitalia.it
+:sipserver outbreg modify id=2 port=5060 address=telecomitalia.it
+:sipserver outbreg modify id=3 port=5060 address=telecomitalia.it
+:sipserver outbreg modify id=4 port=5070 address=127.0.0.1
+:sipserver outbproxy modify id=1 port=0
+:sipserver outbproxy modify id=2 port=0
+:sipserver outbproxy modify id=3 port=0
+:sipserver outbproxy modify id=4 port=5070 address=127.0.0.1
+:sipserver intua modify id=1 aor=**11@modemtelecom.homenet.telecomitalia.it username=**11 password=11 status=enabled Realm 1 linename="FXS1" uaport=5065 PhyAssignment "Assigned"
+:sipserver intua modify id=2 linename="Telefono IP 2"
+:sipserver intua modify id=3 linename="Telefono IP 3"
+:sipserver intua modify id=4 linename="Telefono IP 4"
+:sipserver intua modify id=5 linename="Telefono IP 5"
+:sipserver intua modify id=6 linename="Telefono IP 6"
+:sipserver intua modify id=7 linename="Telefono IP 7"
+:sipserver intua modify id=8 linename="Telefono IP 8"
+:sipserver intua modify id=9 linename="Telefono IP 9"
+:sipserver intua modify id=10 linename="Telefono IP 10"
+:sipserver intua add id=11  aor=**01@modemtelecom.homenet.telecomitalia.it username=**01 password=01 status=enabled Realm 1 linename="Telefono IP 1" uaport=5065 PhyAssignment "Not Assigned"
+:sipserver intua add id=12 aor=**12@modemtelecom.homenet.telecomitalia.it username=**12 password=12 status=enabled Realm 1 linename="FXS 2" uaport=5065
+:sipserver intua add id=13 aor=**13@modemtelecom.homenet.telecomitalia.it username=**13 password=13 status=enabled Realm 1 linename="DECT 1" uaport=5065
+:sipserver intua add id=14 aor=**14@modemtelecom.homenet.telecomitalia.it username=**14 password=14 status=enabled Realm 1 linename="DECT 2" uaport=5065
+:sipserver intua add id=15 aor=**15@modemtelecom.homenet.telecomitalia.it username=**15 password=15 status=enabled Realm 1 linename="DECT 3" uaport=5065
+:sipserver intua add id=16 aor=**16@modemtelecom.homenet.telecomitalia.it username=**16 password=16 status=enabled Realm 1 linename="DECT 4" uaport=5065
+:sipserver intua add id=17 aor=**17@modemtelecom.homenet.telecomitalia.it username=**17 password=17 status=enabled Realm 1 linename="DECT 5" uaport=5065
+:sipserver extua modify id=2 sipport=5060 registerexpire=3600 Realm=2 outboundregistrar=2 outboundproxy=2 intf=Telecom_Italia
+:sipserver extua modify id=3 sipport=5060 registerexpire=3600 Realm=2 outboundregistrar=3 outboundproxy=3 intf=Telecom_Italia
+:sipserver extua modify id=4 intf=loop sipport=5090 outboundregistrar=4 outboundproxy=4 registerexpire=0 status=enabled forfxo=enabled Realm 2
+:sipserver intua map add intua 11 extua 1
+:sipserver intua map add intua 12 extua 1
+:sipserver intua map add intua 13 extua 1
+:sipserver intua map add intua 14 extua 1
+:sipserver intua map add intua 15 extua 1
+:sipserver intua map add intua 16 extua 1
+:sipserver intua map add intua 17 extua 1
+:sipserver extua map add intua 11 extua 1
+:sipserver extua map add intua 12 extua 1
+:sipserver extua map add intua 13 extua 1
+:sipserver extua map add intua 14 extua 1
+:sipserver extua map add intua 15 extua 1
+:sipserver extua map add intua 16 extua 1
+:sipserver extua map add intua 17 extua 1
+:sipserver config extrareregistrations enabled
+
+
+:voice tone patterntable modify id=211 power1=-17
+:voice tone patterntable modify id=213 power1=-17
+:voice tone patterntable modify id=215 power1=-17
+:voice services soc modify id=6 function=Establish3Party SOC=HF3
+:voice services soc modify id=13 function=From3PartyRetreiveBAndC SOC=HF3
+:voice services soc modify id=14 function=From3PartyRetreiveBAndC SOC=HF3
+:voice services soc add function=From3PartyHoldConf SOC=HF
+:voice services 3gpp config 3GPP3PTY enabled
+:voice services 3gpp config 3GPP3PTYFactoryUri sip:conference@factory.telecomitalia.it
+:voice services config cw_timer 120
+:voice sip2fxo config session-expires=130 min-se=100
+:voice sip config omit_displayname=yes symmetricDynRTPPayload=enabled PRACK=when_supported regexpire_Tbefore=0 regpersistency=disabled
+:voice sip responsemap delete responsecode 603
+:voice sip responsemap delete responsecode 600
+:voice codec dynamic config type=rfc2833 payloadtype=101
+:voice codec dynamic config type=g726_40 payloadtype=102
+:voice codec dynamic config type=ilbc payloadtype=103
+:voice codec dynamic config type=amr payloadtype=104
+:voice config no-answer-timer=200
+:voice dialplan delete prefix=*67#
+:voice dialplan add prefix=*67# defaultport=VoIP fallbackport=NA priority=NA fallback=disabled minimumdigits=4 maximumdigits=30 posofmodify=0 remnumdigits=0 rescan=no data=no action=ROUTE_incl_eon
+
+:service host rule add name="Wake-On-LAN" protocol=udp portrange=0
+:service system modify name=IGMP-Proxy qoslabel=IPTV
+:service system modify name=DHCP-S qoslabel=Management
+:service system ifadd name=PINGv6_RESP group=lan
+:service system modify name=PINGv6_RESP state=enabled
+:service system modify name=DHCPv6-S state=enabled qoslabel=Management
+:service system modify name=MLD-Proxy state=disabled qoslabel=Management
+:service system modify name=IP_REDIR state=disabled qoslabel=Management
+:service system modify name=IPv6_MANAGEMENT qoslabel=Management
+:service system modify name=SLA_ICMPv6_PING state=enabled
+:service system modify name=UPGD-C routelabel=modemToACS
+:tls https-server config state=enabled
+:upnp config onlydefault=enabled
+:webserver ssl commonname add commonname=homenet.telecomitalia.it
+:wireless radio radio_id=1 frameburst=disabled
+:wireless acs config state=Selecting mode=Optimized rescanperiod=86400 rescandelay=180 rescandelaypolicy=NoTraffic rescandelaymaxevents=999 chmonitorperiod=5 chfailtriggervalid=2 chfailmaxevents=4 chfaillockoutperiod=28800 radio_id=0
+:wireless acs config state=Selecting mode=Custom1 rescanperiod=86400 rescandelay=180 rescandelaypolicy=NoTraffic rescandelaymaxevents=999 chmonitorperiod=5 chfailtriggervalid=2 chfailmaxevents=4 chfaillockoutperiod=28800 radio_id=1
+:wireless acs debug config radio_id=0 txtrafficthreshold=2 rxtrafficthreshold=2 trafficsenseperiod=10 chanimtracing=disabled traffictracing=disabled tracelevel=0 interferencespan=2 chnoisethreshold=40 chscorethreshold=25
+:wireless acs debug acsprofile radio_id=0 value="-55 45 -200 0 -100 -50 0 -5 -50" profile_id=4
+:wireless acs debug acsprofile radio_id=0 value="-70 45 -1 -50 -100 -10 -10 -5 -50" profile_id=5
+:wireless acs debug config radio_id=1 txtrafficthreshold=2 rxtrafficthreshold=2 trafficsenseperiod=10 chanimtracing=disabled traffictracing=disabled tracelevel=0 interferencespan=2 chnoisethreshold=40 chscorethreshold=25
+:wireless acs debug acsprofile radio_id=1 value="-65 40 -400 -100 -100 -1 -100 -5 -100" profile_id=4
+:wireless acs debug acsprofile radio_id=1 value="-70 45 -1 -50 -100 -10 -10 -5 -50" profile_id=5
+:wireless wps config ssid_id=0 radio_id=0 credentialformat=passphrase
+:wireless wps config ssid_id=0 radio_id=1 credentialformat=passphrase
+:wireless wps config ssid_id=1 radio_id=0 credentialformat=passphrase
+:wireless wps config ssid_id=1 radio_id=1 credentialformat=passphrase
+:wireless mssid ifconfig ssid_id=0 radio_id=0 overrulepriomap=enabled prio2vlan=4,0,0,0,0,0,0,0,4,4,4,6,6,6,6,6 vlan2prio=4,0,2,4,10,10,14,15
+:wireless mssid ifconfig ssid_id=1 radio_id=0 overrulepriomap=enabled prio2vlan=4,0,0,0,0,0,0,0,4,4,4,6,6,6,6,6 vlan2prio=4,0,2,4,10,10,14,15
+:wireless mssid ifconfig ssid_id=0 radio_id=1 overrulepriomap=enabled prio2vlan=4,0,0,0,0,0,0,0,4,4,4,6,6,6,6,6 vlan2prio=4,0,2,4,10,10,14,15
+:wireless mssid ifconfig ssid_id=1 radio_id=1 overrulepriomap=enabled prio2vlan=4,0,0,0,0,0,0,0,4,4,4,6,6,6,6,6 vlan2prio=4,0,2,4,10,10,14,15
+:pwr config  cpu-microsleep=enabled cpu-lowspeed=enabled
+

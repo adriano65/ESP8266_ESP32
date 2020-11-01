@@ -1,0 +1,6 @@
+ifadd intf IPTV
+rqoptions add intf=IPTV option=classfull-static-routes index=1
+rqoptions add intf=IPTV option=classless-static-routes index=2
+txoptions add intf=IPTV option=vendor-specific_info value=(clientid)666c617368 index=1
+txoptions add intf=IPTV option=vendor-class-id value=(clientid)706972656c6c692d737462 index=2
+

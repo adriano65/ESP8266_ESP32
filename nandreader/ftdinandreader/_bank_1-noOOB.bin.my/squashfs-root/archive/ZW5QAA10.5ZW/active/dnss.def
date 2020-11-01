@@ -1,0 +1,15 @@
+config domain=homenet.telecomitalia.it timeout=15 suppress=2 trace=disabled WANDownSpoofing=enabled WDSpoofedIP=198.18.1.1 filter=disabled
+host add name=modemtelecom addr=0.0.0.0 ttl=1200
+route add dns=0.0.0.0 domain=ntp-tr069-1.interbusiness.it label=modemToACS intf=Telecom_Italia
+route add dns=0.0.0.0 domain=ntp-tr069-2.interbusiness.it label=modemToACS intf=Telecom_Italia
+route add dns=0.0.0.0 domain=regman-tl.interbusiness.it label=modemToACS intf=Telecom_Italia
+route add dns 0.0.0.0 label modemToACS intf Telecom_Italia  metric 0 domain reteims.telecomitalia.it
+route add dns 0.0.0.0 label modemToACS intf Telecom_Italia  metric 0 domain imswline.telecomitalia.it
+route add dns 0.0.0.0 label modemToACS intf Telecom_Italia  metric 0 domain imsw.telecomitalia.it
+route add dns=151.99.0.100 domain="" metric=50 intf=ppp_0 
+route add dns=151.99.125.1 domain="" metric=50 intf=ppp_0 
+:mbus debug loadobjects dmtree=atomic path=DNS.Server.Route
+forward dnsset add set=100 dns=2001:4b18:1050:916f::53:c001 label=modemToACS intf=Telecom_Italia metric 50
+forward dnsset add set=100 dns=2001:4b18:1050:916f::53:c002 label=modemToACS intf=Telecom_Italia metric 50
+forward dnsset add set=106 dns=0.0.0.0 metric=10 intf=ppp_0
+

@@ -24,45 +24,42 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 NandDataLP::NandDataLP(FtdiNand *ftdi, NandID *id) :
  NandData(ftdi, id) {
-	//NA
 }
 
-int NandDataLP::readPage(int pageno, char *buff, int max) {
-	//Read a page
+int NandDataLP::readPage(int pageno, unsigned char *buff, int len) {
 	char status=0;
-	m_ft->sendCmd(NAND_CMD_READ0);
-	m_ft->sendAddr(pageno<<16L, m_id->getAddrByteCount());
-	m_ft->sendCmd(NAND_CMD_READSTART);
-	m_ft->waitReady();
-	if (max>m_id->getPageSize()) max=m_id->getPageSize();
-	return m_ft->readData(buff, max);
+	pFtdiNand->sendCmd(NAND_CMD_READ0);
+	//pFtdiNand->sendAddr((pageno<<16L)+len, pNandID->getAddrByteCount());    // read page + OOB but only OOB are filled
+	pFtdiNand->sendAddr(pageno<<16L, pNandID->getAddrByteCount());
+	pFtdiNand->sendCmd(NAND_CMD_READSTART);
+	pFtdiNand->waitReady();
+	return pFtdiNand->readData(buff, len);
 }
 
-int NandDataLP::readOob(int pageno, char *buff, int max) {
+int NandDataLP::readOob(int pageno, unsigned char *buff) {
 	//Read the OOB for a page
-	m_ft->sendCmd(NAND_CMD_READ0);
-	m_ft->sendAddr((pageno<<16L)+m_id->getPageSize(), m_id->getAddrByteCount());
-	m_ft->sendCmd(NAND_CMD_READSTART);
-	m_ft->waitReady();
-	if (max>m_id->getOobSize()) max=m_id->getOobSize();
-	return m_ft->readData(buff, max);
+	pFtdiNand->sendCmd(NAND_CMD_READ0);
+	pFtdiNand->sendAddr((pageno<<16L)+pNandID->getPageSize(), pNandID->getAddrByteCount());
+	pFtdiNand->sendCmd(NAND_CMD_READSTART);
+	pFtdiNand->waitReady();
+	return pFtdiNand->readData(buff, pNandID->getOobSize());
 }
 
-int NandDataLP::writePage(int pageno, char *buff, int len) {
-	m_ft->sendCmd(NAND_CMD_SEQIN);
-	m_ft->sendAddr(pageno<<16L, m_id->getAddrByteCount());
-	m_ft->writeData(buff,len);
-	m_ft->sendCmd(NAND_CMD_PAGEPROG);
-	m_ft->waitReady();
-	return !(m_ft->status() & NAND_STATUS_FAIL);
+int NandDataLP::writePage(int pageno, unsigned char *buff, int len) {
+	pFtdiNand->sendCmd(NAND_CMD_SEQIN);
+	pFtdiNand->sendAddr(pageno<<16L, pNandID->getAddrByteCount());
+	pFtdiNand->writeData(buff, len);
+	pFtdiNand->sendCmd(NAND_CMD_PAGEPROG);
+	pFtdiNand->waitReady();
+	return !(pFtdiNand->status() & NAND_STATUS_FAIL);
 }
 
 int NandDataLP::erasePage(int pageno) {
-	m_ft->sendCmd(NAND_CMD_ERASE1);
-	m_ft->sendAddr(pageno, m_id->getAddrByteCount());
-	m_ft->sendCmd(NAND_CMD_ERASE2);
-	m_ft->waitReady();
-	m_ft->status();
-	return !(m_ft->status() & NAND_STATUS_FAIL);
+	pFtdiNand->sendCmd(NAND_CMD_ERASE1);
+	pFtdiNand->sendAddr(pageno, pNandID->getEraseAddrByteCount());
+	pFtdiNand->sendCmd(NAND_CMD_ERASE2);
+	pFtdiNand->waitReady();
+	pFtdiNand->status();
+	return !( pFtdiNand->status() & NAND_STATUS_FAIL );
 }
 

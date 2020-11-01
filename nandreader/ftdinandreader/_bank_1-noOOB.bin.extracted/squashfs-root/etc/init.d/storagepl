@@ -1,0 +1,17 @@
+#!/bin/sh
+
+case $1 in
+    start)
+	echo " start storagepl ..."
+	/usr/bin/storagepl -d
+	echo " storagepl is started "
+	;;
+    stop)
+    	killall storagepl 
+	;;
+    *)
+	echo "Usage $0 [start|stop]"
+	exit 1
+	;;
+
+esac

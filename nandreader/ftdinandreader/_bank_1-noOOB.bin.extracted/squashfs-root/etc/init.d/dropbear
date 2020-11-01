@@ -1,0 +1,21 @@
+#!/bin/sh
+cd /archive
+startSSH=$(find -name ssh.def 2>/dev/null)
+if [ "$startSSH" != "" ]; then
+    filename=$(basename $startSSH)
+    if [ "$filename" = "ssh.def" ]; then
+        if [ -x /usr/bin/dropbear ]; then
+          echo "dropbear start ..."
+          /usr/bin/dropbearconvert openssh dropbear /rw/ssh_privkey /var/run/dropbear_privkey
+          authMethod=$(cat /rw/dl/user.ini 2>/dev/null | grep 'config auth=public_key')
+          if [ "$authMethod" != "" ]; then
+            /usr/bin/dropbear -r /var/run/dropbear_privkey -s & 
+          else
+            echo "Using public/private key authentication"   
+            /usr/bin/dropbear -r /var/run/dropbear_privkey & 
+          fi
+        fi
+    fi
+fi
+
+

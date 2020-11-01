@@ -1,0 +1,2361 @@
+<vdslShapes version="1.0">
+
+	<vdslShape name="A_NUS0">
+
+		<limitingMaskDn nrOfBreakPoints="12" >
+			<breakPointVdsl toneIndex="  33" psd=" -580"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  65" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 256" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 376" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 512" psd=" -515"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 819" psd=" -532"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 859" psd=" -582"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1216" psd=" -572"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1245" psd=" -550"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1961" psd=" -550"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2793" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="5323" psd=" -600"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="6" annexUs0      = "2">
+			<breakPointVdsl toneIndex=" 880" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1196" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1981" psd=" -540"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2773" psd=" -540"></breakPointVdsl>
+			<breakPointVdsl toneIndex="5343" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="6947" psd=" -600"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="3">
+		<vdslToneGroup startTone="   33" endTone = "  859"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1216" endTone = " 1961"></vdslToneGroup>
+		<vdslToneGroup startTone=" 2793" endTone = " 5323"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="3">
+		<vdslToneGroup startTone="  880" endTone = " 1196"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1981" endTone = " 2773"></vdslToneGroup>
+		<vdslToneGroup startTone=" 5343" endTone = " 6947"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="A_EU_32">
+
+		<limitingMaskDn nrOfBreakPoints="12" >
+			<breakPointVdsl toneIndex="  33" psd=" -580"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  65" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 256" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 376" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 512" psd=" -515"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 819" psd=" -532"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 859" psd=" -582"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1216" psd=" -572"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1245" psd=" -550"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1961" psd=" -550"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2793" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="5323" psd=" -600"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="8" annexUs0      = "6">
+			<breakPointVdsl toneIndex="   7" psd=" -380"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  32" psd=" -380"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 880" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1196" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1981" psd=" -540"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2773" psd=" -540"></breakPointVdsl>
+			<breakPointVdsl toneIndex="5343" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="6947" psd=" -600"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="3">
+		<vdslToneGroup startTone="   33" endTone = "  859"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1216" endTone = " 1961"></vdslToneGroup>
+		<vdslToneGroup startTone=" 2793" endTone = " 5323"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="4">
+		<vdslToneGroup startTone="    7" endTone = "   32"></vdslToneGroup>
+		<vdslToneGroup startTone="  880" endTone = " 1196"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1981" endTone = " 2773"></vdslToneGroup>
+		<vdslToneGroup startTone=" 5343" endTone = " 6947"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="A_EU_36">
+
+		<limitingMaskDn nrOfBreakPoints="12" >
+			<breakPointVdsl toneIndex="  49" psd=" -580"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  81" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 256" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 376" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 512" psd=" -515"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 819" psd=" -532"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 859" psd=" -582"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1216" psd=" -572"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1245" psd=" -550"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1961" psd=" -550"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2793" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="5323" psd=" -600"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="8" annexUs0      = "10">
+			<breakPointVdsl toneIndex="   7" psd=" -385"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  36" psd=" -385"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 880" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1196" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1981" psd=" -540"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2773" psd=" -540"></breakPointVdsl>
+			<breakPointVdsl toneIndex="5343" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="6947" psd=" -600"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="3">
+		<vdslToneGroup startTone="   49" endTone = "  859"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1216" endTone = " 1961"></vdslToneGroup>
+		<vdslToneGroup startTone=" 2793" endTone = " 5323"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="4">
+		<vdslToneGroup startTone="    7" endTone = "   36"></vdslToneGroup>
+		<vdslToneGroup startTone="  880" endTone = " 1196"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1981" endTone = " 2773"></vdslToneGroup>
+		<vdslToneGroup startTone=" 5343" endTone = " 6947"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="A_EU_40">
+
+		<limitingMaskDn nrOfBreakPoints="12" >
+			<breakPointVdsl toneIndex="  49" psd=" -580"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  81" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 256" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 376" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 512" psd=" -515"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 819" psd=" -532"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 859" psd=" -582"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1216" psd=" -572"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1245" psd=" -550"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1961" psd=" -550"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2793" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="5323" psd=" -600"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="8" annexUs0      = "14">
+			<breakPointVdsl toneIndex="   7" psd=" -390"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  40" psd=" -390"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 880" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1196" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1981" psd=" -540"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2773" psd=" -540"></breakPointVdsl>
+			<breakPointVdsl toneIndex="5343" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="6947" psd=" -600"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="3">
+		<vdslToneGroup startTone="   49" endTone = "  859"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1216" endTone = " 1961"></vdslToneGroup>
+		<vdslToneGroup startTone=" 2793" endTone = " 5323"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="4">
+		<vdslToneGroup startTone="    7" endTone = "   40"></vdslToneGroup>
+		<vdslToneGroup startTone="  880" endTone = " 1196"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1981" endTone = " 2773"></vdslToneGroup>
+		<vdslToneGroup startTone=" 5343" endTone = " 6947"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="A_EU_44">
+
+		<limitingMaskDn nrOfBreakPoints="12" >
+			<breakPointVdsl toneIndex="  49" psd=" -580"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  81" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 256" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 376" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 512" psd=" -515"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 819" psd=" -532"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 859" psd=" -582"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1216" psd=" -572"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1245" psd=" -550"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1961" psd=" -550"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2793" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="5323" psd=" -600"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="8" annexUs0      = "18">
+			<breakPointVdsl toneIndex="   7" psd=" -394"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  44" psd=" -394"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 880" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1196" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1981" psd=" -540"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2773" psd=" -540"></breakPointVdsl>
+			<breakPointVdsl toneIndex="5343" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="6947" psd=" -600"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="3">
+		<vdslToneGroup startTone="   49" endTone = "  859"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1216" endTone = " 1961"></vdslToneGroup>
+		<vdslToneGroup startTone=" 2793" endTone = " 5323"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="4">
+		<vdslToneGroup startTone="    7" endTone = "   44"></vdslToneGroup>
+		<vdslToneGroup startTone="  880" endTone = " 1196"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1981" endTone = " 2773"></vdslToneGroup>
+		<vdslToneGroup startTone=" 5343" endTone = " 6947"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="A_EU_48">
+
+		<limitingMaskDn nrOfBreakPoints="12" >
+			<breakPointVdsl toneIndex="  49" psd=" -580"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  81" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 256" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 376" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 512" psd=" -515"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 819" psd=" -532"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 859" psd=" -582"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1216" psd=" -572"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1245" psd=" -550"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1961" psd=" -550"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2793" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="5323" psd=" -600"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="8" annexUs0      = "22">
+			<breakPointVdsl toneIndex="   7" psd=" -398"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  48" psd=" -398"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 880" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1196" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1981" psd=" -540"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2773" psd=" -540"></breakPointVdsl>
+			<breakPointVdsl toneIndex="5343" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="6947" psd=" -600"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="3">
+		<vdslToneGroup startTone="   49" endTone = "  859"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1216" endTone = " 1961"></vdslToneGroup>
+		<vdslToneGroup startTone=" 2793" endTone = " 5323"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="4">
+		<vdslToneGroup startTone="    7" endTone = "   48"></vdslToneGroup>
+		<vdslToneGroup startTone="  880" endTone = " 1196"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1981" endTone = " 2773"></vdslToneGroup>
+		<vdslToneGroup startTone=" 5343" endTone = " 6947"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="A_EU_52">
+
+		<limitingMaskDn nrOfBreakPoints="12" >
+			<breakPointVdsl toneIndex="  65" psd=" -580"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  97" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 256" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 376" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 512" psd=" -515"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 819" psd=" -532"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 859" psd=" -582"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1216" psd=" -572"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1245" psd=" -550"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1961" psd=" -550"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2793" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="5323" psd=" -600"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="8" annexUs0      = "26">
+			<breakPointVdsl toneIndex="   7" psd=" -401"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  52" psd=" -401"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 880" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1196" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1981" psd=" -540"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2773" psd=" -540"></breakPointVdsl>
+			<breakPointVdsl toneIndex="5343" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="6947" psd=" -600"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="3">
+		<vdslToneGroup startTone="   65" endTone = "  859"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1216" endTone = " 1961"></vdslToneGroup>
+		<vdslToneGroup startTone=" 2793" endTone = " 5323"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="4">
+		<vdslToneGroup startTone="    7" endTone = "   52"></vdslToneGroup>
+		<vdslToneGroup startTone="  880" endTone = " 1196"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1981" endTone = " 2773"></vdslToneGroup>
+		<vdslToneGroup startTone=" 5343" endTone = " 6947"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="A_EU_56">
+
+		<limitingMaskDn nrOfBreakPoints="12" >
+			<breakPointVdsl toneIndex="  65" psd=" -580"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  97" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 256" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 376" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 512" psd=" -515"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 819" psd=" -532"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 859" psd=" -582"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1216" psd=" -572"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1245" psd=" -550"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1961" psd=" -550"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2793" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="5323" psd=" -600"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="8" annexUs0      = "30">
+			<breakPointVdsl toneIndex="   7" psd=" -404"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  56" psd=" -404"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 880" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1196" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1981" psd=" -540"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2773" psd=" -540"></breakPointVdsl>
+			<breakPointVdsl toneIndex="5343" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="6947" psd=" -600"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="3">
+		<vdslToneGroup startTone="   65" endTone = "  859"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1216" endTone = " 1961"></vdslToneGroup>
+		<vdslToneGroup startTone=" 2793" endTone = " 5323"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="4">
+		<vdslToneGroup startTone="    7" endTone = "   56"></vdslToneGroup>
+		<vdslToneGroup startTone="  880" endTone = " 1196"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1981" endTone = " 2773"></vdslToneGroup>
+		<vdslToneGroup startTone=" 5343" endTone = " 6947"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="A_EU_60">
+
+		<limitingMaskDn nrOfBreakPoints="12" >
+			<breakPointVdsl toneIndex="  65" psd=" -580"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  97" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 256" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 376" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 512" psd=" -515"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 819" psd=" -532"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 859" psd=" -582"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1216" psd=" -572"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1245" psd=" -550"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1961" psd=" -550"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2793" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="5323" psd=" -600"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="8" annexUs0      = "34">
+			<breakPointVdsl toneIndex="   7" psd=" -407"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  60" psd=" -407"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 880" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1196" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1981" psd=" -540"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2773" psd=" -540"></breakPointVdsl>
+			<breakPointVdsl toneIndex="5343" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="6947" psd=" -600"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="3">
+		<vdslToneGroup startTone="   65" endTone = "  859"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1216" endTone = " 1961"></vdslToneGroup>
+		<vdslToneGroup startTone=" 2793" endTone = " 5323"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="4">
+		<vdslToneGroup startTone="    7" endTone = "   60"></vdslToneGroup>
+		<vdslToneGroup startTone="  880" endTone = " 1196"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1981" endTone = " 2773"></vdslToneGroup>
+		<vdslToneGroup startTone=" 5343" endTone = " 6947"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="A_EU_64">
+
+		<limitingMaskDn nrOfBreakPoints="12" >
+			<breakPointVdsl toneIndex="  65" psd=" -580"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  97" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 256" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 376" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 512" psd=" -515"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 819" psd=" -532"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 859" psd=" -582"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1216" psd=" -572"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1245" psd=" -550"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1961" psd=" -550"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2793" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="5323" psd=" -600"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="8" annexUs0      = "38">
+			<breakPointVdsl toneIndex="   7" psd=" -410"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  63" psd=" -410"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 880" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1196" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1981" psd=" -540"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2773" psd=" -540"></breakPointVdsl>
+			<breakPointVdsl toneIndex="5343" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="6947" psd=" -600"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="3">
+		<vdslToneGroup startTone="   65" endTone = "  859"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1216" endTone = " 1961"></vdslToneGroup>
+		<vdslToneGroup startTone=" 2793" endTone = " 5323"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="4">
+		<vdslToneGroup startTone="    7" endTone = "   63"></vdslToneGroup>
+		<vdslToneGroup startTone="  880" endTone = " 1196"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1981" endTone = " 2773"></vdslToneGroup>
+		<vdslToneGroup startTone=" 5343" endTone = " 6947"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="A_EU_128">
+
+		<limitingMaskDn nrOfBreakPoints="12" >
+			<breakPointVdsl toneIndex=" 138" psd=" -580"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 170" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 256" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 376" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 512" psd=" -515"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 819" psd=" -532"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 859" psd=" -582"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1216" psd=" -572"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1245" psd=" -550"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1961" psd=" -550"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2793" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="5323" psd=" -600"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="9" annexUs0      = "42">
+			<breakPointVdsl toneIndex="  12" psd=" -380"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  32" psd=" -380"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 123" psd=" -438"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 880" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1196" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1981" psd=" -540"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2773" psd=" -540"></breakPointVdsl>
+			<breakPointVdsl toneIndex="5343" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="6947" psd=" -600"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="3">
+		<vdslToneGroup startTone="  138" endTone = "  859"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1216" endTone = " 1961"></vdslToneGroup>
+		<vdslToneGroup startTone=" 2793" endTone = " 5323"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="4">
+		<vdslToneGroup startTone="   12" endTone = "  123"></vdslToneGroup>
+		<vdslToneGroup startTone="  880" endTone = " 1196"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1981" endTone = " 2773"></vdslToneGroup>
+		<vdslToneGroup startTone=" 5343" endTone = " 6947"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="A_VDSL1_FTTEX_ANSI_M1">
+
+		<limitingMaskDn nrOfBreakPoints="6" >
+			<breakPointVdsl toneIndex="  33" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 256" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 376" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 859" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1216" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1961" psd=" -600"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="4" annexUs0      = "2">
+			<breakPointVdsl toneIndex=" 880" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1196" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1981" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2773" psd=" -600"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="2">
+		<vdslToneGroup startTone="   33" endTone = "  859"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1216" endTone = " 1961"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="2">
+		<vdslToneGroup startTone="  880" endTone = " 1196"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1981" endTone = " 2773"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="A_VDSL1_FTTEX_ANSI_M2">
+
+		<limitingMaskDn nrOfBreakPoints="6" >
+			<breakPointVdsl toneIndex="  33" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 256" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 376" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 859" psd=" -534"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1216" psd=" -550"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1961" psd=" -550"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="4" annexUs0      = "2">
+			<breakPointVdsl toneIndex=" 880" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1196" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1981" psd=" -540"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2773" psd=" -540"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="2">
+		<vdslToneGroup startTone="   33" endTone = "  859"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1216" endTone = " 1961"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="2">
+		<vdslToneGroup startTone="  880" endTone = " 1196"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1981" endTone = " 2773"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="A_VDSL1_FTTCAB_ANSI_M1">
+
+		<limitingMaskDn nrOfBreakPoints="4" >
+			<breakPointVdsl toneIndex="  33" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 859" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1216" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1961" psd=" -600"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="4" annexUs0      = "2">
+			<breakPointVdsl toneIndex=" 880" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1196" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1981" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2773" psd=" -600"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="2">
+		<vdslToneGroup startTone="   33" endTone = "  859"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1216" endTone = " 1961"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="2">
+		<vdslToneGroup startTone="  880" endTone = " 1196"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1981" endTone = " 2773"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="A_VDSL1_FTTCAB_ANSI_M2">
+
+		<limitingMaskDn nrOfBreakPoints="6" >
+			<breakPointVdsl toneIndex="  33" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 256" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 376" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 859" psd=" -534"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1216" psd=" -550"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1961" psd=" -550"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="4" annexUs0      = "2">
+			<breakPointVdsl toneIndex=" 880" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1196" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1981" psd=" -540"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2773" psd=" -540"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="2">
+		<vdslToneGroup startTone="   33" endTone = "  859"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1216" endTone = " 1961"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="2">
+		<vdslToneGroup startTone="  880" endTone = " 1196"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1981" endTone = " 2773"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="A_VDSL1_FTTEX_ANSI_M1_e">
+
+		<limitingMaskDn nrOfBreakPoints="8" >
+			<breakPointVdsl toneIndex="  65" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 256" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 376" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 859" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1216" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1961" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2793" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="3932" psd=" -600"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="6" annexUs0      = "6">
+			<breakPointVdsl toneIndex="   7" psd=" -380"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  34" psd=" -380"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 880" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1196" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1981" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2773" psd=" -600"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="3">
+		<vdslToneGroup startTone="   65" endTone = "  859"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1216" endTone = " 1961"></vdslToneGroup>
+		<vdslToneGroup startTone=" 2793" endTone = " 3932"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="3">
+		<vdslToneGroup startTone="    7" endTone = "   34"></vdslToneGroup>
+		<vdslToneGroup startTone="  880" endTone = " 1196"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1981" endTone = " 2773"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="A_VDSL1_FTTEX_ANSI_M2_e">
+
+		<limitingMaskDn nrOfBreakPoints="8" >
+			<breakPointVdsl toneIndex="  65" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 256" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 376" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 859" psd=" -534"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1216" psd=" -550"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1961" psd=" -550"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2793" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="3932" psd=" -600"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="6" annexUs0      = "6">
+			<breakPointVdsl toneIndex="   7" psd=" -380"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  34" psd=" -380"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 880" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1196" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1981" psd=" -540"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2773" psd=" -540"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="3">
+		<vdslToneGroup startTone="   65" endTone = "  859"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1216" endTone = " 1961"></vdslToneGroup>
+		<vdslToneGroup startTone=" 2793" endTone = " 3932"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="3">
+		<vdslToneGroup startTone="    7" endTone = "   34"></vdslToneGroup>
+		<vdslToneGroup startTone="  880" endTone = " 1196"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1981" endTone = " 2773"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="A_VDSL1_FTTCAB_ANSI_M1_e">
+
+		<limitingMaskDn nrOfBreakPoints="6" >
+			<breakPointVdsl toneIndex="  65" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 859" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1216" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1961" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2793" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="3932" psd=" -600"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="6" annexUs0      = "6">
+			<breakPointVdsl toneIndex="   7" psd=" -380"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  34" psd=" -380"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 880" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1196" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1981" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2773" psd=" -600"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="3">
+		<vdslToneGroup startTone="   65" endTone = "  859"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1216" endTone = " 1961"></vdslToneGroup>
+		<vdslToneGroup startTone=" 2793" endTone = " 3932"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="3">
+		<vdslToneGroup startTone="    7" endTone = "   34"></vdslToneGroup>
+		<vdslToneGroup startTone="  880" endTone = " 1196"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1981" endTone = " 2773"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="A_VDSL1_FTTCAB_ANSI_M2_e">
+
+		<limitingMaskDn nrOfBreakPoints="8" >
+			<breakPointVdsl toneIndex="  65" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 256" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 376" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 859" psd=" -534"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1216" psd=" -550"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1961" psd=" -550"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2793" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="3932" psd=" -600"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="6" annexUs0      = "6">
+			<breakPointVdsl toneIndex="   7" psd=" -380"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  34" psd=" -380"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 880" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1196" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1981" psd=" -540"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2773" psd=" -540"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="3">
+		<vdslToneGroup startTone="   65" endTone = "  859"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1216" endTone = " 1961"></vdslToneGroup>
+		<vdslToneGroup startTone=" 2793" endTone = " 3932"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="3">
+		<vdslToneGroup startTone="    7" endTone = "   34"></vdslToneGroup>
+		<vdslToneGroup startTone="  880" endTone = " 1196"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1981" endTone = " 2773"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="B8_1, 998-M1x-A">
+
+		<limitingMaskDn nrOfBreakPoints="10" >
+			<breakPointVdsl toneIndex="  33" psd=" -580"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  65" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 256" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 376" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 512" psd=" -515"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 521" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 580" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 859" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1216" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1961" psd=" -600"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="6" annexUs0      = "5">
+			<breakPointVdsl toneIndex="   7" psd=" -380"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  32" psd=" -380"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 880" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1196" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1981" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2773" psd=" -600"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="2">
+		<vdslToneGroup startTone="   33" endTone = "  859"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1216" endTone = " 1961"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="3">
+		<vdslToneGroup startTone="    7" endTone = "   32"></vdslToneGroup>
+		<vdslToneGroup startTone="  880" endTone = " 1196"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1981" endTone = " 2773"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="B8_2, 998-M1x-B">
+
+		<limitingMaskDn nrOfBreakPoints="10" >
+			<breakPointVdsl toneIndex="  65" psd=" -580"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  97" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 256" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 376" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 512" psd=" -515"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 521" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 580" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 859" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1216" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1961" psd=" -600"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="6" annexUs0      = "13">
+			<breakPointVdsl toneIndex="  28" psd=" -380"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  60" psd=" -380"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 880" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1196" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1981" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2773" psd=" -600"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="2">
+		<vdslToneGroup startTone="   65" endTone = "  859"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1216" endTone = " 1961"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="3">
+		<vdslToneGroup startTone="   28" endTone = "   60"></vdslToneGroup>
+		<vdslToneGroup startTone="  880" endTone = " 1196"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1981" endTone = " 2773"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="B8_3, 998-M1-NUS0">
+
+		<limitingMaskDn nrOfBreakPoints="10" >
+			<breakPointVdsl toneIndex="  33" psd=" -580"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  65" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 256" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 376" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 512" psd=" -515"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 521" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 580" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 859" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1216" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1961" psd=" -600"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="4" annexUs0      = "1">
+			<breakPointVdsl toneIndex=" 880" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1196" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1981" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2773" psd=" -600"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="2">
+		<vdslToneGroup startTone="   33" endTone = "  859"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1216" endTone = " 1961"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="2">
+		<vdslToneGroup startTone="  880" endTone = " 1196"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1981" endTone = " 2773"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="B8_4, 998-M2x-A">
+
+		<limitingMaskDn nrOfBreakPoints="10" >
+			<breakPointVdsl toneIndex="  33" psd=" -580"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  65" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 256" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 376" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 512" psd=" -515"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 819" psd=" -543"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 859" psd=" -594"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1216" psd=" -584"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1245" psd=" -563"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1961" psd=" -583"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="7" annexUs0      = "5">
+			<breakPointVdsl toneIndex="   7" psd=" -380"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  32" psd=" -380"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 880" psd=" -547"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1196" psd=" -562"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1981" psd=" -583"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2319" psd=" -590"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2773" psd=" -590"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="2">
+		<vdslToneGroup startTone="   33" endTone = "  859"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1216" endTone = " 1961"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="3">
+		<vdslToneGroup startTone="    7" endTone = "   32"></vdslToneGroup>
+		<vdslToneGroup startTone="  880" endTone = " 1196"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1981" endTone = " 2773"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="B8_5, 998-M2x-M">
+
+		<limitingMaskDn nrOfBreakPoints="10" >
+			<breakPointVdsl toneIndex="  65" psd=" -580"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  97" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 256" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 376" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 512" psd=" -515"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 819" psd=" -543"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 859" psd=" -594"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1216" psd=" -584"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1245" psd=" -563"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1961" psd=" -583"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="7" annexUs0      = "9">
+			<breakPointVdsl toneIndex="   7" psd=" -410"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  60" psd=" -410"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 880" psd=" -547"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1196" psd=" -562"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1981" psd=" -583"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2319" psd=" -590"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2773" psd=" -590"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="2">
+		<vdslToneGroup startTone="   65" endTone = "  859"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1216" endTone = " 1961"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="3">
+		<vdslToneGroup startTone="    7" endTone = "   60"></vdslToneGroup>
+		<vdslToneGroup startTone="  880" endTone = " 1196"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1981" endTone = " 2773"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="B8_6, 998-M2x-B">
+
+		<limitingMaskDn nrOfBreakPoints="10" >
+			<breakPointVdsl toneIndex="  65" psd=" -580"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  97" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 256" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 376" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 512" psd=" -515"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 819" psd=" -543"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 859" psd=" -594"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1216" psd=" -584"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1245" psd=" -563"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1961" psd=" -583"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="7" annexUs0      = "13">
+			<breakPointVdsl toneIndex="  28" psd=" -380"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  60" psd=" -380"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 880" psd=" -547"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1196" psd=" -562"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1981" psd=" -583"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2319" psd=" -590"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2773" psd=" -590"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="2">
+		<vdslToneGroup startTone="   65" endTone = "  859"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1216" endTone = " 1961"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="3">
+		<vdslToneGroup startTone="   28" endTone = "   60"></vdslToneGroup>
+		<vdslToneGroup startTone="  880" endTone = " 1196"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1981" endTone = " 2773"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="B8_7, 998-M2x-NUS0">
+
+		<limitingMaskDn nrOfBreakPoints="10" >
+			<breakPointVdsl toneIndex="  33" psd=" -580"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  65" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 256" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 376" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 512" psd=" -515"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 819" psd=" -543"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 859" psd=" -594"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1216" psd=" -584"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1245" psd=" -563"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1961" psd=" -583"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="5" annexUs0      = "1">
+			<breakPointVdsl toneIndex=" 880" psd=" -547"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1196" psd=" -562"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1981" psd=" -583"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2319" psd=" -590"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2773" psd=" -590"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="2">
+		<vdslToneGroup startTone="   33" endTone = "  859"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1216" endTone = " 1961"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="2">
+		<vdslToneGroup startTone="  880" endTone = " 1196"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1981" endTone = " 2773"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="B8_8, 998E17-M2x-NUS0">
+
+		<limitingMaskDn nrOfBreakPoints="12" >
+			<breakPointVdsl toneIndex="  33" psd=" -580"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  65" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 256" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 376" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 512" psd=" -515"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 819" psd=" -543"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 859" psd=" -594"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1216" psd=" -584"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1245" psd=" -563"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1961" psd=" -583"></breakPointVdsl>
+			<breakPointVdsl toneIndex="3256" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="4081" psd=" -600"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="7" annexUs0      = "1">
+			<breakPointVdsl toneIndex=" 880" psd=" -547"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1196" psd=" -562"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1981" psd=" -583"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2319" psd=" -590"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2783" psd=" -590"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2784" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="3236" psd=" -600"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="3">
+		<vdslToneGroup startTone="   33" endTone = "  859"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1216" endTone = " 1961"></vdslToneGroup>
+		<vdslToneGroup startTone=" 3256" endTone = " 4081"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="3">
+		<vdslToneGroup startTone="  880" endTone = " 1196"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1981" endTone = " 2783"></vdslToneGroup>
+		<vdslToneGroup startTone=" 2784" endTone = " 3236"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="B8_9, 998E17-M2x-NUS0-M">
+
+		<limitingMaskDn nrOfBreakPoints="12" >
+			<breakPointVdsl toneIndex="  65" psd=" -580"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  97" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 256" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 376" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 512" psd=" -515"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 819" psd=" -543"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 859" psd=" -594"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1216" psd=" -584"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1245" psd=" -563"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1961" psd=" -583"></breakPointVdsl>
+			<breakPointVdsl toneIndex="3256" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="4081" psd=" -600"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="7" annexUs0      = "1">
+			<breakPointVdsl toneIndex=" 880" psd=" -547"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1196" psd=" -562"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1981" psd=" -583"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2319" psd=" -590"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2783" psd=" -590"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2784" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="3236" psd=" -600"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="3">
+		<vdslToneGroup startTone="   65" endTone = "  859"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1216" endTone = " 1961"></vdslToneGroup>
+		<vdslToneGroup startTone=" 3256" endTone = " 4081"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="3">
+		<vdslToneGroup startTone="  880" endTone = " 1196"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1981" endTone = " 2783"></vdslToneGroup>
+		<vdslToneGroup startTone=" 2784" endTone = " 3236"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="B8_10, 998ADE17-M2x-NUS0-M">
+
+		<limitingMaskDn nrOfBreakPoints="12" >
+			<breakPointVdsl toneIndex="  65" psd=" -580"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  97" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 256" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 376" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 512" psd=" -515"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 819" psd=" -543"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 859" psd=" -594"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1216" psd=" -584"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1245" psd=" -563"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1961" psd=" -583"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2793" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="4081" psd=" -600"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="5" annexUs0      = "1">
+			<breakPointVdsl toneIndex=" 880" psd=" -547"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1196" psd=" -562"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1981" psd=" -583"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2319" psd=" -590"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2773" psd=" -590"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="3">
+		<vdslToneGroup startTone="   65" endTone = "  859"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1216" endTone = " 1961"></vdslToneGroup>
+		<vdslToneGroup startTone=" 2793" endTone = " 4081"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="2">
+		<vdslToneGroup startTone="  880" endTone = " 1196"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1981" endTone = " 2773"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="B8_11, 998ADE17-M2x-A">
+
+		<limitingMaskDn nrOfBreakPoints="12" >
+			<breakPointVdsl toneIndex="  33" psd=" -580"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  65" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 256" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 376" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 512" psd=" -515"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 819" psd=" -543"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 859" psd=" -594"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1216" psd=" -584"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1245" psd=" -563"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1961" psd=" -583"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2793" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="4081" psd=" -600"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="7" annexUs0      = "5">
+			<breakPointVdsl toneIndex="   7" psd=" -380"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  32" psd=" -380"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 880" psd=" -547"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1196" psd=" -562"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1981" psd=" -583"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2319" psd=" -590"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2773" psd=" -590"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="3">
+		<vdslToneGroup startTone="   33" endTone = "  859"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1216" endTone = " 1961"></vdslToneGroup>
+		<vdslToneGroup startTone=" 2793" endTone = " 4081"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="3">
+		<vdslToneGroup startTone="    7" endTone = "   32"></vdslToneGroup>
+		<vdslToneGroup startTone="  880" endTone = " 1196"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1981" endTone = " 2773"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="B8_12, 998ADE17-M2x-B">
+
+		<limitingMaskDn nrOfBreakPoints="12" >
+			<breakPointVdsl toneIndex="  65" psd=" -580"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  97" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 256" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 376" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 512" psd=" -515"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 819" psd=" -543"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 859" psd=" -594"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1216" psd=" -584"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1245" psd=" -563"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1961" psd=" -583"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2793" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="4081" psd=" -600"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="7" annexUs0      = "13">
+			<breakPointVdsl toneIndex="  28" psd=" -380"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  60" psd=" -380"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 880" psd=" -547"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1196" psd=" -562"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1981" psd=" -583"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2319" psd=" -590"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2773" psd=" -590"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="3">
+		<vdslToneGroup startTone="   65" endTone = "  859"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1216" endTone = " 1961"></vdslToneGroup>
+		<vdslToneGroup startTone=" 2793" endTone = " 4081"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="3">
+		<vdslToneGroup startTone="   28" endTone = "   60"></vdslToneGroup>
+		<vdslToneGroup startTone="  880" endTone = " 1196"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1981" endTone = " 2773"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="B8_13, 998E30-M2x-NUS0">
+
+		<limitingMaskDn nrOfBreakPoints="14" >
+			<breakPointVdsl toneIndex="  33" psd=" -580"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  65" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 256" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 376" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 512" psd=" -515"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 819" psd=" -543"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 859" psd=" -594"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1216" psd=" -584"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1245" psd=" -563"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1961" psd=" -583"></breakPointVdsl>
+			<breakPointVdsl toneIndex="3256" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="4964" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="5782" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="6947" psd=" -600"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="9" annexUs0      = "1">
+			<breakPointVdsl toneIndex=" 880" psd=" -547"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1196" psd=" -562"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1981" psd=" -583"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2319" psd=" -590"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2783" psd=" -590"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2784" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="3236" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="4984" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="5762" psd=" -600"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="4">
+		<vdslToneGroup startTone="   33" endTone = "  859"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1216" endTone = " 1961"></vdslToneGroup>
+		<vdslToneGroup startTone=" 3256" endTone = " 4964"></vdslToneGroup>
+		<vdslToneGroup startTone=" 5782" endTone = " 6947"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="4">
+		<vdslToneGroup startTone="  880" endTone = " 1196"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1981" endTone = " 2783"></vdslToneGroup>
+		<vdslToneGroup startTone=" 2784" endTone = " 3236"></vdslToneGroup>
+		<vdslToneGroup startTone=" 4984" endTone = " 5762"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="B8_14, 998E30-M2x-M">
+
+		<limitingMaskDn nrOfBreakPoints="14" >
+			<breakPointVdsl toneIndex="  65" psd=" -580"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  97" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 256" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 376" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 512" psd=" -515"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 819" psd=" -543"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 859" psd=" -594"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1216" psd=" -584"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1245" psd=" -563"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1961" psd=" -583"></breakPointVdsl>
+			<breakPointVdsl toneIndex="3256" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="4964" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="5782" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="6947" psd=" -600"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="9" annexUs0      = "1">
+			<breakPointVdsl toneIndex=" 880" psd=" -547"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1196" psd=" -562"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1981" psd=" -583"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2319" psd=" -590"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2783" psd=" -590"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2784" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="3236" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="4984" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="5762" psd=" -600"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="4">
+		<vdslToneGroup startTone="   65" endTone = "  859"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1216" endTone = " 1961"></vdslToneGroup>
+		<vdslToneGroup startTone=" 3256" endTone = " 4964"></vdslToneGroup>
+		<vdslToneGroup startTone=" 5782" endTone = " 6947"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="4">
+		<vdslToneGroup startTone="  880" endTone = " 1196"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1981" endTone = " 2783"></vdslToneGroup>
+		<vdslToneGroup startTone=" 2784" endTone = " 3236"></vdslToneGroup>
+		<vdslToneGroup startTone=" 4984" endTone = " 5762"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="B8_15, 998ADE30-M2x-NUS0-M">
+
+		<limitingMaskDn nrOfBreakPoints="12" >
+			<breakPointVdsl toneIndex="  65" psd=" -580"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  97" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 256" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 376" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 512" psd=" -515"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 819" psd=" -543"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 859" psd=" -594"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1216" psd=" -584"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1245" psd=" -563"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1961" psd=" -583"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2793" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="5762" psd=" -600"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="7" annexUs0      = "1">
+			<breakPointVdsl toneIndex=" 880" psd=" -547"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1196" psd=" -562"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1981" psd=" -583"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2319" psd=" -590"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2773" psd=" -590"></breakPointVdsl>
+			<breakPointVdsl toneIndex="5782" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="6947" psd=" -600"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="3">
+		<vdslToneGroup startTone="   65" endTone = "  859"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1216" endTone = " 1961"></vdslToneGroup>
+		<vdslToneGroup startTone=" 2793" endTone = " 5762"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="3">
+		<vdslToneGroup startTone="  880" endTone = " 1196"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1981" endTone = " 2773"></vdslToneGroup>
+		<vdslToneGroup startTone=" 5782" endTone = " 6947"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="B8_16, 998ADE30-M2x-NUS0-A">
+
+		<limitingMaskDn nrOfBreakPoints="12" >
+			<breakPointVdsl toneIndex="  33" psd=" -580"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  65" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 256" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 376" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 512" psd=" -515"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 819" psd=" -543"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 859" psd=" -594"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1216" psd=" -584"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1245" psd=" -563"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1961" psd=" -583"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2793" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="5762" psd=" -600"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="7" annexUs0      = "1">
+			<breakPointVdsl toneIndex=" 880" psd=" -547"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1196" psd=" -562"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1981" psd=" -583"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2319" psd=" -590"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2773" psd=" -590"></breakPointVdsl>
+			<breakPointVdsl toneIndex="5782" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="6947" psd=" -600"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="3">
+		<vdslToneGroup startTone="   33" endTone = "  859"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1216" endTone = " 1961"></vdslToneGroup>
+		<vdslToneGroup startTone=" 2793" endTone = " 5762"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="3">
+		<vdslToneGroup startTone="  880" endTone = " 1196"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1981" endTone = " 2773"></vdslToneGroup>
+		<vdslToneGroup startTone=" 5782" endTone = " 6947"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="B7_1, 997-M1c-A-7">
+
+		<limitingMaskDn nrOfBreakPoints="7" >
+			<breakPointVdsl toneIndex="  33" psd=" -710"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  65" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 521" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 579" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 685" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1193" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1625" psd=" -600"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="4" annexUs0      = "5">
+			<breakPointVdsl toneIndex="   7" psd=" -380"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  32" psd=" -380"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 706" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1173" psd=" -600"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="2">
+		<vdslToneGroup startTone="   33" endTone = "  685"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1193" endTone = " 1625"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="2">
+		<vdslToneGroup startTone="    7" endTone = "   32"></vdslToneGroup>
+		<vdslToneGroup startTone="  706" endTone = " 1173"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="B7_2, 997-M1x-M-8">
+
+		<limitingMaskDn nrOfBreakPoints="10" >
+			<breakPointVdsl toneIndex="  65" psd=" -580"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  97" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 256" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 376" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 512" psd=" -515"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 521" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 580" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 685" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1193" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1625" psd=" -600"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="6" annexUs0      = "9">
+			<breakPointVdsl toneIndex="   7" psd=" -410"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  60" psd=" -410"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 706" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1173" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1645" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2048" psd=" -600"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="2">
+		<vdslToneGroup startTone="   65" endTone = "  685"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1193" endTone = " 1625"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="3">
+		<vdslToneGroup startTone="    7" endTone = "   60"></vdslToneGroup>
+		<vdslToneGroup startTone="  706" endTone = " 1173"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1645" endTone = " 2048"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="B7_3, 997-M1x-M">
+
+		<limitingMaskDn nrOfBreakPoints="10" >
+			<breakPointVdsl toneIndex="  65" psd=" -580"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  97" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 256" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 376" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 512" psd=" -515"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 521" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 580" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 685" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1193" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1625" psd=" -600"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="6" annexUs0      = "9">
+			<breakPointVdsl toneIndex="   7" psd=" -410"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  60" psd=" -410"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 706" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1173" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1645" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2773" psd=" -600"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="2">
+		<vdslToneGroup startTone="   65" endTone = "  685"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1193" endTone = " 1625"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="3">
+		<vdslToneGroup startTone="    7" endTone = "   60"></vdslToneGroup>
+		<vdslToneGroup startTone="  706" endTone = " 1173"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1645" endTone = " 2773"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="B7_4, 997-M2x-M-8">
+
+		<limitingMaskDn nrOfBreakPoints="7" >
+			<breakPointVdsl toneIndex="  65" psd=" -580"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  97" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 256" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 376" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 685" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1193" psd=" -561"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1625" psd=" -575"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="6" annexUs0      = "9">
+			<breakPointVdsl toneIndex="   7" psd=" -410"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  60" psd=" -410"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 706" psd=" -539"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1173" psd=" -561"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1645" psd=" -575"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2048" psd=" -584"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="2">
+		<vdslToneGroup startTone="   65" endTone = "  685"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1193" endTone = " 1625"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="3">
+		<vdslToneGroup startTone="    7" endTone = "   60"></vdslToneGroup>
+		<vdslToneGroup startTone="  706" endTone = " 1173"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1645" endTone = " 2048"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="B7_5, 997-M2x-A">
+
+		<limitingMaskDn nrOfBreakPoints="7" >
+			<breakPointVdsl toneIndex="  33" psd=" -580"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  65" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 256" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 376" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 685" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1193" psd=" -561"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1625" psd=" -575"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="7" annexUs0      = "5">
+			<breakPointVdsl toneIndex="   7" psd=" -380"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  32" psd=" -380"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 706" psd=" -539"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1173" psd=" -561"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1645" psd=" -575"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2319" psd=" -590"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2773" psd=" -600"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="2">
+		<vdslToneGroup startTone="   33" endTone = "  685"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1193" endTone = " 1625"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="3">
+		<vdslToneGroup startTone="    7" endTone = "   32"></vdslToneGroup>
+		<vdslToneGroup startTone="  706" endTone = " 1173"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1645" endTone = " 2773"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="B7_6, 997-M2x-M">
+
+		<limitingMaskDn nrOfBreakPoints="7" >
+			<breakPointVdsl toneIndex="  65" psd=" -580"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  97" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 256" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 376" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 685" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1193" psd=" -561"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1625" psd=" -575"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="7" annexUs0      = "9">
+			<breakPointVdsl toneIndex="   7" psd=" -410"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  60" psd=" -410"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 706" psd=" -539"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1173" psd=" -561"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1645" psd=" -575"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2319" psd=" -590"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2773" psd=" -600"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="2">
+		<vdslToneGroup startTone="   65" endTone = "  685"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1193" endTone = " 1625"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="3">
+		<vdslToneGroup startTone="    7" endTone = "   60"></vdslToneGroup>
+		<vdslToneGroup startTone="  706" endTone = " 1173"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1645" endTone = " 2773"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="B7_7, HPE17-M1-NUS0">
+
+		<limitingMaskDn nrOfBreakPoints="4" >
+			<breakPointVdsl toneIndex="1645" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2338" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="3256" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="4081" psd=" -600"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="4" annexUs0      = "1">
+			<breakPointVdsl toneIndex="2358" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2783" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2784" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="3236" psd=" -600"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="2">
+		<vdslToneGroup startTone=" 1645" endTone = " 2338"></vdslToneGroup>
+		<vdslToneGroup startTone=" 3256" endTone = " 4081"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="2">
+		<vdslToneGroup startTone=" 2358" endTone = " 2783"></vdslToneGroup>
+		<vdslToneGroup startTone=" 2784" endTone = " 3236"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="B7_8, HPE30-M1-NUS0">
+
+		<limitingMaskDn nrOfBreakPoints="6" >
+			<breakPointVdsl toneIndex="1645" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2338" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="3256" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="4964" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="5782" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="6947" psd=" -600"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="6" annexUs0      = "1">
+			<breakPointVdsl toneIndex="2358" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2783" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2784" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="3236" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="4984" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="5762" psd=" -600"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="3">
+		<vdslToneGroup startTone=" 1645" endTone = " 2338"></vdslToneGroup>
+		<vdslToneGroup startTone=" 3256" endTone = " 4964"></vdslToneGroup>
+		<vdslToneGroup startTone=" 5782" endTone = " 6947"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="3">
+		<vdslToneGroup startTone=" 2358" endTone = " 2783"></vdslToneGroup>
+		<vdslToneGroup startTone=" 2784" endTone = " 3236"></vdslToneGroup>
+		<vdslToneGroup startTone=" 4984" endTone = " 5762"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="B7_9, 997E17-M2x-A">
+
+		<limitingMaskDn nrOfBreakPoints="11" >
+			<breakPointVdsl toneIndex="  33" psd=" -655"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  53" psd=" -655"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 109" psd=" -520"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 110" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 256" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 376" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 685" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1193" psd=" -561"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1625" psd=" -575"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2793" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="3236" psd=" -600"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="9" annexUs0      = "5">
+			<breakPointVdsl toneIndex="   7" psd=" -380"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  32" psd=" -380"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 706" psd=" -539"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1173" psd=" -561"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1645" psd=" -575"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2319" psd=" -590"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2773" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="3256" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="4071" psd=" -600"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="3">
+		<vdslToneGroup startTone="   33" endTone = "  685"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1193" endTone = " 1625"></vdslToneGroup>
+		<vdslToneGroup startTone=" 2793" endTone = " 3236"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="4">
+		<vdslToneGroup startTone="    7" endTone = "   32"></vdslToneGroup>
+		<vdslToneGroup startTone="  706" endTone = " 1173"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1645" endTone = " 2773"></vdslToneGroup>
+		<vdslToneGroup startTone=" 3256" endTone = " 4071"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="B7_10, 997E30-M2x-NUS0">
+
+		<limitingMaskDn nrOfBreakPoints="13" >
+			<breakPointVdsl toneIndex="  33" psd=" -655"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  53" psd=" -655"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 109" psd=" -520"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 110" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 256" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 376" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 685" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1193" psd=" -561"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1625" psd=" -575"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2793" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="3236" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="4532" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="6251" psd=" -600"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="9" annexUs0      = "1">
+			<breakPointVdsl toneIndex=" 706" psd=" -539"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1173" psd=" -561"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1645" psd=" -575"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2319" psd=" -590"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2773" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="3256" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="4512" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="6271" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="6947" psd=" -600"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="4">
+		<vdslToneGroup startTone="   33" endTone = "  685"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1193" endTone = " 1625"></vdslToneGroup>
+		<vdslToneGroup startTone=" 2793" endTone = " 3236"></vdslToneGroup>
+		<vdslToneGroup startTone=" 4532" endTone = " 6251"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="4">
+		<vdslToneGroup startTone="  706" endTone = " 1173"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1645" endTone = " 2773"></vdslToneGroup>
+		<vdslToneGroup startTone=" 3256" endTone = " 4512"></vdslToneGroup>
+		<vdslToneGroup startTone=" 6271" endTone = " 6947"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="B7_BT_ANFP">
+
+		<limitingMaskDn nrOfBreakPoints="7" >
+			<breakPointVdsl toneIndex="  33" psd=" -710"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  65" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 521" psd=" -530"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 561" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 685" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1193" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1625" psd=" -600"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="6" annexUs0      = "5">
+			<breakPointVdsl toneIndex="   7" psd=" -380"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  32" psd=" -380"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 706" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1173" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1645" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2773" psd=" -600"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="2">
+		<vdslToneGroup startTone="   33" endTone = "  685"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1193" endTone = " 1625"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="3">
+		<vdslToneGroup startTone="    7" endTone = "   32"></vdslToneGroup>
+		<vdslToneGroup startTone="  706" endTone = " 1173"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1645" endTone = " 2773"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="C_138_b">
+
+		<limitingMaskDn nrOfBreakPoints="6" >
+			<breakPointVdsl toneIndex="  33" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 859" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1216" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1961" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2793" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="4197" psd=" -600"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="8" annexUs0      = "7">
+			<breakPointVdsl toneIndex="   7" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  32" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 880" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1196" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1981" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2773" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="4207" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="6947" psd=" -600"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="3">
+		<vdslToneGroup startTone="   33" endTone = "  859"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1216" endTone = " 1961"></vdslToneGroup>
+		<vdslToneGroup startTone=" 2793" endTone = " 4197"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="4">
+		<vdslToneGroup startTone="    7" endTone = "   32"></vdslToneGroup>
+		<vdslToneGroup startTone="  880" endTone = " 1196"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1981" endTone = " 2773"></vdslToneGroup>
+		<vdslToneGroup startTone=" 4207" endTone = " 6947"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="C_276_b">
+
+		<limitingMaskDn nrOfBreakPoints="6" >
+			<breakPointVdsl toneIndex="  65" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 859" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1216" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1961" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2793" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="4197" psd=" -600"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="8" annexUs0      = "11">
+			<breakPointVdsl toneIndex="   7" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  60" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 880" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1196" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1981" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2773" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="4207" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="6947" psd=" -600"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="3">
+		<vdslToneGroup startTone="   65" endTone = "  859"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1216" endTone = " 1961"></vdslToneGroup>
+		<vdslToneGroup startTone=" 2793" endTone = " 4197"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="4">
+		<vdslToneGroup startTone="    7" endTone = "   60"></vdslToneGroup>
+		<vdslToneGroup startTone="  880" endTone = " 1196"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1981" endTone = " 2773"></vdslToneGroup>
+		<vdslToneGroup startTone=" 4207" endTone = " 6947"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="C_138_co">
+
+		<limitingMaskDn nrOfBreakPoints="12" >
+			<breakPointVdsl toneIndex="  33" psd=" -580"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  65" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 256" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 376" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 512" psd=" -515"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 819" psd=" -532"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 859" psd=" -582"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1216" psd=" -572"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1245" psd=" -550"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1961" psd=" -550"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2793" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="4197" psd=" -600"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="7" annexUs0      = "15">
+			<breakPointVdsl toneIndex="   7" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  32" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 880" psd=" -547"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1196" psd=" -562"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1981" psd=" -583"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2319" psd=" -590"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2773" psd=" -600"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="3">
+		<vdslToneGroup startTone="   33" endTone = "  859"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1216" endTone = " 1961"></vdslToneGroup>
+		<vdslToneGroup startTone=" 2793" endTone = " 4197"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="3">
+		<vdslToneGroup startTone="    7" endTone = "   32"></vdslToneGroup>
+		<vdslToneGroup startTone="  880" endTone = " 1196"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1981" endTone = " 2773"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="C_276_co">
+
+		<limitingMaskDn nrOfBreakPoints="12" >
+			<breakPointVdsl toneIndex="  65" psd=" -580"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  97" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 256" psd=" -400"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 376" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 512" psd=" -515"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 819" psd=" -532"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 859" psd=" -582"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1216" psd=" -572"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1245" psd=" -550"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1961" psd=" -550"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2793" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="4197" psd=" -600"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="7" annexUs0      = "19">
+			<breakPointVdsl toneIndex="   7" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex="  60" psd=" -500"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 880" psd=" -547"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1196" psd=" -562"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1981" psd=" -583"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2319" psd=" -590"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2773" psd=" -600"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="3">
+		<vdslToneGroup startTone="   65" endTone = "  859"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1216" endTone = " 1961"></vdslToneGroup>
+		<vdslToneGroup startTone=" 2793" endTone = " 4197"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="3">
+		<vdslToneGroup startTone="    7" endTone = "   60"></vdslToneGroup>
+		<vdslToneGroup startTone="  880" endTone = " 1196"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1981" endTone = " 2773"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+	<vdslShape name="C_TCMISDN">
+
+		<limitingMaskDn nrOfBreakPoints="6" >
+			<breakPointVdsl toneIndex=" 149" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex=" 859" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1216" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1961" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2793" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="4197" psd=" -600"></breakPointVdsl>
+		</limitingMaskDn>
+
+		<limitingMaskUp nrOfBreakPoints="6" annexUs0      = "3">
+			<breakPointVdsl toneIndex=" 880" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1196" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="1981" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="2773" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="4207" psd=" -600"></breakPointVdsl>
+			<breakPointVdsl toneIndex="6947" psd=" -600"></breakPointVdsl>
+		</limitingMaskUp>
+
+		<bandPlanDn noOfToneGroups="3">
+		<vdslToneGroup startTone="  149" endTone = "  859"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1216" endTone = " 1961"></vdslToneGroup>
+		<vdslToneGroup startTone=" 2793" endTone = " 4197"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanDn>
+
+		<bandPlanUp noOfToneGroups="3">
+		<vdslToneGroup startTone="  880" endTone = " 1196"></vdslToneGroup>
+		<vdslToneGroup startTone=" 1981" endTone = " 2773"></vdslToneGroup>
+		<vdslToneGroup startTone=" 4207" endTone = " 6947"></vdslToneGroup>
+		<vdslToneGroup startTone="    0" endTone = "    0"></vdslToneGroup>
+		</bandPlanUp>
+
+	</vdslShape>
+
+</vdslShapes>
+add name video vid 836
+add name data vid 835
+add name mgmt vid 837
+add name dummy vid 911
+priomap config entry=prio_0_7_2vlan priomap=1,1,2,2,0,0,3,1
+priomap config entry=prio_8_15_2vlan priomap=4,4,5,5,5,5,5,6
+ifadd intf br_video name video untagged enabled
+ifadd intf vdsl2    name video untagged disabled
+ifadd intf bri_ge   name video untagged disabled
+ifadd intf bri_ge name mgmt untagged disabled 
+ifadd intf bri_ge name data untagged disabled
+ifadd intf vdsl2 name mgmt untagged disabled
+ifadd intf vdsl2 name data untagged disabled
+ifadd intf OBC name mgmt untagged disabled
+ifadd intf OBC name data untagged disabled
+ifadd intf OBC name video untagged disabled
+ifadd intf vdsl2 name dummy untagged enabled
+ifadd intf bri_ge name dummy untagged enabled
+:eth bridge ifconfig intf vdsl2 vlan dummy
+:eth bridge ifconfig intf bri_ge vlan dummy
+ifdelete intf br_video name default
+ifdelete intf bri_ge name default
+ifdelete intf vdsl2 name default
+tone patterntable add id=1 tone=on freq1=425 power1=-17 freq2=0 power2=0 freq3=0 power3=0 freq4=0 power4=0 duration=200 nextentry=2 maxloops=0 nextentryafterloops=0
+tone patterntable add id=2 tone=on freq1=0 power1=0 freq2=0 power2=0 freq3=0 power3=0 freq4=0 power4=0 duration=200 nextentry=1 maxloops=0 nextentryafterloops=0
+tone patterntable add id=161 tone=on freq1=425 power1=-17 freq2=0 power2=0 freq3=0 power3=0 freq4=0 power4=0 duration=200 nextentry=162 maxloops=0 nextentryafterloops=0
+tone patterntable add id=162 tone=on freq1=0 power1=0 freq2=0 power2=0 freq3=0 power3=0 freq4=0 power4=0 duration=200 nextentry=161 maxloops=0 nextentryafterloops=0
+tone patterntable add id=171 tone=on freq1=425 power1=-17 freq2=0 power2=0 freq3=0 power3=0 freq4=0 power4=0 duration=200 nextentry=172 maxloops=0 nextentryafterloops=0
+tone patterntable add id=172 tone=on freq1=0 power1=0 freq2=0 power2=0 freq3=0 power3=0 freq4=0 power4=0 duration=200 nextentry=173 maxloops=0 nextentryafterloops=0
+tone patterntable add id=173 tone=on freq1=425 power1=-17 freq2=0 power2=0 freq3=0 power3=0 freq4=0 power4=0 duration=600 nextentry=174 maxloops=0 nextentryafterloops=0
+tone patterntable add id=174 tone=on freq1=0 power1=0 freq2=0 power2=0 freq3=0 power3=0 freq4=0 power4=0 duration=1000 nextentry=171 maxloops=0 nextentryafterloops=0
+tone patterntable add id=181 tone=on freq1=425 power1=-17 freq2=0 power2=0 freq3=0 power3=0 freq4=0 power4=0 duration=500 nextentry=182 maxloops=0 nextentryafterloops=0
+tone patterntable add id=182 tone=on freq1=0 power1=0 freq2=0 power2=0 freq3=0 power3=0 freq4=0 power4=0 duration=500 nextentry=181 maxloops=0 nextentryafterloops=0
+tone patterntable add id=191 tone=on freq1=425 power1=-17 freq2=0 power2=0 freq3=0 power3=0 freq4=0 power4=0 duration=1000 nextentry=192 maxloops=0 nextentryafterloops=0
+tone patterntable add id=192 tone=on freq1=0 power1=0 freq2=0 power2=0 freq3=0 power3=0 freq4=0 power4=0 duration=4000 nextentry=191 maxloops=0 nextentryafterloops=0
+tone patterntable add id=201 tone=on freq1=425 power1=-17 freq2=0 power2=0 freq3=0 power3=0 freq4=0 power4=0 duration=1000 nextentry=202 maxloops=0 nextentryafterloops=0
+tone patterntable add id=202 tone=on freq1=425 power1=-17 freq2=0 power2=0 freq3=0 power3=0 freq4=0 power4=0 duration=1000 nextentry=201 maxloops=0 nextentryafterloops=0
+tone patterntable add id=211 tone=on freq1=425 power1=-17 freq2=0 power2=0 freq3=0 power3=0 freq4=0 power4=0 duration=400 nextentry=212 maxloops=0 nextentryafterloops=0
+tone patterntable add id=212 tone=on freq1=0 power1=0 freq2=0 power2=0 freq3=0 power3=0 freq4=0 power4=0 duration=100 nextentry=213 maxloops=0 nextentryafterloops=0
+tone patterntable add id=213 tone=on freq1=425 power1=-17 freq2=0 power2=0 freq3=0 power3=0 freq4=0 power4=0 duration=250 nextentry=214 maxloops=0 nextentryafterloops=0
+tone patterntable add id=214 tone=on freq1=0 power1=0 freq2=0 power2=0 freq3=0 power3=0 freq4=0 power4=0 duration=100 nextentry=215 maxloops=0 nextentryafterloops=0
+tone patterntable add id=215 tone=on freq1=425 power1=-17 freq2=0 power2=0 freq3=0 power3=0 freq4=0 power4=0 duration=150 nextentry=0 maxloops=0 nextentryafterloops=0
+tone patterntable add id=216 tone=on freq1=0 power1=0 freq2=0 power2=0 freq3=0 power3=0 freq4=0 power4=0 duration=14000 nextentry=211 maxloops=0 nextentryafterloops=0
+tone patterntable add id=221 tone=on freq1=425 power1=-17 freq2=0 power2=0 freq3=0 power3=0 freq4=0 power4=0 duration=400 nextentry=222 maxloops=0 nextentryafterloops=0
+tone patterntable add id=222 tone=on freq1=0 power1=0 freq2=0 power2=0 freq3=0 power3=0 freq4=0 power4=0 duration=200 nextentry=223 maxloops=0 nextentryafterloops=0
+tone patterntable add id=223 tone=on freq1=425 power1=-17 freq2=0 power2=0 freq3=0 power3=0 freq4=0 power4=0 duration=400 nextentry=224 maxloops=0 nextentryafterloops=0
+tone patterntable add id=224 tone=on freq1=0 power1=0 freq2=0 power2=0 freq3=0 power3=0 freq4=0 power4=0 duration=200 nextentry=225 maxloops=0 nextentryafterloops=0
+tone patterntable add id=225 tone=on freq1=425 power1=-17 freq2=0 power2=0 freq3=0 power3=0 freq4=0 power4=0 duration=800 nextentry=226 maxloops=0 nextentryafterloops=0
+tone patterntable add id=226 tone=on freq1=0 power1=0 freq2=0 power2=0 freq3=0 power3=0 freq4=0 power4=0 duration=4000 nextentry=221 maxloops=0 nextentryafterloops=0
+tone patterntable add id=231 tone=on freq1=425 power1=-17 freq2=0 power2=0 freq3=0 power3=0 freq4=0 power4=0 duration=5000 nextentry=232 maxloops=0 nextentryafterloops=0
+tone patterntable add id=232 tone=on freq1=425 power1=-17 freq2=0 power2=0 freq3=0 power3=0 freq4=0 power4=0 duration=5000 nextentry=231 maxloops=0 nextentryafterloops=0
+tone patterntable add id=65 tone=on freq1=425 power1=-6 freq2=0 power2=0 freq3=0 power3=0 freq4=0 power4=0 duration=100 nextentry=66 maxloops=0 nextentryafterloops=0
+tone patterntable add id=66 tone=on freq1=0 power1=0 freq2=0 power2=0 freq3=0 power3=0 freq4=0 power4=0 duration=100 nextentry=67 maxloops=0 nextentryafterloops=0
+tone patterntable add id=67 tone=on freq1=425 power1=-6 freq2=0 power2=0 freq3=0 power3=0 freq4=0 power4=0 duration=100 nextentry=0 maxloops=0 nextentryafterloops=0
+
+tone descrtable add tone=none status=enabled delay=0 patternentryid=0 file="" filerepeat=0 text="" maxduration=0 nexttone="" repeatafter=0
+
+tone descrtable add tone=fastbusy         status=enabled delay=0 patternentryid=161 file="" filerepeat=0 text="" maxduration=0 nexttone="" repeatafter=0
+tone descrtable add tone=rejection        status=enabled delay=0 patternentryid=161 file="" filerepeat=0 text="" maxduration=0 nexttone="" repeatafter=0
+tone descrtable add tone=release          status=enabled delay=0 patternentryid=161 file="" filerepeat=0 text="" maxduration=0 nexttone="" repeatafter=0
+tone descrtable add tone=warning          status=enabled delay=0 patternentryid=161 file="" filerepeat=0 text="" maxduration=0 nexttone="" repeatafter=0
+tone descrtable add tone=congestion       status=enabled delay=0 patternentryid=161 file="" filerepeat=0 text="" maxduration=0 nexttone="" repeatafter=0
+tone descrtable add tone=stutterdial      status=enabled delay=0 patternentryid=161 file="" filerepeat=0 text="" maxduration=0 nexttone="" repeatafter=0
+tone descrtable add tone=specialdial      status=enabled delay=0 patternentryid=161 file="" filerepeat=0 text="" maxduration=0 nexttone="" repeatafter=0
+tone descrtable add tone=startdialtimeout status=enabled delay=0 patternentryid=1 file="" filerepeat=0 text="" maxduration=40000 nexttone= "" repeatafter=0
+tone descrtable add tone=continoustone    status=enabled delay=0 patternentryid=231 file="" filerepeat=0 text="" maxduration=0 nexttone= "" repeatafter=0
+
+tone descrtable add tone=dial status=enabled delay=0 patternentryid=171 file="" filerepeat=0 text="" maxduration=0 nexttone="" repeatafter=0
+
+tone descrtable add tone=busy status=enabled delay=0 patternentryid=181 file="" filerepeat=0 text="" maxduration=0 nexttone="" repeatafter=0
+
+tone descrtable add tone=ringback status=enabled delay=0 patternentryid=191 file="" filerepeat=0 text="" maxduration=0 nexttone="" repeatafter=0
+
+tone descrtable add tone=confirmation status=enabled delay=0 patternentryid=201 file="" filerepeat=0 text="" maxduration=0 nexttone="" repeatafter=0
+
+tone descrtable add tone=callwaiting status=enabled delay=0 patternentryid=211 file="" filerepeat=0 text="" maxduration=0 nexttone="" repeatafter=14000
+
+tone descrtable add tone=ccbs status=enabled delay=0 patternentryid=221 file="" filerepeat=0 text="" maxduration=0 nexttone="" repeatafter=0
+
+tone descrtable add tone=remotecallhold    status=disabled delay=0 patternentryid=0 file="" filerepeat=0 text="" maxduration=0 nexttone="" repeatafter=0
+tone descrtable add tone=callhold          status=disabled delay=0 patternentryid=0 file="" filerepeat=0 text="" maxduration=0 nexttone="" repeatafter=0
+tone descrtable add tone=remotecallwaiting status=disabled delay=0 patternentryid=0 file="" filerepeat=0 text="" maxduration=0 nexttone="" repeatafter=0
+tone descrtable add tone=mwi status=enabled delay=400 patternentryid=65 file="" filerepeat=0 text="" maxduration=3000 nexttone=dial repeatafter=1000
+tone descrtable add tone=bargein           status=disabled delay=0 patternentryid=0 file="" filerepeat=0 text="" maxduration=0 nexttone="" repeatafter=0
+
+tone eventtable modify eventid=21 tone=startdialtimeout
+
+sip inboundauth config BYE=disabled INFO=disabled INVITE=disabled NOTIFY=disabled OPTIONS disabled 
+sip inboundauth config PING disabled PRACK disabled REFER disabled SUBSCRIBE disabled UPDATE disabled
+sip config useragentdomain modemtelecom.homenet.telecomitalia.it 
+sip config phonecontext +39 
+sip config primregaddr modemtelecom.homenet.telecomitalia.it 
+sip config realm modemtelecom.homenet.telecomitalia.it 
+sip config timertf 12000
+sip config proxyport 5065 
+sip config regport 5065
+sip config primproxyaddr=modemtelecom.homenet.telecomitalia.it 
+sip config PRACK when_supported
+sip config stop_register_on_403 enabled
+sip config privacy=strict session-expires=0 min-se=0 regexpire=3600 regexpire_Tbefore=5 expires=0
+sip config other4xx5xx6xxwaiting=60 403waiting=20 400503waiting=60 401407waiting=0 reinvite_at_cgfax_detect=disabled CWreply=180
+sip config rtpmapstaticPT=disabled transport=UDP reinvite_stop_audio=disabled clirformat=standard DTMF*#inINFO=1011
+sip config clip_consider_displayname=yes sdp_ptime=notsent replace#=enabled symmetriccodec=enabled SIPURI_port=disabled rport=disabled
+sip config SDP_username=default t38portincrement=0 ping=0 response420=disabled register-backoff-timer=60 stickyoutbproxy=enabled 
+sip config failbehaviour=stop
+sip config SDP_username_per_UA=disabled transport_in_contact=disabled mwi-resubscribe-delay=0
+sip config timer_f_expired_waiting=0 stop_register_on_408=disabled stop_register_on_timerfexpired=disabled distinct_t38_port=enabled
+sip config provisional_timer=1200 realmcheck=disabled
+sip config stop_register_on_403=disabled
+sip config TISpecificTag SIPSERVER
+sip config teluri no
+sip config omit_displayname=yes
+sip config symmetricDynRTPPayload=enabled
+sip config regpersistency=disabled
+
+sip2fxo config session-expires=130 min-se=100
+
+codec config type=g711a ptime=20 vad=disabled priority=3 status=enabled
+codec config type=g711u ptime=20 vad=disabled priority=4 status=disabled
+codec config type=g729 ptime=20 vad=disabled priority=2 status=enabled
+codec config type=g722 ptime=20 vad=disabled priority=1 status=enabled
+codec config type=amr vad=disabled priority=4 status=disabled
+codec dynamic config type=rfc2833 payloadtype=101
+codec dynamic config type=g726_40 payloadtype=102
+codec dynamic config type=ilbc payloadtype=103
+codec dynamic config type=amr payloadtype=104
+
+config sign_internal=external
+config rtp_portrange=1024-1151
+config rtcp_interval=5000
+config interfaces_enable=15
+config pstnsoftswitchover enabled
+config delayeddisconnect disabled
+config delayeddisconnecttimer 0
+config intf loop 
+config static_intf enabled
+config autofxo=enabled digitrelay=rfc2833 click2dial_ports=all endofnumber=# 
+config ringmuteduration=0 feature-mngt=internal nocallsetupmsg=never 
+config syslogscope=all no-answer-timer=200
+
+qos config type Signaling qosfield DSCP dscp cs5
+qos config type Realtime qosfield DSCP dscp cs5
+
+services config cw_reject_scope common
+services assign type keypad servicecode 11
+services provision type keypad
+services config keypad_associate_cli **1*
+services config keypad_cli_del_btw_fxs **1#
+services config keypad_cli_query **762#
+services config keypad_pos_active  **761#
+services config keypad_pos_deactive  **760#
+services config keypad_pos_query **#76#
+services config keypad_wifi_on  **941#
+services config keypad_wifi_off **940#
+services config mwi_phone both
+services provision type keypad
+services activate type keypad
+
+dialplan add prefix=*63#     defaultport=VoIP fallbackport=NA priority=NA fallback=disabled minimumdigits=4  maximumdigits=4 posofmodify=0 remnumdigits=0 insert=NA rescan=no data=no action=ROUTE_excl_eon
+dialplan add prefix=#63#     defaultport=VoIP fallbackport=NA priority=NA fallback=disabled minimumdigits=4  maximumdigits=4 posofmodify=0 remnumdigits=0 insert=NA rescan=no data=no action=ROUTE_excl_eon
+dialplan add prefix=*#63#    defaultport=VoIP fallbackport=NA priority=NA fallback=disabled minimumdigits=5  maximumdigits=5 posofmodify=0 remnumdigits=0 insert=NA rescan=no data=no action=ROUTE_excl_eon
+dialplan add prefix=*#64#    defaultport=VoIP fallbackport=NA priority=NA fallback=disabled minimumdigits=5  maximumdigits=5 posofmodify=0 remnumdigits=0 insert=NA rescan=no data=no action=ROUTE_excl_eon
+dialplan add prefix=*63*1#   defaultport=VoIP fallbackport=NA priority=NA fallback=disabled minimumdigits=6  maximumdigits=6 posofmodify=0 remnumdigits=0 insert=NA rescan=no data=no action=ROUTE_excl_eon
+dialplan add prefix=*63*0*1# defaultport=VoIP fallbackport=NA priority=NA fallback=disabled minimumdigits=8  maximumdigits=8 posofmodify=0 remnumdigits=0 insert=NA rescan=no data=no action=ROUTE_excl_eon
+dialplan add prefix=*63*0*2# defaultport=VoIP fallbackport=NA priority=NA fallback=disabled minimumdigits=8  maximumdigits=8 posofmodify=0 remnumdigits=0 insert=NA rescan=no data=no action=ROUTE_excl_eon
+dialplan add prefix=*63*0*3# defaultport=VoIP fallbackport=NA priority=NA fallback=disabled minimumdigits=8  maximumdigits=8 posofmodify=0 remnumdigits=0 insert=NA rescan=no data=no action=ROUTE_excl_eon
+dialplan add prefix=*63*0*4# defaultport=VoIP fallbackport=NA priority=NA fallback=disabled minimumdigits=8  maximumdigits=8 posofmodify=0 remnumdigits=0 insert=NA rescan=no data=no action=ROUTE_excl_eon
+dialplan add prefix=*63*0*5# defaultport=VoIP fallbackport=NA priority=NA fallback=disabled minimumdigits=8  maximumdigits=8 posofmodify=0 remnumdigits=0 insert=NA rescan=no data=no action=ROUTE_excl_eon
+dialplan add prefix=#63*1#   defaultport=VoIP fallbackport=NA priority=NA fallback=disabled minimumdigits=6  maximumdigits=6 posofmodify=0 remnumdigits=0 insert=NA rescan=no data=no action=ROUTE_excl_eon
+dialplan add prefix=*63*2#   defaultport=VoIP fallbackport=NA priority=NA fallback=disabled minimumdigits=6  maximumdigits=6 posofmodify=0 remnumdigits=0 insert=NA rescan=no data=no action=ROUTE_excl_eon
+dialplan add prefix=#63*2#   defaultport=VoIP fallbackport=NA priority=NA fallback=disabled minimumdigits=6  maximumdigits=6 posofmodify=0 remnumdigits=0 insert=NA rescan=no data=no action=ROUTE_excl_eon
+dialplan add prefix=*63*3#   defaultport=VoIP fallbackport=NA priority=NA fallback=disabled minimumdigits=6  maximumdigits=6 posofmodify=0 remnumdigits=0 insert=NA rescan=no data=no action=ROUTE_excl_eon
+dialplan add prefix=#63*3#   defaultport=VoIP fallbackport=NA priority=NA fallback=disabled minimumdigits=6  maximumdigits=6 posofmodify=0 remnumdigits=0 insert=NA rescan=no data=no action=ROUTE_excl_eon
+dialplan add prefix=*43#     defaultport=VoIP fallbackport=NA priority=NA fallback=disabled minimumdigits=4  maximumdigits=4 posofmodify=0 remnumdigits=0 insert=NA rescan=no data=no action=ROUTE_excl_eon
+dialplan add prefix=#43#     defaultport=VoIP fallbackport=NA priority=NA fallback=disabled minimumdigits=4  maximumdigits=4 posofmodify=0 remnumdigits=0 insert=NA rescan=no data=no action=ROUTE_excl_eon
+dialplan add prefix=*#43#    defaultport=VoIP fallbackport=NA priority=NA fallback=disabled minimumdigits=5  maximumdigits=5 posofmodify=0 remnumdigits=0 insert=NA rescan=no data=no action=ROUTE_excl_eon
+
+dialplan add prefix=#24#     defaultport=VoIP fallbackport=NA priority=NA fallback=disabled minimumdigits=4  maximumdigits=4 posofmodify=0 remnumdigits=0 insert=NA rescan=no data=no action=ROUTE_excl_eon
+dialplan add prefix=*#24#    defaultport=VoIP fallbackport=NA priority=NA fallback=disabled minimumdigits=5  maximumdigits=5 posofmodify=0 remnumdigits=0 insert=NA rescan=no data=no action=ROUTE_excl_eon
+
+dialplan add prefix=*33#     defaultport=VoIP fallbackport=NA priority=NA fallback=disabled minimumdigits=4  maximumdigits=4 posofmodify=0 remnumdigits=0 insert=NA rescan=no data=no action=ROUTE_excl_eon
+dialplan add prefix=*#33#    defaultport=VoIP fallbackport=NA priority=NA fallback=disabled minimumdigits=5  maximumdigits=5 posofmodify=0 remnumdigits=0 insert=NA rescan=no data=no action=ROUTE_excl_eon
+
+dialplan add prefix=#28#     defaultport=VoIP fallbackport=NA priority=NA fallback=disabled minimumdigits=4  maximumdigits=4 posofmodify=0 remnumdigits=0 insert=NA rescan=no data=no action=ROUTE_excl_eon
+dialplan add prefix=*#28#    defaultport=VoIP fallbackport=NA priority=NA fallback=disabled minimumdigits=5  maximumdigits=5 posofmodify=0 remnumdigits=0 insert=NA rescan=no data=no action=ROUTE_excl_eon
+
+dialplan add prefix=#61#     defaultport=VoIP fallbackport=NA priority=NA fallback=disabled minimumdigits=4  maximumdigits=4 posofmodify=0 remnumdigits=0 insert=NA rescan=no data=no action=ROUTE_excl_eon
+dialplan add prefix=*#61#    defaultport=VoIP fallbackport=NA priority=NA fallback=disabled minimumdigits=5  maximumdigits=5 posofmodify=0 remnumdigits=0 insert=NA rescan=no data=no action=ROUTE_excl_eon
+
+dialplan add prefix=#21#     defaultport=VoIP fallbackport=NA priority=NA fallback=disabled minimumdigits=4  maximumdigits=4 posofmodify=0 remnumdigits=0 insert=NA rescan=no data=no action=ROUTE_excl_eon
+dialplan add prefix=*#21#    defaultport=VoIP fallbackport=NA priority=NA fallback=disabled minimumdigits=5  maximumdigits=5 posofmodify=0 remnumdigits=0 insert=NA rescan=no data=no action=ROUTE_excl_eon
+
+dialplan add prefix=*67#     defaultport=VoIP fallbackport=NA priority=NA fallback=disabled minimumdigits=4 maximumdigits=30 posofmodify=0 remnumdigits=0 rescan=no data=no action=ROUTE_incl_eon
+
+services provision type=transfer
+services provision type=hold
+services provision type=waiting
+services provision type=clip
+services provision type=clir
+services provision type=3pty
+services provision type=mwi
+services provision type=bargein
+
+services deactivate type=transfer
+services activate type=hold
+services activate type=waiting
+services activate type=clip
+services deactivate type=clir
+services activate type=3pty
+services activate type=mwi
+services withdraw type bargein
+
+services assign type transfer servicecode AAA
+services assign type hold servicecode AAB
+services assign type waiting servicecode AAC
+services assign type clip servicecode ABA
+services assign type clir servicecode DAA
+services assign type 3pty servicecode ABC
+services assign type mwi servicecode ACA
+services assign type bargein servicecode ACB
+
+services assign type acr servicecode BCB
+services assign type callreturn servicecode BCC
+services assign type ccbs servicecode CAA
+services assign type cfbs servicecode CAB
+services assign type cfnr servicecode CAC
+services assign type cfu servicecode CBA
+services assign type forcedFXO servicecode CBB
+services assign type internalcall servicecode CBC
+services assign type mce servicecode CCA
+services assign type vmnr servicecode CCB
+services assign type warmline servicecode CCC
+
+services config hfhf_feature=enabled
+services config mwi_network=unsollicited
+services config cw_timer 120
+
+fxsport config interdigitOpen=3000
+fxsport config interdigit=3000
+fxsport config widebandsupport enabled
+
+services soc socflush
+services soc config Registerrecalltimer=0
+services soc config TOAfterActiveCallEnded=0
+
+services soc add function=TerminateHeldCall SOC=ignore
+services soc add function=RejectIncomingCall SOC=HF0
+services soc add function=TerminateActiveAndSwitchToHeld SOC=HF1
+services soc add function=TerminateActiveAndSwitchToWaiting SOC=HF1
+services soc add function=NoActiveCallRetrieveHeld SOC=HF
+services soc add function=HoldActiveCallAndEnableCallSetup SOC=HF
+services soc add function=From3PartyDropLastParty SOC=ignore
+services soc add function=SwitchBetweenActiveAndHeld SOC=HF2
+services soc add function=SwitchBetweenActiveAndWaiting SOC=HF2
+services soc add function=Transfer SOC=HF4
+services soc add function=CallToBusyUserActivateCCBS SOC=ignore
+services soc add function=TerminateActiveAndEnableCallSetup SOC=ignore
+services soc add function=From3PartyHoldBAndC SOC=ignore
+services soc add function=From3PartyRetreiveBAndC SOC=HF3
+services soc add function=From3PartyHoldConf SOC=HF
+
+services 3gpp config 3GPP3PTY enabled
+services 3gpp config 3GPP3PTYjoin refer_focus2user  
+services 3gpp config 3GPP3PTYFactoryUri sip:conference@factory.telecomitalia.it
+
+numbtransl config Globalnumbpostprocess=disabled
+config countrycode=0
+sip config privacy=ignore
+sip config regexpire_Tbefore=0
+numbertranslAC add level 1 areacode +39  action hideareacode   delete 0 executeprefdel insideareacode
+numbertranslAC add level 2 areacode + action showareacode   delete 1 prefix 00 executeprefdel insideareacode
+
+config delayeddisconnecttimer=0
+config delayeddisconnect=disabled
+
+sip config PRACK=when_supported
+
+sip responsemap delete responsecode=181
+sip responsemap delete responsecode=488
+
+profile flush
+profile add SIP_URI=**11@modemtelecom.homenet.telecomitalia.it voiceport=FXS1 username=**11 password=11 enable=enabled shouldregister=no
+profile add SIP_URI=**12@modemtelecom.homenet.telecomitalia.it voiceport=FXS2 username=**12 password=12 enable=enabled shouldregister=no
+profile add SIP_URI=**13@modemtelecom.homenet.telecomitalia.it voiceport=DECT1 username=**13 password=13 enable=enabled shouldregister=no
+profile add SIP_URI=**14@modemtelecom.homenet.telecomitalia.it voiceport=DECT2 username=**14 password=14 enable=enabled shouldregister=no
+profile add SIP_URI=**15@modemtelecom.homenet.telecomitalia.it voiceport=DECT3 username=**15 password=15 enable=enabled shouldregister=no
+profile add SIP_URI=**16@modemtelecom.homenet.telecomitalia.it voiceport=DECT4 username=**16 password=16 enable=enabled shouldregister=no
+profile add SIP_URI=**17@modemtelecom.homenet.telecomitalia.it voiceport=DECT5 username=**17 password=17 enable=enabled shouldregister=no
+
+fax config VBDcodec G711A transport=t38
+
+profile add SIP_URI=FXO voiceport=SIMFXO username=FXO password=FXO enable=enabled outboundproxy=127.0.0.1 outboundproxyport=5090 shouldregister=no
+
+cac config max#portsperprofile all
+services soc modify id=6 function=Establish3Party SOC=HF3
+
+fax config VBDcodec G711A transport=t38

@@ -1,0 +1,26 @@
+#!/bin/sh
+
+BIN_FILE='/usr/bin/anti_spoofd'
+
+case $1 in
+    start)
+	# start anti_spoofd
+	if [ -f "$BIN_FILE" ] ; then
+		/bin/echo "anti_spoofd start ..."
+		/usr/bin/anti_spoofd -d 
+	fi
+	;;
+
+    stop)
+	# stop anti_spoofd
+	if [ -f "$BIN_FILE" ] ; then
+		/bin/echo "anti_spoofd stop ..."
+	     killall anti_spoofd
+	fi
+	;;
+    *)
+	
+esac
+
+
+

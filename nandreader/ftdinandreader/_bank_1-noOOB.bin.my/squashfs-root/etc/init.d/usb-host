@@ -1,0 +1,144 @@
+#!/bin/sh
+
+. /etc/autoconf.conf
+
+#default statte
+ADMIN_STATE=1
+OPER_STATE=0
+
+STATE_FILE=/var/tmp/usbhost_state.conf
+[ -f $STATE_FILE ] && . $STATE_FILE
+
+if [ ! -z "$CONFIG_LINUX_2_6" ]; then
+    USB_HOST_MOD="ohci-hcd"
+    USB_HOST_MOD_2="ehci-hcd"
+    USB_PRINT_MOD="usblp"
+    USB_FS="usbfs"
+else
+    USB_HOST_MOD="usb-ohci"
+    USB_HOST_MOD_2="usb-ehci"
+    USB_PRINT_MOD="printer"
+    USB_FS="usbdevfs"
+fi
+
+do_start()
+{
+    if [ ! "$ENABLE_USB_HOST" = "1" ] ; then
+        echo "Not starting USB-HOST"
+        exit 0                                                              
+    fi
+    if [ "$ADMIN_STATE" = "0" ] || [ "$OPER_STATE" = "1" ]; then
+        exit 0
+    fi
+#
+# (kernel module messages)
+# Warning! ehci_hcd should always be loaded before uhci_hcd and ohci_hcd, not after
+#
+    modprobe $USB_HOST_MOD_2
+    modprobe $USB_HOST_MOD
+
+    if [ ! -e /proc/bus/usb/devices ]; then
+        mount -t $USB_FS none /proc/bus/usb
+    fi;
+
+    #TODO : usbmgr
+    [ ! -z "$CONFIG_PRINT_SERVER" ] && modprobe $USB_PRINT_MOD
+    #[ ! -z "$ENABLE_PRINT_SERVER" ] && /etc/init.d/print_server start  --> the printserver will be started by his mbus plugin and not in this script
+    [ ! -z "$CONFIG_TPE" ] && /etc/init.d/tpe start
+    [ ! -z "$CONFIG_USBSERIAL" ] && modprobe usbserial && modprobe pl2303 && modprobe ftdi_sio
+    [ ! -z "$CONFIG_STORAGE" ] && /etc/init.d/usb_storage start
+    [ ! -e "/var/tmp/usbmgr.conf" ] && ln -sf /etc/usbmgr/usbmgr.conf.ro /var/tmp/usbmgr.conf
+    [ ! -z "$CONFIG_USBMGR" ] && usbmgr
+    /etc/init.d/mdns start
+    [ ! -z "$CONFIG_SAMBA" ] && /etc/init.d/samba start
+    
+    OPER_STATE=1
+}
+
+do_stop()
+{
+    if [ "OPER_STATE" = "0" ] ; then
+      exit 0
+    fi
+    
+    [ ! -z "$CONFIG_TPE" ] && /etc/init.d/tpe stop
+    [ ! -z "$CONFIG_USBSERIAL" ] && rmmod usbserial && rmmod cp210x && rmmod ftdi_sio && rmmod pl2303
+    [ ! -z "$CONFIG_SAMBA" ] && /etc/init.d/samba stop
+    /etc/init.d/mdns stop
+    [ ! -z "$ENABLE_PRINT_SERVER" ] && /etc/init.d/print_server stop
+    [ ! -z "$CONFIG_PRINT_SERVER" ] && rmmod $USB_PRINT_MOD
+    if [ ! -z "$CONFIG_USBMGR" ]; then
+        kill $(cat "/var/run/usbmgr.pid")
+        rm -f "/var/run/usbmgr.pid"
+    fi;
+
+    # --dimm
+    #
+    # First we trigger 'usbmgr' (above) that, in turn, removes all the attached usb devices.
+    # As a result, 'storagecl' is triggered via 'usbmgr::storage' events to umount the usb disks.
+    # Here we should wait before all the disk are unmounted before proceeding with shuting down 'usb_storage'
+    # and unloading usb kernel modules.
+    #
+    # "/etc/init.d/usb_storage mounted_disks" checks for the presence of mounted usb disks.
+    #
+    ITER=30
+
+    while [ ! $ITER -eq 0 ]; do
+        if [ ! -z "$CONFIG_STORAGE" ]; then
+            /etc/init.d/usb_storage mounted_disks
+	    RET=$?
+        else
+            #
+	    # bail out if 'usb_storage' is not enabled
+	    # we assume that there are no disks
+	    #
+            RET=1
+        fi
+        if [ ! $RET -eq 0 ]; then
+            break;
+        fi
+	sleep 1;
+        let "ITER-=1";
+    done
+
+    [ $ITER -eq 0 ] && echo "usbmgr failed to trigger/complete usb-disk-umounts in 30 s."
+
+    [ ! -z "$CONFIG_STORAGE" ] && /etc/init.d/usb_storage stop
+    rmmod $USB_HOST_MOD
+    rmmod $USB_HOST_MOD_2
+    
+    OPER_STATE=0
+}
+
+case $1 in    
+  start)
+    do_start
+    ;;
+  
+  stop)
+    do_stop
+    ;;
+
+  reset)
+    do_stop
+    do_start
+    ;;  
+
+  admin_enable)
+    ADMIN_STATE=1
+    do_start
+    ;;
+  
+  admin_disable)
+     do_stop
+     ADMIN_STATE=0
+    ;;
+ 
+  *)
+    echo "do nothing"
+    ;;
+esac
+
+#write state
+echo "ADMIN_STATE=$ADMIN_STATE
+OPER_STATE=$OPER_STATE" > $STATE_FILE

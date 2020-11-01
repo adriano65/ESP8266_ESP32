@@ -1,0 +1,140 @@
+#!/bin/sh
+
+ #
+# Script to START / STOP / RESTART the la-interface tool
+ #
+
+# ===============================================================================
+# GLOBAL DEFINES
+# ===============================================================================
+true=0
+false=1
+
+programname=dlistaccess
+#programlog=/dev/null
+programlog=/var/tmp/dlistaccess.log
+
+#################################################################################
+# Check if program is running
+#
+# param   :  none
+# return  :  true  - process is running
+#            false - process is not running
+IsRunning()
+{
+  ps | grep "$programname" | grep -v "grep" > /dev/null && return $true
+  return $false
+}
+
+#################################################################################
+# Start the program when it is not yet running
+#
+# param   :  none
+# return  :  true  - process started successfully
+#                  - process was already running. No need to start.
+#            false - an error occured when trying to start the process.
+DoStart()
+{
+  if IsRunning ; then
+    return $true
+  fi
+  $programname -d -l > $programlog 2>&1
+
+  sleep 1
+
+  if ! IsRunning ; then
+    return $false
+  fi
+
+  return $true
+}
+
+#################################################################################
+# Stop process when it is running
+#
+# param   :  none
+# return  :  true  - process stopped successfully
+#                  - process was not running. No actions taken.
+#            false - an error occured when trying to stop the process.
+DoStop()
+{
+  if ! IsRunning ; then
+    return $true
+  fi
+
+  killall $programname
+
+  # start polling to detect the termination of the la_interface process
+  # polling is required here to assure the most immediate reaction on
+  # all platforms
+  count=0
+  while [ $count -lt 30 ] ; do
+    let count=$count+1
+    sleep 1
+    if ! IsRunning ; then
+      return $true
+    fi
+  done
+
+  return $false
+}        
+
+#################################################################################
+# Restart the program
+#
+# param   :  none
+# return  :  true  - process started successfully
+#            false - an error occured when trying to start the process.
+DoRestart()
+{
+  if DoStop ; then
+    DoStart
+  fi
+  return $?
+}   
+
+# ===============================================================================
+# MAIN PROGRAM
+# ===============================================================================
+
+if [ -z "$1" ] ; then
+  echo "$0: missing arguments!"
+  exit 1
+fi
+
+_param=`echo "$1" | tr A-Z a-z`   # change to lower case
+
+case "$_param" in
+
+    start)
+        echo "Starting $programname ..."
+        DoStart
+        $0 status
+        ;;
+
+    stop)
+        echo "Stopping $programname ..."
+        DoStop
+        $0 status
+        ;;
+
+    restart)
+        echo "Restarting $programname ..."
+        DoRestart
+        $0 status
+        ;;
+
+    status)
+        if IsRunning ; then
+            echo "$programname: running"
+        else
+            echo "$programname: not running"
+        fi
+        ;;
+    
+    *)
+      echo "$programname: Invalid parameter!"
+      exit 1
+esac
+
+exit 0

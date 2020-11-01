@@ -1,0 +1,27 @@
+#!/bin/sh
+
+ID_FILE='/var/run/crrpd.pid'
+BIN_FILE='/usr/bin/crrpd'
+
+case $1 in
+    start)
+	if [ -f "$BIN_FILE" ] ; then
+        /bin/echo "crrpd start ..."
+        /usr/bin/crrpd 
+	fi
+	;;
+    stop)
+	if [ -f "$BIN_FILE" ] ; then
+		/bin/echo "crrpd stop ..."
+		if [ -f "$ID_FILE" ] ; then
+			CRRPD_ID=$(cat ${ID_FILE})
+			/bin/echo ${CRRPD_ID}
+			kill ${CRRPD_ID}
+			rm -f ${ID_FILE}
+		fi
+	fi
+	;;
+    *)
+	
+esac
+

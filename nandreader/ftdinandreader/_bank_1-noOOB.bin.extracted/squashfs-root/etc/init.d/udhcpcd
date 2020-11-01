@@ -1,0 +1,35 @@
+#!/bin/sh
+
+ID_FILE='/var/run/udhcpc.pid'
+BIN_FILE='/sbin/udhcpc'
+INTF='veth0'
+HOSTNAME=`hostname`
+HOSTNAME=${HOSTNAME%%.*} # use only the host part of the FQDN
+
+case $1 in
+    start)
+    ifconfig $INTF up
+	# start udhcpcd
+	if [ -f "$BIN_FILE" ] ; then
+		/bin/echo "udhcpcd start ..."
+		/sbin/udhcpc -d -H $HOSTNAME -i $INTF 
+	fi
+	;;
+    stop)
+	# stop udhcpcd
+	if [ -f "$BIN_FILE" ] ; then
+		/bin/echo "udhcpcd stop ..."
+		if [ -f "$ID_FILE" ] ; then
+			UDHCPCD_ID=$(cat ${ID_FILE})
+			/bin/echo ${UDHCPCD_ID}
+			kill ${UDHCPCD_ID}
+			rm -f ${ID_FILE}
+		fi
+	fi
+	;;
+    *)
+	
+esac
+
+
+

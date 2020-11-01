@@ -1,0 +1,31 @@
+#!/bin/sh
+
+ID_FILE='/var/run/omcid'
+BIN_FILE='/usr/bin/omcid'
+BIN_PATH=/usr/bin/omcid
+
+case $1 in
+    start)
+	# start omcid 
+	if [ -f "$BIN_FILE" ] ; then
+		/bin/echo "omcid start ..."
+          ${BIN_PATH} & 
+	fi
+	;;
+    stop)
+	# stop omcid
+	if [ -f "$BIN_FILE" ] ; then
+            /bin/echo "omcid stop ..."
+		if [ -f "$ID_FILE" ] ; then
+      OMCID_ID=$(cat ${ID_FILE});
+      /bin/echo ${OMCID_ID}
+      kill ${OMCID_ID}
+			rm -f ${ID_FILE}
+		fi
+	fi
+  ;;
+    *)
+	
+esac
+
+

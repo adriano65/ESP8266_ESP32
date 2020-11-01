@@ -1,0 +1,2 @@
+LPD queue add name=q1 type=Raw default=yes
+LPD config state=enabled

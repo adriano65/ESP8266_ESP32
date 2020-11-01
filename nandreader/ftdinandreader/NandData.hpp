@@ -8,14 +8,14 @@ using namespace std;
 
 class NandData {
 public:
-	NandData(FtdiNand *ftdi, NandID *id);
-	virtual int readPage(int pageno, char *buf, int max);
-	virtual int readOob(int pageno, char *buf, int max);
-	virtual int writePage(int pageno, char *buf, int len);
+	NandData(FtdiNand *, NandID *);
+	virtual int readPage(int pageno, unsigned char *buf, int len);
+	virtual int readOob(int pageno, unsigned char *buf);
+	virtual int writePage(int pageno, unsigned char *buf, int len);
 	virtual int erasePage(int page);
 protected:
-	FtdiNand *m_ft;
-	NandID *m_id;
+	FtdiNand *pFtdiNand;
+	NandID *pNandID;
 };
 
 #endif
