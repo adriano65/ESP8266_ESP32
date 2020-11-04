@@ -1,3 +1,0 @@
-:mbus debug loadobjects dmtree atomic path Users
-instadd name=remoteaccess
-config name=remoteaccess state=disabled secure=enabled port=0 timeout=20 mode=Permanent ipintf="" randompassword=disabled randomport=disabled group=Users.Group.TechnicalSupport user=Users.User.remoteadmin todschedule="" systemservice=GUI

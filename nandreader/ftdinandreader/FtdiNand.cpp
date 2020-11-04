@@ -20,13 +20,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdlib.h>
 #include <unistd.h>
 #include "FtdiNand.hpp"
+#include "NandCmds.h"
 
 //Masks for the address lines (for addrh) the various nand latch lines are connected to.
-// #CE -> BDBUS0
-//#define ADR_CE 0x10     // ACBUS4 --> TO TEST
-#define ADR_WP 0x20     // ACBUS5   - Nand Pin 19 Active low --> Write protect Active
-#define ADR_CL 0x40     // ACBUS6
-#define ADR_AL 0x80     // ACBUS7
+#define ACBUS5_WP 0x20     // ACBUS5   - Nand Pin 19 Active low --> Write protect Active
+#define ACBUS6_CL 0x40     // ACBUS6
+#define ACBUS7_AL 0x80     // ACBUS7
+
+FtdiNand::FtdiNand() {
+	m_rbErrorCount=0;
+}
+
+//Destructor: Close everything.
+FtdiNand::~FtdiNand(void) {
+  EnableRead(false);
+	ftdi_usb_close(&m_ftdi);
+	ftdi_deinit(&m_ftdi);
+}
 
 //Error handling routine.
 int FtdiNand::error(const char *err) {
@@ -42,11 +52,87 @@ int FtdiNand::nandRead(int cl, int al, unsigned char *buf, int count) {
 	int x, i, bytesread;
 	i=0;
 	//Construct read commands. First one sets the cl and al lines too, rest just reads.
+  cmds[i++]=READ_EXTENDED;
+  cmds[i++] = (cl ? ACBUS6_CL : 0) | (al ? ACBUS7_AL : 0);
+  cmds[i++] = 0;
+
+	for (x=i; x<count; x++) {
+    cmds[i++]=READ_SHORT;
+    cmds[i++]=0;
+	  }
+	cmds[i++]=SEND_IMMEDIATE;
+
+//	printf("Cmd:\n");
+//	for (x=0; x<i; x++) printf("%02hhx %s", cmds[x], ((x&15)==15)?"\n":"");
+//	printf("\n\n");
+
+	if (ftdi_write_data(&m_ftdi, cmds, i)<0) return error("writing cmd");
+	if (m_slowAccess) {
+		//Div by 5 mode makes the ftdi-chip return all databytes double. Compensate for that.
+		bytesread=ftdi_read_data(&m_ftdi, ftdata, count*2);
+		for (x=0; x<count; x++) buf[x]=ftdata[x*2];
+		bytesread/=2;
+	  }
+  else {
+		bytesread=ftdi_read_data(&m_ftdi, ftdata, count);
+		for (x=0; x<count; x++) 
+      buf[x]=ftdata[x];
+	}
+	
+	//if (ftdi_usb_purge_buffers(&m_ftdi)<0) return error("ftdi_usb_purge_buffers");
+
+	if (bytesread<0) return error("reading data");
+	//printf("%i bytes read.\n", bytesread); for (x=0; x<bytesread; x++) printf("0x%04X 0x%02X\n", x, ftdata[x]);
+  //if (bytesread<count) return error("short read");
+	delete[] cmds;
+	delete[] ftdata;
+	return bytesread;
+}
+
+//Write bytes to the nand, with al/cl set as indicated.
+int FtdiNand::nandWrite(int cl, int al, unsigned char *buf, int count) {
+	unsigned char *cmds=new unsigned char[count*3+1];
+	int x, i, byteswritten;
+	i=0;
+
+	//Construct write commands. First one sets the cl and al lines too, rest just reads.
+	for (x=0; x<count; x++) {
+		if (x==0) {
+			cmds[i++]=WRITE_EXTENDED;
+			cmds[i++] = (cl ? ACBUS6_CL : 0) | (al ? ACBUS7_AL : 0) | ACBUS5_WP;
+			cmds[i++]=00;       // Address low ( ADBUS )
+		  }
+    else {
+			cmds[i++]=WRITE_SHORT;
+			cmds[i++]=00;      // Address low ( ADBUS )
+		  }
+		cmds[i++]=buf[x];             // Data ( ADBUS )
+	}
+
+//	printf("Cmd:\n");
+//	for (x=0; x<i; x++) printf("%02hhx %s", cmds[x], ((x&15)==15)?"\n":"");
+//	printf("\n\n");
+
+	if ((byteswritten=ftdi_write_data(&m_ftdi, cmds, i))<0) {error("writing cmds"); }
+	//printf("byteswritten: %i\n", byteswritten);
+
+	delete[] cmds;
+	return count;
+}
+
+//Read bytes from the nand, with the cl and al lines set as indicated.
+int FtdiNand::nandRead_ori(int cl, int al, unsigned char *buf, int count) {
+	unsigned char *cmds=new unsigned char[count*2+2];
+	unsigned char *ftdata=new unsigned char[count*2];
+	int x, i, bytesread;
+	i=0;
+	//Construct read commands. First one sets the cl and al lines too, rest just reads.
 	for (x=0; x<count; x++) {
 		if (x==0) {
 			cmds[i++]=READ_EXTENDED;
-			cmds[i++]=0xFF & ((cl?ADR_CL:0) | (al?ADR_AL:0) | ADR_WP);
-			cmds[i++]=ADDRESS_LOW;
+			//cmds[i++] = (cl ? ACBUS6_CL : 0) | (al ? ADR_AL : 0) | ACBUS5_WP;
+			cmds[i++] = (cl ? ACBUS6_CL : 0) | (al ? ACBUS7_AL : 0);
+			cmds[i++]=00;
 		} else {
 			cmds[i++]=READ_SHORT;
 			cmds[i++]=0;
@@ -71,31 +157,32 @@ int FtdiNand::nandRead(int cl, int al, unsigned char *buf, int count) {
       buf[x]=ftdata[x];
 	}
 
+	//if (ftdi_usb_purge_buffers(&m_ftdi)<0) return error("ftdi_usb_purge_buffers");
+
 	if (bytesread<0) return error("reading data");
 	if (bytesread<count) return error("short read");
-	//printf("%i bytes read.\n", bytesread); for (x=0; x<bytesread; x++) printf("0%i 0x%02X\n", x, ftdata[x]);
+	//printf("%i bytes read.\n", bytesread); for (x=0; x<bytesread; x++) printf("0x%04X 0x%02X\n", x, ftdata[x]);
 	delete[] cmds;
 	delete[] ftdata;
 	return bytesread;
 }
 
 //Write bytes to the nand, with al/cl set as indicated.
-int FtdiNand::nandWrite(int cl, int al, unsigned char *buf, int count) {
+int FtdiNand::nandWrite_ori(int cl, int al, unsigned char *buf, int count) {
 	unsigned char *cmds=new unsigned char[count*3+1];
-	int x, i;
+	int x, i, byteswritten;
 	i=0;
 
-  //EnableWrite(true);
 	//Construct write commands. First one sets the cl and al lines too, rest just reads.
 	for (x=0; x<count; x++) {
 		if (x==0) {
 			cmds[i++]=WRITE_EXTENDED;
-			cmds[i++] = 0xFF & ((cl ? ADR_CL : 0) | (al ? ADR_AL : 0) | ADR_WP);   // Address High ( ACBUS )
-			cmds[i++]=ADDRESS_LOW;       // Address low ( ADBUS )
+			cmds[i++] = (cl ? ACBUS6_CL : 0) | (al ? ACBUS7_AL : 0) | ACBUS5_WP;
+			cmds[i++]=00;       // Address low ( ADBUS )
 		  }
     else {
 			cmds[i++]=WRITE_SHORT;
-			cmds[i++]=ADDRESS_LOW;      // Address low ( ADBUS )
+			cmds[i++]=00;      // Address low ( ADBUS )
 		  }
 		cmds[i++]=buf[x];             // Data ( ADBUS )
 	}
@@ -104,41 +191,29 @@ int FtdiNand::nandWrite(int cl, int al, unsigned char *buf, int count) {
 //	for (x=0; x<i; x++) printf("%02hhx %s", cmds[x], ((x&15)==15)?"\n":"");
 //	printf("\n\n");
 
-	if (ftdi_write_data(&m_ftdi, cmds, i)<0) {error("writing cmd"); }
-  //EnableWrite(false);
+	if ((byteswritten=ftdi_write_data(&m_ftdi, cmds, i))<0) {error("writing cmds"); }
+	printf("byteswritten: %i\n", byteswritten);
 
 	delete[] cmds;
-
 	return count;
 }
 
-FtdiNand::FtdiNand() {
-	m_rbErrorCount=0;
-}
 // BDBUS7 is on bit1 of byte (I/O 1)!!
 // BDBUS6 is on bit0 of byte (I/O 0)!!
 void FtdiNand::EnableRead(bool bEnable) {
   // BDBUS0 --> nc   FTDI #CS
   // BDBUS1 --> nc   FTDI ALE
-  // BDBUS2 --> #RE   -- read enable ~(0x04)
-  // BDBUS3 --> #WE   -- write enable ~(0x08)
+  // BDBUS2 --> #RE  read enable
+  // BDBUS3 --> #WE  write enable
   // BDBUS4 --> nc   FTDI IORDY
-  // BDBUS6 --> #CE  FTDI I/O0 pin 45  -- chip enable ~(0x40)
-  // BDBUS7 --> R/#B  -- input Ready or #Busy chip enable ~(0x80)
+  // BDBUS6 --> #CE  FTDI I/O0 pin 45
+  // BDBUS7 --> R/#B  -- input Ready or #Busy
 	unsigned char crtl_buf[3];
   crtl_buf[0] = SET_BITS_HIGH;   // BDBUS
-  crtl_buf[1] = bEnable ? 0b11111110 : 0x7F;       // pinState -- BD6 -> #CE 0x40 is low
-  crtl_buf[2] = bEnable ? 0x01 : 0x00;         // pinDirection 0=in, 1=out   -- only R/#B is input
+  crtl_buf[1] = bEnable ? 0b11111110 : 0x7F;    // pinState
+  crtl_buf[2] = bEnable ? 0x01 : 0x00;          // pinDirection 0=in, 1=out   -- only R/#B is input
   if ( ftdi_write_data(&m_ftdi, crtl_buf, 3) < 0 ) error("SET_BITS_HIGH fail");
-  usleep(100000);
-}
-
-void FtdiNand::EnableWrite(bool bEnable) {
-	unsigned char crtl_buf[3];
-  crtl_buf[0] = SET_BITS_HIGH;
-  crtl_buf[1] = bEnable ? 0b10111111 : 0xFF;       // pinState -- #CE 0x40 is low  -- #WE 0x80
-  crtl_buf[2] = 0x7F;       // pinDirection 0=in, 1=out   -- only R/#B is input
-  if ( ftdi_write_data(&m_ftdi, crtl_buf, 3) < 0 ) error("SET_BITS_HIGH fail");
+  usleep(10000);
 }
 
 //Try to find the ftdi chip and open it.
@@ -153,23 +228,14 @@ int FtdiNand::open(int vid, int pid, bool doslow) {
 	//Open FTDI communications
 	if (ftdi_init(&m_ftdi)<0) return error("ftdi_init");
 	if (ftdi_usb_open(&m_ftdi, vid, pid)<0) return error("open");
-	//if (ftdi_set_bitmode(&m_ftdi, 0, BITMODE_MCU)<0) error("bitmode");
-	if (ftdi_set_bitmode(&m_ftdi, 0xFF, BITMODE_MCU)<0) error("bitmode");
+	if (ftdi_set_bitmode(&m_ftdi, 0, BITMODE_MCU)<0) error("bitmode");
 	if (ftdi_write_data(&m_ftdi, &slow, 1)<0) return error("writing div5 cmd");
 	if (ftdi_set_latency_timer(&m_ftdi, 1)<0) return error("setting latency");
-	ftdi_usb_purge_buffers(&m_ftdi);
+	if (ftdi_usb_purge_buffers(&m_ftdi)<0) return error("ftdi_usb_purge_buffers");
   EnableRead(true);
 	return 1;
 }
 
-//Destructor: Close everything.
-FtdiNand::~FtdiNand(void) {
-  EnableRead(false);
-	ftdi_usb_close(&m_ftdi);
-	ftdi_deinit(&m_ftdi);
-}
-
-#define NAND_CMD_STATUS 0x70
 unsigned char FtdiNand::status() {
 	unsigned char status;
 	sendCmd(NAND_CMD_STATUS);
@@ -187,11 +253,33 @@ int FtdiNand::sendCmd(unsigned char cmd) {
 int FtdiNand::sendAddr(long long addr, int noBytes) {
 	unsigned char buff[10];
 	int x;
-	for (x=0; x<noBytes; x++) {
-		buff[x]=addr&0xff;
-		addr=addr>>8;
-	}
-	nandWrite(0, 1, buff, noBytes);
+  switch (noBytes) {
+  case 2:
+    buff[0]= addr&0xFF;
+    buff[1]=(addr&0x00F00)>>8;
+    //buff[1]= addr&0xFF;
+    //buff[0]=(addr&0x00F00)>>8;
+    break;
+  
+  case 4:
+    buff[0]= addr&0xFF;
+    buff[1]=(addr&0x00F00)>>8;
+    buff[2]=(addr&0xFF000)>>12;
+    buff[3]=(addr&0xFF00000)>>20;
+    //buff[3]= addr&0xFF;
+    //buff[2]=(addr&0x00F00)>>8;
+    //buff[1]=(addr&0xFF000)>>12;
+    //buff[0]=(addr&0xFF00000)>>20;
+    break;
+
+  default:
+    for (x=0; x<noBytes; x++) {
+      buff[x]=addr&0xff;
+      addr=addr>>8;
+      }
+    break;
+    }
+	return nandWrite(0, 1, buff, noBytes);
 }
 
 //Write data to the flash.

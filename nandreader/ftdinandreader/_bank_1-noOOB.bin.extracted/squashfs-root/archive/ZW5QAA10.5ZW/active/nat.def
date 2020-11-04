@@ -1,8 +1,0 @@
-ifconfig intf=Telecom_Italia translation=enabled
-ifconfig intf=ppp_0 translation=disabled
-mapadd intf=LocalNetwork type=napt inside_addr=192.168.1.254 protocol=tcp outside_port=139 outside_addr=192.168.1.1 inside_port=139
-tmpladd intf=Telecom_Italia type=nat outside_addr=0.0.0.1 inside_addr=127.0.0.1 protocol=icmp outside_port=8 inside_port=8
-tmpladd intf=IPTV type=nat inside_addr=192.168.1.2-192.168.1.254 outside_addr=0.0.0.1 
-ifconfig intf IPTV translation disabled
-
-

@@ -1,7 +1,0 @@
-mode add name=NONE maininterval=25 scriptname=TI-auto-sensing-script
-mode add name=ADSL maininterval=25 scriptname=TI-adsl-script
-mode add name=ETH maininterval=25 scriptname=TI-eth-script
-mode add name=VDSL maininterval=25 scriptname=TI-vdsl-script
-requestmode mode=NONE
-config state=enabled errorinterval=60 errorscript=TI-error-script
-

@@ -26,8 +26,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "NandChip.hpp"
 #include "NandData.hpp"
-#include "NandDataLP.hpp"
-#include "NandDataSP.hpp"
 #include "NandCmds.h"
 #include "bch.h"
 
@@ -35,16 +33,52 @@ NandChip::NandChip() {
   accessType=NandChip::accessMain;
   pageSize=0;
   erasepageSize=0;
-  start_address=-1;
-  end_address=-1;
+  start_address=0;
+  start_erasepageno=0;
+  end_address=0;
 	doSlow=false;
   }
 
+NandChip::AddressCheck NandChip::checkAddresses() {
+  if (end_address == 0) { 
+    end_address = (pNandID->getSizeMB()*1024L*1024L); 
+    end_pageno=(pNandID->getSizeMB()*1024L*1024L)/pNandID->getPageSize();
+    }
+
+  if (start_address%erasepageSize == 0) { start_erasepageno=start_address/erasepageSize; }
+  else {
+    printf("Misaligned start_address for erasing: use 0x%08X\n", (unsigned long)(start_address/erasepageSize)*erasepageSize);
+    return BadEraseStart;
+    }
+
+  if (start_address%pageSize == 0) { start_pageno=start_address/pageSize; }
+  else { 
+    printf("Misaligned start_address for R/W: use 0x%08X\n", (unsigned long)(start_address/pageSize)*pageSize); 
+    return BadStart;
+    }
+
+  if (end_address%erasepageSize == 0) { end_erasepageno=end_address/erasepageSize; }
+  else {
+    printf("Misaligned end_address for erasing: use 0x%08X\n", (unsigned long)(end_address/erasepageSize)*erasepageSize);
+    return BadEraseEnd;
+    }
+
+  if (end_address%pageSize == 0) { end_pageno=end_address/pageSize; }
+  else { 
+    printf("Misaligned end_address for R/W: use 0x%08X\n", (unsigned long)(end_address/pageSize)*pageSize);
+    return BadEnd;
+    }
+  return OK;
+}
+
+#ifdef BITBANG_MODE
+int NandChip::open(FtdiNand_BB *_pFtdiNand) {
+#else
 int NandChip::open(FtdiNand *_pFtdiNand) {
+#endif
 	unsigned char id[5];
   
 	pFtdiNand=_pFtdiNand;
-	//Try to read the 5 NAND ID-bytes and create the ID-object
 	pFtdiNand->sendCmd(NAND_CMD_RESET);
 	pFtdiNand->sendAddr(0, 1);
 
@@ -52,87 +86,72 @@ int NandChip::open(FtdiNand *_pFtdiNand) {
 	pFtdiNand->sendAddr(0, 1);
 	pFtdiNand->readData(id, 5);
 	pNandID=new NandID(id);
-	//We use a different data object for large- and small-page devices
-	if (pNandID->isLargePage()) {
-		pNandData=new NandDataLP(_pFtdiNand, pNandID);
-	  }
-  else {
-		pNandData=new NandDataSP(_pFtdiNand, pNandID);
-	  }
 
-switch (accessType) {
-  case accessMain:
-    pageSize=pNandID->getPageSize();
-    break;
-  case recalcOOB:
-    pageSize=pNandID->getOobSize()+pNandID->getPageSize();
-    break;
-  case accessBoth:
-    pageSize=pNandID->getOobSize()+pNandID->getPageSize();
-    break;
+  pNandData=new NandData(_pFtdiNand, pNandID);
 
-  default:
-    break;
-  }
-  pageBuf=new unsigned char[pNandID->getOobSize()+pNandID->getPageSize()];
+  //pageSize=pNandID->getfullPageSz();
+  //erasepageSize=pNandID->getfullEraseSz();
+  pageSize=pNandID->getPageSize();
+  erasepageSize=pNandID->getEraseSz();
+  pageBuf=new unsigned char[pageSize];
 
-  if (start_address == -1) { 
-    start_address=start_pageno=start_erasepageno = 0;
-    }
-  else { 
-    start_pageno=start_address/pageSize;
-    start_erasepageno=start_address/pNandID->getEraseSz();
-    }
-  if (end_address == -1) { 
-    pages=(pNandID->getSizeMB()*1024L*1024L)/pNandID->getPageSize();
-    end_address = pages*pageSize; 
-    end_pageno=pages;
-    }
-  else { 
-      end_pageno=end_address/pageSize;
-      end_erasepageno=end_address/pNandID->getEraseSz();
-      pages = end_pageno;
-      }
-
+  return checkAddresses();
 }
 
 NandChip::~NandChip() {
 	delete pNandID;
 }
 
-void NandChip::showInfo() {
-	//Dump some info.
-	printf("Nand type: %s\n", pNandID->getDesc().c_str());
-	printf("Manufacturer: %s\n", pNandID->getManufacturer().c_str());
-	printf("Size: %iMB, pagesize %i bytes, OOB size %i bytes, erasepage size %i\n", pNandID->getSizeMB(), pNandID->getPageSize(), pNandID->getOobSize(), pNandID->getEraseSz());
-	printf("%s page, needs %i addr bytes.\n", pNandID->isLargePage()?"Large":"Small",  pNandID->getAddrByteCount());
-}
-
-int NandChip::readPage(int page) {
+int NandChip::readPage(unsigned long address) {
   //r=pNandData->readOob(page, &pageBuf[r], pageSize);
-	return pNandData->readPage(page, pageBuf, pageSize);;
+	return pNandData->readPage(address, pageBuf, pageSize);;
 }
 
-int NandChip::writePage(int page) {
-	//Can't read/writeback main or OOB data here because the erase size usually is bigger than the page size...
-	//if (access != NandChip::accessBoth) {
-	//	printf("Writing of only main / OOB data isn't supported yet.\n");
-	//	exit(0);
-	//}
+int NandChip::writePage(unsigned long address) {
   if (accessType=NandChip::recalcOOB) {   // original file must have old OOB !!
-    brcm_nand(0, pageBuf);   //default polynomial
+    brcm_nand(0, pageBuf);                //default polynomial
     }
-	return pNandData->writePage(page, pageBuf, pageSize);
+	return pNandData->writePage(address, pageBuf, pageSize);
 }
 
-int NandChip::erasePage(int page) {
-	pNandData->erasePage(page);
+int NandChip::erasePage(unsigned int page) {
+	return pNandData->erasePage(page);
 }
 
 NandID *NandChip::getIdPtr() {
 	return pNandID;
 }
 
+
+/*
+// EFh(cmd)-90h(addr)-08h(data)-00h(data)-00h(data)-00h(data) --> enable
+int set_ecc(unsigned char enable) {
+  unsigned char data[4] = { 0x00, 0x00, 0x00, 0x00 };
+  if (enable) data[0]=0x08;
+
+  latch_command(CMD_EN_ECC, 1);
+
+  // address
+  controlbus_pin_set(PIN_ALE, HIGH);
+  controlbus_update_output();
+  controlbus_pin_set(PIN_nWE, LOW);
+  controlbus_update_output();
+  usleep(REALWORLD_DELAY);
+  iobus_value=0x90;       // Address 
+  iobus_update_output();
+  usleep(REALWORLD_DELAY);
+  controlbus_pin_set(PIN_nWE, HIGH);  // toggle nWE back high (acts as clock to latch the current address byte!)
+  controlbus_update_output();
+  usleep(REALWORLD_DELAY);
+  controlbus_pin_set(PIN_ALE, LOW);
+  controlbus_update_output();
+
+
+  latch_data_out(data, 4);
+
+  return 1;
+}
+*/
 
 
 /**

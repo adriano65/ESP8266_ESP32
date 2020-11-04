@@ -1,3 +1,0 @@
-config format=bytes
-ctdadd name=default conformance=UBR
-add name=default txctd=default rxctd=default

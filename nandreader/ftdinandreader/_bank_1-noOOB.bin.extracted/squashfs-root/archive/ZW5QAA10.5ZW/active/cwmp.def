@@ -1,5 +1,0 @@
-config state=enabled mode=full periodicInform=disabled periodicInfInt=43200 sessionTimeout=60 noIpTimeout=180 maxEnvelopes=1 connectionRequest=enabled connectionReqPath=ConnectionRequest connectionReqUserName="" connectionReqPsswd="" connectionReqAuth=none qos-class=12 bootdelayrange=0 persistentSubscription=enabled am1Termination=enabled upgradedelay=enabled rpcupload=enabled
-server config url=https://regman-tl.interbusiness.it:10500/acs/ username=0018F6-Thomson-AGBasAdv password=C72hjT7Bol8x76hnKoP3Yi2a
-debug traceconfig level=0
-runtimevar softwareVersion=Unknown bootstrap=disabled
-config showPasswords enabled

@@ -9,21 +9,28 @@ public:
 	NandID(unsigned char *idbytes);
 	string getManufacturer();
 	string getDesc();
-	int getPageSize();
-	int getSizeMB();
-	int getOobSize();
-  int getEraseSz();
+	unsigned int getPageSize();
+	unsigned int getSizeMB();
+	unsigned int getOobSize();
+  unsigned int getEraseSz();
 	bool isLargePage();
 	int getAddrByteCount();
   int getEraseAddrByteCount();
+  unsigned int getfullPageSz();
+  unsigned int getfullEraseSz();
+
 private:
 	typedef struct {
 		const char *name;
 		unsigned char id;
-		int pagesize;
-		int chipsizeMB;
-		int erasesize;
+		unsigned int pagesize;
+		unsigned int chipsizeMB;
+		unsigned int erasesize;
+		unsigned char addrByteCount;
+		unsigned char eraseAddrByteCount;
 		int options;
+		unsigned int fullpagesize;
+		unsigned int fullerasesize;
 	} DevCodes;
 	static const DevCodes m_devCodes[];
 	char m_idBytes[5];
@@ -35,6 +42,10 @@ private:
 	int m_nandEraseSz;
 	int m_nandChipSzMB;
 	bool m_nandIsLP;
+  unsigned char addrByteCount;
+  unsigned char eraseAddrByteCount;
+  unsigned int fullEraseSz;
+  unsigned int fullPageSz;
 };
 
 #endif

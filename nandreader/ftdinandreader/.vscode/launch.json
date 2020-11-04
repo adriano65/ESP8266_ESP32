@@ -9,9 +9,14 @@
       "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceFolder}/ftdinandreader",
+      //"args": ["-i"],
       //"args": ["-r", "kernel-OOB.bin", "-p", "0x2000000", "0x22A22F0"],
-      "args": ["-e", "-p", "0x2000000", "0x2300000"],
-      //"args": ["-w", "kernel_test.bin", "-p", "0x2000000", "0x2100000", "-t", "main"],
+      //"args": ["-e", "-p", "0x0", "0x63000"],
+      //"args": ["-w", "kernel/kernel_test.bin", "-p", "0x0", "0x63000"],
+      //"args": ["-r", "kernel_test_read", "-p", "0x2000000", "0x2100000"],
+      //"args": ["-r", "kernel_test_read", "-p", "0x0", "0x63000"],
+      "args": ["-r", "kernel_test_read", "-p", "0x0", "0x60000"],
+      //"args": ["-w", "kernel/kernel_test.bin", "-p", "0x01FF8000", "0x2100000"],
       
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",
@@ -26,8 +31,7 @@
         }
       ],
       "sourceFileMap": {
-        "ftdinandreader": "~/nandreader/libftdi1-1.5/src/ftdi.c",
-        "/build/gcc-9-NSfpi_/gcc-9-9.2.1/src": "/usr/src/gcc-9/gcc-9.2.0"
+        "ftdinandreader": "~/nandreader/libftdi1-1.5/src",
       }      
       //"sourceMapPathOverrides": {
       //  "/source/*": "${workspaceFolder}/*"

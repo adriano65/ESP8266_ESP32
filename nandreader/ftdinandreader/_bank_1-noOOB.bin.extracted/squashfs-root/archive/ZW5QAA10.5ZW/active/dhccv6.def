@@ -1,7 +1,0 @@
-ifadd intf=ppp_0
-ifconfig intf=ppp_0 iana=0 iapd=1 listenra=disabled rapidcommit=enabled dnsmetric 50
-oro add intf=ppp_0 option=domain-name-servers
-oro add intf=ppp_0 option=dhcp-reconfigure-accept
-ifattach intf=ppp_0
-
-debug traceconfig state=disabled

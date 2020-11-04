@@ -1,4 +1,0 @@
-service modify name=dyndns server=dyndns.it port=www-http request=/nic/update updateinterval=86400 retryinterval=30 max_retry=3
-service modify name=statdns server=members.dyndns.org port=www-http request=/nic/update updateinterval=86400 retryinterval=30 max_retry=3
-service modify name=No-IP server=dynupdate.no-ip.com port=www-http request=/ducupdate.php updateinterval=86400 retryinterval=30 max_retry=3
-service modify name=DtDNS server=www.dtdns.com port=www-http request=/api/autodns.cfm updateinterval=86400 retryinterval=30 max_retry=3

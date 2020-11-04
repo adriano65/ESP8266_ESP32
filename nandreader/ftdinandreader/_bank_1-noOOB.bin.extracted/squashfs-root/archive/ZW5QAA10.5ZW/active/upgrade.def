@@ -1,3 +1,0 @@
-profile add extension=sts destdir=dl maxsize(KBytes)=100 action=script_load
-profile add extension=ini destdir=dl maxsize(KBytes)=100 action=config_load
-

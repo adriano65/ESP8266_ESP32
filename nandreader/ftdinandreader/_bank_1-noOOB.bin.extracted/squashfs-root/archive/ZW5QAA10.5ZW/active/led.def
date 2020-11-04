@@ -1,2 +1,0 @@
-config infotimeout=6 alwayson=disabled checkinternetservice=enabled checkvoiceservice=enabled checkvideoservice=disabled
-

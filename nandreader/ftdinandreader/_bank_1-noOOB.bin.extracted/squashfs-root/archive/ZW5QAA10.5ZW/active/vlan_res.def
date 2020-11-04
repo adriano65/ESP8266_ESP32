@@ -1,6 +1,0 @@
-add name video vid 836
-add name data vid 835
-add name mgmt vid 837
-add name dummy vid 911
-priomap config entry=prio_0_7_2vlan priomap=1,1,2,2,0,0,3,1
-priomap config entry=prio_8_15_2vlan priomap=4,4,5,5,5,5,5,6

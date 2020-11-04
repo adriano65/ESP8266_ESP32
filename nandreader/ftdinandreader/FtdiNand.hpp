@@ -7,9 +7,6 @@ using namespace std;
 
 class FtdiNand {
 public:
-  #define ADDRESS_LOW 0x00
-  #define IOBUS_IN 0
-  #define IOBUS_OUT 0xFF
 	FtdiNand();
 	~FtdiNand();
 	int open(int vid, int pid, bool doslow);
@@ -25,6 +22,8 @@ private:
 	int error(const char *err);
 	int nandRead(int cl, int al, unsigned char *buf, int count);
 	int nandWrite(int cl, int al, unsigned char *buf, int count);
+	int nandRead_ori(int cl, int al, unsigned char *buf, int count);
+	int nandWrite_ori(int cl, int al, unsigned char *buf, int count);
 	struct ftdi_context m_ftdi;
 	bool m_slowAccess;
 	int m_rbErrorCount;

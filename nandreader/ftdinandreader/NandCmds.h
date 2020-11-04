@@ -28,3 +28,5 @@
 #define NAND_STATUS_IDLE 			(1<<5) /* HIGH - IDLE,  LOW - ACTIVE */
 #define NAND_STATUS_READY 			(1<<6) /* HIGH - READY, LOW - BUSY */
 #define NAND_STATUS_NOT_PROTECTED 	(1<<7) /* HIGH - NOT,   LOW - PROTECTED */
+
+//#define BITBANG_MODE

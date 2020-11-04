@@ -1,6 +1,0 @@
-qos config state=enabled nbrOfQueues=4 rxbackpressure=disabled txbackpressure=disabled realtime=enabled nbrOfRealtime=3
-qos ifconfig port=1 mode=acc_lan
-qos ifconfig port=2 mode=acc_lan
-qos ifconfig port=3 mode=acc_lan
-qos ifconfig port=4 mode=acc_lan
-qos ifconfig port=5 mode=acc_wan

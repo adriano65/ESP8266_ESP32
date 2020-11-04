@@ -23,33 +23,107 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include "NandCmds.h"
 #include "NandData.hpp"
 
 //Generic NAND data interface.
 
+#ifdef BITBANG_MODE
+NandData::NandData(FtdiNand_BB *_pFtdiNand, NandID *_pNandID) {
+#else
 NandData::NandData(FtdiNand *_pFtdiNand, NandID *_pNandID) {
+#endif
 	pFtdiNand=_pFtdiNand;
 	pNandID=_pNandID;
 }
 
-int NandData::readPage(int pageno, unsigned char *buf, int len) {
-	printf("readPage not supported for this device type.\n");
-	exit(0);
+int NandData::readPage(unsigned long startAddr, unsigned char *buff, int pageSize) {
+	char status=0;
+	pFtdiNand->sendCmd(NAND_CMD_READ0);
+	pFtdiNand->sendAddr(startAddr, pNandID->getAddrByteCount()+3+2);
+	pFtdiNand->sendCmd(NAND_CMD_READSTART);
+	pFtdiNand->waitReady();
+	return pFtdiNand->readData(buff, pageSize);
 }
 
-int NandData::readOob(int pageno, unsigned char *buf){
-	printf("readOob not supported for this device type.\n");
-	exit(0);
+int NandData::writePage(unsigned long startAddr, unsigned char *buff, int pageSize) {
+	pFtdiNand->sendCmd(NAND_CMD_SEQIN);
+	pFtdiNand->sendAddr(startAddr, pNandID->getAddrByteCount());
+	pFtdiNand->writeData(buff, pageSize);
+	pFtdiNand->sendCmd(NAND_CMD_PAGEPROG);
+	pFtdiNand->waitReady();
+	return !(pFtdiNand->status() & NAND_STATUS_FAIL);
 }
 
-int NandData::writePage(int pageno, unsigned char *buf, int len){
-	printf("writePage not supported for this device type.\n");
-	exit(0);
+int NandData::erasePage(unsigned int pageno) {
+	pFtdiNand->sendCmd(NAND_CMD_ERASE1);
+	pFtdiNand->sendAddr(pageno, pNandID->getEraseAddrByteCount());
+	pFtdiNand->sendCmd(NAND_CMD_ERASE2);
+	pFtdiNand->waitReady();
+	int status = pFtdiNand->status();
+	return !(status & NAND_STATUS_FAIL);
 }
 
-int NandData::erasePage(int page){
-	printf("erasePage not supported for this device type.\n");
-	exit(0);
+
+
+int NandData::readPageSP(unsigned long pageno, unsigned char *buff) {
+	char status=0;
+	int n, max;
+	pFtdiNand->sendCmd(NAND_CMD_READ0);
+	pFtdiNand->sendAddr(pageno<<8L, pNandID->getAddrByteCount());
+	pFtdiNand->waitReady();
+	n=pFtdiNand->readData(buff, max>256 ? 256 : max);
+	max-=256;
+	pFtdiNand->sendCmd(NAND_CMD_READ1);
+	pFtdiNand->sendAddr(pageno<<8L, pNandID->getAddrByteCount());
+	pFtdiNand->waitReady();
+	n+=pFtdiNand->readData(buff+256, max>256?256:max);
+	return n;
+}
+
+int NandData::writePageSP(unsigned long pageno, unsigned char *buff, int len) {
+	unsigned char err=0;
+	/*
+	pFtdiNand->sendCmd(NAND_CMD_SEQIN);
+	pFtdiNand->sendAddr(pageno << 8L, pNandID->getAddrByteCount());
+	printf("writePage len=%x\n", len);
+	pFtdiNand->writeData(buff, len);
+	pFtdiNand->sendCmd(NAND_CMD_PAGEPROG);
+	if ((err = pFtdiNand->status()) & NAND_STATUS_FAIL) return err;
+	printf("writePage err=%x\n", err);
+  */
+	
+	pFtdiNand->sendCmd(NAND_CMD_READ0);
+	pFtdiNand->sendCmd(NAND_CMD_SEQIN);
+	pFtdiNand->sendAddr(pageno<<8L, pNandID->getAddrByteCount());
+	pFtdiNand->writeData(buff, len>256 ? 256 : len);
+	len-=256;
+	pFtdiNand->sendCmd(NAND_CMD_PAGEPROG);
+	if ((err=pFtdiNand->status()) & NAND_STATUS_FAIL) return err;
+
+	pFtdiNand->sendCmd(NAND_CMD_READ1);
+	pFtdiNand->sendCmd(NAND_CMD_SEQIN);
+	pFtdiNand->sendAddr(pageno<<8L, pNandID->getAddrByteCount());
+	pFtdiNand->writeData(buff+256,len>256?256:len);
+	len-=256;
+	pFtdiNand->sendCmd(NAND_CMD_PAGEPROG);
+	if ((err=pFtdiNand->status()) & NAND_STATUS_FAIL) return err;
+
+	pFtdiNand->sendCmd(NAND_CMD_READOOB);
+	pFtdiNand->sendCmd(NAND_CMD_SEQIN);
+	pFtdiNand->sendAddr(pageno<<8L, pNandID->getAddrByteCount());
+	pFtdiNand->writeData(buff+512,len>16?16:len);
+	pFtdiNand->sendCmd(NAND_CMD_PAGEPROG);
+	return !(pFtdiNand->status() & NAND_STATUS_FAIL);
+}
+
+int NandData::erasePageSP(unsigned int pageno) {
+	pFtdiNand->sendCmd(NAND_CMD_ERASE1);
+	pFtdiNand->sendAddr(pageno, pNandID->getAddrByteCount());
+	pFtdiNand->sendCmd(NAND_CMD_ERASE2);
+	pFtdiNand->waitReady();
+	int status = pFtdiNand->status();
+	return !(status & NAND_STATUS_FAIL);
 }
 
 

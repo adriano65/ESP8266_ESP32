@@ -1,8 +1,0 @@
-settime timezone=+01:00 daylightsaving=enabled
-config upnp=disabled mdap=disabled drst=disabled resetbutton=enabled
-config digestauth=enabled
-config autosave=disabled
-config defaultconnection ppp_0
-locale dec_symbol=, group_symbol=. date_separator=- date_format=ddmmyyyy time_format=iso datetime_format=date+time duration_format=dhmmss
-settime date 01/05/2011 
-dst mode Relative

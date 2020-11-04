@@ -1,3 +1,0 @@
-ifconfig intf=LocalNetwork status=enabled interfaceid=enabled 
-add name=LocalNetwork_to_loop
-modify name=LocalNetwork_to_loop addr=::1 intf=LocalNetwork

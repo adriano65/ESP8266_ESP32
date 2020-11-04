@@ -26,89 +26,89 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //Table is 'borrowed' from the Linux kernel: drivers/mtd/nandids.c
 //Copyright (C) 2002 Thomas Gleixner (tglx@linutronix.de)
 //Modified to get rid of the 16-bit devices: we don't support these.
-//Name. ID code, pagesize, chipsize in MegaByte, eraseblock size, options
+//Name. ID code, pagesize, chipsize in MegaByte, eraseblock size, addrByteCount, eraseAddrByteCount options
 const NandID::DevCodes NandID::m_devCodes[]={
-	{"NAND 1MiB 5V 8-bit",		0x6e, 256, 1, 0x1000, 0},
-	{"NAND 2MiB 5V 8-bit",		0x64, 256, 2, 0x1000, 0},
-	{"NAND 4MiB 5V 8-bit",		0x6b, 512, 4, 0x2000, 0},
-	{"NAND 1MiB 3,3V 8-bit",	0xe8, 256, 1, 0x1000, 0},
-	{"NAND 1MiB 3,3V 8-bit",	0xec, 256, 1, 0x1000, 0},
-	{"NAND 2MiB 3,3V 8-bit",	0xea, 256, 2, 0x1000, 0},
-	{"NAND 4MiB 3,3V 8-bit",	0xd5, 512, 4, 0x2000, 0},
-	{"NAND 4MiB 3,3V 8-bit",	0xe3, 512, 4, 0x2000, 0},
-	{"NAND 4MiB 3,3V 8-bit",	0xe5, 512, 4, 0x2000, 0},
-	{"NAND 8MiB 3,3V 8-bit",	0xd6, 512, 8, 0x2000, 0},
+	{"NAND 2MiB 5V 8-bit",		0x64, 256, 2, 0x1000, 0, 0, 0},
+	{"NAND 1MiB 5V 8-bit",		0x6e, 256, 1, 0x1000, 0, 0, 0},
+	{"NAND 4MiB 5V 8-bit",		0x6b, 512, 4, 0x2000, 0, 0, 0},
+	{"NAND 1MiB 3,3V 8-bit",	0xe8, 256, 1, 0x1000, 0, 0, 0},
+	{"NAND 1MiB 3,3V 8-bit",	0xec, 256, 1, 0x1000, 0, 0, 0},
+	{"NAND 2MiB 3,3V 8-bit",	0xea, 256, 2, 0x1000, 0, 0, 0},
+	{"NAND 4MiB 3,3V 8-bit",	0xd5, 512, 4, 0x2000, 0, 0, 0},
+	{"NAND 4MiB 3,3V 8-bit",	0xe3, 512, 4, 0x2000, 0, 0, 0},
+	{"NAND 4MiB 3,3V 8-bit",	0xe5, 512, 4, 0x2000, 0, 0, 0},
+	{"NAND 8MiB 3,3V 8-bit",	0xd6, 512, 8, 0x2000, 0, 0, 0},
 
-	{"NAND 8MiB 1,8V 8-bit",	0x39, 512, 8, 0x2000, 0},
-	{"NAND 8MiB 3,3V 8-bit",	0xe6, 512, 8, 0x2000, 0},
+	{"NAND 8MiB 1,8V 8-bit",	0x39, 512, 8, 0x2000, 0, 0, 0},
+	{"NAND 8MiB 3,3V 8-bit",	0xe6, 512, 8, 0x2000, 0, 0, 0},
 
-	{"NAND 16MiB 1,8V 8-bit",	0x33, 512, 16, 0x4000, 0},
-	{"NAND 16MiB 3,3V 8-bit",	0x73, 512, 16, 0x4000, 0},
+	{"NAND 16MiB 1,8V 8-bit",	0x33, 512, 16, 0x4000, 0, 0, 0},
+	{"NAND 16MiB 3,3V 8-bit",	0x73, 512, 16, 0x4000, 0, 0, 0},
 
-	{"NAND 32MiB 1,8V 8-bit",	0x35, 512, 32, 0x4000, 0},
-	{"NAND 32MiB 3,3V 8-bit",	0x75, 512, 32, 0x4000, 0},
+	{"NAND 32MiB 1,8V 8-bit",	0x35, 512, 32, 0x4000, 0, 0, 0},
+	{"NAND 32MiB 3,3V 8-bit",	0x75, 512, 32, 0x4000, 0, 0, 0},
 
-	{"NAND 64MiB 1,8V 8-bit",	0x36, 512, 64, 0x4000, 0},
-	{"NAND 64MiB 3,3V 8-bit",	0x76, 512, 64, 0x4000, 0},
+	{"NAND 64MiB 1,8V 8-bit",	0x36, 512, 64, 0x4000, 0, 0, 0},
+	{"NAND 64MiB 3,3V 8-bit",	0x76, 512, 64, 0x4000, 0, 0, 0},
 
-	{"NAND 128MiB 1,8V 8-bit",	0x78, 512, 128, 0x4000, 0},
-	{"NAND 128MiB 1,8V 8-bit",	0x39, 512, 128, 0x4000, 0},
-	{"NAND 128MiB 3,3V 8-bit",	0x79, 512, 128, 0x4000, 0},
+	{"NAND 128MiB 1,8V 8-bit",	0x78, 512, 128, 0x4000, 0, 0, 0},
+	{"NAND 128MiB 1,8V 8-bit",	0x39, 512, 128, 0x4000, 0, 0, 0},
+	{"NAND 128MiB 3,3V 8-bit",	0x79, 512, 128, 0x4000, 0, 0, 0},
 
-	{"NAND 256MiB 3,3V 8-bit",	0x71, 512, 256, 0x4000, 0},
+	{"NAND 256MiB 3,3V 8-bit",	0x71, 512, 256, 0x4000, 0, 0, 0},
 
 	/* 512 Megabit */
-	{"NAND 64MiB 1,8V 8-bit",	0xA2, 0,  64, 0, LP_OPTIONS},
-	{"NAND 64MiB 1,8V 8-bit",	0xA0, 0,  64, 0, LP_OPTIONS},
-	{"NAND 64MiB 3,3V 8-bit",	0xF2, 0,  64, 0, LP_OPTIONS},
-	{"NAND 64MiB 3,3V 8-bit",	0xD0, 0,  64, 0, LP_OPTIONS},
-	{"NAND 64MiB 3,3V 8-bit",	0xF0, 0,  64, 0, LP_OPTIONS},
+	{"NAND 64MiB 1,8V 8-bit",	0xA2, 0,  64, 0, 0, 0, LP_OPTIONS},
+	{"NAND 64MiB 1,8V 8-bit",	0xA0, 0,  64, 0, 0, 0, LP_OPTIONS},
+	{"NAND 64MiB 3,3V 8-bit",	0xF2, 0,  64, 0, 0, 0, LP_OPTIONS},
+	{"NAND 64MiB 3,3V 8-bit",	0xD0, 0,  64, 0, 0, 0, LP_OPTIONS},
+	{"NAND 64MiB 3,3V 8-bit",	0xF0, 0,  64, 0, 0, 0, LP_OPTIONS},
 
 	/* 1 Gigabit */
-	{"NAND 128MiB 1,8V 8-bit",	0xA1, 0, 128, 0, LP_OPTIONS},
-	{"NAND 128MiB 3,3V 8-bit",	0xF1, 0, 128, 0, LP_OPTIONS},
-	{"NAND 128MiB 3,3V 8-bit",	0xD1, 0, 128, 0, LP_OPTIONS},
-	//{"NAND 128MiB 3,3V 8-bit",	0x2C, 2048, 128, 131072, 0},   //Micron
-	//{"NAND 128MiB 3,3V 8-bit",	0x01, 0, 128, 0, LP_OPTIONS},
+	{"NAND 128MiB 1,8V 8-bit",	0xA1, 0, 128, 0, 0, 0, LP_OPTIONS},
+	{"NAND 128MiB 3,3V 8-bit",	0xF1, 2048, 128, 131072, 4, 2, LP_OPTIONS},
+	{"NAND 128MiB 3,3V 8-bit",	0xD1, 0, 128, 0, 0, 0, LP_OPTIONS},
+	//{"NAND 128MiB 3,3V 8-bit",	0x2C, 2048, 128, 131072, 0, 0, 0},   //Micron
+	//{"NAND 128MiB 3,3V 8-bit",	0x01, 0, 128, 0, 0, 0, LP_OPTIONS},
   //{"MT29F1G08ABADAWP", {0x2C, 0xF1, 0x80, 0x95, 0x02}, 2048, 64, 64, MT29},
 
 	/* 2 Gigabit */
-	{"NAND 256MiB 1,8V 8-bit",	0xAA, 0, 256, 0, LP_OPTIONS},
-	{"NAND 256MiB 3,3V 8-bit",	0xDA, 0, 256, 0, LP_OPTIONS},
+	{"NAND 256MiB 1,8V 8-bit",	0xAA, 0, 256, 0, 0, 0, LP_OPTIONS},
+	{"NAND 256MiB 3,3V 8-bit",	0xDA, 0, 256, 0, 0, 0, LP_OPTIONS},
 
 	/* 4 Gigabit */
-	{"NAND 512MiB 1,8V 8-bit",	0xAC, 0, 512, 0, LP_OPTIONS},
-	{"NAND 512MiB 3,3V 8-bit",	0xDC, 0, 512, 0, LP_OPTIONS},
+	{"NAND 512MiB 1,8V 8-bit",	0xAC, 0, 512, 0, 0, 0, LP_OPTIONS},
+	{"NAND 512MiB 3,3V 8-bit",	0xDC, 0, 512, 0, 0, 0, LP_OPTIONS},
 
 	/* 8 Gigabit */
-	{"NAND 1GiB 1,8V 8-bit",	0xA3, 0, 1024, 0, LP_OPTIONS},
-	{"NAND 1GiB 3,3V 8-bit",	0xD3, 0, 1024, 0, LP_OPTIONS},
+	{"NAND 1GiB 1,8V 8-bit",	0xA3, 0, 1024, 0, 0, 0, LP_OPTIONS},
+	{"NAND 1GiB 3,3V 8-bit",	0xD3, 0, 1024, 0, 0, 0, LP_OPTIONS},
 
 	/* 16 Gigabit */
-	{"NAND 2GiB 1,8V 8-bit",	0xA5, 0, 2048, 0, LP_OPTIONS},
-	{"NAND 2GiB 3,3V 8-bit",	0xD5, 0, 2048, 0, LP_OPTIONS},
+	{"NAND 2GiB 1,8V 8-bit",	0xA5, 0, 2048, 0, 0, 0, LP_OPTIONS},
+	{"NAND 2GiB 3,3V 8-bit",	0xD5, 0, 2048, 0, 0, 0, LP_OPTIONS},
 
 	/* 32 Gigabit */
-	{"NAND 4GiB 1,8V 8-bit",	0xA7, 0, 4096, 0, LP_OPTIONS},
-	{"NAND 4GiB 3,3V 8-bit",	0xD7, 0, 4096, 0, LP_OPTIONS},
+	{"NAND 4GiB 1,8V 8-bit",	0xA7, 0, 4096, 0, 0, 0, LP_OPTIONS},
+	{"NAND 4GiB 3,3V 8-bit",	0xD7, 0, 4096, 0, 0, 0, LP_OPTIONS},
 
 	/* 64 Gigabit */
-	{"NAND 8GiB 1,8V 8-bit",	0xAE, 0, 8192, 0, LP_OPTIONS},
-	{"NAND 8GiB 3,3V 8-bit",	0xDE, 0, 8192, 0, LP_OPTIONS},
-	{"NAND 8GiB 3,3V 8-bit",	0xAD, 0, 8192, 0, LP_OPTIONS},
+	{"NAND 8GiB 1,8V 8-bit",	0xAE, 0, 8192, 0, 0, 0, LP_OPTIONS},
+	{"NAND 8GiB 3,3V 8-bit",	0xDE, 0, 8192, 0, 0, 0, LP_OPTIONS},
+	{"NAND 8GiB 3,3V 8-bit",	0xAD, 0, 8192, 0, 0, 0, LP_OPTIONS},
 
 	/* 128 Gigabit */
-	{"NAND 16GiB 1,8V 8-bit",	0x1A, 0, 16384, 0, LP_OPTIONS},
-	{"NAND 16GiB 3,3V 8-bit",	0x3A, 0, 16384, 0, LP_OPTIONS},
+	{"NAND 16GiB 1,8V 8-bit",	0x1A, 0, 16384, 0, 0, 0, LP_OPTIONS},
+	{"NAND 16GiB 3,3V 8-bit",	0x3A, 0, 16384, 0, 0, 0, LP_OPTIONS},
 
 	/* 256 Gigabit */
-	{"NAND 32GiB 1,8V 8-bit",	0x1C, 0, 32768, 0, LP_OPTIONS},
-	{"NAND 32GiB 3,3V 8-bit",	0x3C, 0, 32768, 0, LP_OPTIONS},
+	{"NAND 32GiB 1,8V 8-bit",	0x1C, 0, 32768, 0, 0, 0, LP_OPTIONS},
+	{"NAND 32GiB 3,3V 8-bit",	0x3C, 0, 32768, 0, 0, 0, LP_OPTIONS},
 
 	/* 512 Gigabit */
-	{"NAND 64GiB 1,8V 8-bit",	0x1E, 0, 65536, 0, LP_OPTIONS},
-	{"NAND 64GiB 3,3V 8-bit",	0x3E, 0, 65536, 0, LP_OPTIONS},
-	{"", 0, 0, 0, 0, 0}
+	{"NAND 64GiB 1,8V 8-bit",	0x1E, 0, 65536, 0, 0, 0, LP_OPTIONS},
+	{"NAND 64GiB 3,3V 8-bit",	0x3E, 0, 65536, 0, 0, 0, LP_OPTIONS},
+	{"", 0, 0, 0, 0, 0, 0, 0}
 };
 
 //Constructor: construct NAND ID info from the 5 ID bytes read from the NAND.
@@ -121,19 +121,21 @@ NandID::NandID(unsigned char *idBytes) {
 	if (m_devCodes[x].id==0) {
 		printf("Sorry, unknown nand chip with id code 0x%02X 0x%02X 0x%02X 0x%02X\n", idBytes[0], idBytes[1], idBytes[2], idBytes[3]);
 		exit(0);
-	}
-  printf("nand ID: Manufactor 0x%02X, Type 0x%02X, - 0x%02X\n", idBytes[0], idBytes[1], idBytes[2]);
-	
+	  }
 	m_nandDesc=m_devCodes[x].name;
 	m_nandChipSzMB=m_devCodes[x].chipsizeMB;
 	m_nandIsLP=((m_devCodes[x].options&LP_OPTIONS)!=0);
 	if (m_devCodes[x].pagesize!=0) {
 		//Page/erasesize is device-specific
 		m_nandPageSz=m_devCodes[x].pagesize;
+		m_nandOobSz=(m_nandPageSz==512)?16:64;       // bytes every 512
 		m_nandEraseSz=m_devCodes[x].erasesize;
-		m_nandOobSz=(m_nandPageSz==512)?16:8;
-		//m_nandOobSz=(m_nandPageSz==512)?16:64;
-	} else {
+		addrByteCount=m_devCodes[x].addrByteCount;
+		eraseAddrByteCount=m_devCodes[x].eraseAddrByteCount;
+		fullEraseSz=m_devCodes[x].erasesize+(m_nandOobSz*(m_devCodes[x].erasesize/m_devCodes[x].pagesize));
+		fullPageSz=m_devCodes[x].pagesize+m_nandOobSz;
+	  }
+  else {
 		//Page/erasesize is encoded in 3/4/5th ID-byte
 		int i;
 		i=idBytes[3]&3;
@@ -156,6 +158,13 @@ NandID::NandID(unsigned char *idBytes) {
 	if (idBytes[0]==0x2c) m_nandManuf="Micron";
 	if (idBytes[0]==0xc2) m_nandManuf="Macronix";
 	if (idBytes[0]==0xf1) m_nandManuf="Samsung2";
+
+  printf("nand ID: Manufactor 0x%02X, Type 0x%02X, 0x%02X, 0x%02X\n", idBytes[0], idBytes[1], idBytes[2]);
+  printf("Nand type: %s\n", getDesc().c_str());
+  printf("Manufacturer: %s\n", getManufacturer().c_str());
+  printf("Size: %iMiB, pagesize %i bytes, OOB size %i bytes, erasepage size %i\n", getSizeMB(), getPageSize(), getOobSize(), getEraseSz());
+  printf("full pagesize %i bytes, full erasepage size %i\n", fullPageSz, fullEraseSz);
+  printf("%s page, needs %i addr bytes.\n", isLargePage()?"Large":"Small", getAddrByteCount());	
 }
 
 string NandID::getDesc() {
@@ -166,20 +175,28 @@ string NandID::getManufacturer() {
 	return m_nandManuf;
 }
 
-int NandID::getPageSize() {
+unsigned int NandID::getPageSize() {
 	return m_nandPageSz;
 }
 
-int NandID::getOobSize() {
+unsigned int NandID::getfullPageSz() {
+	return fullPageSz;
+}
+
+unsigned int NandID::getOobSize() {
 	return m_nandOobSz;
 }
 
-int NandID::getSizeMB() {
+unsigned int NandID::getSizeMB() {
 	return m_nandChipSzMB;
 }
 
-int NandID::getEraseSz() {
+unsigned int NandID::getEraseSz() {
 	return m_nandEraseSz;
+}
+
+unsigned int NandID::getfullEraseSz() {
+	return fullEraseSz;
 }
 
 bool NandID::isLargePage() {
@@ -189,11 +206,14 @@ bool NandID::isLargePage() {
 //Get the amount of bytes the address needs to be sent as.
 int NandID::getAddrByteCount() {
 	int cyc;
+  if ( addrByteCount ) return addrByteCount;
+
 	if (m_nandIsLP) {
 		if (m_nandChipSzMB>=32768) {
 			cyc=6;
 		  } 
     else if (m_nandChipSzMB>=128) {
+    //else if (m_nandChipSzMB>128) {
 			      cyc=5;
 		        }
          else {
@@ -210,10 +230,10 @@ int NandID::getAddrByteCount() {
 	}
 	return cyc;
 }
-
+// S34ML01G1
 int NandID::getEraseAddrByteCount() {
-	int cyc=3;
-	return cyc;
+  if (eraseAddrByteCount) return eraseAddrByteCount;
+	return 0;
 }
 
 
