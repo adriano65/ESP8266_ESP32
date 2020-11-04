@@ -66,10 +66,10 @@ const NandID::DevCodes NandID::m_devCodes[]={
 
 	/* 1 Gigabit */
 	{"NAND 128MiB 1,8V 8-bit",	0xA1, 0, 128, 0, 0, 0, LP_OPTIONS},
-	{"NAND 128MiB 3,3V 8-bit",	0xF1, 2048, 128, 131072, 4, 2, LP_OPTIONS},
+	//{"NAND 128MiB 3,3V 8-bit",	0xF1, 2048, 128, 131072, 4, 2, LP_OPTIONS},
+	{"NAND 128MiB 3,3V 8-bit",	0xF1, 0, 128, 0, 0, 0, LP_OPTIONS},
 	{"NAND 128MiB 3,3V 8-bit",	0xD1, 0, 128, 0, 0, 0, LP_OPTIONS},
 	//{"NAND 128MiB 3,3V 8-bit",	0x2C, 2048, 128, 131072, 0, 0, 0},   //Micron
-	//{"NAND 128MiB 3,3V 8-bit",	0x01, 0, 128, 0, 0, 0, LP_OPTIONS},
   //{"MT29F1G08ABADAWP", {0x2C, 0xF1, 0x80, 0x95, 0x02}, 2048, 64, 64, MT29},
 
 	/* 2 Gigabit */
@@ -143,7 +143,11 @@ NandID::NandID(unsigned char *idBytes) {
 		i=(idBytes[3]>>4)&3;
 		m_nandEraseSz=(64*1024)<<i;
 		m_nandOobSz=((idBytes[3]&4)?16:8)*(m_nandPageSz/512);
+		fullEraseSz=m_nandEraseSz+(m_nandOobSz*(m_nandEraseSz/m_nandPageSz));
+		fullPageSz=m_nandPageSz+m_nandOobSz;
+		eraseAddrByteCount=2;
 	}
+
 	char buff[100];
 	sprintf(buff, "Unknown (%hhx)", idBytes[0]);
 	m_nandManuf=buff;
@@ -159,9 +163,8 @@ NandID::NandID(unsigned char *idBytes) {
 	if (idBytes[0]==0xc2) m_nandManuf="Macronix";
 	if (idBytes[0]==0xf1) m_nandManuf="Samsung2";
 
-  printf("nand ID: Manufactor 0x%02X, Type 0x%02X, 0x%02X, 0x%02X\n", idBytes[0], idBytes[1], idBytes[2]);
-  printf("Nand type: %s\n", getDesc().c_str());
-  printf("Manufacturer: %s\n", getManufacturer().c_str());
+  printf("Nand ID: Manufactor 0x%02X, Type 0x%02X, 0x%02X, 0x%02X\n", idBytes[0], idBytes[1], idBytes[2]);
+  printf("Type: %s, Manufacturer: %s\n", getDesc().c_str(), getManufacturer().c_str());
   printf("Size: %iMiB, pagesize %i bytes, OOB size %i bytes, erasepage size %i\n", getSizeMB(), getPageSize(), getOobSize(), getEraseSz());
   printf("full pagesize %i bytes, full erasepage size %i\n", fullPageSz, fullEraseSz);
   printf("%s page, needs %i addr bytes.\n", isLargePage()?"Large":"Small", getAddrByteCount());	
@@ -206,14 +209,13 @@ bool NandID::isLargePage() {
 //Get the amount of bytes the address needs to be sent as.
 int NandID::getAddrByteCount() {
 	int cyc;
-  if ( addrByteCount ) return addrByteCount;
+  //if ( addrByteCount ) return addrByteCount;
 
 	if (m_nandIsLP) {
 		if (m_nandChipSzMB>=32768) {
 			cyc=6;
 		  } 
     else if (m_nandChipSzMB>=128) {
-    //else if (m_nandChipSzMB>128) {
 			      cyc=5;
 		        }
          else {

@@ -2,10 +2,11 @@
 #define FTDINAND_BB
 
 #include <libftdi1/ftdi.h>
+#include "FtdiNand.hpp"
 
 using namespace std;
 
-class FtdiNand_BB {
+class FtdiNand_BB : public FtdiNand {
 public:
 /* Pins on ADBUS0..7 (I/O bus) */
   #define PIN_DIO0 0x01
@@ -43,18 +44,18 @@ public:
 
 	FtdiNand_BB();
 	~FtdiNand_BB();
-	int open(int vid, int pid, bool doslow);
-  void EnableRead(bool bEnable);
-  void EnableWrite(bool bEnable);
-	int sendCmd(unsigned char cmd);
+  int open(int _vid, int _pid, bool _doslow) override;
+	int sendCmd(unsigned char cmd) override;
 	int sendAddr(long long addr, int noBytes);
+	int readData(unsigned char *data, int count) override;
 	int writeData(unsigned char *data, int count);
-	int readData(unsigned char *data, int count);
 	int waitReady();
 	unsigned char status();
+
 private:
   typedef enum { LOW=0, HIGH=1 } onoff_t;
   typedef enum { IOBUS_IN=0, IOBUS_OUT=1 } iobus_inout_t;
+  void EnableRead(bool bEnable);
 
 
 	int error(const char *err);

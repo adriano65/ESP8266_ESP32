@@ -12,10 +12,11 @@
       //"args": ["-i"],
       //"args": ["-r", "kernel-OOB.bin", "-p", "0x2000000", "0x22A22F0"],
       //"args": ["-e", "-p", "0x0", "0x63000"],
+      "args": ["-e", "-p", "0x01FFFBC0", "0x02100000"],
       //"args": ["-w", "kernel/kernel_test.bin", "-p", "0x0", "0x63000"],
       //"args": ["-r", "kernel_test_read", "-p", "0x2000000", "0x2100000"],
       //"args": ["-r", "kernel_test_read", "-p", "0x0", "0x63000"],
-      "args": ["-r", "kernel_test_read", "-p", "0x0", "0x60000"],
+      //"args": ["-r", "kernel_test_read", "-p", "0x0", "0x60000", "-t", "bb"],
       //"args": ["-w", "kernel/kernel_test.bin", "-p", "0x01FF8000", "0x2100000"],
       
       "stopAtEntry": false,

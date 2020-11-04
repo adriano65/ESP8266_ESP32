@@ -9,13 +9,13 @@ class FtdiNand {
 public:
 	FtdiNand();
 	~FtdiNand();
-	int open(int vid, int pid, bool doslow);
+  virtual int open(int _vid, int _pid, bool _doslow);
   void EnableRead(bool bEnable);
   void EnableWrite(bool bEnable);
-	int sendCmd(unsigned char cmd);
-	int sendAddr(long long addr, int noBytes);
+	virtual int sendCmd(unsigned char cmd);
+	virtual int sendAddr(long long addr, int noBytes);
 	int writeData(unsigned char *data, int count);
-	int readData(unsigned char *data, int count);
+	virtual int readData(unsigned char *data, int count);
 	int waitReady();
 	unsigned char status();
 private:
@@ -25,8 +25,10 @@ private:
 	int nandRead_ori(int cl, int al, unsigned char *buf, int count);
 	int nandWrite_ori(int cl, int al, unsigned char *buf, int count);
 	struct ftdi_context m_ftdi;
+  int vid;
+  int pid;
 	bool m_slowAccess;
-	int m_rbErrorCount;
+	int m_rbErrorCount;  
 };
 
 #endif

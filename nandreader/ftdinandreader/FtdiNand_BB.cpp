@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include "FtdiNand.hpp"
 #include "FtdiNand_BB.hpp"
 #include "NandCmds.h"
 
@@ -51,6 +52,31 @@ FtdiNand_BB::~FtdiNand_BB(void) {
   EnableRead(false);
 	ftdi_usb_close(pBusInterface);
 	ftdi_deinit(pBusInterface);
+}
+
+int FtdiNand_BB::open(int _vid, int _pid, bool _doslow) {
+  int f;
+  unsigned int FTDIchipID;
+  if ((pBusInterface = ftdi_new()) == 0) { error("ftdi_new fail"); }
+  ftdi_set_interface(pBusInterface, INTERFACE_A);
+  if ( (f=ftdi_usb_open(pBusInterface, 0x0403, 0x6010)) != 0 ) {
+      fprintf(stderr, "unable to open ftdi device: %d (%s)\n", f, ftdi_get_error_string(pBusInterface));
+      ftdi_free(pBusInterface);
+      exit(-1);
+    }
+  pBusInterface->bitbang_enabled=0;
+
+  ftdi_read_chipid(pBusInterface, &FTDIchipID);
+  printf("ftdi_read_chipid 0x%04X\n", FTDIchipID);
+
+  ftdi_usb_reset(pBusInterface);
+  ftdi_set_interface(pBusInterface, INTERFACE_ANY);
+  ftdi_set_bitmode(pBusInterface, 0, 0); // reset
+  ftdi_set_bitmode(pBusInterface, 0, BITMODE_MPSSE);
+  ftdi_usb_purge_buffers(pBusInterface);
+  usleep(50000); // sleep 50 ms for setup to complete
+
+  EnableRead(true);
 }
 
 //Error handling routine.
@@ -253,33 +279,6 @@ void FtdiNand_BB::EnableRead(bool bEnable) {
   usleep(10000);
 }
 
-//Try to find the ftdi chip and open it.
-int FtdiNand_BB::open(int vid, int pid, bool doslow) {
-  int f, opt;
-  unsigned int FTDIchipID;
-  if ((pBusInterface = ftdi_new()) == 0) { error("ftdi_new fail"); }
-  ftdi_set_interface(pBusInterface, INTERFACE_A);
-  if ( (f=ftdi_usb_open(pBusInterface, 0x0403, 0x6010)) != 0 ) {
-      fprintf(stderr, "unable to open ftdi device: %d (%s)\n", f, ftdi_get_error_string(pBusInterface));
-      ftdi_free(pBusInterface);
-      exit(-1);
-    }
-  pBusInterface->bitbang_enabled=0;
-
-  ftdi_read_chipid(pBusInterface, &FTDIchipID);
-  printf("ftdi_read_chipid 0x%04X\n", FTDIchipID);
-
-  ftdi_usb_reset(pBusInterface);
-  ftdi_set_interface(pBusInterface, INTERFACE_ANY);
-  ftdi_set_bitmode(pBusInterface, 0, 0); // reset
-  ftdi_set_bitmode(pBusInterface, 0, BITMODE_MPSSE);
-  ftdi_usb_purge_buffers(pBusInterface);
-  usleep(50000); // sleep 50 ms for setup to complete
-
-  EnableRead(true);
-	return 1;
-}
-
 unsigned char FtdiNand_BB::status() {
 	unsigned char status;
 	sendCmd(NAND_CMD_STATUS);
@@ -289,8 +288,13 @@ unsigned char FtdiNand_BB::status() {
 
 //Send a command to the NAND chip
 int FtdiNand_BB::sendCmd(unsigned char cmd) {
+  iobus_set_direction(IOBUS_IN);
+  // set nRE high and nCE and nWP low
+  controlbus_pin_set(PIN_nRE, HIGH);
+  controlbus_pin_set(PIN_nCE, LOW);
+  controlbus_pin_set(PIN_nWP, LOW); /* When WP# is LOW, PROGRAM and ERASE operations are disabled */
+  controlbus_update_output();
   latch_command(&cmd, 1);
-	//nandWrite(1, 0, &cmd, 1);
 }
 
 //Send an address to the NAND. addr is the address and it is send
@@ -326,7 +330,7 @@ int FtdiNand_BB::sendAddr(long long addr, int noBytes) {
       }
     break;
     }
-	return nandWrite(0, 1, buff, noBytes);
+	return 0;
 }
 
 //Write data to the flash.
@@ -336,6 +340,7 @@ int FtdiNand_BB::writeData(unsigned char *data, int count) {
 
 //Read data from the flash.
 int FtdiNand_BB::readData(unsigned char *data, int count) {
+    return 0;
     unsigned int addr_idx = 0;
     int f;
 

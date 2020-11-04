@@ -29,26 +29,57 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "NandCmds.h"
 #include "bch.h"
 
-NandChip::NandChip() {
-  accessType=NandChip::accessMain;
-  pageSize=0;
-  erasepageSize=0;
-  start_address=0;
-  start_erasepageno=0;
-  end_address=0;
-	doSlow=false;
+NandChip::NandChip(int vid, int pid, bool doSlow, AccessType _accessType, unsigned long _start_address, unsigned long _end_address) {
+	unsigned char id[5];
+
+  accessType=_accessType;
+  if (accessType==useBitBang) {
+	  pFtdiNand = new FtdiNand_BB();
+    }
+  else
+	  pFtdiNand=new FtdiNand();
+
+  pFtdiNand->open(vid, pid, doSlow);
+  
+	pFtdiNand->sendCmd(NAND_CMD_RESET);
+	pFtdiNand->sendAddr(0, 1);
+
+	pFtdiNand->sendCmd(NAND_CMD_READID);
+	pFtdiNand->sendAddr(0, 1);
+	pFtdiNand->readData(id, 5);
+
+	pNandID=new NandID(id);
+  pNandData=new NandData(pFtdiNand, pNandID);
+
+  if (accessType==PageplusOOB) {
+    pageSize=pNandID->getfullPageSz();
+    erasepageSize=pNandID->getfullEraseSz();
+    }
+  else {
+    pageSize=pNandID->getPageSize();
+    erasepageSize=pNandID->getEraseSz();
+    }
+  pageBuf=new unsigned char[pageSize];
+  start_address=_start_address;
+  end_address=_end_address;
   }
 
-NandChip::AddressCheck NandChip::checkAddresses() {
+NandChip::~NandChip() {
+	delete pNandID;
+}
+
+NandChip::AddressCheck NandChip::checkAddresses(Action action) {
   if (end_address == 0) { 
     end_address = (pNandID->getSizeMB()*1024L*1024L); 
     end_pageno=(pNandID->getSizeMB()*1024L*1024L)/pNandID->getPageSize();
     }
 
-  if (start_address%erasepageSize == 0) { start_erasepageno=start_address/erasepageSize; }
-  else {
-    printf("Misaligned start_address for erasing: use 0x%08X\n", (unsigned long)(start_address/erasepageSize)*erasepageSize);
-    return BadEraseStart;
+  if (action==actionErase) {
+    if ((action!=actionRead) || (start_address%erasepageSize == 0)) { start_erasepageno=start_address/erasepageSize; }
+    else {
+      printf("Misaligned start_address for erasing: use 0x%08X\n", (unsigned long)(start_address/erasepageSize)*erasepageSize);
+      return BadEraseStart;
+      }
     }
 
   if (start_address%pageSize == 0) { start_pageno=start_address/pageSize; }
@@ -57,10 +88,12 @@ NandChip::AddressCheck NandChip::checkAddresses() {
     return BadStart;
     }
 
-  if (end_address%erasepageSize == 0) { end_erasepageno=end_address/erasepageSize; }
-  else {
-    printf("Misaligned end_address for erasing: use 0x%08X\n", (unsigned long)(end_address/erasepageSize)*erasepageSize);
-    return BadEraseEnd;
+  if (action==actionErase) {
+    if (end_address%erasepageSize == 0) { end_erasepageno=end_address/erasepageSize; }
+    else {
+      printf("Misaligned end_address for erasing: use 0x%08X\n", (unsigned long)(end_address/erasepageSize)*erasepageSize);
+      return BadEraseEnd;
+      }
     }
 
   if (end_address%pageSize == 0) { end_pageno=end_address/pageSize; }
@@ -69,37 +102,6 @@ NandChip::AddressCheck NandChip::checkAddresses() {
     return BadEnd;
     }
   return OK;
-}
-
-#ifdef BITBANG_MODE
-int NandChip::open(FtdiNand_BB *_pFtdiNand) {
-#else
-int NandChip::open(FtdiNand *_pFtdiNand) {
-#endif
-	unsigned char id[5];
-  
-	pFtdiNand=_pFtdiNand;
-	pFtdiNand->sendCmd(NAND_CMD_RESET);
-	pFtdiNand->sendAddr(0, 1);
-
-	pFtdiNand->sendCmd(NAND_CMD_READID);
-	pFtdiNand->sendAddr(0, 1);
-	pFtdiNand->readData(id, 5);
-	pNandID=new NandID(id);
-
-  pNandData=new NandData(_pFtdiNand, pNandID);
-
-  //pageSize=pNandID->getfullPageSz();
-  //erasepageSize=pNandID->getfullEraseSz();
-  pageSize=pNandID->getPageSize();
-  erasepageSize=pNandID->getEraseSz();
-  pageBuf=new unsigned char[pageSize];
-
-  return checkAddresses();
-}
-
-NandChip::~NandChip() {
-	delete pNandID;
 }
 
 int NandChip::readPage(unsigned long address) {

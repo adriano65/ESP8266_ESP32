@@ -19,14 +19,6 @@
 #define NAND_CMD_UNLOCK1	0x23
 #define NAND_CMD_UNLOCK2	0x24
 /* Extended commands for large page devices */
-#define NAND_CMD_READSTART	  0x30
+#define NAND_CMD_READSTART	0x30
 #define NAND_CMD_RNDOUTSTART	0xE0
-#define NAND_CMD_CACHEDPROG	  0x15
-#define NAND_CMD_ONFI		      0xEC
-
-#define NAND_STATUS_FAIL 			(1<<0) /* HIGH - FAIL,  LOW - PASS */
-#define NAND_STATUS_IDLE 			(1<<5) /* HIGH - IDLE,  LOW - ACTIVE */
-#define NAND_STATUS_READY 			(1<<6) /* HIGH - READY, LOW - BUSY */
-#define NAND_STATUS_NOT_PROTECTED 	(1<<7) /* HIGH - NOT,   LOW - PROTECTED */
-
-//#define BITBANG_MODE
+#define NAND_CMD_CACHEDPROG	0x15

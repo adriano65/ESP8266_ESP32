@@ -35,48 +35,34 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define O_BINARY 0
 #endif
 
-enum Action {
-  actionNone=0,
-  actionID,
-  actionRead,
-  actionWrite,
-  actionVerify,
-  actionErase
-};
-
 int setParam(NandID *id, long *start_address, long *end_address, int *start_pageno, int *end_pageno, int *size );
 int usage();
 
 int main(int argc, char **argv) {
   FILE *fp;
-  unsigned long address;
-	int x, r, lenght;
-	int vid=0, pid=0;
+  bool doSlow=false;
+  NandChip::AccessType accessType=NandChip::PageplusOOB;
+  unsigned long start_address, end_address, address;
+	int x, r, lenght, vid=0, pid=0;
 	string file="";
-  #ifdef BITBANG_MODE
-	FtdiNand_BB ftdiNand;
-  #else
-	FtdiNand ftdiNand;
-  #endif
-  NandChip nandChip;
   int verifyErrors=0;
   char *verifyBuf;
 
   //nand = new NandChip();
 	printf("FT2232H-based NAND reader\n");
-	Action action=actionNone;
+	NandChip::Action action=NandChip::actionNone;
 	for (x=1; x<argc; x++) {
-		if (strcmp(argv[x],"-i")==0) { action=actionID;}
-    else if (strcmp(argv[x],"-e")==0 && x<=(argc-2)) { action=actionErase; }
-    else if (strcmp(argv[x],"-r")==0 && x<=(argc-2)) { action=actionRead;	file=argv[++x]; }
-    else if (strcmp(argv[x],"-w")==0 && x<=(argc-2)) { action=actionWrite; file=argv[++x]; }
-    else if (strcmp(argv[x],"-v")==0 && x<=(argc-2)) { action=actionVerify;	file=argv[++x];	}
-    else if (strcmp(argv[x],"-u")==0 && x<=(argc-2)) { action=actionVerify;
+		if (strcmp(argv[x],"-i")==0) { action=NandChip::getID;}
+    else if (strcmp(argv[x],"-e")==0 && x<=(argc-2)) { action=NandChip::actionErase; }
+    else if (strcmp(argv[x],"-r")==0 && x<=(argc-2)) { action=NandChip::actionRead;	file=argv[++x]; }
+    else if (strcmp(argv[x],"-w")==0 && x<=(argc-2)) { action=NandChip::actionWrite; file=argv[++x]; }
+    else if (strcmp(argv[x],"-v")==0 && x<=(argc-2)) { action=NandChip::actionVerify;	file=argv[++x];	}
+    else if (strcmp(argv[x],"-u")==0 && x<=(argc-2)) { action=NandChip::actionVerify;
 			char *endp;
 			x++;
 			vid=strtol(argv[x], &endp, 16);
 			if (*endp!=':') {
-				action=actionNone;
+        action=NandChip::actionNone;
 			  }
       else {
 				endp++;
@@ -86,42 +72,41 @@ int main(int argc, char **argv) {
     else if (strcmp(argv[x],"-t")==0 && x<=(argc-2)) {
 			x++;
 			if (strcmp(argv[x],"main")==0) {
-				nandChip.accessType=NandChip::accessMain;
+				accessType=NandChip::Page;
+			} else if (strcmp(argv[x], "mainoob")==0) {
+				accessType=NandChip::PageplusOOB;
 			} else if (strcmp(argv[x], "oob")==0) {
-				nandChip.accessType=NandChip::recalcOOB;
+				accessType=NandChip::recalcOOB;
+			} else if (strcmp(argv[x], "bb")==0) {
+				accessType=NandChip::useBitBang;
 			} else {
-				printf("Must be 'main' or 'oob' (recalc OOB) %s\n", argv[x]);
-				action=actionNone;
+				printf("Must be 'main', 'oob' (recalc OOB) or bb (Bitbang mode)%s\n", argv[x]);
 			}
 		  }
-    else if (strcmp(argv[x],"-s")==0) { nandChip.doSlow=true;	} 
+    else if (strcmp(argv[x],"-s")==0) { doSlow=true;	} 
     else if (strcmp(argv[x], "-p")==0 && x <= (argc - 3)) {
                         x++;
-                        nandChip.start_address = strtol(argv[x], NULL, 16);
+                        start_address = strtol(argv[x], NULL, 16);
                         x++;
-                        nandChip.end_address = strtol(argv[x], NULL, 16);
+                        end_address = strtol(argv[x], NULL, 16);
                 }    
     else {
 			printf("Unknown option or missing argument: %s\n", argv[x]);
-			action=actionNone;
+      action=NandChip::actionNone;
 		  }
 	  }
+  if (action==NandChip::actionNone) { usage(); exit(0);}
+
+  NandChip nandChip(vid, pid, doSlow, accessType, start_address, end_address);
 
   switch (action) {
-    case actionNone:
-      usage();
-      break;
-    
-    case actionID:
-      ftdiNand.open(vid, pid, nandChip.doSlow);
-		  //nandChip.showInfo(&ftdiNand);
+    case NandChip::getID:
       break;
 
-    case actionRead:
-      ftdiNand.open(vid,pid, nandChip.doSlow);
-      if (nandChip.open(&ftdiNand)==0) {
+    case NandChip::actionRead:
+      if (nandChip.checkAddresses(action)==0) {
         if ((fp=fopen(file.c_str(), "wb+")) == NULL) { perror(file.c_str()); exit(1); }
-        printf("Reading from 0x%08X to 0x%08X (%s)\n", nandChip.start_address, nandChip.end_address, nandChip.accessType==NandChip::accessMain ? "Main+OOB" : "rMain+ecalc OOB" );
+        printf("Reading from 0x%08X to 0x%08X (%s)\n", nandChip.start_address, nandChip.end_address, nandChip.accessType==NandChip::Page ? "Page" : "Page+OOB" );
         for (address=nandChip.start_address; address<nandChip.end_address; address+=nandChip.pageSize) {
           lenght=nandChip.readPage(address);
           r=fwrite(nandChip.pageBuf, 1, lenght, fp);
@@ -135,33 +120,32 @@ int main(int argc, char **argv) {
         }
       break;
 
-    case actionVerify:
-      ftdiNand.open(vid,pid, nandChip.doSlow);
-      nandChip.open(&ftdiNand);
+    case NandChip::actionVerify:
       verifyBuf=new char[nandChip.pageSize];
 
-      if ((fp=fopen(file.c_str(), "rb")) == NULL) { perror(file.c_str()); exit(1); }
-      printf("Verifying 0x%08X bytes of 0x%04X bytes (%s)\n", nandChip.end_address-nandChip.start_address, nandChip.pageSize, nandChip.accessType==NandChip::accessMain ? "Main+OOB" : "Main+recalc OOB" );
-      unsigned int page;
-      while (!feof(fp)) {
-        r=fread(verifyBuf, 1, nandChip.pageSize, fp);
-        if (r!=nandChip.pageSize) { perror("reading data from file"); exit(1); }
-        for (int y=0; y<nandChip.pageSize; y++) {
-          if (verifyBuf[y]!=nandChip.pageBuf[y]) {
-            verifyErrors++;
-            printf("Verify error: Page %i, byte %i: file 0x%02hhX flash 0x%02hhX\n", page, y, verifyBuf[y], nandChip.pageBuf[y]);
+      if (nandChip.checkAddresses(action)) {
+        if ((fp=fopen(file.c_str(), "rb")) == NULL) { perror(file.c_str()); exit(1); }
+        printf("Verifying 0x%08X bytes of 0x%04X bytes (%s)\n", nandChip.end_address-nandChip.start_address, nandChip.pageSize, nandChip.accessType==NandChip::Page ? "Page" : "Page+OOB" );
+        unsigned int page;
+        while (!feof(fp)) {
+          r=fread(verifyBuf, 1, nandChip.pageSize, fp);
+          if (r!=nandChip.pageSize) { perror("reading data from file"); exit(1); }
+          for (int y=0; y<nandChip.pageSize; y++) {
+            if (verifyBuf[y]!=nandChip.pageBuf[y]) {
+              verifyErrors++;
+              printf("Verify error: Page %i, byte %i: file 0x%02hhX flash 0x%02hhX\n", page, y, verifyBuf[y], nandChip.pageBuf[y]);
+              }
             }
+          page++;
           }
-        page++;
+        fclose(fp);
         }
-      fclose(fp);
       break;
 
-    case actionWrite:
-      ftdiNand.open(vid,pid,nandChip.doSlow);
-      if (nandChip.open(&ftdiNand)==0) {
+    case NandChip::actionWrite:
+      if (nandChip.checkAddresses(action)==0) {
         if ((fp=fopen(file.c_str(), "rb")) == NULL) { perror(file.c_str()); exit(1); }
-        printf("Writing from 0x%08X to 0x%08X (%s)\n", nandChip.start_address, nandChip.end_address, nandChip.accessType==NandChip::accessMain ? "Main+OOB" : "rMain+ecalc OOB" );
+        printf("Writing from 0x%08X to 0x%08X (%s)\n", nandChip.start_address, nandChip.end_address, nandChip.accessType==NandChip::Page ? "Page" : "Page+OOB" );
         for (address=nandChip.start_address; address<nandChip.end_address; address+=nandChip.pageSize) {
           r = fread(nandChip.pageBuf, 1, nandChip.pageSize, fp);
           if (r != nandChip.pageSize) { printf("\nInsufficient data from file\n"); break; }        
@@ -178,9 +162,8 @@ int main(int argc, char **argv) {
         }
       break;
 
-    case actionErase:   // 131072 == 128 kiB
-      ftdiNand.open(vid,pid,nandChip.doSlow);
-      if (nandChip.open(&ftdiNand)==0) {
+    case NandChip::actionErase:   // 131072 == 128 kiB
+      if (nandChip.checkAddresses(action)==0) {
         unsigned int erasepage;
         printf("Erasing %u pages of %i bytes\n", nandChip.end_address-nandChip.start_erasepageno, nandChip.pageSize);
         for (erasepage=nandChip.start_erasepageno; erasepage<nandChip.end_erasepageno; erasepage++) {
@@ -206,7 +189,7 @@ int usage(){
   printf("  -w file - Write chip from file (set addresses!!)\n");
   printf("  -v file - Verify chip from file data\n");
   printf("  -e      - Erase chip (set addresses!!)\n");
-  printf("  -t reg  - Select region to read/write (main, oob recalculate or both)\n");
+  printf("  -t reg  - Select region to read/write (main, oob recalculate or bb (Bitbang mode))\n");
   printf("  -s      - clock FTDI chip at 12MHz instead of 60MHz\n");
   printf("  -u vid:pid - use different FTDI USB vid/pid. Vid and pid are in hex.\n");
   exit(0);

@@ -10,21 +10,31 @@ using namespace std;
 
 class NandChip {
 public:
-  NandChip();
-	~NandChip();
+  enum Action {
+    actionNone=0,
+    getID,
+    actionRead,
+    actionWrite,
+    actionVerify,
+    actionErase
+  };
+
 	enum AccessType {
-		accessNone=0,
-		accessMain=1,
-		recalcOOB=2,
+		None,
+    Page,
+    PageplusOOB,
+		recalcOOB,
+		useBitBang,
 	  };
+  NandChip(int vid, int pid, bool doSlow, AccessType accessType, unsigned long start_address, unsigned long end_address);
+	~NandChip();
   AccessType accessType;
+  unsigned long start_address;
+  unsigned long end_address;
   unsigned int pageSize;
   unsigned int erasepageSize;
   unsigned int start_erasepageno;
   unsigned int end_erasepageno;
-  unsigned long start_address;
-  unsigned long end_address;
-  bool doSlow;
   unsigned char *pageBuf;
 
 	enum AddressCheck {
@@ -34,22 +44,14 @@ public:
 		BadEraseEnd=3,
 		BadEnd=4,
 	};
-	NandChip::AddressCheck checkAddresses();
-  #ifdef BITBANG_MODE
-  int open(FtdiNand_BB *);
-  #else
-  int open(FtdiNand *fn);
-  #endif
+	NandChip::AddressCheck checkAddresses(Action action);
+  int open();
 	int readPage(unsigned long );
 	int writePage(unsigned long );
 	int erasePage(unsigned int );
 	NandID *getIdPtr();
 private:
-  #ifdef BITBANG_MODE
-	FtdiNand_BB *pFtdiNand;
-  #else
 	FtdiNand *pFtdiNand;
-  #endif
 	NandID *pNandID;
 	NandData *pNandData;
   unsigned int start_pageno;

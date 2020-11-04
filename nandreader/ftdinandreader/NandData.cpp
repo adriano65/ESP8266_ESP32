@@ -26,7 +26,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "NandCmds.h"
 #include "NandData.hpp"
 
-//Generic NAND data interface.
 
 #ifdef BITBANG_MODE
 NandData::NandData(FtdiNand_BB *_pFtdiNand, NandID *_pNandID) {
@@ -37,22 +36,25 @@ NandData::NandData(FtdiNand *_pFtdiNand, NandID *_pNandID) {
 	pNandID=_pNandID;
 }
 
-int NandData::readPage(unsigned long startAddr, unsigned char *buff, int pageSize) {
-	char status=0;
+int NandData::readPage(unsigned long address, unsigned char *buff, int pageSize) {
+	int nRet=0;
 	pFtdiNand->sendCmd(NAND_CMD_READ0);
-	pFtdiNand->sendAddr(startAddr, pNandID->getAddrByteCount()+3+2);
+	pFtdiNand->sendAddr(address, pNandID->getAddrByteCount());
 	pFtdiNand->sendCmd(NAND_CMD_READSTART);
 	pFtdiNand->waitReady();
-	return pFtdiNand->readData(buff, pageSize);
+	nRet=pFtdiNand->readData(buff, pageSize);
+	return nRet;
 }
 
-int NandData::writePage(unsigned long startAddr, unsigned char *buff, int pageSize) {
+int NandData::writePage(unsigned long address, unsigned char *buff, int pageSize) {
+  unsigned char status=0;
 	pFtdiNand->sendCmd(NAND_CMD_SEQIN);
-	pFtdiNand->sendAddr(startAddr, pNandID->getAddrByteCount());
+	pFtdiNand->sendAddr(address, pNandID->getAddrByteCount());
 	pFtdiNand->writeData(buff, pageSize);
 	pFtdiNand->sendCmd(NAND_CMD_PAGEPROG);
 	pFtdiNand->waitReady();
-	return !(pFtdiNand->status() & NAND_STATUS_FAIL);
+	status=pFtdiNand->status();
+	return !(status & NAND_STATUS_FAIL);
 }
 
 int NandData::erasePage(unsigned int pageno) {
