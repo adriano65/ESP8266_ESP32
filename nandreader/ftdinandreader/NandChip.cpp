@@ -117,7 +117,9 @@ int NandChip::writePage(unsigned long address) {
 }
 
 int NandChip::erasePage(unsigned int page) {
-	return pNandData->erasePage(page);
+  int nRet;
+	nRet=pNandData->erasePage(page);
+	return nRet;
 }
 
 NandID *NandChip::getIdPtr() {

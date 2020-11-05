@@ -23,6 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "NandCmds.h"
 
 //Masks for the address lines (for addrh) the various nand latch lines are connected to.
+#define ACBUS4_CE 0x10     // ACBUS5   - Nand Pin 9 Active low --> CE
 #define ACBUS5_WP 0x20     // ACBUS5   - Nand Pin 19 Active low --> Write protect Active
 #define ACBUS6_CL 0x40     // ACBUS6
 #define ACBUS7_AL 0x80     // ACBUS7
@@ -33,7 +34,7 @@ FtdiNand::FtdiNand() {
 
 //Destructor: Close everything.
 FtdiNand::~FtdiNand() {
-  EnableRead(false);
+  //EnableRead(false);
 	ftdi_usb_close(&m_ftdi);
 	ftdi_deinit(&m_ftdi);
 }
@@ -53,7 +54,7 @@ int FtdiNand::open(int _vid, int _pid, bool _doslow) {
 	if (ftdi_write_data(&m_ftdi, &slow, 1)<0) return error("writing div5 cmd");
 	if (ftdi_set_latency_timer(&m_ftdi, 1)<0) return error("setting latency");
 	if (ftdi_usb_purge_buffers(&m_ftdi)<0) return error("ftdi_usb_purge_buffers");
-  EnableRead(true);
+  //EnableRead(true);
 }
 
 //Error handling routine.
@@ -121,7 +122,7 @@ int FtdiNand::nandWrite(int cl, int al, unsigned char *buf, int count) {
 	for (x=0; x<count; x++) {
 		if (x==0) {
 			cmds[i++]=WRITE_EXTENDED;
-			cmds[i++] = (cl ? ACBUS6_CL : 0) | (al ? ACBUS7_AL : 0);  //  Address High ACBUS
+			cmds[i++] = (cl ? ACBUS6_CL : 0) | (al ? ACBUS7_AL : 0) | ACBUS5_WP; //  Address High ( ACBUS )
 			cmds[i++]=00;       // Address low ( ADBUS )
 		  }
     else {
@@ -179,9 +180,8 @@ int FtdiNand::sendAddr(long long addr, int noBytes) {
   switch (noBytes) {
     case 2:               // no address! is page to erase :-)
       buff[0]= addr&0xFF;
-      buff[1]=(addr&0x00F00)>>8;
+      buff[1]=(addr&0x0F00)>>8;
       break;
-    
     case 4:
       buff[0]= addr&0xFF;
       buff[1]=(addr&0x00F00)>>8;
@@ -197,8 +197,11 @@ int FtdiNand::sendAddr(long long addr, int noBytes) {
       buff[4]=0x00;
       break;
     default:
-      for (x=0; x<noBytes; x++) {
-        buff[x]=addr&0xff;
+      buff[0]=0x00;
+      buff[1]=0x00;
+      addr=addr>>16;
+      for (x=2; x<noBytes; x++) {
+        buff[x]=addr&0xFF0000;
         addr=addr>>8;
         }
       break;

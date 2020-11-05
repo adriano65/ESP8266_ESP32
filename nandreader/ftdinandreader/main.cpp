@@ -165,7 +165,7 @@ int main(int argc, char **argv) {
     case NandChip::actionErase:   // 131072 == 128 kiB
       if (nandChip.checkAddresses(action)==0) {
         unsigned int erasepage;
-        printf("Erasing %u pages of %i bytes\n", nandChip.end_address-nandChip.start_erasepageno, nandChip.pageSize);
+        printf("Erasing %u pages of %i bytes\n", nandChip.end_erasepageno-nandChip.start_erasepageno, nandChip.pageSize);
         for (erasepage=nandChip.start_erasepageno; erasepage<nandChip.end_erasepageno; erasepage++) {
           if (nandChip.erasePage(erasepage)) { printf("page from 0x%02X (0x%08X) erased\n", erasepage, erasepage*nandChip.erasepageSize); }
           else { printf("address from 0x%02X (0x%08X) NOT erased\n", erasepage, erasepage*nandChip.erasepageSize); }
