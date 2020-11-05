@@ -36,6 +36,10 @@ NandData::NandData(FtdiNand *_pFtdiNand, NandID *_pNandID) {
 	pNandID=_pNandID;
 }
 
+NandData::~NandData() {
+  printf("~NandData\n");
+}
+
 int NandData::readPage(unsigned long address, unsigned char *buff, int pageSize) {
 	int nRet=0;
 	pFtdiNand->sendCmd(NAND_CMD_READ0);

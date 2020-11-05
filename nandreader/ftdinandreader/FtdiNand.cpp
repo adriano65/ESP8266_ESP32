@@ -34,7 +34,7 @@ FtdiNand::FtdiNand() {
 
 //Destructor: Close everything.
 FtdiNand::~FtdiNand() {
-  //EnableRead(false);
+  DisableACBUS(true);
 	ftdi_usb_close(&m_ftdi);
 	ftdi_deinit(&m_ftdi);
 }
@@ -122,7 +122,7 @@ int FtdiNand::nandWrite(int cl, int al, unsigned char *buf, int count) {
 	for (x=0; x<count; x++) {
 		if (x==0) {
 			cmds[i++]=WRITE_EXTENDED;
-			cmds[i++] = (cl ? ACBUS6_CL : 0) | (al ? ACBUS7_AL : 0) | ACBUS5_WP; //  Address High ( ACBUS )
+			cmds[i++]=(cl ? ACBUS6_CL : 0) | (al ? ACBUS7_AL : 0) | ACBUS5_WP; //  Address High ( ACBUS )
 			cmds[i++]=00;       // Address low ( ADBUS )
 		  }
     else {
@@ -151,14 +151,33 @@ void FtdiNand::EnableRead(bool bEnable) {
   // BDBUS2 --> #RE  read enable
   // BDBUS3 --> #WE  write enable
   // BDBUS4 --> nc   FTDI IORDY
-  // BDBUS6 --> #CE  FTDI I/O0 pin 45
-  // BDBUS7 --> R/#B  -- input Ready or #Busy
+  // BDBUS6 --> nc  FTDI I/O0 pin 45
+  // BDBUS7 --> R/#B  -- input Ready or #Busy  
 	unsigned char crtl_buf[3];
   crtl_buf[0] = SET_BITS_HIGH;   // BDBUS
   crtl_buf[1] = bEnable ? 0b11111110 : 0x7F;    // pinState
   crtl_buf[2] = bEnable ? 0x01 : 0x00;          // pinDirection 0=in, 1=out   -- only R/#B is input
   if ( ftdi_write_data(&m_ftdi, crtl_buf, 3) < 0 ) error("SET_BITS_HIGH fail");
   usleep(10000);
+}
+
+void FtdiNand::DisableACBUS(bool bEnable) {
+	unsigned char crtl_buf[4];
+  // ACBUS0 --> nc   FTDI A8
+  // ACBUS1 --> nc   FTDI A9
+  // ACBUS2 --> nc   FTDI A10
+  // ACBUS3 --> nc   FTDI A11
+  // ACBUS4 --> #CE  FTDI A12
+  // ACBUS5 --> WP   FTDI A13
+  // ACBUS6 --> CLE  FTDI A14
+  // ACBUS7 --> ALE  FTDI A15
+  crtl_buf[0]=WRITE_EXTENDED;
+  crtl_buf[1]=0xF0;       //  Address High ( ACBUS )
+  crtl_buf[2]=00;       // Address low ( ADBUS )
+  crtl_buf[3]=NAND_CMD_RESET;  
+  if ( ftdi_write_data(&m_ftdi, crtl_buf, 4) < 0 ) error("WRITE_EXTENDED fail");
+  usleep(10000);
+	//delete[] crtl_buf;
 }
 
 unsigned char FtdiNand::status() {

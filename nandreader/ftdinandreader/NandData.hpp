@@ -15,6 +15,7 @@ public:
   #else
 	NandData(FtdiNand *, NandID *);
   #endif
+	~NandData();
 	int readPage(unsigned long, unsigned char *buf, int len);
 	int writePage(unsigned long, unsigned char *buf, int len);
 	int erasePage(unsigned int );

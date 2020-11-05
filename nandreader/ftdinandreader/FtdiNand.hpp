@@ -11,7 +11,7 @@ public:
 	~FtdiNand();
   virtual int open(int _vid, int _pid, bool _doslow);
   void EnableRead(bool bEnable);
-  void EnableWrite(bool bEnable);
+  void DisableACBUS(bool bEnable);
 	virtual int sendCmd(unsigned char cmd);
 	virtual int sendAddr(long long addr, int noBytes);
 	int writeData(unsigned char *data, int count);

@@ -41,6 +41,8 @@ int usage();
 int main(int argc, char **argv) {
   FILE *fp;
   bool doSlow=false;
+  NandChip *pNandChip;
+
   NandChip::AccessType accessType=NandChip::PageplusOOB;
   unsigned long start_address, end_address, address;
 	int x, r, lenght, vid=0, pid=0;
@@ -97,23 +99,23 @@ int main(int argc, char **argv) {
 	  }
   if (action==NandChip::actionNone) { usage(); exit(0);}
 
-  NandChip nandChip(vid, pid, doSlow, accessType, start_address, end_address);
+  pNandChip=new NandChip(vid, pid, doSlow, accessType, start_address, end_address);
 
   switch (action) {
     case NandChip::getID:
       break;
 
     case NandChip::actionRead:
-      if (nandChip.checkAddresses(action)==0) {
+      if (pNandChip->checkAddresses(action)==0) {
         if ((fp=fopen(file.c_str(), "wb+")) == NULL) { perror(file.c_str()); exit(1); }
-        printf("Reading from 0x%08X to 0x%08X (%s)\n", nandChip.start_address, nandChip.end_address, nandChip.accessType==NandChip::Page ? "Page" : "Page+OOB" );
-        for (address=nandChip.start_address; address<nandChip.end_address; address+=nandChip.pageSize) {
-          lenght=nandChip.readPage(address);
-          r=fwrite(nandChip.pageBuf, 1, lenght, fp);
+        printf("Reading from 0x%08X to 0x%08X (%s)\n", pNandChip->start_address, pNandChip->end_address, pNandChip->accessType==NandChip::Page ? "Page" : "Page+OOB" );
+        for (address=pNandChip->start_address; address<pNandChip->end_address; address+=pNandChip->pageSize) {
+          lenght=pNandChip->readPage(address);
+          r=fwrite(pNandChip->pageBuf, 1, lenght, fp);
           if (r!=lenght) { printf("Error writing data to file\n"); break; }
-          //printf("0x%08X / 0x%08X\n", address, (nandChip.start_address-nandChip.end_address)*nandChip.pageSize);
+          //printf("0x%08X / 0x%08X\n", address, (pNandChip->start_address-pNandChip->end_address)*pNandChip->pageSize);
           if ((address&0xF)==0) {
-            printf("0x%08X / 0x%08X\n\033[A", address, nandChip.end_address);
+            printf("0x%08X / 0x%08X\n\033[A", address, pNandChip->end_address);
             }
           }
         fclose(fp);
@@ -121,19 +123,19 @@ int main(int argc, char **argv) {
       break;
 
     case NandChip::actionVerify:
-      verifyBuf=new char[nandChip.pageSize];
+      verifyBuf=new char[pNandChip->pageSize];
 
-      if (nandChip.checkAddresses(action)) {
+      if (pNandChip->checkAddresses(action)) {
         if ((fp=fopen(file.c_str(), "rb")) == NULL) { perror(file.c_str()); exit(1); }
-        printf("Verifying 0x%08X bytes of 0x%04X bytes (%s)\n", nandChip.end_address-nandChip.start_address, nandChip.pageSize, nandChip.accessType==NandChip::Page ? "Page" : "Page+OOB" );
+        printf("Verifying 0x%08X bytes of 0x%04X bytes (%s)\n", pNandChip->end_address-pNandChip->start_address, pNandChip->pageSize, pNandChip->accessType==NandChip::Page ? "Page" : "Page+OOB" );
         unsigned int page;
         while (!feof(fp)) {
-          r=fread(verifyBuf, 1, nandChip.pageSize, fp);
-          if (r!=nandChip.pageSize) { perror("reading data from file"); exit(1); }
-          for (int y=0; y<nandChip.pageSize; y++) {
-            if (verifyBuf[y]!=nandChip.pageBuf[y]) {
+          r=fread(verifyBuf, 1, pNandChip->pageSize, fp);
+          if (r!=pNandChip->pageSize) { perror("reading data from file"); exit(1); }
+          for (int y=0; y<pNandChip->pageSize; y++) {
+            if (verifyBuf[y]!=pNandChip->pageBuf[y]) {
               verifyErrors++;
-              printf("Verify error: Page %i, byte %i: file 0x%02hhX flash 0x%02hhX\n", page, y, verifyBuf[y], nandChip.pageBuf[y]);
+              printf("Verify error: Page %i, byte %i: file 0x%02hhX flash 0x%02hhX\n", page, y, verifyBuf[y], pNandChip->pageBuf[y]);
               }
             }
           page++;
@@ -143,32 +145,32 @@ int main(int argc, char **argv) {
       break;
 
     case NandChip::actionWrite:
-      if (nandChip.checkAddresses(action)==0) {
+      if (pNandChip->checkAddresses(action)==0) {
         if ((fp=fopen(file.c_str(), "rb")) == NULL) { perror(file.c_str()); exit(1); }
-        printf("Writing from 0x%08X to 0x%08X (%s)\n", nandChip.start_address, nandChip.end_address, nandChip.accessType==NandChip::Page ? "Page" : "Page+OOB" );
-        for (address=nandChip.start_address; address<nandChip.end_address; address+=nandChip.pageSize) {
-          r = fread(nandChip.pageBuf, 1, nandChip.pageSize, fp);
-          if (r != nandChip.pageSize) { printf("\nInsufficient data from file\n"); break; }        
+        printf("Writing from 0x%08X to 0x%08X (%s)\n", pNandChip->start_address, pNandChip->end_address, pNandChip->accessType==NandChip::Page ? "Page" : "Page+OOB" );
+        for (address=pNandChip->start_address; address<pNandChip->end_address; address+=pNandChip->pageSize) {
+          r = fread(pNandChip->pageBuf, 1, pNandChip->pageSize, fp);
+          if (r != pNandChip->pageSize) { printf("\nInsufficient data from file\n"); break; }        
 
-          if (address % nandChip.erasepageSize == 0) {
-            if ( ! nandChip.erasePage(address/nandChip.erasepageSize) ) { printf("Erasing page %i FAILS", address); }
+          if (address % pNandChip->erasepageSize == 0) {
+            if ( ! pNandChip->erasePage(address/pNandChip->erasepageSize) ) { printf("Erasing page %i FAILS", address); }
             }
 
-          int err = nandChip.writePage(address);
+          int err = pNandChip->writePage(address);
 
-          printf("0x%08X / 0x%08X\n\033[A", address, nandChip.end_address);
+          printf("0x%08X / 0x%08X\n\033[A", address, pNandChip->end_address);
           }
         fclose(fp);
         }
       break;
 
     case NandChip::actionErase:   // 131072 == 128 kiB
-      if (nandChip.checkAddresses(action)==0) {
+      if (pNandChip->checkAddresses(action)==0) {
         unsigned int erasepage;
-        printf("Erasing %u pages of %i bytes\n", nandChip.end_erasepageno-nandChip.start_erasepageno, nandChip.pageSize);
-        for (erasepage=nandChip.start_erasepageno; erasepage<nandChip.end_erasepageno; erasepage++) {
-          if (nandChip.erasePage(erasepage)) { printf("page from 0x%02X (0x%08X) erased\n", erasepage, erasepage*nandChip.erasepageSize); }
-          else { printf("address from 0x%02X (0x%08X) NOT erased\n", erasepage, erasepage*nandChip.erasepageSize); }
+        printf("Erasing %u pages of %i bytes\n", pNandChip->end_erasepageno-pNandChip->start_erasepageno, pNandChip->pageSize);
+        for (erasepage=pNandChip->start_erasepageno; erasepage<pNandChip->end_erasepageno; erasepage++) {
+          if (pNandChip->erasePage(erasepage)) { printf("page from 0x%02X (0x%08X) erased\n", erasepage, erasepage*pNandChip->erasepageSize); }
+          else { printf("address from 0x%02X (0x%08X) NOT erased\n", erasepage, erasepage*pNandChip->erasepageSize); }
           }
         }
       break;
@@ -177,7 +179,7 @@ int main(int argc, char **argv) {
       printf("Boh???\n");
       break;
     }
-
+  delete pNandChip;
 	printf("\nAll done.\n");
 }
 

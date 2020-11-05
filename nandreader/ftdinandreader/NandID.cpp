@@ -170,6 +170,10 @@ NandID::NandID(unsigned char *idBytes) {
   printf("%s page, needs %i addr bytes.\n", isLargePage()?"Large":"Small", getAddrByteCount());	
 }
 
+NandID::~NandID() {
+  ;
+}
+
 string NandID::getDesc() {
 	return m_nandDesc;
 }

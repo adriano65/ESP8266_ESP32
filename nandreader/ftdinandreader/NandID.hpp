@@ -7,6 +7,7 @@ using namespace std;
 class NandID {
 public:
 	NandID(unsigned char *idbytes);
+	~NandID();
 	string getManufacturer();
 	string getDesc();
 	unsigned int getPageSize();

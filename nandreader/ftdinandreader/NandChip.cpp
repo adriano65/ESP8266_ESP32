@@ -34,7 +34,7 @@ NandChip::NandChip(int vid, int pid, bool doSlow, AccessType _accessType, unsign
 
   accessType=_accessType;
   if (accessType==useBitBang) {
-	  pFtdiNand = new FtdiNand_BB();
+	  pFtdiNand=new FtdiNand_BB();
     }
   else
 	  pFtdiNand=new FtdiNand();
@@ -65,7 +65,9 @@ NandChip::NandChip(int vid, int pid, bool doSlow, AccessType _accessType, unsign
   }
 
 NandChip::~NandChip() {
-	delete pNandID;
+	delete pFtdiNand;
+  //delete[] pNandData;
+	//delete pNandID;
 }
 
 NandChip::AddressCheck NandChip::checkAddresses(Action action) {
