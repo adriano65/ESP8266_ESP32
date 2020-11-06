@@ -87,7 +87,7 @@ FTDI PIN                  NAND PIN
 #define PIN_ALE  0x20
 #define PIN_CLE  0x40
 //#define PIN_nWP  0x80
-#define CONTROLBUS_BITMASK 0b01101111
+#define CONTROLBUS_DIR 0b01101111   // pinDirection 0=in, 1=out
 
 #define STATUSREG_IO0  0x01
 
@@ -143,7 +143,7 @@ typedef enum { LOW=0, HIGH=1 } onoff_t;
 typedef enum { IOBUS_IN=0, IOBUS_OUT=1 } iobus_inout_t;
 
 unsigned char iobus_value;
-unsigned char controlbus_dir=CONTROLBUS_BITMASK, controlbus_value;
+unsigned char controlbus_dir=CONTROLBUS_DIR, controlbus_value;
 unsigned char crtl_buf[4], io_buf[4];
 unsigned char column_addr[2], row_addr[3];
 
@@ -277,16 +277,8 @@ int setcolumns(uint32_t mem_address) {
 
     switch (Nand[nIdx].type) {
       case MT29:
-        if ((mem_address & 0x00000800)==0x800){
-          //column_addr[0] = (unsigned char)(  mem_address & 0x0000003F);
-          //column_addr[1] = (unsigned char)( (mem_address & 0x00000800) >> 8 );
-          column_addr[0] = 0x00;
-          column_addr[1] = 0x00;
-          }
-        else {
-          column_addr[0] = (unsigned char)(  mem_address & 0x000000FF);
-          column_addr[1] = (unsigned char)( (mem_address & 0x00000F00) >> 8 );
-          }
+        column_addr[0] = (unsigned char)(  mem_address & 0x000000FF);
+        column_addr[1] = (unsigned char)( (mem_address & 0x00000F00) >> 8 );
         break;
 
       case S34:
@@ -318,8 +310,8 @@ int setcolumns(uint32_t mem_address) {
       usleep(REALWORLD_DELAY); /* TODO: assure hold delay */
       }
 
-    controlbus_pin_set(PIN_ALE, LOW);
-    controlbus_update_output();
+    //controlbus_pin_set(PIN_ALE, LOW);
+    //controlbus_update_output();
 
     // wait for ALE to nRE Delay tAR before nRE is taken low (nanoseconds!)
     //usleep(REALWORLD_DELAY);
@@ -343,8 +335,12 @@ int setrows(uint32_t mem_address) {
         nBlock=mem_address%Nand[nIdx].page_size;
         //row_addr[0] = (unsigned char)( (mem_address & 0x000FF000) >> 12 );
         //row_addr[1] = (unsigned char)( (mem_address & 0x0FF00000) >> 20 );
-        row_addr[0] = (unsigned char)( (mem_address & 0x0003FC00) >> 11 );
-        row_addr[1] = (unsigned char)( (mem_address & 0x03FC0000) >> 19 );
+        //row_addr[0] = (unsigned char)( (mem_address & 0x0000F700) >> 12 );
+        //row_addr[1] = (unsigned char)( (mem_address & 0x00FF0000) >> 20 );
+        row_addr[0] = (unsigned char)(mem_address >> 12 );
+        row_addr[1] = (unsigned char)(mem_address >> 20 );
+        //row_addr[0] = (unsigned char)(mem_address >> 16 );
+        //row_addr[1] = (unsigned char)(mem_address >> 24 );
         rows=2;
         break;
       case S34:
@@ -619,6 +615,8 @@ int program_page(unsigned int nPage, unsigned char* data, unsigned int page_size
   /* remove write protection */
   controlbus_pin_set(PIN_nWP, HIGH);
 
+  if( ~controlbus_value & PIN_nRE ) { fprintf(stderr, "nRE pin is not high\n"); return EXIT_FAILURE; }
+
   DBG_MIN("Writing from 0x%04X to 0x%04X, Page %d", mem_address, mem_address+page_size-1, nPage);
   //for (int n=0; n<page_size; n+=8) { DBG_MIN("mem_address 0x%04X 0x%02X 0x%02X 0x%02X 0x%02X 0x%02X 0x%02X 0x%02X 0x%02X", mem_address+n, data[n], data[n+1], data[n+2], data[n+3], data[n+4], data[n+5], data[n+6], data[n+7]); }
   latch_command(CMD_PAGEPROGRAM1, 1); /* Serial Data Input command */
@@ -822,7 +820,8 @@ int main(int argc, char **argv) {
               // total blocks -> 64 * 1024
               for (unsigned int nPage = startingpage; nPage < startingpage+totPages; nPage++) {
                 read_memory(nPage, data, Nand[nIdx].page_size);
-                fwrite(&data[0], 1, Nand[nIdx].page_size, fp);
+                //for (int i=0; i<Nand[nIdx].page_size; i++) printf("Page 0x%02X Data 0x%02X\n", i, data[i]);
+                fwrite(data, 1, Nand[nIdx].page_size, fp);
                 }
               fclose(fp);
               free(data);
@@ -842,6 +841,7 @@ int main(int argc, char **argv) {
               unsigned char *data=(unsigned char *)malloc(Nand[nIdx].page_size);
               for (unsigned int nPage = startingpage; nPage < startingpage+totPages; nPage++) {
                 read_memory(nPage, data, Nand[nIdx].page_size+Nand[nIdx].spare_size);
+                //for (int i=0; i<Nand[nIdx].page_size; i++) printf("Page 0x%02X Data 0x%02X\n", i, data[i]);
                 fwrite(&data[0], 1, Nand[nIdx].page_size+Nand[nIdx].spare_size, fp);
                 }
               fclose(fp);
@@ -869,7 +869,8 @@ int main(int argc, char **argv) {
               unsigned char *data=(unsigned char *)malloc(Nand[nIdx].page_size);
               for (unsigned int nPage = startingpage; nPage < startingpage+totPages; nPage++) {
                 if (feof(fp)) { printf("End of file %s\n", filename); break; }
-                fread(&data[0], 1, Nand[nIdx].page_size, fp);
+                fread(data, 1, Nand[nIdx].page_size, fp);
+                //for (int i=0; i<Nand[nIdx].page_size; i++) printf("Page 0x%02X Data 0x%02X\n", i, data[i]);
                 program_page(nPage, data, Nand[nIdx].page_size);
                 }
               fclose(fp);
@@ -906,6 +907,7 @@ int main(int argc, char **argv) {
           printf("-s startingpage -r 256 -> reads from startingpage total pages (first 256 blocks is bootloader, second 256 block certificates)\n");
           printf("-p 0 -e 2 -> erase from starting_erasepage n pages (first 256 blocks is bootloader)\n");
           printf("-s startingpage -w value -> write blocks from ?.bin\n");
+          printf("-f filename to use\n");
           printf("-E enable ECC\n\n");
           printf("Example:\n");
           printf("Write on first eraseblock of 64 * 2048 pages -> 0x00000-0x20000 == 131072 bytes == 128 kB\n");
@@ -925,7 +927,7 @@ int main(int argc, char **argv) {
           printf("erase bank1 0x2000000-0x4500000\n");
           printf("./nandread_FTDI232H -p 256 -e 296\n");
           printf("Write on bank1 0x2000000-0x4500000\n");
-          printf("./nandread_FTDI232H -f bank1.bin -s 16384 -r 18944\n");
+          printf("./nandread_FTDI232H -f bank1.bin -s 16384 -w 18944\n");
 
           printf("erase bank2 0x4500000-0x6a00000\n");
           printf("./nandread_FTDI232H -p 552 -e 296\n");
