@@ -65,6 +65,7 @@ int NandData::erasePage(unsigned int pageno) {
 	pFtdiNand->sendCmd(NAND_CMD_ERASE1);
 	pFtdiNand->sendAddr(pageno, pNandID->getEraseAddrByteCount());
 	pFtdiNand->sendCmd(NAND_CMD_ERASE2);
+  //usleep(100000);
 	pFtdiNand->waitReady();
 	int status = pFtdiNand->status();
 	return !(status & NAND_STATUS_FAIL);

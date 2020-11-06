@@ -16,7 +16,8 @@ public:
     actionRead,
     actionWrite,
     actionVerify,
-    actionErase
+    actionErase,
+    actionAddOOB
   };
 
 	enum AccessType {
@@ -26,12 +27,13 @@ public:
 		recalcOOB,
 		useBitBang,
 	  };
-  NandChip(int vid, int pid, bool doSlow, AccessType accessType, unsigned long start_address, unsigned long end_address);
+  NandChip(int vid, int pid, bool doSlow, AccessType _accessType, Action action, unsigned long _start_address, unsigned long _end_address);
 	~NandChip();
   AccessType accessType;
   unsigned long start_address;
   unsigned long end_address;
-  unsigned int pageSize;
+  unsigned int nandPageSize;
+  unsigned int filePageSize;
   unsigned int erasepageSize;
   unsigned int start_erasepageno;
   unsigned int end_erasepageno;

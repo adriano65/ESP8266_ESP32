@@ -11,9 +11,12 @@
 #define NAND_CMD_STATUS_MULTI	0x71
 #define NAND_CMD_SEQIN		0x80
 #define NAND_CMD_RNDIN		0x85
+
 #define NAND_CMD_READID		0x90
+#define NAND_ADDR_READID1	0x00
+#define NAND_ADDR_READID1	0x20
+
 #define NAND_CMD_ERASE2		0xd0
-#define NAND_CMD_PARAM		0xec
 #define NAND_CMD_RESET		0xFF
 #define NAND_CMD_LOCK		0x2a
 #define NAND_CMD_UNLOCK1	0x23
@@ -23,6 +26,10 @@
 #define NAND_CMD_RNDOUTSTART	0xE0
 #define NAND_CMD_CACHEDPROG	  0x15
 #define NAND_CMD_ONFI		      0xEC
+
+#define NAND_CMD_GETFEATURES  0xEE
+#define NAND_ADDR_TIMINGS     0x01
+#define NAND_ADDR_ARRAYOP     0x90
 
 #define NAND_STATUS_FAIL 			(1<<0) /* HIGH - FAIL,  LOW - PASS */
 #define NAND_STATUS_IDLE 			(1<<5) /* HIGH - IDLE,  LOW - ACTIVE */

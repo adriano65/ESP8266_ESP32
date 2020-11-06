@@ -29,7 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "NandCmds.h"
 #include "bch.h"
 
-NandChip::NandChip(int vid, int pid, bool doSlow, AccessType _accessType, unsigned long _start_address, unsigned long _end_address) {
+NandChip::NandChip(int vid, int pid, bool doSlow, AccessType _accessType, Action action, unsigned long _start_address, unsigned long _end_address) {
 	unsigned char id[5];
 
   accessType=_accessType;
@@ -42,24 +42,62 @@ NandChip::NandChip(int vid, int pid, bool doSlow, AccessType _accessType, unsign
   pFtdiNand->open(vid, pid, doSlow);
   
 	pFtdiNand->sendCmd(NAND_CMD_RESET);
-	pFtdiNand->sendAddr(0, 1);
+	pFtdiNand->waitReady();
 
 	pFtdiNand->sendCmd(NAND_CMD_READID);
-	pFtdiNand->sendAddr(0, 1);
+	pFtdiNand->sendAddr(NAND_ADDR_READID1, 1);
 	pFtdiNand->readData(id, 5);
 
 	pNandID=new NandID(id);
   pNandData=new NandData(pFtdiNand, pNandID);
 
-  if (accessType==PageplusOOB) {
-    pageSize=pNandID->getfullPageSz();
-    erasepageSize=pNandID->getfullEraseSz();
-    }
-  else {
-    pageSize=pNandID->getPageSize();
+	pFtdiNand->sendCmd(NAND_CMD_GETFEATURES);
+	pFtdiNand->sendAddr(NAND_ADDR_TIMINGS, 1);
+	pFtdiNand->readData(id, 5);
+  printf("NAND_CMD_GETFEATURES->NAND_ADDR_TIMINGS 0x%02X 0x%02X 0x%02X 0x%02X\n", id[0], id[1], id[2], id[3]);
+	pFtdiNand->sendCmd(NAND_CMD_GETFEATURES);
+	pFtdiNand->sendAddr(NAND_ADDR_ARRAYOP, 1);
+	pFtdiNand->readData(id, 5);
+  printf("NAND_CMD_GETFEATURES->NAND_ADDR_ARRAYOP 0x%02X 0x%02X 0x%02X 0x%02X\n", id[0], id[1], id[2], id[3]);
+
+
+  switch (accessType) {
+  case Page:
+    nandPageSize=filePageSize=pNandID->getPageSize();
+    pageBuf=new unsigned char[nandPageSize];
     erasepageSize=pNandID->getEraseSz();
+    break;
+
+  case PageplusOOB:
+    nandPageSize=filePageSize=pNandID->getfullPageSz();
+    pageBuf=new unsigned char[nandPageSize];
+    erasepageSize=pNandID->getfullEraseSz();
+    break;
+  
+  case recalcOOB:
+    switch (action) {
+      // loads pages from file (without OOB), add OOB to pagebuf and compare them to nand loaded with OOB data
+      case actionVerify:
+        filePageSize=pNandID->getPageSize();
+        nandPageSize=pNandID->getfullPageSz();
+        pageBuf=new unsigned char[nandPageSize];
+        erasepageSize=pNandID->getEraseSz();
+        break;
+      // loads pages from file (without OOB) and write them to nand adding OOB data
+      case actionWrite:
+        filePageSize=pNandID->getPageSize();
+        nandPageSize=pNandID->getfullPageSz();
+        pageBuf=new unsigned char[nandPageSize];
+        erasepageSize=pNandID->getEraseSz();
+        break;
     }
-  pageBuf=new unsigned char[pageSize];
+    break;
+
+  default:
+    exit(0);
+    break;
+    }
+
   start_address=_start_address;
   end_address=_end_address;
   }
@@ -84,9 +122,9 @@ NandChip::AddressCheck NandChip::checkAddresses(Action action) {
       }
     }
 
-  if (start_address%pageSize == 0) { start_pageno=start_address/pageSize; }
+  if (start_address%nandPageSize == 0) { start_pageno=start_address/nandPageSize; }
   else { 
-    printf("Misaligned start_address for R/W: use 0x%08X\n", (unsigned long)(start_address/pageSize)*pageSize); 
+    printf("Misaligned start_address for R/W: use 0x%08X\n", (unsigned long)(start_address/nandPageSize)*nandPageSize); 
     return BadStart;
     }
 
@@ -98,24 +136,34 @@ NandChip::AddressCheck NandChip::checkAddresses(Action action) {
       }
     }
 
-  if (end_address%pageSize == 0) { end_pageno=end_address/pageSize; }
+  if (end_address%nandPageSize == 0) { end_pageno=end_address/nandPageSize; }
   else { 
-    printf("Misaligned end_address for R/W: use 0x%08X\n", (unsigned long)(end_address/pageSize)*pageSize);
+    printf("Misaligned end_address for R/W: use 0x%08X\n", (unsigned long)(end_address/nandPageSize)*nandPageSize);
     return BadEnd;
     }
   return OK;
 }
 
 int NandChip::readPage(unsigned long address) {
-  //r=pNandData->readOob(page, &pageBuf[r], pageSize);
-	return pNandData->readPage(address, pageBuf, pageSize);;
+  int nRes;
+  if (accessType=recalcOOB) {   // original file must NOT have old OOB !!
+	  nRes=pNandData->readPage(address, pageBuf, nandPageSize);
+    brcm_nand(8, pageBuf);                //default polynomial
+    }
+  else
+  	nRes=pNandData->readPage(address, pageBuf, nandPageSize);;
+	return nRes;
 }
 
 int NandChip::writePage(unsigned long address) {
-  if (accessType=NandChip::recalcOOB) {   // original file must have old OOB !!
+  int nRes;
+  if (accessType=recalcOOB) {   // original file must NOT have old OOB !!
     brcm_nand(0, pageBuf);                //default polynomial
+	  nRes=pNandData->writePage(address, pageBuf, nandPageSize);
     }
-	return pNandData->writePage(address, pageBuf, pageSize);
+  else 
+    nRes=pNandData->writePage(address, pageBuf, nandPageSize);
+	return nRes;
 }
 
 int NandChip::erasePage(unsigned int page) {

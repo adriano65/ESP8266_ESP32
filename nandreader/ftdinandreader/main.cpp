@@ -46,9 +46,9 @@ int main(int argc, char **argv) {
   NandChip::AccessType accessType=NandChip::PageplusOOB;
   unsigned long start_address, end_address, address;
 	int x, r, lenght, vid=0, pid=0;
-	string file="";
+	string file="", fileOut="";
   int verifyErrors=0;
-  char *verifyBuf;
+  unsigned char *tmpBuf;
 
   //nand = new NandChip();
 	printf("FT2232H-based NAND reader\n");
@@ -59,6 +59,7 @@ int main(int argc, char **argv) {
     else if (strcmp(argv[x],"-r")==0 && x<=(argc-2)) { action=NandChip::actionRead;	file=argv[++x]; }
     else if (strcmp(argv[x],"-w")==0 && x<=(argc-2)) { action=NandChip::actionWrite; file=argv[++x]; }
     else if (strcmp(argv[x],"-v")==0 && x<=(argc-2)) { action=NandChip::actionVerify;	file=argv[++x];	}
+    else if (strcmp(argv[x],"-c")==0 && x<=(argc-2)) { action=NandChip::actionAddOOB;	file=argv[++x];	}
     else if (strcmp(argv[x],"-u")==0 && x<=(argc-2)) { action=NandChip::actionVerify;
 			char *endp;
 			x++;
@@ -99,7 +100,7 @@ int main(int argc, char **argv) {
 	  }
   if (action==NandChip::actionNone) { usage(); exit(0);}
 
-  pNandChip=new NandChip(vid, pid, doSlow, accessType, start_address, end_address);
+  pNandChip=new NandChip(vid, pid, doSlow, accessType, action, start_address, end_address);
 
   switch (action) {
     case NandChip::getID:
@@ -109,7 +110,7 @@ int main(int argc, char **argv) {
       if (pNandChip->checkAddresses(action)==0) {
         if ((fp=fopen(file.c_str(), "wb+")) == NULL) { perror(file.c_str()); exit(1); }
         printf("Reading from 0x%08X to 0x%08X (%s)\n", pNandChip->start_address, pNandChip->end_address, pNandChip->accessType==NandChip::Page ? "Page" : "Page+OOB" );
-        for (address=pNandChip->start_address; address<pNandChip->end_address; address+=pNandChip->pageSize) {
+        for (address=pNandChip->start_address; address<pNandChip->end_address; address+=pNandChip->nandPageSize) {
           lenght=pNandChip->readPage(address);
           r=fwrite(pNandChip->pageBuf, 1, lenght, fp);
           if (r!=lenght) { printf("Error writing data to file\n"); break; }
@@ -121,36 +122,56 @@ int main(int argc, char **argv) {
         fclose(fp);
         }
       break;
-
+    
     case NandChip::actionVerify:
-      verifyBuf=new char[pNandChip->pageSize];
-
+      tmpBuf=new unsigned char[pNandChip->nandPageSize];
       if (pNandChip->checkAddresses(action)) {
         if ((fp=fopen(file.c_str(), "rb")) == NULL) { perror(file.c_str()); exit(1); }
-        printf("Verifying 0x%08X bytes of 0x%04X bytes (%s)\n", pNandChip->end_address-pNandChip->start_address, pNandChip->pageSize, pNandChip->accessType==NandChip::Page ? "Page" : "Page+OOB" );
-        unsigned int page;
+        printf("Verifying 0x%08X bytes of 0x%04X bytes (%s)\n", pNandChip->end_address-pNandChip->start_address, pNandChip->nandPageSize, pNandChip->accessType==NandChip::Page ? "Page" : "Page+OOB" );
+        unsigned long address=pNandChip->start_address;
         while (!feof(fp)) {
-          r=fread(verifyBuf, 1, pNandChip->pageSize, fp);
-          if (r!=pNandChip->pageSize) { perror("reading data from file"); exit(1); }
-          for (int y=0; y<pNandChip->pageSize; y++) {
-            if (verifyBuf[y]!=pNandChip->pageBuf[y]) {
-              verifyErrors++;
-              printf("Verify error: Page %i, byte %i: file 0x%02hhX flash 0x%02hhX\n", page, y, verifyBuf[y], pNandChip->pageBuf[y]);
-              }
+          r=fread(tmpBuf, 1, pNandChip->filePageSize, fp);  //file is without OOB
+          if (r!=pNandChip->filePageSize) { perror("reading data from file"); exit(1); }
+          lenght=pNandChip->readPage(address);
+          for (int y=0; y<pNandChip->nandPageSize; y++) {
+            if (tmpBuf[y]!=pNandChip->pageBuf[y]) { printf("OOB calculated -->: address 0x%08X, byte %i: file 0x%02X flash 0x%02X\n", address+y, y, tmpBuf[y], pNandChip->pageBuf[y]); }
             }
-          page++;
+          address+=pNandChip->nandPageSize;
           }
         fclose(fp);
         }
+      delete[] tmpBuf;
+      break;
+
+    case NandChip::actionAddOOB:
+      tmpBuf=new unsigned char[pNandChip->nandPageSize];
+      //fileOut=file
+      if (pNandChip->checkAddresses(action)) {
+        if ((fp=fopen(file.c_str(), "rb")) == NULL) { perror(file.c_str()); exit(1); }
+        if ((fp=fopen(file.c_str(), "rb")) == NULL) { perror(file.c_str()); exit(1); }
+        printf("Verifying 0x%08X bytes of 0x%04X bytes (%s)\n", pNandChip->end_address-pNandChip->start_address, pNandChip->nandPageSize, pNandChip->accessType==NandChip::Page ? "Page" : "Page+OOB" );
+        unsigned long address=pNandChip->start_address;
+        while (!feof(fp)) {
+          r=fread(tmpBuf, 1, pNandChip->filePageSize, fp);  //file is without OOB
+          if (r!=pNandChip->filePageSize) { perror("reading data from file"); exit(1); }
+          lenght=pNandChip->readPage(address);
+          for (int y=0; y<pNandChip->nandPageSize; y++) {
+            if (tmpBuf[y]!=pNandChip->pageBuf[y]) { printf("OOB calculated -->: address 0x%08X, byte %i: file 0x%02X flash 0x%02X\n", address+y, y, tmpBuf[y], pNandChip->pageBuf[y]); }
+            }
+          address+=pNandChip->nandPageSize;
+          }
+        fclose(fp);
+        }
+      delete[] tmpBuf;
       break;
 
     case NandChip::actionWrite:
       if (pNandChip->checkAddresses(action)==0) {
         if ((fp=fopen(file.c_str(), "rb")) == NULL) { perror(file.c_str()); exit(1); }
         printf("Writing from 0x%08X to 0x%08X (%s)\n", pNandChip->start_address, pNandChip->end_address, pNandChip->accessType==NandChip::Page ? "Page" : "Page+OOB" );
-        for (address=pNandChip->start_address; address<pNandChip->end_address; address+=pNandChip->pageSize) {
-          r = fread(pNandChip->pageBuf, 1, pNandChip->pageSize, fp);
-          if (r != pNandChip->pageSize) { printf("\nInsufficient data from file\n"); break; }        
+        for (address=pNandChip->start_address; address<pNandChip->end_address; address+=pNandChip->filePageSize) {
+          r = fread(pNandChip->pageBuf, 1, pNandChip->filePageSize, fp);
+          if (r != pNandChip->filePageSize) { printf("\nInsufficient data from file\n"); break; }        
 
           if (address % pNandChip->erasepageSize == 0) {
             if ( ! pNandChip->erasePage(address/pNandChip->erasepageSize) ) { printf("Erasing page %i FAILS", address); }
@@ -167,7 +188,7 @@ int main(int argc, char **argv) {
     case NandChip::actionErase:   // 131072 == 128 kiB
       if (pNandChip->checkAddresses(action)==0) {
         unsigned int erasepage;
-        printf("Erasing %u pages of %i bytes\n", pNandChip->end_erasepageno-pNandChip->start_erasepageno, pNandChip->pageSize);
+        printf("Erasing %u pages of %i bytes\n", pNandChip->end_erasepageno-pNandChip->start_erasepageno, pNandChip->nandPageSize);
         for (erasepage=pNandChip->start_erasepageno; erasepage<pNandChip->end_erasepageno; erasepage++) {
           if (pNandChip->erasePage(erasepage)) { printf("page from 0x%02X (0x%08X) erased\n", erasepage, erasepage*pNandChip->erasepageSize); }
           else { printf("address from 0x%02X (0x%08X) NOT erased\n", erasepage, erasepage*pNandChip->erasepageSize); }

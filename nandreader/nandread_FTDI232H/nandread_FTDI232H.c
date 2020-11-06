@@ -79,15 +79,15 @@ FTDI PIN                  NAND PIN
 #define IOBUS_BITMASK_READ  0x00
 
 /* Pins on ACBUS0..7 (control bus) */
-#define PIN_nCE  0x01
-#define PIN_nWP  0x02
-#define PIN_nRE  0x04
-#define PIN_nWE  0x08
-#define PIN_RDY  0x10
+#define PIN_nCE  0x01   //ACBUS0
+#define PIN_nWP  0x02   //ACBUS1
+#define PIN_nRE  0x04   //ACBUS2
+#define PIN_nWE  0x08   //ACBUS3 - nand pin 18  
+#define PIN_RDY  0x10   //ACBUS4 - nand pin 7  
 #define PIN_ALE  0x20
 #define PIN_CLE  0x40
 //#define PIN_nWP  0x80
-#define CONTROLBUS_BITMASK 0b01111111
+#define CONTROLBUS_BITMASK 0b01101111
 
 #define STATUSREG_IO0  0x01
 
@@ -143,7 +143,7 @@ typedef enum { LOW=0, HIGH=1 } onoff_t;
 typedef enum { IOBUS_IN=0, IOBUS_OUT=1 } iobus_inout_t;
 
 unsigned char iobus_value;
-unsigned char controlbus_dir=0b01101111, controlbus_value;
+unsigned char controlbus_dir=CONTROLBUS_BITMASK, controlbus_value;
 unsigned char crtl_buf[4], io_buf[4];
 unsigned char column_addr[2], row_addr[3];
 
@@ -720,7 +720,7 @@ int main(int argc, char **argv) {
   pBusInterface->bitbang_enabled=0;
 
   ftdi_read_chipid(pBusInterface, &FTDIchipID);
-  printf("ftdi_read_chipid 0x%04X\n", FTDIchipID);
+  printf("ftdi chipid = 0x%04X\n", FTDIchipID);
 
   ftdi_usb_reset(pBusInterface);
   ftdi_set_interface(pBusInterface, INTERFACE_ANY);

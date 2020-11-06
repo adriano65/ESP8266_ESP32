@@ -74,6 +74,7 @@ int FtdiNand::nandRead(int cl, int al, unsigned char *buf, int count) {
 	for (x=0; x<count; x++) {
 		if (x==0) {
 			cmds[i++]=READ_EXTENDED;
+      // WP must be high (disabled) even in read ops
 			cmds[i++] = (cl ? ACBUS6_CL : 0) | (al ? ACBUS7_AL : 0) | ACBUS5_WP; //  Address High ( ACBUS )
 			cmds[i++]=00;                                             //  Address low ( ADBUS )
 		} else {
@@ -87,7 +88,7 @@ int FtdiNand::nandRead(int cl, int al, unsigned char *buf, int count) {
   //	for (x=0; x<i; x++) printf("%02hhx %s", cmds[x], ((x&15)==15)?"\n":"");
   //	printf("\n\n");
 
-	if (ftdi_write_data(&m_ftdi, cmds, i)<0) return error("writing cmd");
+	if (ftdi_write_data(&m_ftdi, cmds, i)<0) return error("writing cmds");
 	if (m_slowAccess) {
 		//Div by 5 mode makes the ftdi-chip return all databytes double. Compensate for that.
 		bytesread=ftdi_read_data(&m_ftdi, ftdata, count*2);
@@ -198,9 +199,12 @@ int FtdiNand::sendAddr(long long addr, int noBytes) {
 	int x;
   switch (noBytes) {
     case 2:               // no address! is page to erase :-)
-      buff[0]= addr&0xFF;
-      buff[1]=(addr&0x0F00)>>8;
+      //buff[0]=addr&0xFF;
+      //buff[1]=(addr&0x0F00)>>8;
+      buff[0]=addr>>8;
+      buff[1]=addr>>16;
       break;
+      
     case 4:
       buff[0]= addr&0xFF;
       buff[1]=(addr&0x00F00)>>8;
@@ -215,6 +219,7 @@ int FtdiNand::sendAddr(long long addr, int noBytes) {
       buff[3]=(addr&0xFF00000)>>20;
       buff[4]=0x00;
       break;
+
     default:
       buff[0]=0x00;
       buff[1]=0x00;
@@ -239,7 +244,7 @@ int FtdiNand::readData(unsigned char *data, int count) {
 }
 
 //Timeout in ms. Due to use of usleep(), not exact, but ballpark.
-#define TIMEOUT_MSEC 100
+#define TIMEOUT_MSEC 10000
 #define TIMEOUT_RETRIES 15
 
 //Waits till the R-/B-line to go high
@@ -255,9 +260,12 @@ int FtdiNand::waitReady() {
 		//Read response
 		if (ftdi_read_data(&m_ftdi, &resp, 1)<0) { return error("reading resp"); }
 		//Return if R/B-line is high (=ready)
-		if (resp & 2) return 1;
-		usleep(1000);
-	}
+		if (resp & 2) {
+      //printf("waitReady x=%i \n", x);
+      return 1;
+      }
+		usleep(10);
+	  }
 	printf("Timeout on R/B-pin; chip seems busy for too long!\n");
 	m_rbErrorCount++;
 	if (m_rbErrorCount>TIMEOUT_RETRIES) {
