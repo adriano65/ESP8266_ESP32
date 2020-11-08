@@ -40,7 +40,7 @@ int usage();
 
 int main(int argc, char **argv) {
   FILE *fp;
-  bool doSlow=true, loop;
+  bool doSlow=true;
   NandChip *pNandChip;
 
   NandChip::AccessType accessType=NandChip::PageplusOOB;
@@ -180,7 +180,6 @@ int main(int argc, char **argv) {
           //if (address % pNandChip->erasepageSize == 0) {
           //  if ( ! pNandChip->erasePage(address/pNandChip->erasepageSize) ) { printf("Erasing page %i FAILS", address); }
           //  }
-          loop=true;
           while (verifyErrors) {
             int err = pNandChip->writePage(address);
             memcpy(tmpBuf, pNandChip->pageBuf, pNandChip->filePageSize);
