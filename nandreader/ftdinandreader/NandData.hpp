@@ -16,8 +16,8 @@ public:
 	NandData(FtdiNand *, NandID *);
   #endif
 	~NandData();
-	int readPage(unsigned long, unsigned char *buf, int len);
-	int writePage(unsigned long, unsigned char *buf, int len);
+	int readPage(unsigned int, unsigned char *buf, int len);
+	int writePage(unsigned int, unsigned char *buf, int len);
 	int erasePage(unsigned int );
 	int readPageSP(unsigned long, unsigned char *buf);
 	int writePageSP(unsigned long, unsigned char *buf, int len);

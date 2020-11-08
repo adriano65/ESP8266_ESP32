@@ -25,6 +25,7 @@ public:
     Page,
     PageplusOOB,
 		recalcOOB,
+		skipOOB,
 		useBitBang,
 	  };
   NandChip(int vid, int pid, bool doSlow, AccessType _accessType, Action action, unsigned long _start_address, unsigned long _end_address);

@@ -46,7 +46,7 @@ public:
 	~FtdiNand_BB();
   int open(int _vid, int _pid, bool _doslow) override;
 	int sendCmd(unsigned char cmd) override;
-	int sendAddr(long long addr, int noBytes);
+	int sendAddr(unsigned int addr, int noBytes);
 	int readData(unsigned char *data, int count) override;
 	int writeData(unsigned char *data, int count);
 	int waitReady();

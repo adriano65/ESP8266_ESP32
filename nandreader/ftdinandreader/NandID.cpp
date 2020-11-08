@@ -132,8 +132,6 @@ NandID::NandID(unsigned char *idBytes) {
 		m_nandEraseSz=m_devCodes[x].erasesize;
 		addrByteCount=m_devCodes[x].addrByteCount;
 		eraseAddrByteCount=m_devCodes[x].eraseAddrByteCount;
-		fullEraseSz=m_devCodes[x].erasesize+(m_nandOobSz*(m_devCodes[x].erasesize/m_devCodes[x].pagesize));
-		fullPageSz=m_devCodes[x].pagesize+m_nandOobSz;
 	  }
   else {
 		//Page/erasesize is encoded in 3/4/5th ID-byte
@@ -143,9 +141,8 @@ NandID::NandID(unsigned char *idBytes) {
 		i=(idBytes[3]>>4)&3;
 		m_nandEraseSz=(64*1024)<<i;
 		m_nandOobSz=((idBytes[3]&4)?16:8)*(m_nandPageSz/512);
-		fullEraseSz=m_nandEraseSz+(m_nandOobSz*(m_nandEraseSz/m_nandPageSz));
-		fullPageSz=m_nandPageSz+m_nandOobSz;
 		eraseAddrByteCount=2;
+    blockSz=m_nandEraseSz/m_nandPageSz;
 	}
 
 	char buff[100];
@@ -166,7 +163,7 @@ NandID::NandID(unsigned char *idBytes) {
   printf("Nand ID: Manufactor 0x%02X, Type 0x%02X, 0x%02X, 0x%02X\n", idBytes[0], idBytes[1], idBytes[2]);
   printf("Type: %s, Manufacturer: %s\n", getDesc().c_str(), getManufacturer().c_str());
   printf("Size: %iMiB, pagesize %i bytes, OOB size %i bytes, erasepage size %i\n", getSizeMB(), getPageSize(), getOobSize(), getEraseSz());
-  printf("full pagesize %i bytes, full erasepage size %i\n", fullPageSz, fullEraseSz);
+  printf("full pagesize %i bytes, full erasepage size %i\n", getPageSize()+getOobSize(), getEraseSz()+getEraseSz()/(getPageSize()+getOobSize()));
   printf("%s page, needs %i addr bytes.\n", isLargePage()?"Large":"Small", getAddrByteCount());	
 }
 
@@ -186,10 +183,6 @@ unsigned int NandID::getPageSize() {
 	return m_nandPageSz;
 }
 
-unsigned int NandID::getfullPageSz() {
-	return fullPageSz;
-}
-
 unsigned int NandID::getOobSize() {
 	return m_nandOobSz;
 }
@@ -200,10 +193,6 @@ unsigned int NandID::getSizeMB() {
 
 unsigned int NandID::getEraseSz() {
 	return m_nandEraseSz;
-}
-
-unsigned int NandID::getfullEraseSz() {
-	return fullEraseSz;
 }
 
 bool NandID::isLargePage() {

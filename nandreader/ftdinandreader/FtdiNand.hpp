@@ -13,7 +13,7 @@ public:
   void EnableRead(bool bEnable);
   void DisableACBUS(bool bEnable);
 	virtual int sendCmd(unsigned char cmd);
-	virtual int sendAddr(long long addr, int noBytes);
+	virtual int sendAddr(unsigned int, int);
 	int writeData(unsigned char *data, int count);
 	virtual int readData(unsigned char *data, int count);
 	int waitReady();

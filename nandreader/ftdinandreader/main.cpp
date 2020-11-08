@@ -40,14 +40,14 @@ int usage();
 
 int main(int argc, char **argv) {
   FILE *fp;
-  bool doSlow=false;
+  bool doSlow=true, loop;
   NandChip *pNandChip;
 
   NandChip::AccessType accessType=NandChip::PageplusOOB;
   unsigned long start_address, end_address, address;
 	int x, r, lenght, vid=0, pid=0;
 	string file="", fileOut="";
-  int verifyErrors=0;
+  int verifyErrors=100;
   unsigned char *tmpBuf;
 
   //nand = new NandChip();
@@ -80,13 +80,15 @@ int main(int argc, char **argv) {
 				accessType=NandChip::PageplusOOB;
 			} else if (strcmp(argv[x], "oob")==0) {
 				accessType=NandChip::recalcOOB;
+			} else if (strcmp(argv[x], "skip")==0) {
+				accessType=NandChip::skipOOB;
 			} else if (strcmp(argv[x], "bb")==0) {
 				accessType=NandChip::useBitBang;
 			} else {
-				printf("Must be 'main', 'oob' (recalc OOB) or bb (Bitbang mode)%s\n", argv[x]);
+				printf("Must be 'main', 'oob' (recalc OOB), skip (skip OOB) or bb (Bitbang mode)%s\n", argv[x]);
 			}
 		  }
-    else if (strcmp(argv[x],"-s")==0) { doSlow=true;	} 
+    else if (strcmp(argv[x],"-f")==0) { doSlow=false;	} 
     else if (strcmp(argv[x], "-p")==0 && x <= (argc - 3)) {
                         x++;
                         start_address = strtol(argv[x], NULL, 16);
@@ -166,20 +168,40 @@ int main(int argc, char **argv) {
       break;
 
     case NandChip::actionWrite:
+      tmpBuf=new unsigned char[pNandChip->filePageSize];
+      //verifyErrors=100;
       if (pNandChip->checkAddresses(action)==0) {
         if ((fp=fopen(file.c_str(), "rb")) == NULL) { perror(file.c_str()); exit(1); }
         printf("Writing from 0x%08X to 0x%08X (%s)\n", pNandChip->start_address, pNandChip->end_address, pNandChip->accessType==NandChip::Page ? "Page" : "Page+OOB" );
-        for (address=pNandChip->start_address; address<pNandChip->end_address; address+=pNandChip->filePageSize) {
+        for (address=pNandChip->start_address; address<pNandChip->end_address; address+=pNandChip->nandPageSize) {
           r = fread(pNandChip->pageBuf, 1, pNandChip->filePageSize, fp);
           if (r != pNandChip->filePageSize) { printf("\nInsufficient data from file\n"); break; }        
 
-          if (address % pNandChip->erasepageSize == 0) {
-            if ( ! pNandChip->erasePage(address/pNandChip->erasepageSize) ) { printf("Erasing page %i FAILS", address); }
+          //if (address % pNandChip->erasepageSize == 0) {
+          //  if ( ! pNandChip->erasePage(address/pNandChip->erasepageSize) ) { printf("Erasing page %i FAILS", address); }
+          //  }
+          loop=true;
+          while (verifyErrors) {
+            int err = pNandChip->writePage(address);
+            memcpy(tmpBuf, pNandChip->pageBuf, pNandChip->filePageSize);
+            lenght=pNandChip->readPage(address);
+            for (r=0; r<pNandChip->filePageSize; r++) {
+              if (tmpBuf[r]!=pNandChip->pageBuf[r]) { 
+                printf("diff: address 0x%08X, byte %i: file 0x%02X flash 0x%02X\n", address+r, r, tmpBuf[r], pNandChip->pageBuf[r]); 
+                verifyErrors--;
+                break;
+                }
+              }
+            if (r==pNandChip->filePageSize) {
+              break;
+              }
             }
-
-          int err = pNandChip->writePage(address);
-
-          printf("0x%08X / 0x%08X\n\033[A", address, pNandChip->end_address);
+          if (!verifyErrors) { 
+            printf("Too many errors\n"); 
+            break; 
+            }
+          //printf("0x%08X / 0x%08X\n\033[A", address, pNandChip->end_address);
+          printf("0x%08X / 0x%08X\n", address, pNandChip->end_address);
           }
         fclose(fp);
         }
@@ -190,7 +212,7 @@ int main(int argc, char **argv) {
         unsigned int erasepage;
         printf("Erasing %u pages of %i bytes\n", pNandChip->end_erasepageno-pNandChip->start_erasepageno, pNandChip->nandPageSize);
         for (erasepage=pNandChip->start_erasepageno; erasepage<pNandChip->end_erasepageno; erasepage++) {
-          if (pNandChip->erasePage(erasepage)) { printf("page from 0x%02X (0x%08X) erased\n", erasepage, erasepage*pNandChip->erasepageSize); }
+          if (pNandChip->erasePage(erasepage)) { printf("page %u (0x%02X) (Address 0x%08X) erased\n", erasepage, erasepage, erasepage*pNandChip->erasepageSize); }
           else { printf("address from 0x%02X (0x%08X) NOT erased\n", erasepage, erasepage*pNandChip->erasepageSize); }
           }
         }
@@ -213,7 +235,7 @@ int usage(){
   printf("  -v file - Verify chip from file data\n");
   printf("  -e      - Erase chip (set addresses!!)\n");
   printf("  -t reg  - Select region to read/write (main, oob recalculate or bb (Bitbang mode))\n");
-  printf("  -s      - clock FTDI chip at 12MHz instead of 60MHz\n");
+  printf("  -f      - clock FTDI chip at 60MHz instead of 12MHz\n");
   printf("  -u vid:pid - use different FTDI USB vid/pid. Vid and pid are in hex.\n");
   exit(0);
 }

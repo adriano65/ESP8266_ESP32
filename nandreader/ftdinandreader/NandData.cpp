@@ -40,30 +40,30 @@ NandData::~NandData() {
   printf("~NandData\n");
 }
 
-int NandData::readPage(unsigned long address, unsigned char *buff, int pageSize) {
+int NandData::readPage(unsigned int row, unsigned char *buff, int bytes2read) {
 	int nRet=0;
 	pFtdiNand->sendCmd(NAND_CMD_READ0);
-	pFtdiNand->sendAddr(address, pNandID->getAddrByteCount());
+	pFtdiNand->sendAddr(row, pNandID->getAddrByteCount());
 	pFtdiNand->sendCmd(NAND_CMD_READSTART);
 	pFtdiNand->waitReady();
-	nRet=pFtdiNand->readData(buff, pageSize);
+	nRet=pFtdiNand->readData(buff, bytes2read);
 	return nRet;
 }
 
-int NandData::writePage(unsigned long address, unsigned char *buff, int pageSize) {
+int NandData::writePage(unsigned int row, unsigned char *buff, int bytes2write) {
   unsigned char status=0;
 	pFtdiNand->sendCmd(NAND_CMD_SEQIN);
-	pFtdiNand->sendAddr(address, pNandID->getAddrByteCount());
-	pFtdiNand->writeData(buff, pageSize);
+	pFtdiNand->sendAddr(row, pNandID->getAddrByteCount());
+	pFtdiNand->writeData(buff, bytes2write);
 	pFtdiNand->sendCmd(NAND_CMD_PAGEPROG);
 	pFtdiNand->waitReady();
 	status=pFtdiNand->status();
 	return !(status & NAND_STATUS_FAIL);
 }
 
-int NandData::erasePage(unsigned int pageno) {
+int NandData::erasePage(unsigned int erasepageno) {
 	pFtdiNand->sendCmd(NAND_CMD_ERASE1);
-	pFtdiNand->sendAddr(pageno, pNandID->getEraseAddrByteCount());
+	pFtdiNand->sendAddr(erasepageno, pNandID->getEraseAddrByteCount());
 	pFtdiNand->sendCmd(NAND_CMD_ERASE2);
   //usleep(100000);
 	pFtdiNand->waitReady();
@@ -72,33 +72,33 @@ int NandData::erasePage(unsigned int pageno) {
 }
 
 
-
-int NandData::readPageSP(unsigned long pageno, unsigned char *buff) {
+/*
+int NandData::readPageSP(unsigned long erasepageno, unsigned char *buff) {
 	char status=0;
 	int n, max;
 	pFtdiNand->sendCmd(NAND_CMD_READ0);
-	pFtdiNand->sendAddr(pageno<<8L, pNandID->getAddrByteCount());
+	pFtdiNand->sendAddr(erasepageno<<8L, pNandID->getAddrByteCount());
 	pFtdiNand->waitReady();
 	n=pFtdiNand->readData(buff, max>256 ? 256 : max);
 	max-=256;
 	pFtdiNand->sendCmd(NAND_CMD_READ1);
-	pFtdiNand->sendAddr(pageno<<8L, pNandID->getAddrByteCount());
+	pFtdiNand->sendAddr(erasepageno<<8L, pNandID->getAddrByteCount());
 	pFtdiNand->waitReady();
 	n+=pFtdiNand->readData(buff+256, max>256?256:max);
 	return n;
 }
+*/
 
+/*
 int NandData::writePageSP(unsigned long pageno, unsigned char *buff, int len) {
 	unsigned char err=0;
-	/*
-	pFtdiNand->sendCmd(NAND_CMD_SEQIN);
-	pFtdiNand->sendAddr(pageno << 8L, pNandID->getAddrByteCount());
-	printf("writePage len=%x\n", len);
-	pFtdiNand->writeData(buff, len);
-	pFtdiNand->sendCmd(NAND_CMD_PAGEPROG);
-	if ((err = pFtdiNand->status()) & NAND_STATUS_FAIL) return err;
-	printf("writePage err=%x\n", err);
-  */
+	//pFtdiNand->sendCmd(NAND_CMD_SEQIN);
+	//pFtdiNand->sendAddr(pageno << 8L, pNandID->getAddrByteCount());
+	//printf("writePage len=%x\n", len);
+	//pFtdiNand->writeData(buff, len);
+	//pFtdiNand->sendCmd(NAND_CMD_PAGEPROG);
+	//if ((err = pFtdiNand->status()) & NAND_STATUS_FAIL) return err;
+	//printf("writePage err=%x\n", err);
 	
 	pFtdiNand->sendCmd(NAND_CMD_READ0);
 	pFtdiNand->sendCmd(NAND_CMD_SEQIN);
@@ -132,5 +132,5 @@ int NandData::erasePageSP(unsigned int pageno) {
 	int status = pFtdiNand->status();
 	return !(status & NAND_STATUS_FAIL);
 }
-
+*/
 

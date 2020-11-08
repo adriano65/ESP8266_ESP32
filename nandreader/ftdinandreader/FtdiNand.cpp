@@ -54,6 +54,8 @@ int FtdiNand::open(int _vid, int _pid, bool _doslow) {
 	if (ftdi_write_data(&m_ftdi, &slow, 1)<0) return error("writing div5 cmd");
 	if (ftdi_set_latency_timer(&m_ftdi, 1)<0) return error("setting latency");
 	if (ftdi_usb_purge_buffers(&m_ftdi)<0) return error("ftdi_usb_purge_buffers");
+  //if (ftdi_usb_purge_rx_buffer(&m_ftdi)<0) return error("ftdi_usb_purge_rx_buffer");
+  //if (ftdi_usb_purge_tx_buffer(&m_ftdi)<0) return error("ftdi_usb_purge_tx_buffer");
   //EnableRead(true);
 }
 
@@ -65,17 +67,17 @@ int FtdiNand::error(const char *err) {
 }
 
 //Read bytes from the nand, with the cl and al lines set as indicated.
-int FtdiNand::nandRead(int cl, int al, unsigned char *buf, int count) {
-	unsigned char *cmds=new unsigned char[count*2+2];
-	unsigned char *ftdata=new unsigned char[count*2];
+int FtdiNand::nandRead(int cl, int al, unsigned char *buf, int bytes2read) {
+	unsigned char *cmds=new unsigned char[bytes2read*2+2];
+	unsigned char *ftdata=new unsigned char[bytes2read*2];
 	int x, i, bytesread;
 	i=0;
 	//Construct read commands. First one sets the cl and al lines too, rest just reads.
-	for (x=0; x<count; x++) {
+	for (x=0; x<bytes2read; x++) {
 		if (x==0) {
 			cmds[i++]=READ_EXTENDED;
       // WP must be high (disabled) even in read ops
-			cmds[i++] = (cl ? ACBUS6_CL : 0) | (al ? ACBUS7_AL : 0) | ACBUS5_WP; //  Address High ( ACBUS )
+			cmds[i++] = (cl ? ACBUS6_CL : 0) | (al ? ACBUS7_AL : 0); //  Address High ( ACBUS )
 			cmds[i++]=00;                                             //  Address low ( ADBUS )
 		} else {
 			cmds[i++]=READ_SHORT;
@@ -91,12 +93,12 @@ int FtdiNand::nandRead(int cl, int al, unsigned char *buf, int count) {
 	if (ftdi_write_data(&m_ftdi, cmds, i)<0) return error("writing cmds");
 	if (m_slowAccess) {
 		//Div by 5 mode makes the ftdi-chip return all databytes double. Compensate for that.
-		bytesread=ftdi_read_data(&m_ftdi, ftdata, count*2);
-		for (x=0; x<count; x++) buf[x]=ftdata[x*2];
+		bytesread=ftdi_read_data(&m_ftdi, ftdata, bytes2read*2);
+		for (x=0; x<bytes2read; x++) buf[x]=ftdata[x*2];
 		bytesread/=2;
 	  }
   else {
-		bytesread=ftdi_read_data(&m_ftdi, ftdata, count);
+		bytesread=ftdi_read_data(&m_ftdi, ftdata, bytes2read);
     //printf("%i bytes read.\n", bytesread);
 		for (x=0; x<bytesread; x++) {
 	    //printf("0x%04X 0x%02X\n", x, ftdata[x]);
@@ -107,20 +109,20 @@ int FtdiNand::nandRead(int cl, int al, unsigned char *buf, int count) {
 	//if (ftdi_usb_purge_buffers(&m_ftdi)<0) return error("ftdi_usb_purge_buffers");
 
 	if (bytesread<0) return error("reading data");
-	if (bytesread<count) return error("short read");
+	if (bytesread<bytes2read) return error("short read");
 	delete[] cmds;
 	delete[] ftdata;
 	return bytesread;
 }
 
 //Write bytes to the nand, with al/cl set as indicated.
-int FtdiNand::nandWrite(int cl, int al, unsigned char *buf, int count) {
-	unsigned char *cmds=new unsigned char[count*3+1];
+int FtdiNand::nandWrite(int cl, int al, unsigned char *buf, int bytes2write) {
+	unsigned char *cmds=new unsigned char[bytes2write*3+1];
 	int x, i, byteswritten;
 	i=0;
 
 	//Construct write commands. First one sets the cl and al lines too, rest just reads.
-	for (x=0; x<count; x++) {
+	for (x=0; x<bytes2write; x++) {
 		if (x==0) {
 			cmds[i++]=WRITE_EXTENDED;
 			cmds[i++]=(cl ? ACBUS6_CL : 0) | (al ? ACBUS7_AL : 0) | ACBUS5_WP; //  Address High ( ACBUS )
@@ -139,10 +141,13 @@ int FtdiNand::nandWrite(int cl, int al, unsigned char *buf, int count) {
 
 	if ((byteswritten=ftdi_write_data(&m_ftdi, cmds, i))<0) {error("writing cmds"); }
 	if (byteswritten<0) return error("writing data");
+	if (byteswritten<i) return error("short write");
 
 	delete[] cmds;
-	return count;
+  DisableACBUS(true);
+	return bytes2write;
 }
+
 
 // BDBUS7 is on bit1 of byte (I/O 1)!!
 // BDBUS6 is on bit0 of byte (I/O 0)!!
@@ -193,54 +198,56 @@ int FtdiNand::sendCmd(unsigned char cmd) {
 	nandWrite(1, 0, &cmd, 1);
 }
 
-//Send an address to the NAND. addr is the address and it is send as noBytes bytes. (the amount of bytes differs between flash types.)
+/*
+//Send an address to the NAND. addr is the address and it is send
+//as noBytes bytes. (the amount of bytes differs between flash types.)
 int FtdiNand::sendAddr(long long addr, int noBytes) {
 	unsigned char buff[10];
 	int x;
-  switch (noBytes) {
+	for (x=0; x<noBytes; x++) {
+		buff[x]=addr&0xff;
+		addr=addr>>8;
+	}
+	//nandWrite(0, 1, (char*) buff, noBytes);
+	nandWrite(0, 1, buff, noBytes);
+}
+*/
+
+int FtdiNand::sendAddr(unsigned int row, int addrLen) {
+	unsigned char buff[10];
+	int x;
+  switch (addrLen) {
+    case 1:
     case 2:               // no address! is page to erase :-)
-      //buff[0]=addr&0xFF;
-      //buff[1]=(addr&0x0F00)>>8;
-      buff[0]=addr>>8;
-      buff[1]=addr>>16;
+    case 3:               // no address! is page to erase :-)
+      buff[0]=row<<6;
+      buff[1]=row>>2;
       break;
       
     case 4:
-      buff[0]= addr&0xFF;
-      buff[1]=(addr&0x00F00)>>8;
-      buff[2]=(addr&0xFF000)>>12;
-      buff[3]=(addr&0xFF00000)>>20;
-      break;
-
     case 5:
-      buff[0]=0x00;
-      buff[1]=0x00;
-      buff[2]=(addr&0xFF000)>>12;
-      buff[3]=(addr&0xFF00000)>>20;
-      buff[4]=0x00;
+      buff[0]=0;
+      buff[1]=0;
+      buff[2]=row;
+      buff[3]=(row>>8);
+      buff[4]=0;
       break;
 
     default:
-      buff[0]=0x00;
-      buff[1]=0x00;
-      addr=addr>>16;
-      for (x=2; x<noBytes; x++) {
-        buff[x]=addr&0xFF0000;
-        addr=addr>>8;
-        }
+      error("merda");
       break;
     }
-	return nandWrite(0, 1, buff, noBytes);
+	return nandWrite(0, 1, buff, addrLen);
 }
 
 //Write data to the flash.
-int FtdiNand::writeData(unsigned char *data, int count) {
-	return nandWrite(0, 0, data, count);
+int FtdiNand::writeData(unsigned char *data, int bytes2write) {
+	return nandWrite(0, 0, data, bytes2write);
 }
 
 //Read data from the flash.
-int FtdiNand::readData(unsigned char *data, int count) {
-	return nandRead(0, 0, data, count);
+int FtdiNand::readData(unsigned char *data, int bytes2read) {
+	return nandRead(0, 0, data, bytes2read);
 }
 
 //Timeout in ms. Due to use of usleep(), not exact, but ballpark.

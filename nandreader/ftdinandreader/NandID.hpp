@@ -17,8 +17,7 @@ public:
 	bool isLargePage();
 	int getAddrByteCount();
   int getEraseAddrByteCount();
-  unsigned int getfullPageSz();
-  unsigned int getfullEraseSz();
+  unsigned char blockSz;
 
 private:
 	typedef struct {
@@ -30,9 +29,7 @@ private:
 		unsigned char addrByteCount;
 		unsigned char eraseAddrByteCount;
 		int options;
-		unsigned int fullpagesize;
-		unsigned int fullerasesize;
-	} DevCodes;
+	  } DevCodes;
 	static const DevCodes m_devCodes[];
 	char m_idBytes[5];
 
@@ -45,8 +42,6 @@ private:
 	bool m_nandIsLP;
   unsigned char addrByteCount;
   unsigned char eraseAddrByteCount;
-  unsigned int fullEraseSz;
-  unsigned int fullPageSz;
 };
 
 #endif

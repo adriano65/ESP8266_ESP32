@@ -299,7 +299,7 @@ int FtdiNand_BB::sendCmd(unsigned char cmd) {
 
 //Send an address to the NAND. addr is the address and it is send
 //as noBytes bytes. (the amount of bytes differs between flash types.)
-int FtdiNand_BB::sendAddr(long long addr, int noBytes) {
+int FtdiNand_BB::sendAddr(unsigned int addr, int noBytes) {
 	unsigned char buff[10];
 	int x;
   switch (noBytes) {
