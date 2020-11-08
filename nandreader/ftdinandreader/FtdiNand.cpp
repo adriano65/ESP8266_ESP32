@@ -234,7 +234,7 @@ int FtdiNand::sendAddr(unsigned int row, int addrLen) {
       break;
 
     default:
-      error("unexpected");
+      error("unexpected case");
       break;
     }
 	return nandWrite(0, 1, buff, addrLen);

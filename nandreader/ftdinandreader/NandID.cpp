@@ -163,7 +163,7 @@ NandID::NandID(unsigned char *idBytes) {
   printf("Nand ID: Manufactor 0x%02X, Type 0x%02X, 0x%02X, 0x%02X\n", idBytes[0], idBytes[1], idBytes[2]);
   printf("Type: %s, Manufacturer: %s\n", getDesc().c_str(), getManufacturer().c_str());
   printf("Size: %iMiB, pagesize %i bytes, OOB size %i bytes, erasepage size %i\n", getSizeMB(), getPageSize(), getOobSize(), getEraseSz());
-  printf("full pagesize %i bytes, full erasepage size %i\n", getPageSize()+getOobSize(), getEraseSz()+getEraseSz()/(getPageSize()+getOobSize()));
+  printf( "full pagesize %i bytes, full erasepage size %i\n", getPageSize()+getOobSize(), getEraseSz()+(getOobSize()*64) );
   printf("%s page, needs %i addr bytes.\n", isLargePage()?"Large":"Small", getAddrByteCount());	
 }
 

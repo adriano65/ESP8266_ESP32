@@ -150,18 +150,33 @@ int NandChip::readPage(unsigned long address) {
   unsigned int row;
   row=address/nandPageSize;
   switch (accessType) {
+    // each page of nand is loaded and written to file
+    case Page:
+      nRes=pNandData->readPage(row, pageBuf, nandPageSize);;
+      break;
+
+    // each page+oob size of nand is loaded and page+oob are written to file
     case PageplusOOB:
       nRes=pNandData->readPage(row, pageBuf, filePageSize);
       break;
     
+    // each page+oob size of nand is loaded, but only page bytes are written to file
+    case skipOOB:
+      printf("unuseful case: why read page+oob ad write only page ? use Page option instead");
+      exit(0);
+      break;
+    
+    // each page+oob size of nand is loaded, oob data is substituted with recalculated oob and page+oob page bytes are written to file
     case recalcOOB:
       pNandData->readPage(row, pageBuf, nandPageSize);
-      brcm_nand(8, pageBuf);                //default polynomial
+      brcm_nand(0, pageBuf);                //default polynomial
+      brcm_nand(1, pageBuf);
       nRes=filePageSize;
       break;
     
     default:
-      nRes=pNandData->readPage(row, pageBuf, nandPageSize);;
+      printf("unexpected case");
+      exit(0);
       break;
     }
 	return nRes;
@@ -172,24 +187,33 @@ int NandChip::writePage(unsigned long address) {
   unsigned int row;
   row=address/nandPageSize;
   switch (accessType) {
+    // each page of file is loaded of nand page size and written to nand
+    case Page:
+      nRes=pNandData->writePage(row, pageBuf, nandPageSize);;
+      break;
+    
+    // each page of file is loaded of nand page+oob size and written to nand
     case PageplusOOB:
       nRes=pNandData->writePage(row, pageBuf, filePageSize);
       break;
-    
+
+    // each page of file is loaded of page+oob size, but only page bytes are written
     case skipOOB:
       pNandData->writePage(row, pageBuf, nandPageSize);
       nRes=filePageSize;
       break;
     
+    // each page of file is loaded of page+oob size, oob data is substituted with recalculated oob
     case recalcOOB:
       //brcm_nand(0, pageBuf);                //default polynomial
-      brcm_nand(1, pageBuf);                //default polynomial
+      brcm_nand(1, pageBuf);                //default polynomial -- seem same as bcm
       pNandData->writePage(row, pageBuf, filePageSize);
       nRes=filePageSize;
       break;
 
     default:
-      nRes=pNandData->writePage(row, pageBuf, nandPageSize);;
+      printf("unexpected case");
+      exit(0);
       break;
     }
 	return nRes;

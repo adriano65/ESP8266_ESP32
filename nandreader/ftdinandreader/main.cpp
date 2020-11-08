@@ -44,7 +44,7 @@ int main(int argc, char **argv) {
   NandChip *pNandChip;
 
   NandChip::AccessType accessType=NandChip::PageplusOOB;
-  unsigned long start_address, end_address, address;
+  unsigned long start_address, end_address, address, fileaddress=0;
 	int x, r, lenght, vid=0, pid=0;
 	string file="", fileOut="";
   int verifyErrors=100;
@@ -172,10 +172,16 @@ int main(int argc, char **argv) {
       //verifyErrors=100;
       if (pNandChip->checkAddresses(action)==0) {
         if ((fp=fopen(file.c_str(), "rb")) == NULL) { perror(file.c_str()); exit(1); }
-        printf("Writing from 0x%08X to 0x%08X (%s)\n", pNandChip->start_address, pNandChip->end_address, pNandChip->accessType==NandChip::Page ? "Page" : "Page+OOB" );
+        printf("Writing from 0x%08X to 0x%08X (%s)\n", pNandChip->start_address, pNandChip->end_address, pNandChip->accessType==NandChip::Page ? "Page" : "Page+OOB" );        
         for (address=pNandChip->start_address; address<pNandChip->end_address; address+=pNandChip->nandPageSize) {
           r = fread(pNandChip->pageBuf, 1, pNandChip->filePageSize, fp);
-          if (r != pNandChip->filePageSize) { printf("\nInsufficient data from file\n"); break; }        
+          if (r != pNandChip->filePageSize) { 
+            printf("\nInsufficient data from file: read 0x%04X, filePageSize 0x%04X\n", r, pNandChip->filePageSize);
+            break;
+            }
+          printf("Writing 0x%08X / 0x%08X - FileAddress from 0x%08X to 0x%08X\n", address, pNandChip->end_address, fileaddress, fileaddress+pNandChip->filePageSize);
+          fileaddress+=pNandChip->filePageSize;
+          // add skip if buffer is 0xFF ..
 
           //if (address % pNandChip->erasepageSize == 0) {
           //  if ( ! pNandChip->erasePage(address/pNandChip->erasepageSize) ) { printf("Erasing page %i FAILS", address); }
@@ -184,7 +190,7 @@ int main(int argc, char **argv) {
             int err = pNandChip->writePage(address);
             memcpy(tmpBuf, pNandChip->pageBuf, pNandChip->filePageSize);
             lenght=pNandChip->readPage(address);
-            for (r=0; r<pNandChip->filePageSize; r++) {
+            for (r=0; r<((pNandChip->accessType==NandChip::recalcOOB) ? pNandChip->nandPageSize : pNandChip->filePageSize); r++) {
               if (tmpBuf[r]!=pNandChip->pageBuf[r]) { 
                 printf("diff: address 0x%08X, byte %i: file 0x%02X flash 0x%02X\n", address+r, r, tmpBuf[r], pNandChip->pageBuf[r]); 
                 verifyErrors--;
@@ -199,8 +205,7 @@ int main(int argc, char **argv) {
             printf("Too many errors\n"); 
             break; 
             }
-          //printf("0x%08X / 0x%08X\n\033[A", address, pNandChip->end_address);
-          printf("0x%08X / 0x%08X\n", address, pNandChip->end_address);
+
           }
         fclose(fp);
         }
