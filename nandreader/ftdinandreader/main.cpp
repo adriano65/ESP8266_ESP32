@@ -197,7 +197,7 @@ int main(int argc, char **argv) {
                 break;
                 }
               }
-            if (r==pNandChip->filePageSize) {
+            if (r==((pNandChip->accessType==NandChip::recalcOOB) ? pNandChip->nandPageSize : pNandChip->filePageSize)) {
               break;
               }
             }
