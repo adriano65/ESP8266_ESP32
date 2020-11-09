@@ -71,45 +71,48 @@ int FtdiNand::nandRead(int cl, int al, unsigned char *buf, int bytes2read) {
 	unsigned char *cmds=new unsigned char[bytes2read*2+2];
 	unsigned char *ftdata=new unsigned char[bytes2read*2];
 	int x, i, bytesread;
-	i=0;
-	//Construct read commands. First one sets the cl and al lines too, rest just reads.
-	for (x=0; x<bytes2read; x++) {
-		if (x==0) {
-			cmds[i++]=READ_EXTENDED;
-      // WP must be high (disabled) even in read ops
-			cmds[i++] = (cl ? ACBUS6_CL : 0) | (al ? ACBUS7_AL : 0); //  Address High ( ACBUS )
-			cmds[i++]=00;                                             //  Address low ( ADBUS )
-		} else {
-			cmds[i++]=READ_SHORT;
-			cmds[i++]=00;                                              //  Address low ( ADBUS )
-		}
-	}
-	cmds[i++]=SEND_IMMEDIATE;
-
-  //	printf("Cmd:\n");
-  //	for (x=0; x<i; x++) printf("%02hhx %s", cmds[x], ((x&15)==15)?"\n":"");
-  //	printf("\n\n");
-
-	if (ftdi_write_data(&m_ftdi, cmds, i)<0) return error("writing cmds");
-	if (m_slowAccess) {
-		//Div by 5 mode makes the ftdi-chip return all databytes double. Compensate for that.
-		bytesread=ftdi_read_data(&m_ftdi, ftdata, bytes2read*2);
-		for (x=0; x<bytes2read; x++) buf[x]=ftdata[x*2];
-		bytesread/=2;
-	  }
-  else {
-		bytesread=ftdi_read_data(&m_ftdi, ftdata, bytes2read);
-    //printf("%i bytes read.\n", bytesread);
-		for (x=0; x<bytesread; x++) {
-	    //printf("0x%04X 0x%02X\n", x, ftdata[x]);
-      buf[x]=ftdata[x];
+  while (true) {
+    i=0;
+    //Construct read commands. First one sets the cl and al lines too, rest just reads.
+    for (x=0; x<bytes2read; x++) {
+      if (x==0) {
+        cmds[i++]=READ_EXTENDED;
+        // WP must be high (disabled) even in read ops
+        cmds[i++] = (cl ? ACBUS6_CL : 0) | (al ? ACBUS7_AL : 0); //  Address High ( ACBUS )
+        cmds[i++]=00;                                             //  Address low ( ADBUS )
+      } else {
+        cmds[i++]=READ_SHORT;
+        cmds[i++]=00;                                              //  Address low ( ADBUS )
       }
-	}
+    }
+    cmds[i++]=SEND_IMMEDIATE;
 
-	//if (ftdi_usb_purge_buffers(&m_ftdi)<0) return error("ftdi_usb_purge_buffers");
+    //	printf("Cmd:\n");
+    //	for (x=0; x<i; x++) printf("%02hhx %s", cmds[x], ((x&15)==15)?"\n":"");
+    //	printf("\n\n");
 
-	if (bytesread<0) return error("reading data");
-	if (bytesread<bytes2read) return error("short read");
+    if (ftdi_write_data(&m_ftdi, cmds, i)<0) return error("writing cmds");
+    if (m_slowAccess) {
+      //Div by 5 mode makes the ftdi-chip return all databytes double. Compensate for that.
+      bytesread=ftdi_read_data(&m_ftdi, ftdata, bytes2read*2);
+      for (x=0; x<bytes2read; x++) buf[x]=ftdata[x*2];
+      bytesread/=2;
+      }
+    else {
+      bytesread=ftdi_read_data(&m_ftdi, ftdata, bytes2read);
+      //printf("%i bytes read.\n", bytesread);
+      for (x=0; x<bytesread; x++) {
+        //printf("0x%04X 0x%02X\n", x, ftdata[x]);
+        buf[x]=ftdata[x];
+        }
+    }
+
+    //if (ftdi_usb_purge_buffers(&m_ftdi)<0) return error("ftdi_usb_purge_buffers");
+
+    if (bytesread<0) return error("reading data");
+    if (bytesread<bytes2read) { printf("short read: bytes2read 0x%04X, bytesread 0x%04X\n", bytes2read, bytesread); continue; }
+    break;
+    }
 	delete[] cmds;
 	delete[] ftdata;
 	return bytesread;

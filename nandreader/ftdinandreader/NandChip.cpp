@@ -78,14 +78,14 @@ NandChip::NandChip(int vid, int pid, bool doSlow, AccessType _accessType, Action
   case recalcOOB:
   case skipOOB:
     switch (action) {
-      // loads pages from file (without OOB), add OOB to pagebuf and compare them to nand loaded with OOB data
+      // loads pages from file (with OOB), add OOB to pagebuf and compare them to nand loaded with OOB data
       case actionVerify:
         nandPageSize=pNandID->getPageSize();
         filePageSize=nandPageSize+pNandID->getOobSize();
         pageBuf=new unsigned char[filePageSize];
         erasepageSize=pNandID->getEraseSz();
         break;
-      // loads pages from file (without OOB) and write them to nand adding OOB data
+      // loads pages from file (with OOB), recalc OOB and write to nand adding new OOB data
       case actionWrite:
         nandPageSize=pNandID->getPageSize();
         filePageSize=nandPageSize+pNandID->getOobSize();
@@ -94,6 +94,17 @@ NandChip::NandChip(int vid, int pid, bool doSlow, AccessType _accessType, Action
         break;
     }
     break;
+
+  case addOOB:
+    switch (action) {
+      case actionWrite:
+        filePageSize=pNandID->getPageSize();
+        nandPageSize=nandPageSize+pNandID->getOobSize();
+        pageBuf=new unsigned char[filePageSize];
+        erasepageSize=pNandID->getEraseSz();
+        break;
+      }
+    break;    
 
   default:
     exit(0);
@@ -162,14 +173,13 @@ int NandChip::readPage(unsigned long address) {
     
     // each page+oob size of nand is loaded, but only page bytes are written to file
     case skipOOB:
-      printf("unuseful case: why read page+oob ad write only page ? use Page option instead");
-      exit(0);
+      nRes=pNandData->readPage(row, pageBuf, filePageSize);
       break;
     
     // each page+oob size of nand is loaded, oob data is substituted with recalculated oob and page+oob page bytes are written to file
     case recalcOOB:
       pNandData->readPage(row, pageBuf, nandPageSize);
-      brcm_nand(0, pageBuf);                //default polynomial
+      //brcm_nand(0, pageBuf);                //default polynomial
       brcm_nand(1, pageBuf);
       nRes=filePageSize;
       break;
@@ -185,29 +195,40 @@ int NandChip::readPage(unsigned long address) {
 int NandChip::writePage(unsigned long address) {
   int nRes;
   unsigned int row;
-  row=address/nandPageSize;
   switch (accessType) {
     // each page of file is loaded of nand page size and written to nand
     case Page:
+      row=address/nandPageSize;
       nRes=pNandData->writePage(row, pageBuf, nandPageSize);;
       break;
     
     // each page of file is loaded of nand page+oob size and written to nand
     case PageplusOOB:
+      row=address/nandPageSize;
       nRes=pNandData->writePage(row, pageBuf, filePageSize);
       break;
 
     // each page of file is loaded of page+oob size, but only page bytes are written
     case skipOOB:
+      row=address/nandPageSize;
       pNandData->writePage(row, pageBuf, nandPageSize);
       nRes=filePageSize;
       break;
     
     // each page of file is loaded of page+oob size, oob data is substituted with recalculated oob
     case recalcOOB:
+      row=address/nandPageSize;
       //brcm_nand(0, pageBuf);                //default polynomial
       brcm_nand(1, pageBuf);                //default polynomial -- seem same as bcm
       pNandData->writePage(row, pageBuf, filePageSize);
+      nRes=filePageSize;
+      break;
+
+    // each page of file is loaded of nandpage size, oob data is added and written to nand
+    case addOOB:
+      row=address/filePageSize;
+      brcm_nand(1, pageBuf);                //default polynomial -- seem same as bcm
+      pNandData->writePage(row, pageBuf, nandPageSize);
       nRes=filePageSize;
       break;
 

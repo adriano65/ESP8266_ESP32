@@ -16,8 +16,7 @@ public:
     actionRead,
     actionWrite,
     actionVerify,
-    actionErase,
-    actionAddOOB
+    actionErase
   };
 
 	enum AccessType {
@@ -26,6 +25,7 @@ public:
     PageplusOOB,
 		recalcOOB,
 		skipOOB,
+		addOOB,
 		useBitBang,
 	  };
   NandChip(int vid, int pid, bool doSlow, AccessType _accessType, Action action, unsigned long _start_address, unsigned long _end_address);

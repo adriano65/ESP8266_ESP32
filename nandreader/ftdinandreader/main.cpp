@@ -59,7 +59,6 @@ int main(int argc, char **argv) {
     else if (strcmp(argv[x],"-r")==0 && x<=(argc-2)) { action=NandChip::actionRead;	file=argv[++x]; }
     else if (strcmp(argv[x],"-w")==0 && x<=(argc-2)) { action=NandChip::actionWrite; file=argv[++x]; }
     else if (strcmp(argv[x],"-v")==0 && x<=(argc-2)) { action=NandChip::actionVerify;	file=argv[++x];	}
-    else if (strcmp(argv[x],"-c")==0 && x<=(argc-2)) { action=NandChip::actionAddOOB;	file=argv[++x];	}
     else if (strcmp(argv[x],"-u")==0 && x<=(argc-2)) { action=NandChip::actionVerify;
 			char *endp;
 			x++;
@@ -80,12 +79,14 @@ int main(int argc, char **argv) {
 				accessType=NandChip::PageplusOOB;
 			} else if (strcmp(argv[x], "oob")==0) {
 				accessType=NandChip::recalcOOB;
+			} else if (strcmp(argv[x], "add")==0) {
+				accessType=NandChip::addOOB;
 			} else if (strcmp(argv[x], "skip")==0) {
 				accessType=NandChip::skipOOB;
 			} else if (strcmp(argv[x], "bb")==0) {
 				accessType=NandChip::useBitBang;
 			} else {
-				printf("Must be 'main', 'oob' (recalc OOB), skip (skip OOB) or bb (Bitbang mode)%s\n", argv[x]);
+				printf("Must be 'main', 'oob' (recalc OOB), skip (skip OOB), add (add OOB) or bb (Bitbang mode)%s\n", argv[x]);
 			}
 		  }
     else if (strcmp(argv[x],"-f")==0) { doSlow=false;	} 
@@ -145,28 +146,6 @@ int main(int argc, char **argv) {
       delete[] tmpBuf;
       break;
 
-    case NandChip::actionAddOOB:
-      tmpBuf=new unsigned char[pNandChip->nandPageSize];
-      //fileOut=file
-      if (pNandChip->checkAddresses(action)) {
-        if ((fp=fopen(file.c_str(), "rb")) == NULL) { perror(file.c_str()); exit(1); }
-        if ((fp=fopen(file.c_str(), "rb")) == NULL) { perror(file.c_str()); exit(1); }
-        printf("Verifying 0x%08X bytes of 0x%04X bytes (%s)\n", pNandChip->end_address-pNandChip->start_address, pNandChip->nandPageSize, pNandChip->accessType==NandChip::Page ? "Page" : "Page+OOB" );
-        unsigned long address=pNandChip->start_address;
-        while (!feof(fp)) {
-          r=fread(tmpBuf, 1, pNandChip->filePageSize, fp);  //file is without OOB
-          if (r!=pNandChip->filePageSize) { perror("reading data from file"); exit(1); }
-          lenght=pNandChip->readPage(address);
-          for (int y=0; y<pNandChip->nandPageSize; y++) {
-            if (tmpBuf[y]!=pNandChip->pageBuf[y]) { printf("OOB calculated -->: address 0x%08X, byte %i: file 0x%02X flash 0x%02X\n", address+y, y, tmpBuf[y], pNandChip->pageBuf[y]); }
-            }
-          address+=pNandChip->nandPageSize;
-          }
-        fclose(fp);
-        }
-      delete[] tmpBuf;
-      break;
-
     case NandChip::actionWrite:
       tmpBuf=new unsigned char[pNandChip->filePageSize];
       //verifyErrors=100;
@@ -181,7 +160,10 @@ int main(int argc, char **argv) {
             }
           printf("Writing 0x%08X / 0x%08X - FileAddress from 0x%08X to 0x%08X\n", address, pNandChip->end_address, fileaddress, fileaddress+pNandChip->filePageSize);
           fileaddress+=pNandChip->filePageSize;
+
           // add skip if buffer is 0xFF ..
+          memset(tmpBuf, 0xFF, pNandChip->filePageSize);
+          if (memcmp(tmpBuf, pNandChip->pageBuf, pNandChip->filePageSize)==0) continue;   // all FF
 
           //if (address % pNandChip->erasepageSize == 0) {
           //  if ( ! pNandChip->erasePage(address/pNandChip->erasepageSize) ) { printf("Erasing page %i FAILS", address); }
@@ -190,7 +172,8 @@ int main(int argc, char **argv) {
             int err = pNandChip->writePage(address);
             memcpy(tmpBuf, pNandChip->pageBuf, pNandChip->filePageSize);
             lenght=pNandChip->readPage(address);
-            for (r=0; r<((pNandChip->accessType==NandChip::recalcOOB) ? pNandChip->nandPageSize : pNandChip->filePageSize); r++) {
+            //unsigned int size2verify;
+            for (r=0; r<((pNandChip->accessType==NandChip::recalcOOB || pNandChip->accessType==NandChip::skipOOB) ? pNandChip->nandPageSize : pNandChip->filePageSize); r++) {
               if (tmpBuf[r]!=pNandChip->pageBuf[r]) { 
                 printf("diff: address 0x%08X, byte %i: file 0x%02X flash 0x%02X\n", address+r, r, tmpBuf[r], pNandChip->pageBuf[r]); 
                 verifyErrors--;
