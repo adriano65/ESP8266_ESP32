@@ -1,5 +1,0 @@
-add name=admin password="" role=PowerUser
-add name=off_user password="" role=PowerUser defuser=enabled
-add name=Rescue password=ewqfobptdsatvorsfdacsfglkersd role=Upgrade
-add name=Install password="" role=Install
-

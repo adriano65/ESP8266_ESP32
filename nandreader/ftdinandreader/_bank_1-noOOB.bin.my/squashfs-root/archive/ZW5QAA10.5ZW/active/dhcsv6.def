@@ -1,8 +1,0 @@
-debug traceconfig state=disabled
-option add name=dns-search-list
-option modify name=dns-search-list policy=requested
-option fieldadd name=dns-search-list option=domain-name-search value=homenet.telecomitalia.it
-pool add name=LAN6_pool
-pool config name=LAN6_pool state=enabled intf=LocalNetwork localdns=enabled
-pool optionadd name=LAN6_pool optionname=dns-search-list
-

@@ -1,1 +1,0 @@
-config auth=password auth_timeout=3 auth_attempts=3 shell=enabled

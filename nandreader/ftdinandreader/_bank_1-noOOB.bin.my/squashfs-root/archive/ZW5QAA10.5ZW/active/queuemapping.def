@@ -1,6 +1,0 @@
-config DefaultQueue 1 DefaultLabel Classification.Label.default Rule=Classification.Chain.qos_default_labels.Rule.20
-add_queue Enable=enabled Interface=WAN Precedence=100 Queue=1
-add_queue Enable=enabled Interface=WAN Precedence=40  Queue=2
-add_queue Enable=enabled Interface=WAN Precedence=20  Queue=3
-add_classification Index=2 ClassQueue=2 Label=Classification.Label.qos_label_1 Rule=Classification.Chain.qos_default_labels.Rule.19
-add_classification Index=1 ClassQueue=3 Label=Classification.Label.qos_label_0 Rule=Classification.Chain.qos_default_labels.Rule.18

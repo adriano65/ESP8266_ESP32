@@ -1,3 +1,0 @@
-config autoload=enabled
-debug traceconfig level=0
-debug commconfig pong-to=1500

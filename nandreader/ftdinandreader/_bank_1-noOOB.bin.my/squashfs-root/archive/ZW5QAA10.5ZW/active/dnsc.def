@@ -1,2 +1,0 @@
-config timeout=5 retry=4 search=enabled trace=disabled
-dnsadd addr=127.0.0.1 port=53

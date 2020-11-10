@@ -1,3 +1,0 @@
-ifdelete intf br_video name default
-ifdelete intf bri_ge name default
-ifdelete intf vdsl2 name default

@@ -1,6 +1,0 @@
-ifadd intf=atm_8_35
-ifconfig intf=atm_8_35 dest=atm_pvc_8_35 clp=classification clpthresh=14 ulp=mac encaps=llc
-ifattach intf=atm_8_35
-ifadd intf=atm_8_36
-ifconfig intf atm_8_36 dest atm_pvc_8_36 ulp mac
-ifattach intf atm_8_36
