@@ -233,7 +233,7 @@ int FtdiNand::sendAddr(unsigned int row, int addrLen) {
       buff[1]=0;
       buff[2]=row;
       buff[3]=(row>>8);
-      buff[4]=0;
+      addrLen=4;
       break;
 
     default:

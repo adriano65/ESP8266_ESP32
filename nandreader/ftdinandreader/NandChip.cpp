@@ -97,6 +97,7 @@ NandChip::NandChip(int vid, int pid, bool doSlow, AccessType _accessType, Action
 
   case addOOB:
     switch (action) {
+      // loads pages from file (withot OOB), calc OOB and write to nand adding OOB data
       case actionWrite:
         filePageSize=pNandID->getPageSize();
         nandPageSize=nandPageSize+pNandID->getOobSize();

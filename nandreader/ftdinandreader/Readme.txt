@@ -296,7 +296,7 @@ Creating 5 MTD partitions on "technicolor-nand-tl":
 0x000000040000-0x000000080000 : "rawstorage"
 
 0x000006a00000-0x000008000000 : "undef_bank..."
-0x000002000000-0x000002200000 kernel 1
+0x000002000000-0x000002200000 kernel 1 ?
 -------------------------------------------------------------> no ! userfs ends @ 0x4d00000 .... so overwrites bank_2: limit to 0x4500000!!
 ./ftdinandreader -r rootfs -p 0x2200000 0x4500000 -t both
 
@@ -311,6 +311,10 @@ cp rootfs.squash rootfs.new
 dd if=rootfs of=firstpart bs=1 count=1115136
 cat rootfs.new >> firstpart
 mv firstpart rootfs.new
+
+./ftdinandreader -e -p 0x2310400 0x4500000
+./ftdinandreader -w rootfs.new -p 0x2310400 0x4500000 -t main
+
 
 ----------------------------------------------------------------> no ! userfs ends @ 0x4d00000 .... so overwrites bank_2!!
 ./ftdinandreader -w rootfs.new -p 0x2200000 0x4500000 -t main
@@ -365,7 +369,7 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 
 
 ----------------------------------------------------------------------------------- extracting kernel
-./ftdinandreader -r kernel-OOB.bin -p 0x2000000 0x22A22F0
+./ftdinandreader -r kernel-withOOB2.bin -p 0x2000000 0x22A22F0
 ./ftdinandreader -w kernel-OOB.bin -p 0x4500000 0x47A22F0
 
 which ECC algorithm is used by the NAND sub-system. By default, both u-boot and Linux use BCH8
@@ -391,7 +395,7 @@ dd if=bootloader-withOOB.bin of=eripv2-withOOB.bin bs=1 count=132000 skip=132000
 
 ------------------------------------------------------------------------------------ this seems to correct better reboot loop
 ./ftdinandreader -w bootloader/rawstorage-withOOB.bin -p 0x40000 0x80000 -t skip
-YES!! firmware loaded and linux comes up
+YES!! firmware bootp loaded and linux comes up
 
 ---- NO
 ./ftdinandreader -e -p 0x2200000 0x2DE0000
@@ -402,12 +406,15 @@ YES!! firmware loaded and linux comes up
 ------------------------------------------------------------------------------------ OK correct reboot loop
 ./ftdinandreader -e -p 0x40000 0x6A00000
 ./ftdinandreader -w bootloader/rawstorage-withOOB.bin -p 0x40000 0x80000 -t skip
+Extract kernel
+./ftdinandreader -r kernel-0x2060000.bin -p 0x2060000 0x2300000 -t main
 
------------------------------------------------------------------------------------- try to reload kernel
-./ftdinandreader -e -p 0x2080000 0x2180000 (0x216F000 is real lenght)
-./ftdinandreader -w kernel/kernel_test.bin -p 0x2080000 0x216F000 -t main
+
+
 restore old kernel
 ./ftdinandreader -e -p 0x2000000 0x2200000
-./ftdinandreader -w kernel/kernel-withOOB.bin -p 0x2000000 0x2200000 --> was extracted from 2000000
+./ftdinandreader -w kernel/kernel-20000000-withOOB.bin -p 0x2000000 0x2200000 --> was extracted from 2000000
+==> NO
 
-
+WHERE IS KERNEL ???
+./ftdinandreader -r test -p 0x100000 0xF00000 -t main
