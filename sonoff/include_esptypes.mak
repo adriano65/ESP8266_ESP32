@@ -91,6 +91,7 @@ PROJ_NAME      := "Armtronix"
 LED_CONN_PIN   := GPIO_5
 STA_IPADDRESS  := "192.168.1.111"
 READ_DELAY     := 200
+REFRESHIO      := yes
 MQTT_STAT_TOPIC := "Armtronix/111/status"
 FLASH_SIZE     := 4MBc
 CFLAGS	       := -DARMTRONIX -DAP_SSID='"Armtronix"'
@@ -105,7 +106,7 @@ USE_DHCP       := no
 READ_DELAY     := 100
 MQTT_STAT_TOPIC := "esp_mains/112/status"
 FLASH_SIZE     := 4MB
-CFLAGS	       := -DMAINS -DAP_SSID='"BrokenAss"'
+CFLAGS	       := -DMAINS -DANT_TEST -DAP_SSID='"AntennaTester"'
 
 else ifdef MAINS_VMC
 PROJ_NAME      := "esp_mains_vmc"
@@ -132,15 +133,17 @@ FLASH_SIZE     := 512KB
 CFLAGS	       := -DESP01 -DAP_SSID='"ESP01"'
 
 else ifdef MAINSd
-PROJ_NAME      := "esp_mains"
+PROJ_NAME      := "GasInjectorCleaner"
 LED_CONN_PIN   := GPIO_2
 LED_CONN_PIN_ACTIVELOW   := 1
+PWM0_PIN	   := GPIO_16
+OPENCOLLECTOR_PIN	   := GPIO_1
 STA_IPADDRESS  := "192.168.1.115"
 USE_DHCP       := no
 READ_DELAY     := 100
-MQTT_STAT_TOPIC := "esp_mains/115/status"
+MQTT_STAT_TOPIC := "GasInjectorCleaner/115/status"
 FLASH_SIZE     := 4MB
-CFLAGS	       := -DMAINS -DANT_TEST -DAP_SSID='"ExternalAntTest"'
+CFLAGS	       := -DGASINJECTORCLEANER -DAP_SSID='"GasInjectorCleaner"'
 
 else ifdef MAINSe
 PROJ_NAME      := "esp12e_housePowerMeterTx"

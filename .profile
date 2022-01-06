@@ -1,14 +1,20 @@
 alias ll="ls -la"
 #xhost +localhost
 # bash -c 'xhost +localhost; sudo -i -u name /usr/bin/hp-setup; xhost -localhost'
-export PATH=$PATH:/home/name/scripts
+
+export LC_ALL="en_US.UTF-8"
+#export LC_ALL="en_US"
+#export LANG="en_US.UTF-8"
+export PATH=$PATH:/home/name/scripts:/home/name/.local/bin
+#export LESS=eFRX
 
 export QT_PLUGIN_PATH=/opt/hexinator/plugins
 export QTLIBDIR=/opt/hexinator/lib
 export QT_DEBUG_PLUGINS=1
 
-#CONF=esp8266
-CONF=ESP32
+CONF=esp8266
+#CONF=ESP32
+#CONF=BCM
 
 case $CONF in
         fonera)
@@ -39,11 +45,26 @@ case $CONF in
 			;;
 			
         ESP32)
-			export PATH=$PATH:/home/name/.espressif/tools/xtensa-esp32-elf/esp-2020r2-8.2.0/xtensa-esp32-elf/bin
+			export PATH=/home/name/.espressif/tools/xtensa-esp32-elf/esp-2020r2-8.2.0/xtensa-esp32-elf/bin:$PATH
 			export IDF_PATH=/home/name/esp-idf
-			#export IDF_PYTHON_ENV_PATH=/usr/bin/python3
+			export IDF_PYTHON_ENV_PATH=/usr/bin/python3
 			#export IDF_PYTHON_ENV_PATH=/home/name/.espressif/python_env/idf4.3_py3.6_env
-			. /home/name/esp-idf/export.sh
+			#export IDF_PYTHON_ENV_PATH=/home/name/.espressif/python_env/idf4.2_py3.7_env
+			#export IDF_PYTHON_ENV_PATH=/home/name/.espressif/python_env/idf4.2_py2.7_env
+			. $HOME/esp-idf/export.sh
+			alias get_idf='. $HOME/esp-idf/export.sh'
+			#cd ~/esp32
+			;;
+			
+        ESP32-test)
+			export PATH=$PATH:/home/name/.espressif/tools/xtensa-esp32-elf/esp-2020r2-8.2.0/xtensa-esp32-elf/bin
+			export IDF_PATH=/home/name/esp/esp-idf
+			#export IDF_PYTHON_ENV_PATH=/usr/bin/python3
+			export IDF_PYTHON_ENV_PATH=/home/name/.espressif/python_env/idf4.3_py3.6_env
+			#export IDF_PYTHON_ENV_PATH=/usr/bin/python
+			. $HOME/esp/esp-idf/export.sh
+			alias get_idf='. $HOME/esp/esp-idf/export.sh'
+			cd esp32
 			;;
 			
         AVR-GCC)
@@ -64,6 +85,10 @@ case $CONF in
 			export ARCH=arm
 			#export CROSS_COMPILE=arm-goke-linux-uclibcgnueabi-
 			export CROSS_COMPILE=arm-unknown-linux-uclibcgnueabi-
+			;;
+        BCM)
+			#export PATH=~/nandreader/asuswrt-merlin.ng/brcm-arm-toolchains/hndtools-arm-linux-2.6.36-uclibc-4.5.3/bin:$PATH
+			export PATH=/opt/hndtools-mipsel-uclibc-4.3.5/bin:$PATH
 			;;
 		
         *)

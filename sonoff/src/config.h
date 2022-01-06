@@ -48,6 +48,10 @@ typedef struct __attribute__((aligned(4))) {
   #if defined(HOUSE_POW_METER_TX) || defined(SONOFFPOW_DDS238_2)
   ip_addr_t HPRx_IP;
   #endif
+  #if defined(GASINJECTORCLEANER)
+  unsigned int interval;
+  unsigned int dutycycle;
+  #endif
 } FlashConfig;
 
 extern FlashConfig flashConfig;

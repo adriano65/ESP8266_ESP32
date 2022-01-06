@@ -302,6 +302,8 @@ void ICACHE_FLASH_ATTR hw_timer_isr_cb(void) {
     if ( !(nCounter%READ_DELAY) ) {
 	    SendStatus(MQTT_STAT_TOPIC, MSG_STATUS);
       }
+    // THIS IS A WORK-AROUND FOR POWER SUPPLY OR EMI PROBLEMS
+    RefreshIO();
     #endif
 
     #if defined(MAINS_VMC) || defined(SONOFFDUAL)

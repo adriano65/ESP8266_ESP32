@@ -45,6 +45,7 @@ extern Sensor_Data sensor_data;
 
 #include "network.h"
 #include "ntp.h"
+#include "injectorcleaner.h"
 
 //#define MAIN_DBG
 
@@ -77,6 +78,7 @@ uint32 ICACHE_FLASH_ATTR user_rf_cal_sector_set(void) {
 
 static void ICACHE_FLASH_ATTR restoreIO() {
   #if defined(MAINS)
+  #warning "cazzu e"
     #if !defined(USE_TXD0)
     set_gpio_mode(GPIO_3, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
     gpio_write(GPIO_3, flashConfig.IOPort_bit0);
@@ -113,10 +115,14 @@ static void ICACHE_FLASH_ATTR restoreIO() {
 				set_gpio_mode(GPIO_14, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
 				gpio_write(GPIO_14, flashConfig.IOPort_bit3);
       #else
-      set_gpio_mode(GPIO_12, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
-      gpio_write(GPIO_12, flashConfig.IOPort_bit0);
-      set_gpio_mode(GPIO_5, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
-      gpio_write(GPIO_5, flashConfig.IOPort_bit1);      
+
+        #if !defined(PWM0_PIN)
+        set_gpio_mode(GPIO_12, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
+        gpio_write(GPIO_12, flashConfig.IOPort_bit0);
+        set_gpio_mode(GPIO_5, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
+        gpio_write(GPIO_5, flashConfig.IOPort_bit1);
+        #endif
+
       #endif
   #endif
   
@@ -156,20 +162,25 @@ void ICACHE_FLASH_ATTR user_init(void) {
   RTC_init();
   
   #if defined(SONOFFTH10)
-  // NodeMCU Pin number 5 = GPIO14 - temp/umidity onewire
-  #if defined(DS18B20_PIN)
-  SensorInit(DS18B20, DS18B20_PIN);
-  #else  
-    #if defined(DHT22_PIN)
-    SensorInit(DHT22, DHT22_PIN);
-    #else
-      #if defined(SI7021_PIN)
-      SensorInit(SI7021, SI7021_PIN);
+    // NodeMCU Pin number 5 = GPIO14 - temp/umidity onewire
+    #if defined(DS18B20_PIN)
+    SensorInit(DS18B20, DS18B20_PIN);
+    #else  
+      #if defined(DHT22_PIN)
+      SensorInit(DHT22, DHT22_PIN);
+      #else
+        #if defined(SI7021_PIN)
+        SensorInit(SI7021, SI7021_PIN);
+        #endif
       #endif
-    #endif
 
+    #endif
   #endif
+
+  #if defined(PWM0_PIN)
+  SensorInit();
   #endif
+
 
   #if defined(SONOFFPOW)
     HLW8012Init();

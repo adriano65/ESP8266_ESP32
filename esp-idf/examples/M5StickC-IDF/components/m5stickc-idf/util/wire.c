@@ -42,22 +42,20 @@ uint8_t I2Creadbyte( wire_t* wire, uint8_t device_addr, uint8_t reg_addr ) {
 uint8_t I2CreadBuff( wire_t* wire, uint8_t device_addr, uint8_t reg_addr, uint8_t* rd_buff, uint8_t length ) {
 	i2c_cmd_handle_t cmd = i2c_cmd_link_create();
 	esp_err_t ret;
-	if( length == 0 )
-	{
+	if( length == 0 )	{
 		return -1;
-	}
+	  }
 	I2CbeginTransmission( wire, device_addr, reg_addr );
-    i2c_master_start(cmd);
-    i2c_master_write_byte(cmd, (device_addr << 1) | I2C_MASTER_READ, ACK_CHECK_EN);
-    if (length > 1) 
-	{
-        i2c_master_read(cmd, rd_buff, length - 1, ACK_VAL);
+  i2c_master_start(cmd);
+  i2c_master_write_byte(cmd, (device_addr << 1) | I2C_MASTER_READ, ACK_CHECK_EN);
+  if (length > 1) {
+    i2c_master_read(cmd, rd_buff, length - 1, ACK_VAL);
     }
-    i2c_master_read_byte(cmd, rd_buff + length - 1, NACK_VAL);
-    i2c_master_stop(cmd);
-    ret = i2c_master_cmd_begin(wire->i2cnum, cmd, 1000 / portTICK_RATE_MS);
-    i2c_cmd_link_delete(cmd);
-    return ret;
+  i2c_master_read_byte(cmd, rd_buff + length - 1, NACK_VAL);
+  i2c_master_stop(cmd);
+  ret = i2c_master_cmd_begin(wire->i2cnum, cmd, 1000 / portTICK_RATE_MS);
+  i2c_cmd_link_delete(cmd);
+  return ret;
 }
 
 uint8_t I2Cwirtebyte( wire_t* wire, uint8_t device_addr, uint8_t reg_addr, uint8_t Data)

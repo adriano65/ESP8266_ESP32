@@ -74,20 +74,20 @@ REFRESHIO      						:= no
 # ----------------- garage interno
 #ARMTRONIXa := 2
 
-# ----------------- BrokenAss
+# ----------------- AntTest
 #MAINSc := 2
 
 # ----------------- some day...
 #MAINS_VMC := 2
 
-# ----------------- ant test
-#MAINSd := 2
+# ----------------- gas injectors cleaner
+MAINSd := 2
 
 # ----------------- GTN House power Transmitter
 #MAINSe := 2
 
 # ----------------- GTN House power Receiver (ESP8266 boot baud rate is 76800)
-MAINSf := 2
+#MAINSf := 2
 
 # --------------------GTN Sun power meter
 #SONOFFPOWa := 3
@@ -193,6 +193,10 @@ MODULES		+= ina226
 #LIBS += m
 endif
 
+ifeq ($(PROJ_NAME),"GasInjectorCleaner")
+MODULES		+= injectorcleaner
+endif
+
 MODULES		+= $(foreach sdir,$(LIBRARIES_DIR),$(wildcard $(sdir)/*))
 
 # compiler flags using during compilation of source files
@@ -252,6 +256,15 @@ endif
 
 ifneq ("$(TEST_IP_ADDRESS)","no")
 CFLAGS	+= -DTEST_IP_ADDRESS=$(TEST_IP_ADDRESS)
+endif
+
+ifneq ("$(PWM0_PIN)","no")
+CFLAGS	+= -DPWM0_PIN=$(PWM0_PIN)
+LIBS		+= pwm
+endif
+
+ifneq ("$(OPENCOLLECTOR_PIN)","no")
+CFLAGS	+= -DOPENCOLLECTOR_PIN=$(OPENCOLLECTOR_PIN)
 endif
 
 # linker flags used to generate the main object file

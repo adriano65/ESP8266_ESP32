@@ -3,6 +3,7 @@
 #include <osapi.h>
 #include "mqtt_client.h"
 #include "network.h"
+#include "injectorcleaner.h"
 #include "config.h"
 
 //#define CONFIG_DBG
@@ -159,6 +160,9 @@ void ICACHE_FLASH_ATTR LoadDefaultConfig(void) {
   #endif
   #if defined(HOUSE_POW_METER_TX) || defined(SONOFFPOW_DDS238_2)
   parse_ip(HPMETER_RX_IP, &flashConfig.HPRx_IP);
+  #endif
+  #if defined(GASINJECTORCLEANER)
+    flashConfig.interval=INJECTION_PERIOD;
   #endif
 
   crc=crc16_data((unsigned char*)&flashConfig+sizeof(crc), sizeof(FlashConfig)-sizeof(crc), 0);	

@@ -55,6 +55,13 @@ void ICACHE_FLASH_ATTR cmdParser(char *pInBuf, unsigned short InBufLen) {
 			break;
 		#endif
 			
+		#if defined(GASINJECTORCLEANER)
+		case 'd':	// duty cycle
+			//TXdatalen=os_sprintf(pTXdata, "duty cycle");
+			d_cmd_interpreter(&pInBuf[2]);
+			break;
+		#endif
+			
 		case 'F':
 			F_cmd_interpreter(pInBuf[1]);
 			break;
@@ -150,6 +157,9 @@ void ICACHE_FLASH_ATTR cmdParser(char *pInBuf, unsigned short InBufLen) {
 			#endif
       #if defined(HOUSE_POW_METER_TX) || defined(SONOFFPOW_DDS238_2)
 			TXdatalen+=os_sprintf(pTXdata+TXdatalen, "I <ip> -> Power Meter RX Address\r\n");
+			#endif
+      #if defined(GASINJECTORCLEANER)
+			TXdatalen+=os_sprintf(pTXdata+TXdatalen, "d <divisor> -> dutycyle divisor (%u)\r\n", flashConfig.dutycycle);
 			#endif
 			break;
 
@@ -386,7 +396,7 @@ void ICACHE_FLASH_ATTR RefreshIO(void) {
 		if (flashConfig.IOPort_bit3==1) {
 			gpio_write(GPIO_14, 1);
 			}
-		#error "ARMTRONIX defined!"
+		#warning "ARMTRONIX defined!"
 	#endif
 
 	#if defined(MAINS)
@@ -535,6 +545,17 @@ void ICACHE_FLASH_ATTR c_cmd_interpreter(char pInBuf) {
 	
 #if defined(MAINS)
 void ICACHE_FLASH_ATTR D_cmd_interpreter(char * arg) {
+  //gpio_pin_wakeup_enable(GPIO_ID_PIN(4), GPIO_PIN_INTR_HILEVEL);
+  //system_deep_sleep_set_option(4);	// disable rf on wake up
+  //system_deep_sleep_set_option(2);	// no radio calibration on wake up
+  system_deep_sleep_set_option(1);	// Radio calibration is done after deep-sleep wake up
+  system_deep_sleep(atoi(arg+1)*1000000);
+  //system_deep_sleep_instant(10000000);	// uSeconds
+}
+#endif
+
+#if defined(GASINJECTORCLEANER)
+void ICACHE_FLASH_ATTR d_cmd_interpreter(char * arg) {
   //gpio_pin_wakeup_enable(GPIO_ID_PIN(4), GPIO_PIN_INTR_HILEVEL);
   //system_deep_sleep_set_option(4);	// disable rf on wake up
   //system_deep_sleep_set_option(2);	// no radio calibration on wake up

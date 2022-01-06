@@ -2,60 +2,60 @@ Archive member included to satisfy reference by file (symbol)
 
 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/main/libmain.a(bootloader_start.o)
                               (call_start_cpu0)
-/home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
-                              /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/main/libmain.a(bootloader_start.o) (bootloader_utility_load_partition_table)
 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o)
-                              /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o) (bootloader_common_ota_select_crc)
-/home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console_loader.o)
-                              /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o) (bootloader_console_deinit)
-/home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
-                              /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o) (esp_partition_table_verify)
-/home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
-                              /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o) (bootloader_load_image)
-/home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
-                              /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o) (bootloader_fill_random)
-/home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
-                              /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o) (bootloader_sha256_start)
-/home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
-                              /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/main/libmain.a(bootloader_start.o) (bootloader_init)
+                              /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/main/libmain.a(bootloader_start.o) (bootloader_common_get_reset_reason)
 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_efuse_esp32.o)
                               /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o) (bootloader_common_get_chip_revision)
-/home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_mem.o)
-                              /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o) (bootloader_init_mem)
-/home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
-                              /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o) (bootloader_enable_qio_mode)
 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
-                              /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o) (bootloader_mmap_get_free_pages)
-/home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
-                              /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o) (bootloader_clear_bss_section)
+                              /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o) (bootloader_mmap)
+/home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+                              /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/main/libmain.a(bootloader_start.o) (bootloader_utility_load_partition_table)
+/home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
+                              /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o) (bootloader_load_image)
+/home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
+                              /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o) (esp_partition_table_verify)
+/home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
+                              /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/main/libmain.a(bootloader_start.o) (bootloader_init)
+/home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
+                              /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o) (bootloader_sha256_start)
 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_clock.o)
                               /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o) (bootloader_clock_configure)
 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console.o)
                               /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o) (bootloader_console_init)
+/home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console_loader.o)
+                              /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o) (bootloader_console_deinit)
 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash_config_esp32.o)
                               /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o) (bootloader_flash_update_id)
+/home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
+                              /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o) (bootloader_clear_bss_section)
+/home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_mem.o)
+                              /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o) (bootloader_init_mem)
+/home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
+                              /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o) (bootloader_fill_random)
+/home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
+                              /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash_config_esp32.o) (bootloader_read_flash_id)
 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/log/liblog.a(log_noos.o)
                               /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o) (esp_log_early_timestamp)
 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/spi_flash/libspi_flash.a(spi_flash_rom_patch.o)
                               /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o) (esp_rom_spiflash_wait_idle)
 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(cpu_util.o)
                               /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o) (esp_cpu_in_ocd_debug_mode)
-/home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
-                              /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o) (wdt_hal_init)
-/home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(soc_hal.o)
-                              /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(cpu_util.o) (soc_hal_stall_core)
-/home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(mpu_hal.o)
-                              /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_mem.o) (mpu_hal_set_region_access)
 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(cpu_hal.o)
                               /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(cpu_util.o) (cpu_hal_set_breakpoint)
-/home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
-                              /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o) (rtc_vddsdio_get_config)
+/home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(mpu_hal.o)
+                              /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_mem.o) (mpu_hal_set_region_access)
+/home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(soc_hal.o)
+                              /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(cpu_util.o) (soc_hal_stall_core)
+/home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
+                              /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o) (wdt_hal_init)
+/home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk.o)
+                              /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_clock.o) (rtc_clk_slow_freq_get)
 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
                               /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_clock.o) (rtc_clk_init)
+/home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
+                              /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o) (rtc_vddsdio_get_config)
 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
                               /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o) (rtc_clk_cal_ratio)
-/home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk.o)
-                              /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o) (rtc_clk_32k_enable)
 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(gpio_periph.o)
                               /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o) (GPIO_PIN_MUX_REG)
 /home/name/.espressif/tools/xtensa-esp32-elf/esp-2020r2-8.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.2.0/no-rtti/libgcc.a(_bswapsi2.o)
@@ -82,21 +82,6 @@ Discarded input sections
                 0x0000000000000000        0xa /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/main/libmain.a(bootloader_start.o)
  .xt.lit        0x0000000000000000       0x10 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/main/libmain.a(bootloader_start.o)
  .xt.prop       0x0000000000000000       0x84 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/main/libmain.a(bootloader_start.o)
- .literal.bootloader_atexit
-                0x0000000000000000        0x4 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
- .literal.bootloader_sha256_flash_contents
-                0x0000000000000000       0x1c /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
- .text          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
- .data          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
- .bss           0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
- .text.bootloader_atexit
-                0x0000000000000000        0xb /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
- .text.bootloader_sha256_hex_to_str
-                0x0000000000000000       0x65 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
- .text.bootloader_sha256_flash_contents
-                0x0000000000000000       0x86 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
- .xt.lit        0x0000000000000000       0x58 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
- .xt.prop       0x0000000000000000      0x6c0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
  .literal.bootloader_common_check_long_hold_gpio
                 0x0000000000000000       0x1c /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o)
  .literal.bootloader_common_label_search
@@ -124,16 +109,35 @@ Discarded input sections
                 0x0000000000000000       0x77 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o)
  .xt.lit        0x0000000000000000       0x58 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o)
  .xt.prop       0x0000000000000000      0x4c8 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o)
- .text          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console_loader.o)
- .data          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console_loader.o)
- .bss           0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console_loader.o)
- .xt.lit        0x0000000000000000        0x8 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console_loader.o)
- .xt.prop       0x0000000000000000       0x30 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console_loader.o)
- .text          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
- .data          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
- .bss           0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
- .xt.lit        0x0000000000000000        0x8 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
- .xt.prop       0x0000000000000000      0x108 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
+ .text          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_efuse_esp32.o)
+ .data          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_efuse_esp32.o)
+ .bss           0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_efuse_esp32.o)
+ .xt.lit        0x0000000000000000       0x10 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_efuse_esp32.o)
+ .xt.prop       0x0000000000000000       0x6c /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_efuse_esp32.o)
+ .literal.bootloader_flash_erase_range
+                0x0000000000000000        0xc /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
+ .text          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
+ .data          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
+ .bss           0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
+ .text.bootloader_flash_erase_range
+                0x0000000000000000       0x5f /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
+ .xt.lit        0x0000000000000000       0x30 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
+ .xt.prop       0x0000000000000000      0x300 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
+ .literal.bootloader_atexit
+                0x0000000000000000        0x4 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+ .literal.bootloader_sha256_flash_contents
+                0x0000000000000000       0x1c /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+ .text          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+ .data          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+ .bss           0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+ .text.bootloader_atexit
+                0x0000000000000000        0xb /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+ .text.bootloader_sha256_hex_to_str
+                0x0000000000000000       0x65 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+ .text.bootloader_sha256_flash_contents
+                0x0000000000000000       0x86 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+ .xt.lit        0x0000000000000000       0x58 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+ .xt.prop       0x0000000000000000      0x6c0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
  .literal.bootloader_load_image_no_verify
                 0x0000000000000000        0x4 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
  .literal.esp_image_verify
@@ -156,16 +160,11 @@ Discarded input sections
                 0x0000000000000000       0x1c /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
  .xt.lit        0x0000000000000000       0x48 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
  .xt.prop       0x0000000000000000      0x72c /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
- .text          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
- .data          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
- .bss           0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
- .xt.lit        0x0000000000000000       0x18 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
- .xt.prop       0x0000000000000000       0xcc /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
- .text          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
- .data          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
- .bss           0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
- .xt.lit        0x0000000000000000       0x18 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
- .xt.prop       0x0000000000000000      0x18c /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
+ .text          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
+ .data          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
+ .bss           0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
+ .xt.lit        0x0000000000000000        0x8 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
+ .xt.prop       0x0000000000000000      0x108 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
  .literal.bootloader_configure_spi_pins
                 0x0000000000000000       0x58 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
  .text          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
@@ -175,35 +174,11 @@ Discarded input sections
                 0x0000000000000000      0x16a /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
  .xt.lit        0x0000000000000000       0x20 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
  .xt.prop       0x0000000000000000      0x1d4 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
- .text          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_efuse_esp32.o)
- .data          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_efuse_esp32.o)
- .bss           0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_efuse_esp32.o)
- .xt.lit        0x0000000000000000       0x10 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_efuse_esp32.o)
- .xt.prop       0x0000000000000000       0x6c /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_efuse_esp32.o)
- .text          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_mem.o)
- .data          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_mem.o)
- .bss           0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_mem.o)
- .xt.lit        0x0000000000000000        0x8 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_mem.o)
- .xt.prop       0x0000000000000000       0x48 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_mem.o)
- .text          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
- .data          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
- .bss           0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
- .xt.lit        0x0000000000000000       0x58 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
- .xt.prop       0x0000000000000000      0x2a0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
- .literal.bootloader_flash_erase_range
-                0x0000000000000000        0xc /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
- .text          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
- .data          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
- .bss           0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
- .text.bootloader_flash_erase_range
-                0x0000000000000000       0x5f /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
- .xt.lit        0x0000000000000000       0x30 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
- .xt.prop       0x0000000000000000      0x300 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
- .text          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
- .data          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
- .bss           0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
- .xt.lit        0x0000000000000000       0x38 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
- .xt.prop       0x0000000000000000      0x168 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
+ .text          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
+ .data          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
+ .bss           0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
+ .xt.lit        0x0000000000000000       0x18 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
+ .xt.prop       0x0000000000000000      0x18c /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
  .literal.esp_clk_apb_freq
                 0x0000000000000000        0x4 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_clock.o)
  .text          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_clock.o)
@@ -218,6 +193,11 @@ Discarded input sections
  .bss           0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console.o)
  .xt.lit        0x0000000000000000        0x8 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console.o)
  .xt.prop       0x0000000000000000       0x3c /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console.o)
+ .text          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console_loader.o)
+ .data          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console_loader.o)
+ .bss           0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console_loader.o)
+ .xt.lit        0x0000000000000000        0x8 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console_loader.o)
+ .xt.prop       0x0000000000000000       0x30 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console_loader.o)
  .iram1.1.literal
                 0x0000000000000000        0xc /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash_config_esp32.o)
  .text          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash_config_esp32.o)
@@ -228,6 +208,26 @@ Discarded input sections
                 0x0000000000000000       0x10 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash_config_esp32.o)
  .xt.lit        0x0000000000000000       0x28 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash_config_esp32.o)
  .xt.prop       0x0000000000000000      0x180 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash_config_esp32.o)
+ .text          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
+ .data          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
+ .bss           0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
+ .xt.lit        0x0000000000000000       0x38 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
+ .xt.prop       0x0000000000000000      0x168 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
+ .text          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_mem.o)
+ .data          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_mem.o)
+ .bss           0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_mem.o)
+ .xt.lit        0x0000000000000000        0x8 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_mem.o)
+ .xt.prop       0x0000000000000000       0x48 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_mem.o)
+ .text          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
+ .data          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
+ .bss           0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
+ .xt.lit        0x0000000000000000       0x18 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
+ .xt.prop       0x0000000000000000       0xcc /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
+ .text          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
+ .data          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
+ .bss           0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
+ .xt.lit        0x0000000000000000       0x58 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
+ .xt.prop       0x0000000000000000      0x2a0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
  .literal.esp_log_impl_lock
                 0x0000000000000000       0x14 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/log/liblog.a(log_noos.o)
  .literal.esp_log_lock_impl_timeout
@@ -298,56 +298,6 @@ Discarded input sections
  .iram1.7       0x0000000000000000       0x18 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(cpu_util.o)
  .xt.lit        0x0000000000000000       0x38 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(cpu_util.o)
  .xt.prop       0x0000000000000000      0x198 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(cpu_util.o)
- .literal.wdt_hal_deinit
-                0x0000000000000000        0xc /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
- .literal.wdt_hal_disable
-                0x0000000000000000        0x4 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
- .literal.wdt_hal_handle_intr
-                0x0000000000000000        0x4 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
- .literal.wdt_hal_feed
-                0x0000000000000000        0x4 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
- .text          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
- .data          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
- .bss           0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
- .text.wdt_hal_deinit
-                0x0000000000000000       0xb1 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
- .text.wdt_hal_disable
-                0x0000000000000000       0x2f /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
- .text.wdt_hal_handle_intr
-                0x0000000000000000       0x4a /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
- .text.wdt_hal_feed
-                0x0000000000000000       0x28 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
- .text.wdt_hal_is_enabled
-                0x0000000000000000       0x1d /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
- .xt.lit        0x0000000000000000       0x48 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
- .xt.prop       0x0000000000000000      0x3b4 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
- .literal.soc_hal_stall_core
-                0x0000000000000000       0x10 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(soc_hal.o)
- .literal.soc_hal_unstall_core
-                0x0000000000000000       0x10 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(soc_hal.o)
- .text          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(soc_hal.o)
- .data          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(soc_hal.o)
- .bss           0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(soc_hal.o)
- .text.soc_hal_stall_core
-                0x0000000000000000       0x87 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(soc_hal.o)
- .text.soc_hal_unstall_core
-                0x0000000000000000       0x48 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(soc_hal.o)
- .debug_frame   0x0000000000000000       0x40 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(soc_hal.o)
- .debug_info    0x0000000000000000     0x128a /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(soc_hal.o)
- .debug_abbrev  0x0000000000000000      0x222 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(soc_hal.o)
- .debug_loc     0x0000000000000000       0x94 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(soc_hal.o)
- .debug_aranges
-                0x0000000000000000       0x28 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(soc_hal.o)
- .debug_ranges  0x0000000000000000       0x18 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(soc_hal.o)
- .debug_line    0x0000000000000000      0x4b0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(soc_hal.o)
- .debug_str     0x0000000000000000     0x1170 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(soc_hal.o)
- .comment       0x0000000000000000       0x26 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(soc_hal.o)
- .xt.lit        0x0000000000000000       0x10 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(soc_hal.o)
- .xt.prop       0x0000000000000000       0x60 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(soc_hal.o)
- .text          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(mpu_hal.o)
- .data          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(mpu_hal.o)
- .bss           0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(mpu_hal.o)
- .xt.prop       0x0000000000000000       0x84 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(mpu_hal.o)
  .literal.cpu_hal_set_watchpoint
                 0x0000000000000000        0x8 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(cpu_hal.o)
  .text          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(cpu_hal.o)
@@ -375,39 +325,56 @@ Discarded input sections
  .comment       0x0000000000000000       0x26 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(cpu_hal.o)
  .xt.lit        0x0000000000000000        0x8 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(cpu_hal.o)
  .xt.prop       0x0000000000000000      0x138 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(cpu_hal.o)
- .literal.rtc_init
-                0x0000000000000000       0xbc /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
- .text          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
- .data          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
- .bss           0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
- .text.rtc_init
-                0x0000000000000000      0x342 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
- .xt.lit        0x0000000000000000       0x18 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
- .xt.prop       0x0000000000000000       0xfc /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
- .text          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
- .data          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
- .bss           0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
- .xt.lit        0x0000000000000000       0x10 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
- .xt.prop       0x0000000000000000      0x12c /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
- .literal.rtc_clk_cal
-                0x0000000000000000        0xc /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
- .literal.rtc_time_us_to_slowclk
-                0x0000000000000000        0x4 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
- .literal.rtc_time_get
-                0x0000000000000000       0x18 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
- .text          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
- .data          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
- .bss           0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
- .text.rtc_clk_cal
-                0x0000000000000000       0x54 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
- .text.rtc_time_us_to_slowclk
-                0x0000000000000000       0x1f /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
- .text.rtc_time_slowclk_to_us
-                0x0000000000000000       0x1c /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
- .text.rtc_time_get
-                0x0000000000000000       0x4f /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
- .xt.lit        0x0000000000000000       0x30 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
- .xt.prop       0x0000000000000000      0x234 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
+ .text          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(mpu_hal.o)
+ .data          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(mpu_hal.o)
+ .bss           0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(mpu_hal.o)
+ .xt.prop       0x0000000000000000       0x84 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(mpu_hal.o)
+ .literal.soc_hal_stall_core
+                0x0000000000000000       0x10 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(soc_hal.o)
+ .literal.soc_hal_unstall_core
+                0x0000000000000000       0x10 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(soc_hal.o)
+ .text          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(soc_hal.o)
+ .data          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(soc_hal.o)
+ .bss           0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(soc_hal.o)
+ .text.soc_hal_stall_core
+                0x0000000000000000       0x87 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(soc_hal.o)
+ .text.soc_hal_unstall_core
+                0x0000000000000000       0x48 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(soc_hal.o)
+ .debug_frame   0x0000000000000000       0x40 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(soc_hal.o)
+ .debug_info    0x0000000000000000     0x128a /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(soc_hal.o)
+ .debug_abbrev  0x0000000000000000      0x222 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(soc_hal.o)
+ .debug_loc     0x0000000000000000       0x94 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(soc_hal.o)
+ .debug_aranges
+                0x0000000000000000       0x28 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(soc_hal.o)
+ .debug_ranges  0x0000000000000000       0x18 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(soc_hal.o)
+ .debug_line    0x0000000000000000      0x4b0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(soc_hal.o)
+ .debug_str     0x0000000000000000     0x1170 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(soc_hal.o)
+ .comment       0x0000000000000000       0x26 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(soc_hal.o)
+ .xt.lit        0x0000000000000000       0x10 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(soc_hal.o)
+ .xt.prop       0x0000000000000000       0x60 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(soc_hal.o)
+ .literal.wdt_hal_deinit
+                0x0000000000000000        0xc /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
+ .literal.wdt_hal_disable
+                0x0000000000000000        0x4 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
+ .literal.wdt_hal_handle_intr
+                0x0000000000000000        0x4 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
+ .literal.wdt_hal_feed
+                0x0000000000000000        0x4 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
+ .text          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
+ .data          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
+ .bss           0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
+ .text.wdt_hal_deinit
+                0x0000000000000000       0xb1 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
+ .text.wdt_hal_disable
+                0x0000000000000000       0x2f /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
+ .text.wdt_hal_handle_intr
+                0x0000000000000000       0x4a /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
+ .text.wdt_hal_feed
+                0x0000000000000000       0x28 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
+ .text.wdt_hal_is_enabled
+                0x0000000000000000       0x1d /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
+ .xt.lit        0x0000000000000000       0x48 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
+ .xt.prop       0x0000000000000000      0x3b4 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
  .literal.rtc_clk_32k_enable_external
                 0x0000000000000000        0x4 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk.o)
  .literal.rtc_clk_32k_bootstrap
@@ -443,6 +410,39 @@ Discarded input sections
                 0x0000000000000000       0x39 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk.o)
  .xt.lit        0x0000000000000000       0xe0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk.o)
  .xt.prop       0x0000000000000000      0x870 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk.o)
+ .text          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
+ .data          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
+ .bss           0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
+ .xt.lit        0x0000000000000000       0x10 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
+ .xt.prop       0x0000000000000000      0x12c /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
+ .literal.rtc_init
+                0x0000000000000000       0xbc /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
+ .text          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
+ .data          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
+ .bss           0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
+ .text.rtc_init
+                0x0000000000000000      0x342 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
+ .xt.lit        0x0000000000000000       0x18 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
+ .xt.prop       0x0000000000000000       0xfc /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
+ .literal.rtc_clk_cal
+                0x0000000000000000        0xc /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
+ .literal.rtc_time_us_to_slowclk
+                0x0000000000000000        0x4 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
+ .literal.rtc_time_get
+                0x0000000000000000       0x18 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
+ .text          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
+ .data          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
+ .bss           0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
+ .text.rtc_clk_cal
+                0x0000000000000000       0x54 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
+ .text.rtc_time_us_to_slowclk
+                0x0000000000000000       0x1f /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
+ .text.rtc_time_slowclk_to_us
+                0x0000000000000000       0x1c /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
+ .text.rtc_time_get
+                0x0000000000000000       0x4f /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
+ .xt.lit        0x0000000000000000       0x30 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
+ .xt.prop       0x0000000000000000      0x234 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
  .text          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(gpio_periph.o)
  .data          0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(gpio_periph.o)
  .bss           0x0000000000000000        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(gpio_periph.o)
@@ -1181,80 +1181,80 @@ END GROUP
  .literal.bootloader_init
                 0x0000000040080474       0xac /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
                                         0x148 (size before relaxing)
- .literal.bootloader_init_mem
-                0x0000000040080520        0x8 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_mem.o)
-                                         0x10 (size before relaxing)
- .literal.execute_flash_command
-                0x0000000040080528       0x3c /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
- .literal.write_status_8b_wrsr2
-                0x0000000040080564        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
-                                          0x4 (size before relaxing)
- .literal.read_status_8b_rdsr2
-                0x0000000040080564        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
-                                          0x4 (size before relaxing)
- .literal.write_status_16b_wrsr
-                0x0000000040080564        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
-                                          0x4 (size before relaxing)
- .literal.read_status_16b_rdsr_rdsr2
-                0x0000000040080564        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
-                                          0x8 (size before relaxing)
- .literal.write_status_8b_wrsr
-                0x0000000040080564        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
-                                          0x4 (size before relaxing)
- .literal.read_status_8b_rdsr
-                0x0000000040080564        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
-                                          0x4 (size before relaxing)
- .literal.write_status_8b_xmc25qu64a
-                0x0000000040080564        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
-                                         0x18 (size before relaxing)
- .literal.read_status_8b_xmc25qu64a
-                0x0000000040080564        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
-                                         0x14 (size before relaxing)
- .literal.bootloader_read_flash_id
-                0x0000000040080564        0x8 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
-                                          0xc (size before relaxing)
- .literal.bootloader_enable_qio_mode
-                0x000000004008056c       0x20 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
-                                         0x50 (size before relaxing)
- .literal.bootloader_clear_bss_section
-                0x000000004008058c        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
-                                          0xc (size before relaxing)
- .literal.bootloader_read_bootloader_header
-                0x000000004008058c        0x8 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
-                                         0x1c (size before relaxing)
- .literal.bootloader_check_bootloader_validity
-                0x0000000040080594        0x4 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
-                                         0x1c (size before relaxing)
- .literal.bootloader_config_wdt
-                0x0000000040080598       0x14 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
-                                         0x48 (size before relaxing)
- .literal.bootloader_enable_random
-                0x00000000400805ac        0x4 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
-                                         0x14 (size before relaxing)
- .literal.bootloader_print_banner
-                0x00000000400805b0        0xc /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
-                                         0x20 (size before relaxing)
- .literal.__assert_func
-                0x00000000400805bc        0x4 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
-                                         0x10 (size before relaxing)
  .literal.bootloader_console_init
-                0x00000000400805c0       0x14 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console.o)
+                0x0000000040080520       0x14 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console.o)
                                          0x18 (size before relaxing)
  .literal.bootloader_flash_update_id
-                0x00000000400805d4        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash_config_esp32.o)
+                0x0000000040080534        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash_config_esp32.o)
                                           0x8 (size before relaxing)
- .literal.rtc_vddsdio_get_config
-                0x00000000400805d4        0xc /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
+ .literal.bootloader_clear_bss_section
+                0x0000000040080534        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
+                                          0xc (size before relaxing)
+ .literal.bootloader_read_bootloader_header
+                0x0000000040080534        0x8 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
+                                         0x1c (size before relaxing)
+ .literal.bootloader_check_bootloader_validity
+                0x000000004008053c        0x4 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
+                                         0x1c (size before relaxing)
+ .literal.bootloader_config_wdt
+                0x0000000040080540       0x14 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
+                                         0x48 (size before relaxing)
+ .literal.bootloader_enable_random
+                0x0000000040080554        0x4 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
+                                         0x14 (size before relaxing)
+ .literal.bootloader_print_banner
+                0x0000000040080558        0xc /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
+                                         0x20 (size before relaxing)
+ .literal.__assert_func
+                0x0000000040080564        0x4 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
                                          0x10 (size before relaxing)
- .literal.rtc_vddsdio_set_config
-                0x00000000400805e0        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
+ .literal.bootloader_init_mem
+                0x0000000040080568        0x8 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_mem.o)
+                                         0x10 (size before relaxing)
+ .literal.execute_flash_command
+                0x0000000040080570       0x3c /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
+ .literal.write_status_8b_wrsr2
+                0x00000000400805ac        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
+                                          0x4 (size before relaxing)
+ .literal.read_status_8b_rdsr2
+                0x00000000400805ac        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
+                                          0x4 (size before relaxing)
+ .literal.write_status_16b_wrsr
+                0x00000000400805ac        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
+                                          0x4 (size before relaxing)
+ .literal.read_status_16b_rdsr_rdsr2
+                0x00000000400805ac        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
                                           0x8 (size before relaxing)
+ .literal.write_status_8b_wrsr
+                0x00000000400805ac        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
+                                          0x4 (size before relaxing)
+ .literal.read_status_8b_rdsr
+                0x00000000400805ac        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
+                                          0x4 (size before relaxing)
+ .literal.write_status_8b_xmc25qu64a
+                0x00000000400805ac        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
+                                         0x18 (size before relaxing)
+ .literal.read_status_8b_xmc25qu64a
+                0x00000000400805ac        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
+                                         0x14 (size before relaxing)
+ .literal.bootloader_read_flash_id
+                0x00000000400805ac        0x8 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
+                                          0xc (size before relaxing)
+ .literal.bootloader_enable_qio_mode
+                0x00000000400805b4       0x20 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
+                                         0x50 (size before relaxing)
  .literal.rtc_clk_xtal_freq_estimate
-                0x00000000400805e0       0x1c /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
+                0x00000000400805d4       0x1c /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
                                          0x4c (size before relaxing)
  .literal.rtc_clk_init
-                0x00000000400805fc       0x4c /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
+                0x00000000400805f0       0x4c /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
                                          0xac (size before relaxing)
+ .literal.rtc_vddsdio_get_config
+                0x000000004008063c        0xc /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
+                                         0x10 (size before relaxing)
+ .literal.rtc_vddsdio_set_config
+                0x0000000040080648        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
+                                          0x8 (size before relaxing)
  .literal.rtc_clk_cal_internal
                 0x0000000040080648       0x48 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
                                          0x68 (size before relaxing)
@@ -1282,106 +1282,106 @@ END GROUP
                                         0x2e4 (size before relaxing)
                 0x00000000400807f4                bootloader_init
  *fill*         0x0000000040080a8d        0x3 
- .text.bootloader_init_mem
-                0x0000000040080a90       0x32 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_mem.o)
-                                         0x36 (size before relaxing)
-                0x0000000040080a90                bootloader_init_mem
- *fill*         0x0000000040080ac2        0x2 
- .text.execute_flash_command
-                0x0000000040080ac4      0x167 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
- *fill*         0x0000000040080c2b        0x1 
- .text.write_status_8b_wrsr2
-                0x0000000040080c2c       0x13 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
- *fill*         0x0000000040080c3f        0x1 
- .text.read_status_8b_rdsr2
-                0x0000000040080c40       0x15 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
- *fill*         0x0000000040080c55        0x3 
- .text.write_status_16b_wrsr
-                0x0000000040080c58       0x13 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
- *fill*         0x0000000040080c6b        0x1 
- .text.read_status_16b_rdsr_rdsr2
-                0x0000000040080c6c       0x25 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
-                                         0x29 (size before relaxing)
- *fill*         0x0000000040080c91        0x3 
- .text.write_status_8b_wrsr
-                0x0000000040080c94       0x13 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
- *fill*         0x0000000040080ca7        0x1 
- .text.read_status_8b_rdsr
-                0x0000000040080ca8       0x15 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
- *fill*         0x0000000040080cbd        0x3 
- .text.write_status_8b_xmc25qu64a
-                0x0000000040080cc0       0x36 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
-                                         0x42 (size before relaxing)
- *fill*         0x0000000040080cf6        0x2 
- .text.read_status_8b_xmc25qu64a
-                0x0000000040080cf8       0x2e /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
-                                         0x3a (size before relaxing)
- *fill*         0x0000000040080d26        0x2 
- .text.bootloader_read_flash_id
-                0x0000000040080d28       0x2a /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
-                                         0x2e (size before relaxing)
-                0x0000000040080d28                bootloader_read_flash_id
- *fill*         0x0000000040080d52        0x2 
- .text.bootloader_enable_qio_mode
-                0x0000000040080d54      0x187 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
-                                        0x18b (size before relaxing)
-                0x0000000040080d54                bootloader_enable_qio_mode
- *fill*         0x0000000040080edb        0x1 
- .text.bootloader_clear_bss_section
-                0x0000000040080edc       0x16 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
-                0x0000000040080edc                bootloader_clear_bss_section
- *fill*         0x0000000040080ef2        0x2 
- .text.bootloader_read_bootloader_header
-                0x0000000040080ef4       0x2c /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
-                                         0x30 (size before relaxing)
-                0x0000000040080ef4                bootloader_read_bootloader_header
- .text.bootloader_check_bootloader_validity
-                0x0000000040080f20       0x30 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
-                                         0x38 (size before relaxing)
-                0x0000000040080f20                bootloader_check_bootloader_validity
- .text.bootloader_config_wdt
-                0x0000000040080f50       0x78 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
-                                         0xa0 (size before relaxing)
-                0x0000000040080f50                bootloader_config_wdt
- .text.bootloader_enable_random
-                0x0000000040080fc8       0x19 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
-                                         0x20 (size before relaxing)
-                0x0000000040080fc8                bootloader_enable_random
- *fill*         0x0000000040080fe1        0x3 
- .text.bootloader_print_banner
-                0x0000000040080fe4       0x2e /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
-                                         0x32 (size before relaxing)
-                0x0000000040080fe4                bootloader_print_banner
- *fill*         0x0000000040081012        0x2 
- .text.__assert_func
-                0x0000000040081014       0x1f /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
-                                         0x23 (size before relaxing)
-                0x0000000040081014                __assert_func
- *fill*         0x0000000040081033        0x1 
  .text.bootloader_console_init
-                0x0000000040081034       0x36 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console.o)
-                0x0000000040081034                bootloader_console_init
- *fill*         0x000000004008106a        0x2 
+                0x0000000040080a90       0x36 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console.o)
+                0x0000000040080a90                bootloader_console_init
+ *fill*         0x0000000040080ac6        0x2 
  .text.bootloader_flash_update_id
-                0x000000004008106c        0xd /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash_config_esp32.o)
+                0x0000000040080ac8        0xd /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash_config_esp32.o)
                                          0x10 (size before relaxing)
-                0x000000004008106c                bootloader_flash_update_id
- *fill*         0x0000000040081079        0x3 
- .text.rtc_vddsdio_get_config
-                0x000000004008107c       0xa0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
-                0x000000004008107c                rtc_vddsdio_get_config
- .text.rtc_vddsdio_set_config
-                0x000000004008111c       0x46 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
-                0x000000004008111c                rtc_vddsdio_set_config
- *fill*         0x0000000040081162        0x2 
+                0x0000000040080ac8                bootloader_flash_update_id
+ *fill*         0x0000000040080ad5        0x3 
+ .text.bootloader_clear_bss_section
+                0x0000000040080ad8       0x16 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
+                0x0000000040080ad8                bootloader_clear_bss_section
+ *fill*         0x0000000040080aee        0x2 
+ .text.bootloader_read_bootloader_header
+                0x0000000040080af0       0x2c /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
+                                         0x30 (size before relaxing)
+                0x0000000040080af0                bootloader_read_bootloader_header
+ .text.bootloader_check_bootloader_validity
+                0x0000000040080b1c       0x30 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
+                                         0x38 (size before relaxing)
+                0x0000000040080b1c                bootloader_check_bootloader_validity
+ .text.bootloader_config_wdt
+                0x0000000040080b4c       0x78 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
+                                         0xa0 (size before relaxing)
+                0x0000000040080b4c                bootloader_config_wdt
+ .text.bootloader_enable_random
+                0x0000000040080bc4       0x19 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
+                                         0x20 (size before relaxing)
+                0x0000000040080bc4                bootloader_enable_random
+ *fill*         0x0000000040080bdd        0x3 
+ .text.bootloader_print_banner
+                0x0000000040080be0       0x2e /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
+                                         0x32 (size before relaxing)
+                0x0000000040080be0                bootloader_print_banner
+ *fill*         0x0000000040080c0e        0x2 
+ .text.__assert_func
+                0x0000000040080c10       0x1f /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
+                                         0x23 (size before relaxing)
+                0x0000000040080c10                __assert_func
+ *fill*         0x0000000040080c2f        0x1 
+ .text.bootloader_init_mem
+                0x0000000040080c30       0x32 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_mem.o)
+                                         0x36 (size before relaxing)
+                0x0000000040080c30                bootloader_init_mem
+ *fill*         0x0000000040080c62        0x2 
+ .text.execute_flash_command
+                0x0000000040080c64      0x167 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
+ *fill*         0x0000000040080dcb        0x1 
+ .text.write_status_8b_wrsr2
+                0x0000000040080dcc       0x13 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
+ *fill*         0x0000000040080ddf        0x1 
+ .text.read_status_8b_rdsr2
+                0x0000000040080de0       0x15 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
+ *fill*         0x0000000040080df5        0x3 
+ .text.write_status_16b_wrsr
+                0x0000000040080df8       0x13 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
+ *fill*         0x0000000040080e0b        0x1 
+ .text.read_status_16b_rdsr_rdsr2
+                0x0000000040080e0c       0x25 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
+                                         0x29 (size before relaxing)
+ *fill*         0x0000000040080e31        0x3 
+ .text.write_status_8b_wrsr
+                0x0000000040080e34       0x13 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
+ *fill*         0x0000000040080e47        0x1 
+ .text.read_status_8b_rdsr
+                0x0000000040080e48       0x15 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
+ *fill*         0x0000000040080e5d        0x3 
+ .text.write_status_8b_xmc25qu64a
+                0x0000000040080e60       0x36 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
+                                         0x42 (size before relaxing)
+ *fill*         0x0000000040080e96        0x2 
+ .text.read_status_8b_xmc25qu64a
+                0x0000000040080e98       0x2e /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
+                                         0x3a (size before relaxing)
+ *fill*         0x0000000040080ec6        0x2 
+ .text.bootloader_read_flash_id
+                0x0000000040080ec8       0x2a /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
+                                         0x2e (size before relaxing)
+                0x0000000040080ec8                bootloader_read_flash_id
+ *fill*         0x0000000040080ef2        0x2 
+ .text.bootloader_enable_qio_mode
+                0x0000000040080ef4      0x187 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
+                                        0x18b (size before relaxing)
+                0x0000000040080ef4                bootloader_enable_qio_mode
+ *fill*         0x000000004008107b        0x1 
  .text.rtc_clk_xtal_freq_estimate
-                0x0000000040081164       0x9f /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
+                0x000000004008107c       0x9f /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
                                          0xab (size before relaxing)
- *fill*         0x0000000040081203        0x1 
+ *fill*         0x000000004008111b        0x1 
  .text.rtc_clk_init
-                0x0000000040081204      0x1d2 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
+                0x000000004008111c      0x1d2 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
                                         0x206 (size before relaxing)
-                0x0000000040081204                rtc_clk_init
+                0x000000004008111c                rtc_clk_init
+ *fill*         0x00000000400812ee        0x2 
+ .text.rtc_vddsdio_get_config
+                0x00000000400812f0       0xa0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
+                0x00000000400812f0                rtc_vddsdio_get_config
+ .text.rtc_vddsdio_set_config
+                0x0000000040081390       0x46 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
+                0x0000000040081390                rtc_vddsdio_set_config
  *fill*         0x00000000400813d6        0x2 
  .text.rtc_clk_cal_internal
                 0x00000000400813d8      0x193 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
@@ -1441,22 +1441,22 @@ END GROUP
  *(.dynbss)
  *(.bss)
  *(.bss.*)
+ .bss.mapped    0x000000003fff0000        0x1 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
  .bss.ota_has_initial_contents
-                0x000000003fff0000        0x1 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
- *fill*         0x000000003fff0001        0x3 
+                0x000000003fff0001        0x1 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+ *fill*         0x000000003fff0002        0x2 
  .bss.ram_obfs_value
                 0x000000003fff0004        0x8 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
  .bss.words_hashed
                 0x000000003fff000c        0x4 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
- .bss.mapped    0x000000003fff0010        0x1 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
- *fill*         0x000000003fff0011        0x3 
  .bss.s_cur_pll_freq
-                0x000000003fff0014        0x4 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk.o)
+                0x000000003fff0010        0x4 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk.o)
  *(.gnu.linkonce.b.*)
  *(COMMON)
- COMMON         0x000000003fff0018       0x18 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
-                0x000000003fff0018                bootloader_image_hdr
+ COMMON         0x000000003fff0014       0x18 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
+                0x000000003fff0014                bootloader_image_hdr
                 0x000000003fff0030                . = ALIGN (0x8)
+ *fill*         0x000000003fff002c        0x4 
                 0x000000003fff0030                _bss_end = ABSOLUTE (.)
 
 .dram0.data     0x000000003fff0030        0x4
@@ -1476,166 +1476,166 @@ END GROUP
  *(.jcr)
                 0x000000003fff0034                _data_end = ABSOLUTE (.)
 
-.dram0.rodata   0x000000003fff0034     0x1c64
+.dram0.rodata   0x000000003fff0034     0x1c54
                 0x000000003fff0034                _rodata_start = ABSOLUTE (.)
  *(.rodata)
- .rodata        0x000000003fff0034       0x14 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_mem.o)
- .rodata        0x000000003fff0048        0x8 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
- .rodata        0x000000003fff0050        0x8 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_clock.o)
+ .rodata        0x000000003fff0034        0x8 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_clock.o)
+ .rodata        0x000000003fff003c        0x8 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
+ .rodata        0x000000003fff0044       0x14 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_mem.o)
  *(.rodata.*)
  .rodata.call_start_cpu0.str1.1
                 0x000000003fff0058       0x38 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/main/libmain.a(bootloader_start.o)
+ .rodata.bootloader_common_erase_part_type_data.str1.1
+                0x000000003fff0090      0x108 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o)
+ .rodata.bootloader_common_check_chip_validity.str1.1
+                0x000000003fff0198       0xe9 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o)
+ .rodata.CSWTCH$0
+                0x000000003fff0281        0x7 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_efuse_esp32.o)
+ .rodata.bootloader_mmap.str1.1
+                0x000000003fff0288       0xb4 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
+ .rodata.bootloader_flash_read.str1.1
+                0x000000003fff033c       0xe2 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
+ .rodata.bootloader_flash_write.str1.1
+                0x000000003fff041e       0xe7 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
+ *fill*         0x000000003fff0505        0x1 
+ .rodata.CSWTCH$26
+                0x000000003fff0506        0x6 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
  .rodata.load_image.str1.1
-                0x000000003fff0090       0xa5 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+                0x000000003fff050c       0xa5 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
                                          0xaa (size before relaxing)
  .rodata.log_invalid_app_partition.str1.1
-                0x000000003fff0135       0xa7 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+                0x000000003fff05b1       0xa7 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
  .rodata.set_actual_ota_seq$isra$3.str1.1
-                0x000000003fff01dc       0x7f /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+                0x000000003fff0658       0x7f /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
  .rodata.try_load_partition.str1.1
-                0x000000003fff025b       0x40 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+                0x000000003fff06d7       0x40 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
  .rodata.bootloader_utility_load_partition_table.str1.1
-                0x000000003fff029b      0x1bd /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+                0x000000003fff0717      0x14b /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+                                        0x1bd (size before relaxing)
+ *fill*         0x000000003fff0862        0x2 
  .rodata.bootloader_utility_load_partition_table
-                0x000000003fff0458       0x18 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+                0x000000003fff0864       0x18 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
  .rodata.bootloader_utility_get_selected_boot_partition.str1.1
-                0x000000003fff0470      0x160 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+                0x000000003fff087c      0x160 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
  .rodata.bootloader_utility_load_boot_image.str1.1
-                0x000000003fff05d0       0xdd /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+                0x000000003fff09dc       0xdd /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
  .rodata.bootloader_debug_buffer.str1.1
-                0x000000003fff06ad       0x58 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+                0x000000003fff0ab9       0x58 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
  .rodata.__func__$7500
-                0x000000003fff0705       0x18 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
- .rodata.bootloader_common_erase_part_type_data.str1.1
-                0x000000003fff071d       0x96 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o)
-                                        0x108 (size before relaxing)
- .rodata.bootloader_common_check_chip_validity.str1.1
-                0x000000003fff07b3       0xe9 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o)
- .rodata.esp_partition_table_verify.str1.1
-                0x000000003fff089c      0x15c /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
+                0x000000003fff0b11       0x18 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
  .rodata.bootloader_util_regions_overlap.str1.1
-                0x000000003fff09f8       0x63 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
+                0x000000003fff0b29       0x63 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
  .rodata.verify_load_addresses.str1.1
-                0x000000003fff0a5b      0x102 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
+                0x000000003fff0b8c      0x102 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
  .rodata.image_load.str1.1
-                0x000000003fff0b5d      0x373 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
+                0x000000003fff0c8e      0x373 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
                                         0x3ae (size before relaxing)
  .rodata.__func__$4406
-                0x000000003fff0ed0       0x20 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
+                0x000000003fff1001       0x20 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
  .rodata.__func__$4728
-                0x000000003fff0ef0       0x16 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
- .rodata.bootloader_fill_random.str1.1
-                0x000000003fff0f06       0x58 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
- .rodata.__func__$5837
-                0x000000003fff0f5e       0x17 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
- .rodata.bootloader_sha256_data.str1.1
-                0x000000003fff0f75       0x6d /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
- .rodata.bootloader_sha256_finish.str1.1
-                0x000000003fff0fe2       0x45 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
- .rodata.padding$4028
-                0x000000003fff1027       0x40 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
- .rodata.__func__$4024
-                0x000000003fff1067       0x19 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
- .rodata.__func__$4004
-                0x000000003fff1080       0x17 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
+                0x000000003fff1021       0x16 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
+ .rodata.esp_partition_table_verify.str1.1
+                0x000000003fff1037      0x15c /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
  .rodata.wdt_reset_info_dump.str1.1
-                0x000000003fff1097       0x8c /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
+                0x000000003fff1193       0x8c /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
  .rodata.abort.str1.1
-                0x000000003fff1123       0x22 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
+                0x000000003fff121f       0x22 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
  .rodata.bootloader_init.str1.1
-                0x000000003fff1145      0x230 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
+                0x000000003fff1241      0x230 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
  .rodata.CSWTCH$26
-                0x000000003fff1375        0x5 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
+                0x000000003fff1471        0x5 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
  .rodata.str1.1
-                0x000000003fff137a       0x2b /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
- *fill*         0x000000003fff13a5        0x3 
+                0x000000003fff1476       0x2b /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
+ *fill*         0x000000003fff14a1        0x3 
  .rodata.CSWTCH$25
-                0x000000003fff13a8       0x14 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
+                0x000000003fff14a4       0x14 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
  .rodata.CSWTCH$24
-                0x000000003fff13bc       0x40 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
+                0x000000003fff14b8       0x40 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
  .rodata.__func__$7440
-                0x000000003fff13fc       0x10 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
- .rodata.CSWTCH$0
-                0x000000003fff140c        0x7 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_efuse_esp32.o)
- .rodata.bootloader_enable_qio_mode.str1.1
-                0x000000003fff1413       0xba /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
- .rodata.str1.1
-                0x000000003fff14cd       0x1f /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
- .rodata.chip_data
-                0x000000003fff14ec       0x6c /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
- .rodata.bootloader_mmap.str1.1
-                0x000000003fff1558       0xb4 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
- .rodata.bootloader_flash_read.str1.1
-                0x000000003fff160c       0xe2 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
- .rodata.bootloader_flash_write.str1.1
-                0x000000003fff16ee       0xe7 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
- *fill*         0x000000003fff17d5        0x1 
- .rodata.CSWTCH$26
-                0x000000003fff17d6        0x6 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
+                0x000000003fff14f8       0x10 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
+ .rodata.bootloader_sha256_data.str1.1
+                0x000000003fff1508       0x6d /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
+ .rodata.bootloader_sha256_finish.str1.1
+                0x000000003fff1575       0x45 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
+ .rodata.padding$4028
+                0x000000003fff15ba       0x40 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
+ .rodata.__func__$4024
+                0x000000003fff15fa       0x19 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
+ .rodata.__func__$4004
+                0x000000003fff1613       0x17 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
  .rodata.bootloader_read_bootloader_header.str1.1
-                0x000000003fff17dc       0x3f /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
+                0x000000003fff162a       0x3f /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
                                          0x44 (size before relaxing)
  .rodata.bootloader_check_bootloader_validity.str1.1
-                0x000000003fff181b       0x29 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
+                0x000000003fff1669       0x29 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
  .rodata.bootloader_enable_random.str1.1
-                0x000000003fff1844       0x3c /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
+                0x000000003fff1692       0x3c /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
  .rodata.bootloader_print_banner.str1.1
-                0x000000003fff1880       0x82 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
+                0x000000003fff16ce       0x73 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
  .rodata.__assert_func.str1.1
-                0x000000003fff1902       0x37 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
- *fill*         0x000000003fff1939        0x3 
+                0x000000003fff1741       0x37 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
+ .rodata.bootloader_fill_random.str1.1
+                0x000000003fff1778       0x58 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
+ .rodata.__func__$5837
+                0x000000003fff17d0       0x17 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
+ .rodata.bootloader_enable_qio_mode.str1.1
+                0x000000003fff17e7       0xba /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
+ .rodata.str1.1
+                0x000000003fff18a1       0x1f /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
+ .rodata.chip_data
+                0x000000003fff18c0       0x6c /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
  .rodata.CSWTCH$29
-                0x000000003fff193c       0x18 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/spi_flash/libspi_flash.a(spi_flash_rom_patch.o)
- .rodata.rtc_clk_xtal_freq_estimate.str1.1
-                0x000000003fff1954       0xe3 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
- *fill*         0x000000003fff1a37        0x1 
- .rodata.rtc_clk_xtal_freq_estimate
-                0x000000003fff1a38       0x64 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
- .rodata.rtc_clk_init.str1.1
-                0x000000003fff1a9c       0xd9 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
- .rodata.rtc_clk_cal_internal.str1.1
-                0x000000003fff1b75       0xa0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
- .rodata.__func__$3925
-                0x000000003fff1c15       0x15 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
+                0x000000003fff192c       0x18 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/spi_flash/libspi_flash.a(spi_flash_rom_patch.o)
  .rodata.rtc_clk_cpu_freq_to_pll_mhz.str1.1
-                0x000000003fff1c2a       0x31 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk.o)
+                0x000000003fff1944       0x31 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk.o)
  .rodata.rtc_clk_cpu_freq_get_config.str1.1
-                0x000000003fff1c5b       0x3b /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk.o)
+                0x000000003fff1975       0x3b /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk.o)
+ .rodata.rtc_clk_xtal_freq_estimate.str1.1
+                0x000000003fff19b0       0xe3 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
+ *fill*         0x000000003fff1a93        0x1 
+ .rodata.rtc_clk_xtal_freq_estimate
+                0x000000003fff1a94       0x64 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
+ .rodata.rtc_clk_init.str1.1
+                0x000000003fff1af8       0xd9 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
+ .rodata.rtc_clk_cal_internal.str1.1
+                0x000000003fff1bd1       0xa0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
+ .rodata.__func__$3925
+                0x000000003fff1c71       0x15 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
  *(.gnu.linkonce.r.*)
  *(.rodata1)
-                0x000000003fff1c96                __XT_EXCEPTION_TABLE_ = ABSOLUTE (.)
+                0x000000003fff1c86                __XT_EXCEPTION_TABLE_ = ABSOLUTE (.)
  *(.xt_except_table)
  *(.gcc_except_table)
  *(.gnu.linkonce.e.*)
  *(.gnu.version_r)
  *(.eh_frame)
-                0x000000003fff1c98                . = ((. + 0x3) & 0xfffffffffffffffc)
- *fill*         0x000000003fff1c96        0x2 
-                0x000000003fff1c98                __init_array_start = ABSOLUTE (.)
+                0x000000003fff1c88                . = ((. + 0x3) & 0xfffffffffffffffc)
+ *fill*         0x000000003fff1c86        0x2 
+                0x000000003fff1c88                __init_array_start = ABSOLUTE (.)
  *crtbegin.*(.ctors)
  *(EXCLUDE_FILE(*crtend.*) .ctors)
  *(SORT_BY_NAME(.ctors.*))
  *(.ctors)
-                0x000000003fff1c98                __init_array_end = ABSOLUTE (.)
+                0x000000003fff1c88                __init_array_end = ABSOLUTE (.)
  *crtbegin.*(.dtors)
  *(EXCLUDE_FILE(*crtend.*) .dtors)
  *(SORT_BY_NAME(.dtors.*))
  *(.dtors)
-                0x000000003fff1c98                __XT_EXCEPTION_DESCS_ = ABSOLUTE (.)
+                0x000000003fff1c88                __XT_EXCEPTION_DESCS_ = ABSOLUTE (.)
  *(.xt_except_desc)
  *(.gnu.linkonce.h.*)
-                0x000000003fff1c98                __XT_EXCEPTION_DESCS_END__ = ABSOLUTE (.)
+                0x000000003fff1c88                __XT_EXCEPTION_DESCS_END__ = ABSOLUTE (.)
  *(.xt_except_desc_end)
  *(.dynamic)
  *(.gnu.version_d)
-                0x000000003fff1c98                _rodata_end = ABSOLUTE (.)
-                0x000000003fff1c98                _lit4_start = ABSOLUTE (.)
+                0x000000003fff1c88                _rodata_end = ABSOLUTE (.)
+                0x000000003fff1c88                _lit4_start = ABSOLUTE (.)
  *(*.lit4)
  *(.lit4.*)
  *(.gnu.linkonce.lit4.*)
-                0x000000003fff1c98                _lit4_end = ABSOLUTE (.)
-                0x000000003fff1c98                . = ALIGN (0x4)
-                0x000000003fff1c98                _dram_end = ABSOLUTE (.)
+                0x000000003fff1c88                _lit4_end = ABSOLUTE (.)
+                0x000000003fff1c88                . = ALIGN (0x4)
+                0x000000003fff1c88                _dram_end = ABSOLUTE (.)
                 0x0000000040008550                PROVIDE (ets_update_cpu_frequency = 0x40008550)
                 0x000000004005db1c                PROVIDE (MD5Final = 0x4005db1c)
                 0x000000004005da7c                PROVIDE (MD5Init = 0x4005da7c)
@@ -3323,120 +3323,120 @@ OUTPUT(/home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader.elf 
 
 .debug_frame    0x0000000000000000     0x1150
  .debug_frame   0x0000000000000000       0x40 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/main/libmain.a(bootloader_start.o)
- .debug_frame   0x0000000000000040      0x148 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
- .debug_frame   0x0000000000000188      0x148 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o)
- .debug_frame   0x00000000000002d0       0x28 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console_loader.o)
- .debug_frame   0x00000000000002f8       0x28 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
- .debug_frame   0x0000000000000320       0xe8 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
- .debug_frame   0x0000000000000408       0x58 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
- .debug_frame   0x0000000000000460       0x58 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
- .debug_frame   0x00000000000004b8       0x70 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
- .debug_frame   0x0000000000000528       0x40 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_efuse_esp32.o)
- .debug_frame   0x0000000000000568       0x28 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_mem.o)
- .debug_frame   0x0000000000000590      0x118 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
- .debug_frame   0x00000000000006a8       0xb8 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
- .debug_frame   0x0000000000000760       0xb8 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
- .debug_frame   0x0000000000000818       0x40 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_clock.o)
- .debug_frame   0x0000000000000858       0x28 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console.o)
- .debug_frame   0x0000000000000880       0x88 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash_config_esp32.o)
+ .debug_frame   0x0000000000000040      0x148 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o)
+ .debug_frame   0x0000000000000188       0x40 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_efuse_esp32.o)
+ .debug_frame   0x00000000000001c8       0xb8 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
+ .debug_frame   0x0000000000000280      0x148 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+ .debug_frame   0x00000000000003c8       0xe8 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
+ .debug_frame   0x00000000000004b0       0x28 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
+ .debug_frame   0x00000000000004d8       0x70 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
+ .debug_frame   0x0000000000000548       0x58 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
+ .debug_frame   0x00000000000005a0       0x40 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_clock.o)
+ .debug_frame   0x00000000000005e0       0x28 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console.o)
+ .debug_frame   0x0000000000000608       0x28 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console_loader.o)
+ .debug_frame   0x0000000000000630       0x88 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash_config_esp32.o)
+ .debug_frame   0x00000000000006b8       0xb8 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
+ .debug_frame   0x0000000000000770       0x28 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_mem.o)
+ .debug_frame   0x0000000000000798       0x58 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
+ .debug_frame   0x00000000000007f0      0x118 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
  .debug_frame   0x0000000000000908       0x70 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/log/liblog.a(log_noos.o)
  .debug_frame   0x0000000000000978      0x190 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/spi_flash/libspi_flash.a(spi_flash_rom_patch.o)
  .debug_frame   0x0000000000000b08       0xb8 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(cpu_util.o)
- .debug_frame   0x0000000000000bc0      0x118 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
- .debug_frame   0x0000000000000cd8       0x28 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(mpu_hal.o)
- .debug_frame   0x0000000000000d00       0x58 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
- .debug_frame   0x0000000000000d58       0x40 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
- .debug_frame   0x0000000000000d98       0xb8 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
- .debug_frame   0x0000000000000e50      0x2b0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk.o)
+ .debug_frame   0x0000000000000bc0       0x28 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(mpu_hal.o)
+ .debug_frame   0x0000000000000be8      0x118 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
+ .debug_frame   0x0000000000000d00      0x2b0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk.o)
+ .debug_frame   0x0000000000000fb0       0x40 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
+ .debug_frame   0x0000000000000ff0       0x58 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
+ .debug_frame   0x0000000000001048       0xb8 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
  .debug_frame   0x0000000000001100       0x28 /home/name/.espressif/tools/xtensa-esp32-elf/esp-2020r2-8.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.2.0/no-rtti/libgcc.a(_bswapsi2.o)
  .debug_frame   0x0000000000001128       0x28 /home/name/.espressif/tools/xtensa-esp32-elf/esp-2020r2-8.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.2.0/no-rtti/libgcc.a(_udivdi3.o)
 
 .debug_info     0x0000000000000000    0x703af
  .debug_info    0x0000000000000000      0xeb2 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/main/libmain.a(bootloader_start.o)
- .debug_info    0x0000000000000eb2     0x9757 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
- .debug_info    0x000000000000a609     0x65bf /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o)
- .debug_info    0x0000000000010bc8     0x2110 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console_loader.o)
- .debug_info    0x0000000000012cd8      0xdeb /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
- .debug_info    0x0000000000013ac3     0x3086 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
- .debug_info    0x0000000000016b49     0x6fcc /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
- .debug_info    0x000000000001db15     0x142c /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
- .debug_info    0x000000000001ef41     0xa908 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
- .debug_info    0x0000000000029849      0x9f7 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_efuse_esp32.o)
- .debug_info    0x000000000002a240     0x1272 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_mem.o)
- .debug_info    0x000000000002b4b2     0x36c2 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
- .debug_info    0x000000000002eb74     0x2116 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
- .debug_info    0x0000000000030c8a     0x606e /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
- .debug_info    0x0000000000036cf8     0x68fb /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_clock.o)
- .debug_info    0x000000000003d5f3     0x701e /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console.o)
- .debug_info    0x0000000000044611     0x1793 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash_config_esp32.o)
+ .debug_info    0x0000000000000eb2     0x65bf /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o)
+ .debug_info    0x0000000000007471      0x9f7 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_efuse_esp32.o)
+ .debug_info    0x0000000000007e68     0x2116 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
+ .debug_info    0x0000000000009f7e     0x9757 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+ .debug_info    0x00000000000136d5     0x3086 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
+ .debug_info    0x000000000001675b      0xdeb /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
+ .debug_info    0x0000000000017546     0xa908 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
+ .debug_info    0x0000000000021e4e     0x142c /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
+ .debug_info    0x000000000002327a     0x68fb /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_clock.o)
+ .debug_info    0x0000000000029b75     0x701e /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console.o)
+ .debug_info    0x0000000000030b93     0x2110 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console_loader.o)
+ .debug_info    0x0000000000032ca3     0x1793 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash_config_esp32.o)
+ .debug_info    0x0000000000034436     0x606e /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
+ .debug_info    0x000000000003a4a4     0x1272 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_mem.o)
+ .debug_info    0x000000000003b716     0x6fcc /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
+ .debug_info    0x00000000000426e2     0x36c2 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
  .debug_info    0x0000000000045da4     0x12b8 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/log/liblog.a(log_noos.o)
  .debug_info    0x000000000004705c     0x3d5c /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/spi_flash/libspi_flash.a(spi_flash_rom_patch.o)
  .debug_info    0x000000000004adb8     0x513a /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(cpu_util.o)
- .debug_info    0x000000000004fef2     0x42c2 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
- .debug_info    0x00000000000541b4      0xaf1 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(mpu_hal.o)
- .debug_info    0x0000000000054ca5     0x523a /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
- .debug_info    0x0000000000059edf     0x6de9 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
- .debug_info    0x0000000000060cc8     0x5429 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
- .debug_info    0x00000000000660f1     0x86bf /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk.o)
+ .debug_info    0x000000000004fef2      0xaf1 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(mpu_hal.o)
+ .debug_info    0x00000000000509e3     0x42c2 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
+ .debug_info    0x0000000000054ca5     0x86bf /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk.o)
+ .debug_info    0x000000000005d364     0x6de9 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
+ .debug_info    0x000000000006414d     0x523a /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
+ .debug_info    0x0000000000069387     0x5429 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
  .debug_info    0x000000000006e7b0      0xb02 /home/name/.espressif/tools/xtensa-esp32-elf/esp-2020r2-8.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.2.0/no-rtti/libgcc.a(_bswapsi2.o)
  .debug_info    0x000000000006f2b2     0x10fd /home/name/.espressif/tools/xtensa-esp32-elf/esp-2020r2-8.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.2.0/no-rtti/libgcc.a(_udivdi3.o)
 
 .debug_abbrev   0x0000000000000000     0x6478
  .debug_abbrev  0x0000000000000000      0x2f7 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/main/libmain.a(bootloader_start.o)
- .debug_abbrev  0x00000000000002f7      0x633 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
- .debug_abbrev  0x000000000000092a      0x522 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o)
- .debug_abbrev  0x0000000000000e4c      0x291 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console_loader.o)
- .debug_abbrev  0x00000000000010dd      0x274 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
- .debug_abbrev  0x0000000000001351      0x555 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
- .debug_abbrev  0x00000000000018a6      0x35b /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
- .debug_abbrev  0x0000000000001c01      0x2a7 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
- .debug_abbrev  0x0000000000001ea8      0x551 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
- .debug_abbrev  0x00000000000023f9      0x1d2 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_efuse_esp32.o)
- .debug_abbrev  0x00000000000025cb      0x294 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_mem.o)
- .debug_abbrev  0x000000000000285f      0x449 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
- .debug_abbrev  0x0000000000002ca8      0x49a /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
- .debug_abbrev  0x0000000000003142      0x37f /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
- .debug_abbrev  0x00000000000034c1      0x3a6 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_clock.o)
- .debug_abbrev  0x0000000000003867      0x340 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console.o)
- .debug_abbrev  0x0000000000003ba7      0x2d8 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash_config_esp32.o)
+ .debug_abbrev  0x00000000000002f7      0x522 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o)
+ .debug_abbrev  0x0000000000000819      0x1d2 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_efuse_esp32.o)
+ .debug_abbrev  0x00000000000009eb      0x49a /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
+ .debug_abbrev  0x0000000000000e85      0x633 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+ .debug_abbrev  0x00000000000014b8      0x555 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
+ .debug_abbrev  0x0000000000001a0d      0x274 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
+ .debug_abbrev  0x0000000000001c81      0x551 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
+ .debug_abbrev  0x00000000000021d2      0x2a7 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
+ .debug_abbrev  0x0000000000002479      0x3a6 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_clock.o)
+ .debug_abbrev  0x000000000000281f      0x340 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console.o)
+ .debug_abbrev  0x0000000000002b5f      0x291 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console_loader.o)
+ .debug_abbrev  0x0000000000002df0      0x2d8 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash_config_esp32.o)
+ .debug_abbrev  0x00000000000030c8      0x37f /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
+ .debug_abbrev  0x0000000000003447      0x294 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_mem.o)
+ .debug_abbrev  0x00000000000036db      0x35b /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
+ .debug_abbrev  0x0000000000003a36      0x449 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
  .debug_abbrev  0x0000000000003e7f      0x27f /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/log/liblog.a(log_noos.o)
  .debug_abbrev  0x00000000000040fe      0x502 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/spi_flash/libspi_flash.a(spi_flash_rom_patch.o)
  .debug_abbrev  0x0000000000004600      0x3e9 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(cpu_util.o)
- .debug_abbrev  0x00000000000049e9      0x3ee /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
- .debug_abbrev  0x0000000000004dd7      0x27f /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(mpu_hal.o)
- .debug_abbrev  0x0000000000005056      0x2e4 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
- .debug_abbrev  0x000000000000533a      0x3e1 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
- .debug_abbrev  0x000000000000571b      0x366 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
- .debug_abbrev  0x0000000000005a81      0x5cc /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk.o)
+ .debug_abbrev  0x00000000000049e9      0x27f /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(mpu_hal.o)
+ .debug_abbrev  0x0000000000004c68      0x3ee /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
+ .debug_abbrev  0x0000000000005056      0x5cc /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk.o)
+ .debug_abbrev  0x0000000000005622      0x3e1 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
+ .debug_abbrev  0x0000000000005a03      0x2e4 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
+ .debug_abbrev  0x0000000000005ce7      0x366 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
  .debug_abbrev  0x000000000000604d      0x1b1 /home/name/.espressif/tools/xtensa-esp32-elf/esp-2020r2-8.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.2.0/no-rtti/libgcc.a(_bswapsi2.o)
  .debug_abbrev  0x00000000000061fe      0x27a /home/name/.espressif/tools/xtensa-esp32-elf/esp-2020r2-8.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.2.0/no-rtti/libgcc.a(_udivdi3.o)
 
 .debug_loc      0x0000000000000000     0x8436
  .debug_loc     0x0000000000000000       0xed /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/main/libmain.a(bootloader_start.o)
- .debug_loc     0x00000000000000ed     0x10d8 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
- .debug_loc     0x00000000000011c5      0x7e7 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o)
- .debug_loc     0x00000000000019ac      0x1d9 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
- .debug_loc     0x0000000000001b85     0x1433 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
- .debug_loc     0x0000000000002fb8      0x105 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
- .debug_loc     0x00000000000030bd      0x238 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
- .debug_loc     0x00000000000032f5      0x6ff /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
- .debug_loc     0x00000000000039f4       0x72 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_efuse_esp32.o)
- .debug_loc     0x0000000000003a66       0x3f /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_mem.o)
- .debug_loc     0x0000000000003aa5      0x255 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
- .debug_loc     0x0000000000003cfa      0x953 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
- .debug_loc     0x000000000000464d       0x40 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
- .debug_loc     0x000000000000468d       0x8b /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_clock.o)
- .debug_loc     0x0000000000004718       0x2b /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console.o)
- .debug_loc     0x0000000000004743      0x1ea /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash_config_esp32.o)
+ .debug_loc     0x00000000000000ed      0x7e7 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o)
+ .debug_loc     0x00000000000008d4       0x72 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_efuse_esp32.o)
+ .debug_loc     0x0000000000000946      0x953 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
+ .debug_loc     0x0000000000001299     0x10d8 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+ .debug_loc     0x0000000000002371     0x1433 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
+ .debug_loc     0x00000000000037a4      0x1d9 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
+ .debug_loc     0x000000000000397d      0x6ff /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
+ .debug_loc     0x000000000000407c      0x238 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
+ .debug_loc     0x00000000000042b4       0x8b /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_clock.o)
+ .debug_loc     0x000000000000433f       0x2b /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console.o)
+ .debug_loc     0x000000000000436a      0x1ea /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash_config_esp32.o)
+ .debug_loc     0x0000000000004554       0x40 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
+ .debug_loc     0x0000000000004594       0x3f /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_mem.o)
+ .debug_loc     0x00000000000045d3      0x105 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
+ .debug_loc     0x00000000000046d8      0x255 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
  .debug_loc     0x000000000000492d       0x15 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/log/liblog.a(log_noos.o)
  .debug_loc     0x0000000000004942      0xa9f /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/spi_flash/libspi_flash.a(spi_flash_rom_patch.o)
  .debug_loc     0x00000000000053e1      0x10e /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(cpu_util.o)
- .debug_loc     0x00000000000054ef      0xba1 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
- .debug_loc     0x0000000000006090      0x13c /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(mpu_hal.o)
- .debug_loc     0x00000000000061cc      0x653 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
- .debug_loc     0x000000000000681f      0x274 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
- .debug_loc     0x0000000000006a93      0x334 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
- .debug_loc     0x0000000000006dc7      0xc38 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk.o)
+ .debug_loc     0x00000000000054ef      0x13c /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(mpu_hal.o)
+ .debug_loc     0x000000000000562b      0xba1 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
+ .debug_loc     0x00000000000061cc      0xc38 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk.o)
+ .debug_loc     0x0000000000006e04      0x274 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
+ .debug_loc     0x0000000000007078      0x653 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
+ .debug_loc     0x00000000000076cb      0x334 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
  .debug_loc     0x00000000000079ff       0x25 /home/name/.espressif/tools/xtensa-esp32-elf/esp-2020r2-8.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.2.0/no-rtti/libgcc.a(_bswapsi2.o)
  .debug_loc     0x0000000000007a24      0xa12 /home/name/.espressif/tools/xtensa-esp32-elf/esp-2020r2-8.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.2.0/no-rtti/libgcc.a(_udivdi3.o)
 
@@ -3444,37 +3444,37 @@ OUTPUT(/home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader.elf 
  .debug_aranges
                 0x0000000000000000       0x28 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/main/libmain.a(bootloader_start.o)
  .debug_aranges
-                0x0000000000000028       0x80 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+                0x0000000000000028       0x80 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o)
  .debug_aranges
-                0x00000000000000a8       0x80 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o)
+                0x00000000000000a8       0x28 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_efuse_esp32.o)
  .debug_aranges
-                0x0000000000000128       0x20 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console_loader.o)
+                0x00000000000000d0       0x50 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
  .debug_aranges
-                0x0000000000000148       0x20 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
+                0x0000000000000120       0x80 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
  .debug_aranges
-                0x0000000000000168       0x60 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
+                0x00000000000001a0       0x60 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
  .debug_aranges
-                0x00000000000001c8       0x30 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
+                0x0000000000000200       0x20 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
  .debug_aranges
-                0x00000000000001f8       0x30 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
+                0x0000000000000220       0x38 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
  .debug_aranges
-                0x0000000000000228       0x38 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
+                0x0000000000000258       0x30 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
  .debug_aranges
-                0x0000000000000260       0x28 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_efuse_esp32.o)
+                0x0000000000000288       0x28 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_clock.o)
  .debug_aranges
-                0x0000000000000288       0x20 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_mem.o)
+                0x00000000000002b0       0x20 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console.o)
  .debug_aranges
-                0x00000000000002a8       0x70 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
+                0x00000000000002d0       0x20 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console_loader.o)
  .debug_aranges
-                0x0000000000000318       0x50 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
+                0x00000000000002f0       0x40 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash_config_esp32.o)
  .debug_aranges
-                0x0000000000000368       0x50 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
+                0x0000000000000330       0x50 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
  .debug_aranges
-                0x00000000000003b8       0x28 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_clock.o)
+                0x0000000000000380       0x20 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_mem.o)
  .debug_aranges
-                0x00000000000003e0       0x20 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console.o)
+                0x00000000000003a0       0x30 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
  .debug_aranges
-                0x0000000000000400       0x40 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash_config_esp32.o)
+                0x00000000000003d0       0x70 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
  .debug_aranges
                 0x0000000000000440       0x38 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/log/liblog.a(log_noos.o)
  .debug_aranges
@@ -3482,17 +3482,17 @@ OUTPUT(/home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader.elf 
  .debug_aranges
                 0x0000000000000510       0x50 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(cpu_util.o)
  .debug_aranges
-                0x0000000000000560       0x70 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
+                0x0000000000000560       0x20 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(mpu_hal.o)
  .debug_aranges
-                0x00000000000005d0       0x20 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(mpu_hal.o)
+                0x0000000000000580       0x70 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
  .debug_aranges
-                0x00000000000005f0       0x30 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
+                0x00000000000005f0       0xf8 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk.o)
  .debug_aranges
-                0x0000000000000620       0x28 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
+                0x00000000000006e8       0x28 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
  .debug_aranges
-                0x0000000000000648       0x50 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
+                0x0000000000000710       0x30 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
  .debug_aranges
-                0x0000000000000698       0xf8 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk.o)
+                0x0000000000000740       0x50 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
  .debug_aranges
                 0x0000000000000790       0x20 /home/name/.espressif/tools/xtensa-esp32-elf/esp-2020r2-8.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.2.0/no-rtti/libgcc.a(_bswapsi2.o)
  .debug_aranges
@@ -3500,116 +3500,116 @@ OUTPUT(/home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader.elf 
 
 .debug_ranges   0x0000000000000000     0x1300
  .debug_ranges  0x0000000000000000       0x30 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/main/libmain.a(bootloader_start.o)
- .debug_ranges  0x0000000000000030      0x270 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
- .debug_ranges  0x00000000000002a0      0x140 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o)
- .debug_ranges  0x00000000000003e0       0x10 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console_loader.o)
- .debug_ranges  0x00000000000003f0       0x58 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
- .debug_ranges  0x0000000000000448      0x440 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
- .debug_ranges  0x0000000000000888       0x80 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
- .debug_ranges  0x0000000000000908       0x68 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
- .debug_ranges  0x0000000000000970       0xb8 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
- .debug_ranges  0x0000000000000a28       0x18 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_efuse_esp32.o)
- .debug_ranges  0x0000000000000a40       0x10 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_mem.o)
- .debug_ranges  0x0000000000000a50       0x80 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
- .debug_ranges  0x0000000000000ad0      0x138 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
- .debug_ranges  0x0000000000000c08       0x40 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
- .debug_ranges  0x0000000000000c48       0x30 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_clock.o)
- .debug_ranges  0x0000000000000c78       0x10 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console.o)
- .debug_ranges  0x0000000000000c88       0x30 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash_config_esp32.o)
+ .debug_ranges  0x0000000000000030      0x140 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o)
+ .debug_ranges  0x0000000000000170       0x18 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_efuse_esp32.o)
+ .debug_ranges  0x0000000000000188      0x138 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
+ .debug_ranges  0x00000000000002c0      0x270 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+ .debug_ranges  0x0000000000000530      0x440 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
+ .debug_ranges  0x0000000000000970       0x58 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
+ .debug_ranges  0x00000000000009c8       0xb8 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
+ .debug_ranges  0x0000000000000a80       0x68 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
+ .debug_ranges  0x0000000000000ae8       0x30 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_clock.o)
+ .debug_ranges  0x0000000000000b18       0x10 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console.o)
+ .debug_ranges  0x0000000000000b28       0x10 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console_loader.o)
+ .debug_ranges  0x0000000000000b38       0x30 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash_config_esp32.o)
+ .debug_ranges  0x0000000000000b68       0x40 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
+ .debug_ranges  0x0000000000000ba8       0x10 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_mem.o)
+ .debug_ranges  0x0000000000000bb8       0x80 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
+ .debug_ranges  0x0000000000000c38       0x80 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
  .debug_ranges  0x0000000000000cb8       0x28 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/log/liblog.a(log_noos.o)
  .debug_ranges  0x0000000000000ce0       0xe0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/spi_flash/libspi_flash.a(spi_flash_rom_patch.o)
  .debug_ranges  0x0000000000000dc0       0x60 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(cpu_util.o)
- .debug_ranges  0x0000000000000e20      0x148 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
- .debug_ranges  0x0000000000000f68       0x28 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(mpu_hal.o)
- .debug_ranges  0x0000000000000f90       0x50 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
- .debug_ranges  0x0000000000000fe0       0x18 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
- .debug_ranges  0x0000000000000ff8       0x40 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
- .debug_ranges  0x0000000000001038      0x228 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk.o)
+ .debug_ranges  0x0000000000000e20       0x28 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(mpu_hal.o)
+ .debug_ranges  0x0000000000000e48      0x148 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
+ .debug_ranges  0x0000000000000f90      0x228 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk.o)
+ .debug_ranges  0x00000000000011b8       0x18 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
+ .debug_ranges  0x00000000000011d0       0x50 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
+ .debug_ranges  0x0000000000001220       0x40 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
  .debug_ranges  0x0000000000001260       0xa0 /home/name/.espressif/tools/xtensa-esp32-elf/esp-2020r2-8.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.2.0/no-rtti/libgcc.a(_udivdi3.o)
 
 .debug_line     0x0000000000000000    0x14974
  .debug_line    0x0000000000000000      0x573 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/main/libmain.a(bootloader_start.o)
- .debug_line    0x0000000000000573     0x1eaa /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
- .debug_line    0x000000000000241d     0x13b3 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o)
- .debug_line    0x00000000000037d0      0x3a1 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console_loader.o)
- .debug_line    0x0000000000003b71      0x715 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
- .debug_line    0x0000000000004286     0x1f9b /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
- .debug_line    0x0000000000006221      0x899 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
- .debug_line    0x0000000000006aba      0x788 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
- .debug_line    0x0000000000007242     0x15c6 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
- .debug_line    0x0000000000008808      0x401 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_efuse_esp32.o)
- .debug_line    0x0000000000008c09      0x3e1 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_mem.o)
- .debug_line    0x0000000000008fea      0xbc3 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
- .debug_line    0x0000000000009bad     0x109e /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
- .debug_line    0x000000000000ac4b      0x8f3 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
- .debug_line    0x000000000000b53e      0x651 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_clock.o)
- .debug_line    0x000000000000bb8f      0x526 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console.o)
- .debug_line    0x000000000000c0b5      0x89a /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash_config_esp32.o)
+ .debug_line    0x0000000000000573     0x13b3 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o)
+ .debug_line    0x0000000000001926      0x401 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_efuse_esp32.o)
+ .debug_line    0x0000000000001d27     0x109e /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
+ .debug_line    0x0000000000002dc5     0x1eaa /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+ .debug_line    0x0000000000004c6f     0x1f9b /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
+ .debug_line    0x0000000000006c0a      0x715 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
+ .debug_line    0x000000000000731f     0x15c6 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
+ .debug_line    0x00000000000088e5      0x788 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
+ .debug_line    0x000000000000906d      0x651 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_clock.o)
+ .debug_line    0x00000000000096be      0x526 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console.o)
+ .debug_line    0x0000000000009be4      0x3a1 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console_loader.o)
+ .debug_line    0x0000000000009f85      0x89a /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash_config_esp32.o)
+ .debug_line    0x000000000000a81f      0x8f3 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
+ .debug_line    0x000000000000b112      0x3e1 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_mem.o)
+ .debug_line    0x000000000000b4f3      0x899 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
+ .debug_line    0x000000000000bd8c      0xbc3 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
  .debug_line    0x000000000000c94f      0x41a /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/log/liblog.a(log_noos.o)
  .debug_line    0x000000000000cd69     0x17bf /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/spi_flash/libspi_flash.a(spi_flash_rom_patch.o)
  .debug_line    0x000000000000e528      0x640 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(cpu_util.o)
- .debug_line    0x000000000000eb68     0x1488 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
- .debug_line    0x000000000000fff0      0x3f6 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(mpu_hal.o)
- .debug_line    0x00000000000103e6      0x94e /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
- .debug_line    0x0000000000010d34      0x9eb /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
- .debug_line    0x000000000001171f      0x90f /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
- .debug_line    0x000000000001202e     0x1c39 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk.o)
+ .debug_line    0x000000000000eb68      0x3f6 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(mpu_hal.o)
+ .debug_line    0x000000000000ef5e     0x1488 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
+ .debug_line    0x00000000000103e6     0x1c39 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk.o)
+ .debug_line    0x000000000001201f      0x9eb /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
+ .debug_line    0x0000000000012a0a      0x94e /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
+ .debug_line    0x0000000000013358      0x90f /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
  .debug_line    0x0000000000013c67      0x2e2 /home/name/.espressif/tools/xtensa-esp32-elf/esp-2020r2-8.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.2.0/no-rtti/libgcc.a(_bswapsi2.o)
  .debug_line    0x0000000000013f49      0xa2b /home/name/.espressif/tools/xtensa-esp32-elf/esp-2020r2-8.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.2.0/no-rtti/libgcc.a(_udivdi3.o)
 
 .debug_str      0x0000000000000000     0xa6b7
  .debug_str     0x0000000000000000      0x9f7 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/main/libmain.a(bootloader_start.o)
                                         0xac9 (size before relaxing)
- .debug_str     0x00000000000009f7     0x443b /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
-                                       0x4fd5 (size before relaxing)
- .debug_str     0x0000000000004e32      0x6ee /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o)
+ .debug_str     0x00000000000009f7     0x2ebf /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o)
                                        0x39c8 (size before relaxing)
- .debug_str     0x0000000000005520       0x5f /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console_loader.o)
-                                       0x126f (size before relaxing)
- .debug_str     0x000000000000557f       0xa3 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
-                                        0x7f9 (size before relaxing)
- .debug_str     0x0000000000005622      0x6ad /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
-                                       0x1f0c (size before relaxing)
- .debug_str     0x0000000000005ccf      0xcf9 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
-                                       0x4552 (size before relaxing)
- .debug_str     0x00000000000069c8       0xee /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
-                                       0x1263 (size before relaxing)
- .debug_str     0x0000000000006ab6     0x17f6 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
-                                       0x60d7 (size before relaxing)
- .debug_str     0x00000000000082ac       0x77 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_efuse_esp32.o)
+ .debug_str     0x00000000000038b6       0xa4 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_efuse_esp32.o)
                                         0x670 (size before relaxing)
- .debug_str     0x0000000000008323       0xe7 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_mem.o)
-                                       0x11c9 (size before relaxing)
- .debug_str     0x000000000000840a      0x32e /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
-                                       0x2007 (size before relaxing)
- .debug_str     0x0000000000008738      0x20c /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
+ .debug_str     0x000000000000395a      0xe98 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
                                        0x1704 (size before relaxing)
- .debug_str     0x0000000000008944      0x2e8 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
-                                       0x3d71 (size before relaxing)
- .debug_str     0x0000000000008c2c      0x214 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_clock.o)
+ .debug_str     0x00000000000047f2     0x101e /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+                                       0x4fd5 (size before relaxing)
+ .debug_str     0x0000000000005810      0x695 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
+                                       0x1f0c (size before relaxing)
+ .debug_str     0x0000000000005ea5       0x9c /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
+                                        0x7f9 (size before relaxing)
+ .debug_str     0x0000000000005f41     0x18c3 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
+                                       0x60d7 (size before relaxing)
+ .debug_str     0x0000000000007804       0xee /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
+                                       0x1263 (size before relaxing)
+ .debug_str     0x00000000000078f2      0x214 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_clock.o)
                                        0x42ce (size before relaxing)
- .debug_str     0x0000000000008e40       0x85 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console.o)
+ .debug_str     0x0000000000007b06       0x85 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console.o)
                                        0x423d (size before relaxing)
- .debug_str     0x0000000000008ec5       0xb9 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash_config_esp32.o)
+ .debug_str     0x0000000000007b8b       0x5f /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console_loader.o)
+                                       0x126f (size before relaxing)
+ .debug_str     0x0000000000007bea       0xf0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash_config_esp32.o)
                                         0xc01 (size before relaxing)
+ .debug_str     0x0000000000007cda      0x301 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
+                                       0x3d71 (size before relaxing)
+ .debug_str     0x0000000000007fdb       0xe7 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_mem.o)
+                                       0x11c9 (size before relaxing)
+ .debug_str     0x00000000000080c2      0xbc5 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
+                                       0x4552 (size before relaxing)
+ .debug_str     0x0000000000008c87      0x2f7 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
+                                       0x2007 (size before relaxing)
  .debug_str     0x0000000000008f7e       0xe9 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/log/liblog.a(log_noos.o)
                                        0x118e (size before relaxing)
  .debug_str     0x0000000000009067      0x3a3 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/spi_flash/libspi_flash.a(spi_flash_rom_patch.o)
                                        0x259d (size before relaxing)
  .debug_str     0x000000000000940a      0x1ea /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(cpu_util.o)
                                        0x355d (size before relaxing)
- .debug_str     0x00000000000095f4      0x406 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
-                                       0x2165 (size before relaxing)
- .debug_str     0x00000000000099fa       0xac /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(mpu_hal.o)
+ .debug_str     0x00000000000095f4       0xac /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(mpu_hal.o)
                                         0x686 (size before relaxing)
- .debug_str     0x0000000000009aa6       0xb6 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
-                                       0x3290 (size before relaxing)
- .debug_str     0x0000000000009b5c      0x2cc /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
-                                       0x4542 (size before relaxing)
- .debug_str     0x0000000000009e28      0x153 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
-                                       0x2d05 (size before relaxing)
- .debug_str     0x0000000000009f7b      0x444 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk.o)
+ .debug_str     0x00000000000096a0      0x406 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
+                                       0x2165 (size before relaxing)
+ .debug_str     0x0000000000009aa6      0x647 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk.o)
                                        0x4c5c (size before relaxing)
+ .debug_str     0x000000000000a0ed       0xe5 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
+                                       0x4542 (size before relaxing)
+ .debug_str     0x000000000000a1d2       0xb6 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
+                                       0x3290 (size before relaxing)
+ .debug_str     0x000000000000a288      0x137 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
+                                       0x2d05 (size before relaxing)
  .debug_str     0x000000000000a3bf      0x21f /home/name/.espressif/tools/xtensa-esp32-elf/esp-2020r2-8.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.2.0/no-rtti/libgcc.a(_bswapsi2.o)
                                         0x6df (size before relaxing)
  .debug_str     0x000000000000a5de       0xd9 /home/name/.espressif/tools/xtensa-esp32-elf/esp-2020r2-8.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.2.0/no-rtti/libgcc.a(_udivdi3.o)
@@ -3618,63 +3618,63 @@ OUTPUT(/home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader.elf 
 .comment        0x0000000000000000       0x25
  .comment       0x0000000000000000       0x25 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/main/libmain.a(bootloader_start.o)
                                          0x26 (size before relaxing)
- .comment       0x0000000000000025       0x26 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
  .comment       0x0000000000000025       0x26 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o)
- .comment       0x0000000000000025       0x26 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console_loader.o)
- .comment       0x0000000000000025       0x26 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
- .comment       0x0000000000000025       0x26 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
- .comment       0x0000000000000025       0x26 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
- .comment       0x0000000000000025       0x26 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
- .comment       0x0000000000000025       0x26 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
  .comment       0x0000000000000025       0x26 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_efuse_esp32.o)
- .comment       0x0000000000000025       0x26 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_mem.o)
- .comment       0x0000000000000025       0x26 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
  .comment       0x0000000000000025       0x26 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
- .comment       0x0000000000000025       0x26 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
+ .comment       0x0000000000000025       0x26 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+ .comment       0x0000000000000025       0x26 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
+ .comment       0x0000000000000025       0x26 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
+ .comment       0x0000000000000025       0x26 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
+ .comment       0x0000000000000025       0x26 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
  .comment       0x0000000000000025       0x26 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_clock.o)
  .comment       0x0000000000000025       0x26 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console.o)
+ .comment       0x0000000000000025       0x26 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console_loader.o)
  .comment       0x0000000000000025       0x26 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash_config_esp32.o)
+ .comment       0x0000000000000025       0x26 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
+ .comment       0x0000000000000025       0x26 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_mem.o)
+ .comment       0x0000000000000025       0x26 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
+ .comment       0x0000000000000025       0x26 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
  .comment       0x0000000000000025       0x26 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/log/liblog.a(log_noos.o)
  .comment       0x0000000000000025       0x26 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/spi_flash/libspi_flash.a(spi_flash_rom_patch.o)
  .comment       0x0000000000000025       0x26 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(cpu_util.o)
- .comment       0x0000000000000025       0x26 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
  .comment       0x0000000000000025       0x26 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(mpu_hal.o)
- .comment       0x0000000000000025       0x26 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
- .comment       0x0000000000000025       0x26 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
- .comment       0x0000000000000025       0x26 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
+ .comment       0x0000000000000025       0x26 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
  .comment       0x0000000000000025       0x26 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk.o)
+ .comment       0x0000000000000025       0x26 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
+ .comment       0x0000000000000025       0x26 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
+ .comment       0x0000000000000025       0x26 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
  .comment       0x0000000000000025       0x26 /home/name/.espressif/tools/xtensa-esp32-elf/esp-2020r2-8.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.2.0/no-rtti/libgcc.a(_bswapsi2.o)
  .comment       0x0000000000000025       0x26 /home/name/.espressif/tools/xtensa-esp32-elf/esp-2020r2-8.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.2.0/no-rtti/libgcc.a(_udivdi3.o)
 
 .xtensa.info    0x0000000000000000       0x38
  .xtensa.info   0x0000000000000000       0x38 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/main/libmain.a(bootloader_start.o)
- .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
  .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o)
- .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console_loader.o)
- .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
- .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
- .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
- .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
- .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
  .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_efuse_esp32.o)
- .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_mem.o)
- .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
  .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
- .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
+ .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+ .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
+ .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
+ .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_esp32.o)
+ .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
  .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_clock.o)
  .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console.o)
+ .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_console_loader.o)
  .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash_config_esp32.o)
+ .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
+ .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_mem.o)
+ .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
+ .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
  .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/log/liblog.a(log_noos.o)
  .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/spi_flash/libspi_flash.a(spi_flash_rom_patch.o)
  .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(cpu_util.o)
- .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
- .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(soc_hal.o)
- .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(mpu_hal.o)
  .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(cpu_hal.o)
- .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
- .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
- .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
+ .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(mpu_hal.o)
+ .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(soc_hal.o)
+ .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(wdt_hal_iram.o)
  .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk.o)
+ .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_clk_init.o)
+ .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_init.o)
+ .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(rtc_time.o)
  .xtensa.info   0x0000000000000038        0x0 /home/name/esp-idf/examples/M5StickC-IDF/build/bootloader/soc/libsoc.a(gpio_periph.o)
  .xtensa.info   0x0000000000000038        0x0 /home/name/.espressif/tools/xtensa-esp32-elf/esp-2020r2-8.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.2.0/no-rtti/libgcc.a(_bswapsi2.o)
  .xtensa.info   0x0000000000000038        0x0 /home/name/.espressif/tools/xtensa-esp32-elf/esp-2020r2-8.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.2.0/no-rtti/libgcc.a(_divdi3.o)
