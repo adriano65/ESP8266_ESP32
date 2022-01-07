@@ -162,6 +162,7 @@ void ICACHE_FLASH_ATTR LoadDefaultConfig(void) {
   parse_ip(HPMETER_RX_IP, &flashConfig.HPRx_IP);
   #endif
   #if defined(GASINJECTORCLEANER)
+    flashConfig.dutycycle=DUTY_CYCLE;
     flashConfig.interval=INJECTION_PERIOD;
   #endif
 

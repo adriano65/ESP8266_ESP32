@@ -25,6 +25,7 @@
 void ICACHE_FLASH_ATTR injector_timercb(FlashConfig * pFlashConfig);
 os_timer_t injector_timer;
 unsigned char nStatus;
+unsigned int period;
 
 #if 0
 void SensorInit() {
@@ -43,8 +44,6 @@ void SensorInit() {
 #else
 void SensorInit() {
     nStatus=0;
-    flashConfig.interval=INJECTION_PERIOD;
-    flashConfig.dutycycle=8;
     set_gpio_mode(PWM0_PIN, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
     
     os_timer_disarm(&injector_timer);
@@ -62,15 +61,15 @@ void ICACHE_FLASH_ATTR injector_timercb(FlashConfig * _pFlashConfig) {
     
     if (nStatus) {
       nStatus = 0;
-      pFlashConfig->interval=INJECTION_PERIOD;
+      period=pFlashConfig->interval;
       }
     else {
       nStatus = 1;
-      pFlashConfig->interval=INJECTION_PERIOD/pFlashConfig->dutycycle;
+      period=pFlashConfig->interval/pFlashConfig->dutycycle;
       }
 
     gpio_write(PWM0_PIN, nStatus);
-    os_timer_arm(&injector_timer, pFlashConfig->interval, 1);  
+    os_timer_arm(&injector_timer, period, 1);  
 }
 /*
 

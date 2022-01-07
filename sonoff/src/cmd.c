@@ -77,6 +77,13 @@ void ICACHE_FLASH_ATTR cmdParser(char *pInBuf, unsigned short InBufLen) {
 			break;
     #endif
 
+		#if defined(GASINJECTORCLEANER)
+		case 'i':
+			//TXdatalen=os_sprintf(pTXdata, "interval");
+			i_cmd_interpreter(&pInBuf[2]);
+			break;
+		#endif
+			
 		case 'm':
 			m_cmd_interpreter(pInBuf);
 			break;
@@ -160,6 +167,7 @@ void ICACHE_FLASH_ATTR cmdParser(char *pInBuf, unsigned short InBufLen) {
 			#endif
       #if defined(GASINJECTORCLEANER)
 			TXdatalen+=os_sprintf(pTXdata+TXdatalen, "d <divisor> -> dutycyle divisor (%u)\r\n", flashConfig.dutycycle);
+			TXdatalen+=os_sprintf(pTXdata+TXdatalen, "i <interval> -> total ms period (%u)\r\n", flashConfig.interval);
 			#endif
 			break;
 
@@ -538,7 +546,7 @@ void ICACHE_FLASH_ATTR C_cmd_interpreter(char arg) {
   TXdatalen+=os_sprintf(pTXdata+TXdatalen, "OK\r\n");
 }
 	
-void ICACHE_FLASH_ATTR c_cmd_interpreter(char pInBuf) {
+void ICACHE_FLASH_ATTR c_cmd_interpreter(char arg) {
   LoadDefaultConfig();
   TXdatalen=os_sprintf(pTXdata, "Default configuration restored, check AP\r\n");
 }
@@ -556,12 +564,10 @@ void ICACHE_FLASH_ATTR D_cmd_interpreter(char * arg) {
 
 #if defined(GASINJECTORCLEANER)
 void ICACHE_FLASH_ATTR d_cmd_interpreter(char * arg) {
-  //gpio_pin_wakeup_enable(GPIO_ID_PIN(4), GPIO_PIN_INTR_HILEVEL);
-  //system_deep_sleep_set_option(4);	// disable rf on wake up
-  //system_deep_sleep_set_option(2);	// no radio calibration on wake up
-  system_deep_sleep_set_option(1);	// Radio calibration is done after deep-sleep wake up
-  system_deep_sleep(atoi(arg+1)*1000000);
-  //system_deep_sleep_instant(10000000);	// uSeconds
+  flashConfig.dutycycle=(unsigned char)atoi(arg);
+}
+void ICACHE_FLASH_ATTR i_cmd_interpreter(char * arg) {
+  flashConfig.interval=(unsigned char)atoi(arg);
 }
 #endif
 

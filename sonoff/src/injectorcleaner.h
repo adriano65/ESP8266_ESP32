@@ -3,14 +3,7 @@
 #include <c_types.h>
 
 #define INJECTION_PERIOD 60
-/*
-typedef struct {
-    unsigned int interval;
-    unsigned char nStatus;
-    unsigned int nCounter;
-} Injector_Data;
-*/
-
+#define DUTY_CYCLE 8
 void SensorInit();
 
 #endif

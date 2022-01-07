@@ -10,6 +10,7 @@ void ICACHE_FLASH_ATTR D_cmd_interpreter(char *);
 void ICACHE_FLASH_ATTR d_cmd_interpreter(char *);
 void ICACHE_FLASH_ATTR F_cmd_interpreter(char);
 void ICACHE_FLASH_ATTR I_cmd_interpreter(char *);
+void ICACHE_FLASH_ATTR i_cmd_interpreter(char *);
 void ICACHE_FLASH_ATTR O_cmd_interpreter(char);
 void ICACHE_FLASH_ATTR P_cmd_interpreter(char);
 void ICACHE_FLASH_ATTR T_cmd_interpreter(char);
