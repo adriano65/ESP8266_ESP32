@@ -69,8 +69,10 @@ REFRESHIO      						:= no
 #SONOFFTH10d := 1
 # ----------------- VerandaTemp
 #SONOFFTH10e := 1
+
 # ----------------- Linux Monitor and a lot more !
-#MAINSa := 2
+MAINSa := 2
+
 # ----------------- garage interno
 #ARMTRONIXa := 2
 
@@ -81,7 +83,7 @@ REFRESHIO      						:= no
 #MAINS_VMC := 2
 
 # ----------------- gas injectors cleaner
-MAINSd := 2
+#MAINSd := 2
 
 # ----------------- GTN House power Transmitter
 #MAINSe := 2
@@ -242,7 +244,7 @@ CFLAGS	+= -DSI7021_PIN=$(SI7021_PIN)
 MODULES		+= si7021
 endif
 
-ifeq ("$(USE_TXD0)","yes")
+ifneq ("$(USE_TXD0)","no")
 CFLAGS	+= -DUSE_TXD0
 endif
 

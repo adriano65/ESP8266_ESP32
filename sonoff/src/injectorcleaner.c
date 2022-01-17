@@ -27,6 +27,8 @@ os_timer_t injector_timer;
 unsigned char nStatus;
 unsigned int period;
 
+#if defined(GASINJECTORCLEANER)
+
 #if 0
 void SensorInit() {
   #define PWM_CHANNELS 1
@@ -71,27 +73,11 @@ void ICACHE_FLASH_ATTR injector_timercb(FlashConfig * _pFlashConfig) {
     gpio_write(PWM0_PIN, nStatus);
     os_timer_arm(&injector_timer, period, 1);  
 }
-/*
-
-// Sets the interval of the timer controlling delay
-void ICACHE_FLASH_ATTR start_button0_timer(uint16_t interval) {
-    os_timer_disarm(&bell0_timer);
-    os_timer_setfn(&button0_timer, (os_timer_func_t *)button0_timer_cb, interval);
-    os_timer_arm(&button0_timer, interval, 1);
+#else
+void SensorInit() {
 }
 
-static void ICACHE_FLASH_ATTR bell0_timer_cb(void *arg) {
-    os_timer_disarm(&bell0_timer);
-    button_press_duration=1;
-    //SendStatus(MQTT_BTN_TOPIC, MSG_BUTTON);
-    //button_press_duration=0;
-    gpio_write(RELAY_PIN, 0);
+void ICACHE_FLASH_ATTR injector_timercb(FlashConfig * _pFlashConfig) {
 }
 
-void ICACHE_FLASH_ATTR start_bell0_timer(uint16_t interval) {
-    os_timer_disarm(&bell0_timer);
-    os_timer_setfn(&bell0_timer, (os_timer_func_t *)bell0_timer_cb, (void *)0);
-    os_timer_arm(&bell0_timer, interval, 1);
-}
-
-*/
+#endif

@@ -78,7 +78,6 @@ uint32 ICACHE_FLASH_ATTR user_rf_cal_sector_set(void) {
 
 static void ICACHE_FLASH_ATTR restoreIO() {
   #if defined(MAINS)
-  #warning "cazzu e"
     #if !defined(USE_TXD0)
     set_gpio_mode(GPIO_3, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
     gpio_write(GPIO_3, flashConfig.IOPort_bit0);
