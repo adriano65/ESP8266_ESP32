@@ -78,6 +78,7 @@ else ifdef MAINSa
 PROJ_NAME      := "esp_mains"
 LED_CONN_PIN   := GPIO_2
 LED_CONN_PIN_ACTIVELOW   := 1
+USE_RXD0 			 := no
 USE_TXD0       := no
 STA_IPADDRESS  := "192.168.1.11"
 USE_DHCP       := no

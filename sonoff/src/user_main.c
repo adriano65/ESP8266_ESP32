@@ -78,10 +78,10 @@ uint32 ICACHE_FLASH_ATTR user_rf_cal_sector_set(void) {
 
 static void ICACHE_FLASH_ATTR restoreIO() {
   #if defined(MAINS)
-    #if !defined(USE_TXD0)
+    #if !defined(USE_RXD0)
     set_gpio_mode(GPIO_3, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
     gpio_write(GPIO_3, flashConfig.IOPort_bit0);
-    //#warning TESTING CASE USE_TXD0 undefined
+    #warning USE_RXD0 undefined -> dedug serial unusable
     #endif
     set_gpio_mode(GPIO_4, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
     gpio_write(GPIO_4, flashConfig.IOPort_bit1);
@@ -143,9 +143,10 @@ void ICACHE_FLASH_ATTR user_init(void) {
   
   gpio_init();	// Initialise all GPIOs.
 
-  #if defined(USE_TXD0)
+  #if defined(USE_RXD0) && defined(USE_TXD0)
   uart_init(BIT_RATE_115200);		// set  GPIO_1 (aka TXD0) to 1 !  
   os_printf("\n%s %s\n", PROJ_NAME, VERSION);			// Say hello (leave some time to cause break in TX after boot loader's msg
+  #warning USE_RXD0 undefined -> dedug serial unusable
   #endif
   restoreIO();
   

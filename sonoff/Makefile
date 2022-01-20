@@ -41,6 +41,7 @@ USE_RBOOT := no
 include include_psw.mak
 
 # GPIO pin for LED, active low --. GPIO13 is for sonoff-th10, sonoff_dual. GPIO15 is for sonoff-pow 
+USE_RXD0       						:= yes
 USE_TXD0       						:= yes
 LED_CONN_PIN   						:= GPIO_13
 LED_CONN_PIN_ACTIVELOW   	:= 0
@@ -246,6 +247,10 @@ endif
 
 ifneq ("$(USE_TXD0)","no")
 CFLAGS	+= -DUSE_TXD0
+endif
+
+ifneq ("$(USE_RXD0)","no")
+CFLAGS	+= -DUSE_RXD0
 endif
 
 ifeq ("$(REFRESHIO)","yes")
