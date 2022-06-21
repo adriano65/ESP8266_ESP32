@@ -27,6 +27,16 @@ union _map1 {
     struct _bit_vars1 IOPort;      // data output as single bit field.
 };
 
+struct _bit_vars2 {
+  uint8_t   doorBell: 1;
+  uint8_t   spare: 7;
+};
+
+union _map2 {
+    uint8_t bits;             // data input as 8-bit char
+    struct _bit_vars2 Enable;      // data output as single bit field.
+};
+
 // Flash configuration settings. When adding new items always add them at the end and formulate
 // them such that a value of zero is an appropriate default or backwards compatible. Existing
 // modules that are upgraded will have zero in the new fields. This ensures that an upgrade does
@@ -46,6 +56,7 @@ typedef struct __attribute__((aligned(4))) {
   char      mqtt_host[MAX_HOSTNAME_LEN], 
             mqtt_clientid[MAX_HOSTNAME_LEN];
   union _map1 map1;
+  union _map2 map2;
   #if defined(SONOFFPOW)
   float     AmpMul;
   float     VoltMul;
@@ -61,7 +72,6 @@ typedef struct __attribute__((aligned(4))) {
   unsigned int interval;
   unsigned int dutycycle;
   #endif
-  uint8_t   DoorBellEn;
 } FlashConfig;
 
 extern FlashConfig flashConfig;

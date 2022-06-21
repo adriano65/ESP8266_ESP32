@@ -146,7 +146,7 @@ void ICACHE_FLASH_ATTR user_init(void) {
   #if defined(USE_RXD0) && defined(USE_TXD0)
   uart_init(BIT_RATE_115200);		// set  GPIO_1 (aka TXD0) to 1 !  
   os_printf("\n%s %s\n", PROJ_NAME, VERSION);			// Say hello (leave some time to cause break in TX after boot loader's msg
-  #warning USE_RXD0 undefined -> dedug serial unusable
+  #warning USE_RXD0 and TSD0 -> debug serial will be unusable
   #endif
   restoreIO();
   

@@ -166,7 +166,7 @@ void LoadDefaultAPConfig();
     flashConfig.interval=INJECTION_PERIOD;
   #endif
 
-  flashConfig.DoorBellEn=1;
+  flashConfig.map2.Enable.doorBell=1;
   crc=crc16_data((unsigned char*)&flashConfig+sizeof(crc), sizeof(FlashConfig)-sizeof(crc), 0);	
   flashConfig.crc=crc;
   PRINTNET("Defaults settled, crc 0x%04X..", flashConfig.crc);

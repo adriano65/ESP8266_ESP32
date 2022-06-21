@@ -80,7 +80,7 @@ gpio_intr_handler gpio0_release_intr_callback(unsigned pin, unsigned level) {
   os_timer_disarm(&bell0_timer);
   switch (button_press_duration) {
     case 1:
-      if (flashConfig.DoorBellEn) {
+      if (flashConfig.map2.Enable.doorBell) {
         gpio_write(RELAY_PIN, 1);
         }
       start_bell0_timer(300);
