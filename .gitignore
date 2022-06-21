@@ -1,0 +1,12 @@
+.profile
+*.o
+sonoff/include_psw.mak
+sonoff/sonoff-0.1.2.tar.gz
+*.bin
+nandreader/
+x-tools/
+projects/
+modellismo/
+Videos/
+esp32/
+esp-idf/
