@@ -21,39 +21,35 @@ static uint8_t strbuff[50];
 static bool button_a_flag = false;
 
 static void AXP192Test(void) {
-  float temp;
-  float bat_voltage;
-  float bat_current;
-  float vin_voltage;
-  float vin_current;
+    float temp;
+    float bat_voltage;
+    float bat_current;
+    float vin_voltage;
+    float vin_current;
 
-  while (button_a_flag == false) {
-    temp = AXP192GetTempInAXP192(&wire0);
-    sprintf((char *)strbuff, "AXP192-temp:%.2fC", temp);
-    TFT_print((char *)strbuff, 5, 10);
+    while (button_a_flag == false) {
+        temp = AXP192GetTempInAXP192(&wire0);
+        sprintf((char *)strbuff, "AXP192-temp:%.2fC", temp);
+        TFT_print((char *)strbuff, 5, 10);
+        bat_voltage = AXP192GetBatVoltage(&wire0);
+        sprintf((char *)strbuff, "bat_voltage:%.2fV", bat_voltage);
+        TFT_print((char *)strbuff, 5, 20);
+        bat_current = AXP192GetBatCurrent(&wire0);
+        sprintf((char *)strbuff, "bat_current:%.2fmA", bat_current);
+        TFT_print((char *)strbuff, 5, 30);
+        vin_voltage = AXP192GetVinVoltage(&wire0);
+        sprintf((char *)strbuff, "vin_voltage:%.2fV", vin_voltage);
+        TFT_print((char *)strbuff, 5, 40);
+        vin_current = AXP192GetVinCurrent(&wire0);
+        sprintf((char *)strbuff, "vin_current:%.2fmA", vin_current);
+        TFT_print((char *)strbuff, 5, 50);
 
-    bat_voltage = AXP192GetBatVoltage(&wire0);
-    sprintf((char *)strbuff, "bat_voltage:%.2fV", bat_voltage);
-    TFT_print((char *)strbuff, 5, 20);
-
-    bat_current = AXP192GetBatCurrent(&wire0);
-    sprintf((char *)strbuff, "bat_current:%.2fmA", bat_current);
-    TFT_print((char *)strbuff, 5, 30);
-
-    vin_voltage = AXP192GetVinVoltage(&wire0);
-    sprintf((char *)strbuff, "vin_voltage:%.2fV", vin_voltage);
-    TFT_print((char *)strbuff, 5, 40);
-
-    vin_current = AXP192GetVinCurrent(&wire0);
-    sprintf((char *)strbuff, "vin_current:%.2fmA", vin_current);
-    TFT_print((char *)strbuff, 5, 50);
-
-    vTaskDelay(500 / portTICK_PERIOD_MS);
-    TFT_fillScreen(TFT_BLACK);
+        vTaskDelay(200 / portTICK_PERIOD_MS);
     }
-  button_a_flag = false;
-  vTaskDelay(200 / portTICK_PERIOD_MS);
-  //TFT_print(">>>M5 StickC<<<", CENTER, 0);
+    button_a_flag = false;
+    vTaskDelay(200 / portTICK_PERIOD_MS);
+    TFT_fillScreen(TFT_BLACK);
+    TFT_print(">>>M5 StickC<<<", CENTER, 0);
 }
 
 static void MPU6886Test(void) {
@@ -233,34 +229,34 @@ void i2sInit() {
 }
 
 void app_main(void) {
-  /* Configure the IOMUX register for pad BLINK_GPIO (some pads are muxed to GPIO on reset already, but some default to other
-      functions and need to be switched to GPIO. Consult the Technical Reference for a list of pads and their default functions.)
-  */
-  gpio_reset_pin(BLINK_GPIO);
-  /* Set the GPIO as a push/pull output */
-  gpio_set_direction(BLINK_GPIO, GPIO_MODE_OUTPUT);
-  gpio_set_level(BLINK_GPIO, OFF);
+    /* Configure the IOMUX register for pad BLINK_GPIO (some pads are muxed to GPIO on reset already, but some default to other
+       functions and need to be switched to GPIO. Consult the Technical Reference for a list of pads and their default functions.)
+    */
+    gpio_reset_pin(BLINK_GPIO);
+    /* Set the GPIO as a push/pull output */
+    gpio_set_direction(BLINK_GPIO, GPIO_MODE_OUTPUT);
+	  gpio_set_level(BLINK_GPIO, OFF);
+	
+    M5Init();
+    i2sInit();
 
-  M5Init();
-  i2sInit();
+    esp_event_handler_register_with(event_loop, BUTTON_A_EVENT_BASE, BUTTON_PRESSED_EVENT, buttonEvent, NULL);
+    esp_event_handler_register_with(event_loop, BUTTON_B_EVENT_BASE, BUTTON_PRESSED_EVENT, buttonEvent, NULL);
 
-  esp_event_handler_register_with(event_loop, BUTTON_A_EVENT_BASE, BUTTON_PRESSED_EVENT, buttonEvent, NULL);
-  esp_event_handler_register_with(event_loop, BUTTON_B_EVENT_BASE, BUTTON_PRESSED_EVENT, buttonEvent, NULL);
+    font_rotate = 0;
+    text_wrap = 0;
+    font_transparent = 0;
+    font_forceFixed = 0;
+    gray_scale = 0;
+    TFT_setGammaCurve(DEFAULT_GAMMA_CURVE);
+    TFT_setRotation(LANDSCAPE);
+    TFT_setFont(SMALL_FONT, NULL);
+    TFT_resetclipwin();
 
-  font_rotate = 0;
-  text_wrap = 0;
-  font_transparent = 0;
-  font_forceFixed = 0;
-  gray_scale = 0;
-  TFT_setGammaCurve(DEFAULT_GAMMA_CURVE);
-  TFT_setRotation(LANDSCAPE);
-  TFT_setFont(SMALL_FONT, NULL);
-  TFT_resetclipwin();
+	  //gpio_set_level(BLINK_GPIO, ON);
+		
+    TFT_print("M5 StickC", CENTER, 0);
+    vTaskDelay(500 / portTICK_PERIOD_MS);
 
-  //gpio_set_level(BLINK_GPIO, ON);
-  
-  TFT_print("M5 StickC", CENTER, 0);
-  vTaskDelay(500 / portTICK_PERIOD_MS);
-
-  xTaskCreate(stickc_test_task, "stickc_test_task", 1024 * 2, (void *)0, 10, NULL);
+    xTaskCreate(stickc_test_task, "stickc_test_task", 1024 * 2, (void *)0, 10, NULL);
 }

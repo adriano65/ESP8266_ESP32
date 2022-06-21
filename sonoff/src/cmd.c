@@ -236,7 +236,7 @@ void ICACHE_FLASH_ATTR F_cmd_interpreter(char arg) {
 				#else
 			case '3':
 				gpio_write(GPIO_12, 0);
-				flashConfig.IOPort_bit3=0;
+				flashConfig.map1.IOPort.bit3=0;
 				break;
 			#endif
 		#endif
@@ -317,7 +317,7 @@ void ICACHE_FLASH_ATTR O_cmd_interpreter(char arg) {
 				#else
 				case '3':
 					gpio_write(GPIO_12, 1);
-					flashConfig.IOPort_bit3=1;
+					flashConfig.map1.IOPort.bit3=1;
 					break;
 				#endif
 			#endif
@@ -465,8 +465,8 @@ void ICACHE_FLASH_ATTR T_cmd_interpreter(char arg) {
 		  break;
 	  #else
 	  case '3':
-		  if (flashConfig.IOPort_bit3) { gpio_write(GPIO_12, 0); flashConfig.IOPort_bit3=0; }
-		  else 						 { gpio_write(GPIO_12, 1); flashConfig.IOPort_bit3=1; }
+		  if (flashConfig.map1.IOPort.bit3) { gpio_write(GPIO_12, 0); flashConfig.map1.IOPort.bit3=0; }
+		  else 						 { gpio_write(GPIO_12, 1); flashConfig.map1.IOPort.bit3=1; }
 		  break;
 	  #endif
 	  #if defined(MAINS)
@@ -509,7 +509,7 @@ void ICACHE_FLASH_ATTR S_cmd_interpreter(char arg) {
 	  #endif
 
 	  case '3':
-		  TXdatalen=os_sprintf(pTXdata, "%s\r\n", flashConfig.IOPort_bit3==0 ? "0" : "1");
+		  TXdatalen=os_sprintf(pTXdata, "%s\r\n", flashConfig.map1.IOPort.bit3==0 ? "0" : "1");
 		  break;
 	  #if defined(MAINS)
 	  case '4':
@@ -593,7 +593,7 @@ void ICACHE_FLASH_ATTR Stat_cmd(char arg) {
 		TXdatalen=os_sprintf(pTXdata, "IObit0: %d\n",			  flashConfig.IOPort_bit0);
 		TXdatalen+=os_sprintf(pTXdata+TXdatalen, "IObit1: %1x\n", flashConfig.IOPort_bit1);
 		#else
-		TXdatalen=os_sprintf(pTXdata, "IObit3: %1x\n", flashConfig.IOPort_bit3);
+		TXdatalen=os_sprintf(pTXdata, "IObit3: %1x\n", flashConfig.map1.IOPort.bit3);
 		#endif
 	#endif
 	#if defined(MAINS)
