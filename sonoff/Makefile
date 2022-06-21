@@ -72,7 +72,7 @@ REFRESHIO      						:= no
 #SONOFFTH10e := 1
 
 # ----------------- Linux Monitor and a lot more !
-MAINSa := 2
+#MAINSa := 2
 
 # ----------------- garage interno
 #ARMTRONIXa := 2
@@ -99,7 +99,7 @@ MAINSa := 2
 #SONOFFPOWb := 3
 
 # --------------------Test
-#SONOFFPOWc := 3
+SONOFFPOWc := 3
 
 # --------------------all house power backup
 #SONOFFPOWd := 3
@@ -321,7 +321,7 @@ endef
 
 .PHONY: all checkdirs clean wiflash
 
-all: checkdirs $(FW_BASE)/user1.bin $(FW_BASE)/user2.bin include_esptypes.mak
+all: clean checkdirs $(FW_BASE)/user1.bin $(FW_BASE)/user2.bin include_esptypes.mak
 	@echo "LED_CONN_PIN -> $(value LED_CONN_PIN)"
 	@echo "BUTTON0_PIN -> $(value BUTTON0_PIN)"	
 	@echo "DHT22_PIN -> $(value DHT22_PIN)"

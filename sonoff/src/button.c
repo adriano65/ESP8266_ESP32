@@ -80,7 +80,9 @@ gpio_intr_handler gpio0_release_intr_callback(unsigned pin, unsigned level) {
   os_timer_disarm(&bell0_timer);
   switch (button_press_duration) {
     case 1:
-      gpio_write(RELAY_PIN, 1);
+      if (flashConfig.DoorBellEn) {
+        gpio_write(RELAY_PIN, 1);
+        }
       start_bell0_timer(300);
       SendStatus(MQTT_BTN_TOPIC, MSG_BUTTON);
       break;

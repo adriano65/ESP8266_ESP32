@@ -11,6 +11,22 @@
 // size of the setting sector
 #define FLASH_SECT   (4096)
 
+struct _bit_vars1 {
+  uint8_t   bit0: 1;
+  uint8_t   bit1: 1;
+  uint8_t   bit2: 1;
+  uint8_t   bit3: 1;
+  uint8_t   bit4: 1;
+  uint8_t   bit5: 1;
+  uint8_t   bit6: 1;
+  uint8_t   bit7: 1;
+};
+
+union _map1 {
+    uint8_t bits;             // data input as 8-bit char
+    struct _bit_vars1 IOPort;      // data output as single bit field.
+};
+
 // Flash configuration settings. When adding new items always add them at the end and formulate
 // them such that a value of zero is an appropriate default or backwards compatible. Existing
 // modules that are upgraded will have zero in the new fields. This ensures that an upgrade does
@@ -29,14 +45,7 @@ typedef struct __attribute__((aligned(4))) {
   uint32_t  mqtt_port, mqtt_keepalive;  // MQTT Host port, MQTT Keepalive timer
   char      mqtt_host[MAX_HOSTNAME_LEN], 
             mqtt_clientid[MAX_HOSTNAME_LEN];
-  uint8_t   IOPort_bit0: 1;
-  uint8_t   IOPort_bit1: 1;
-  uint8_t   IOPort_bit2: 1;
-  uint8_t   IOPort_bit3: 1;
-  uint8_t   IOPort_bit4: 1;
-  uint8_t   IOPort_bit5: 1;
-  uint8_t   IOPort_bit6: 1;
-  uint8_t   IOPort_bit7: 1;
+  union _map1 map1;
   #if defined(SONOFFPOW)
   float     AmpMul;
   float     VoltMul;
@@ -52,6 +61,7 @@ typedef struct __attribute__((aligned(4))) {
   unsigned int interval;
   unsigned int dutycycle;
   #endif
+  uint8_t   DoorBellEn;
 } FlashConfig;
 
 extern FlashConfig flashConfig;

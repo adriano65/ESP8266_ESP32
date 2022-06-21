@@ -138,7 +138,7 @@ void ICACHE_FLASH_ATTR LoadDefaultConfig(void) {
   PRINTNET("Setting defaults in flashConfig..."); 
   os_sprintf(flashConfig.hostname, PROJ_NAME"_%06x", system_get_chip_id());
   
-  LoadDefaultAPConfig();
+void LoadDefaultAPConfig();
   DBG("ssid %s, FlashConfig size %d", AP_SSID, sizeof(FlashConfig));
 
   os_sprintf(flashConfig.stat_conf.ssid, STA_SSID);
@@ -166,6 +166,7 @@ void ICACHE_FLASH_ATTR LoadDefaultConfig(void) {
     flashConfig.interval=INJECTION_PERIOD;
   #endif
 
+  flashConfig.DoorBellEn=1;
   crc=crc16_data((unsigned char*)&flashConfig+sizeof(crc), sizeof(FlashConfig)-sizeof(crc), 0);	
   flashConfig.crc=crc;
   PRINTNET("Defaults settled, crc 0x%04X..", flashConfig.crc);

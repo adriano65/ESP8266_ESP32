@@ -1,9 +1,12 @@
 {
 	"folders": [
-		{
-			"path": "."
-		}
-	],
+    {
+      "path": "."
+    },
+    {
+      "path": ".."
+    }
+  ],
 	"settings": {
 		"files.associations": {
 			"crc16.h": "c",

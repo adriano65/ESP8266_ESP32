@@ -15,6 +15,7 @@ export QT_DEBUG_PLUGINS=1
 CONF=esp8266
 #CONF=ESP32
 #CONF=BCM
+#CONF=Goke
 
 case $CONF in
         fonera)
