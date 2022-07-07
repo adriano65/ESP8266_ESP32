@@ -26,15 +26,17 @@ ESPBAUD		    := 460800
 else ifeq ("$(FLASH_SIZE)","1MBb")
 ESP_SPI_SIZE        := 2
 ESP_FLASH_MODE      := 0
-ESPTOOL_FM	    := qio
+ESPTOOL_FM	    		:= qio
 ESP_FLASH_FREQ_DIV  := 0
+#ESP_FLASH_FREQ_DIV  := 15
 ET_FS               := 8m
 #ET_FF               := 80m
 ET_FF               := 40m
 ET_BLANK            := 0xFE000
 ET_INIT_DATA_DEF    := 0xFC000
-#ESPBAUD		    := 230400
-ESPBAUD		    := 460800
+#ESPBAUD		          := 115200
+ESPBAUD		    		:= 230400
+#ESPBAUD		    		:= 460800
 
 else ifeq ("$(FLASH_SIZE)","1MBc")
 ESP_SPI_SIZE        := 2       # 2->1MB (512KB spiffs)

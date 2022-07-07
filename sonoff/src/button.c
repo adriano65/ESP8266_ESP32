@@ -73,7 +73,7 @@ gpio_intr_handler gpio0_press_intr_callback(unsigned pin, unsigned level) {
       button_press_duration=1;
       }
 }
-
+// mosquitto_sub -v -p 5800 -h 192.168.1.6 -t '+/224/#'
 gpio_intr_handler gpio0_release_intr_callback(unsigned pin, unsigned level) {
   gpio_intr_deattach(pin);
   os_timer_disarm(&button0_timer);
@@ -81,6 +81,7 @@ gpio_intr_handler gpio0_release_intr_callback(unsigned pin, unsigned level) {
   switch (button_press_duration) {
     case 1:
       if (flashConfig.map2.Enable.doorBell) {
+        DBG("doorBell enabled");
         gpio_write(RELAY_PIN, 1);
         }
       start_bell0_timer(300);

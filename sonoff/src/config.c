@@ -96,7 +96,9 @@ static void memDump(void *addr, int len) {}
 #endif
 
 bool ICACHE_FLASH_ATTR configSave() {
+  bool bRet=false;
   uint16_t crc;
+
   crc=crc16_data((unsigned char*)&flashConfig+sizeof(crc), sizeof(FlashConfig)-sizeof(crc), 0);	
   flashConfig.crc=crc;
 	//disable global interrupt
@@ -104,17 +106,18 @@ bool ICACHE_FLASH_ATTR configSave() {
 
   if (spi_flash_erase_sector(flashAddr()>>12) == SPI_FLASH_RESULT_OK) {
     if (spi_flash_write(flashAddr(), (uint32 *)&flashConfig, sizeof(FlashConfig)) != SPI_FLASH_RESULT_OK) {
-      PRINTNET("Failed to save config.");
-      return false;
+      DBG("Failed to save config.");
+      bRet=false;
+      goto en;
       }
-    PRINTNET("config saved, crc 0x%04X..", flashConfig.crc);
+    DBG("config saved, crc 0x%04X..", flashConfig.crc);
     }
   else DBG("Failed to erase.");
 
-	//enable global interrupt
+en:	//enable global interrupt
 	ETS_GPIO_INTR_ENABLE();
 
-  return true;
+  return bRet;
 }
 
 void ICACHE_FLASH_ATTR LoadDefaultAPConfig(void) {
@@ -135,10 +138,10 @@ void ICACHE_FLASH_ATTR LoadDefaultAPConfig(void) {
 void ICACHE_FLASH_ATTR LoadDefaultConfig(void) {
   uint16_t crc;
   os_memset(&flashConfig, 0, sizeof(FlashConfig));	
-  PRINTNET("Setting defaults in flashConfig..."); 
+  DBG("Setting defaults in flashConfig..."); 
   os_sprintf(flashConfig.hostname, PROJ_NAME"_%06x", system_get_chip_id());
   
-void LoadDefaultAPConfig();
+  LoadDefaultAPConfig();
   DBG("ssid %s, FlashConfig size %d", AP_SSID, sizeof(FlashConfig));
 
   os_sprintf(flashConfig.stat_conf.ssid, STA_SSID);
@@ -169,7 +172,7 @@ void LoadDefaultAPConfig();
   flashConfig.map2.Enable.doorBell=1;
   crc=crc16_data((unsigned char*)&flashConfig+sizeof(crc), sizeof(FlashConfig)-sizeof(crc), 0);	
   flashConfig.crc=crc;
-  PRINTNET("Defaults settled, crc 0x%04X..", flashConfig.crc);
+  DBG("Defaults settled, crc 0x%04X..", flashConfig.crc);
 }
   
 void ICACHE_FLASH_ATTR LoadConfigFromFlash(void) {
@@ -193,7 +196,7 @@ void ICACHE_FLASH_ATTR LoadConfigFromFlash(void) {
 	//enable global interrupt
 	ETS_GPIO_INTR_ENABLE();
   
-  PRINTNET("config loaded.");
+  DBG("config loaded.");
 }
 
 // returns the flash chip's size, in BYTES

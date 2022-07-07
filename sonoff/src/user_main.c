@@ -81,7 +81,7 @@ static void ICACHE_FLASH_ATTR restoreIO() {
     #if !defined(USE_RXD0)
     set_gpio_mode(GPIO_3, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
     gpio_write(GPIO_3, flashConfig.IOPort_bit0);
-    #warning USE_RXD0 undefined -> dedug serial unusable
+    #warning USE_RXD0 undefined -> debug serial unusable
     #endif
     set_gpio_mode(GPIO_4, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
     gpio_write(GPIO_4, flashConfig.IOPort_bit1);
@@ -116,6 +116,7 @@ static void ICACHE_FLASH_ATTR restoreIO() {
       #else
 
         #if !defined(PWM0_PIN)
+        #warning PWM0_PIN undefined -> IO0 input button unusable
         set_gpio_mode(GPIO_12, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
         gpio_write(GPIO_12, flashConfig.IOPort_bit0);
         set_gpio_mode(GPIO_5, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
@@ -146,7 +147,7 @@ void ICACHE_FLASH_ATTR user_init(void) {
   #if defined(USE_RXD0) && defined(USE_TXD0)
   uart_init(BIT_RATE_115200);		// set  GPIO_1 (aka TXD0) to 1 !  
   os_printf("\n%s %s\n", PROJ_NAME, VERSION);			// Say hello (leave some time to cause break in TX after boot loader's msg
-  #warning USE_RXD0 and TSD0 -> debug serial will be unusable
+  #warning USE_RXD0 and USE_TXD0 defined -> debug serial will be unusable
   #endif
   restoreIO();
   

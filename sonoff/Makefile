@@ -99,13 +99,13 @@ REFRESHIO      						:= no
 #SONOFFPOWb := 3
 
 # --------------------Test
-SONOFFPOWc := 3
+#SONOFFPOWc := 3
 
 # --------------------all house power backup
 #SONOFFPOWd := 3
 
 # --------------------TEST ModBus
-#SONOFFPOWe := 3
+SONOFFPOWe := 3
 #SONOFFPOWf := 3
 
 #ESP01a := 4

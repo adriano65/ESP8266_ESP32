@@ -226,17 +226,16 @@ CFLAGS	       := -DSONOFFPOW -DAP_SSID='"POWTest223"' -DA_TRIM_VALUE=67.61392405
 
 # ---------------------------------- TEST ModBus
 else ifdef SONOFFPOWe
-PROJ_NAME      := "sonoff_ex_pow"
+PROJ_NAME      := "sonoff_pow"
 LED_CONN_PIN   := GPIO_15
 BUTTON0_PIN	   := GPIO_0
-RELAY_PIN		:= GPIO_12
-USE_TXD0       := no
+RELAY_PIN			 := GPIO_12
 STA_IPADDRESS  := "192.168.1.224"
-READ_DELAY     := 200
+READ_DELAY     := 40
 MQTT_STAT_TOPIC := "sonoff_pow/224/status"
 MQTT_BTN_TOPIC := "sonoff_pow/224/button"
 FLASH_SIZE     := 1MBb
-CFLAGS	       := -DSONOFFPOW_DDS238_2 -DAP_SSID='"POWTest224"'
+CFLAGS	       := -DSONOFFPOW -DAP_SSID='"POWTest224"' -DA_TRIM_VALUE=67.6139240506 -DV_TRIM_VALUE=2.86 -DW_TRIM_VALUE=2.61341630821
 # ---------------------------------- end TEST ModBus
 else ifdef SONOFFPOWf
 PROJ_NAME      := "sonoff_pow"

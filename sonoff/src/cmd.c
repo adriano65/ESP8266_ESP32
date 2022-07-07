@@ -71,19 +71,19 @@ void ICACHE_FLASH_ATTR cmdParser(char *pInBuf, unsigned short InBufLen) {
 			TXdatalen=os_sprintf(pTXdata, "HeartBeat changed");
 			break;
 			
-    #if defined(HOUSE_POW_METER_TX) || defined(SONOFFPOW_DDS238_2)
-		case 'I':
-			I_cmd_interpreter(&pInBuf[2]);
-			break;
-    #endif
-
 		#if defined(GASINJECTORCLEANER)
 		case 'i':
 			//TXdatalen=os_sprintf(pTXdata, "interval");
 			i_cmd_interpreter(&pInBuf[2]);
 			break;
 		#endif
-			
+
+    #if defined(SONOFFPOW)
+		case 'I':
+			I_cmd_interpreter(pInBuf[1]);
+			break;
+    #endif
+
 		case 'm':
 			m_cmd_interpreter(pInBuf);
 			break;
@@ -141,10 +141,19 @@ void ICACHE_FLASH_ATTR cmdParser(char *pInBuf, unsigned short InBufLen) {
 			w_cmd_interpreter(&pInBuf[2]);
 			break;
 			
+    #if defined(HOUSE_POW_METER_TX) || defined(SONOFFPOW_DDS238_2)
+		case 'x':
+			x_cmd_interpreter(&pInBuf[2]);
+			break;
+    #endif
+
 		case '?':
 			TXdatalen=os_sprintf(pTXdata, "\n%s %s %s\n", PROJ_NAME, VERSION, BINDATE);
 			TXdatalen+=os_sprintf(pTXdata+TXdatalen, "C -> save Configuration\r\n");
 			TXdatalen+=os_sprintf(pTXdata+TXdatalen, "F<n> -> switch Off output number n\r\n");
+			#if defined(SONOFFPOW)
+			TXdatalen+=os_sprintf(pTXdata+TXdatalen, "I<0,1> -> Input Button Enable\r\n");
+			#endif
 			TXdatalen+=os_sprintf(pTXdata+TXdatalen, "O<n> -> switch On output number n\r\n");
 			TXdatalen+=os_sprintf(pTXdata+TXdatalen, "T<n> -> Toggle output\r\n");
 			TXdatalen+=os_sprintf(pTXdata+TXdatalen, "P<n> <ms> -> Pulse output\r\n");
@@ -163,7 +172,7 @@ void ICACHE_FLASH_ATTR cmdParser(char *pInBuf, unsigned short InBufLen) {
 			TXdatalen+=os_sprintf(pTXdata+TXdatalen, "D <n> -> deep sleep for n seconds\r\n");
 			#endif
       #if defined(HOUSE_POW_METER_TX) || defined(SONOFFPOW_DDS238_2)
-			TXdatalen+=os_sprintf(pTXdata+TXdatalen, "I <ip> -> Power Meter RX Address\r\n");
+			TXdatalen+=os_sprintf(pTXdata+TXdatalen, "x <ip> -> Power Meter RX Address\r\n");
 			#endif
       #if defined(GASINJECTORCLEANER)
 			TXdatalen+=os_sprintf(pTXdata+TXdatalen, "d <divisor> -> dutycyle divisor (%u)\r\n", flashConfig.dutycycle);
@@ -267,6 +276,26 @@ void ICACHE_FLASH_ATTR F_cmd_interpreter(char arg) {
 	TXdatalen=os_sprintf(pTXdata, "OK\r\n");
 }
 
+#if defined(SONOFFPOW)
+void ICACHE_FLASH_ATTR I_cmd_interpreter(char arg) {
+	switch(arg) {
+	  case '?':
+		  TXdatalen=os_sprintf(pTXdata, "%s\r\n", flashConfig.map2.Enable.doorBell ? "1" : "0");
+		  break;
+	  case '0':
+		  flashConfig.map2.Enable.doorBell=0;
+		  break;
+	  case '1':
+		  flashConfig.map2.Enable.doorBell=1;
+		  break;
+	  default:
+		  TXdatalen=os_sprintf(pTXdata, "BAD arg %0u\r\n", arg);
+		  return;
+	  }
+	os_sprintf(pTXdata+TXdatalen, "OK\r\n");
+}
+#endif
+
 void ICACHE_FLASH_ATTR O_cmd_interpreter(char arg) {
 	switch(arg) {
 		#if defined(MAINS)
@@ -369,7 +398,7 @@ void ICACHE_FLASH_ATTR P_cmd_interpreter(char arg) {
 }
 
 #if defined(HOUSE_POW_METER_TX) || defined(SONOFFPOW_DDS238_2)
-void ICACHE_FLASH_ATTR I_cmd_interpreter(char * pInbuf) {
+void ICACHE_FLASH_ATTR x_cmd_interpreter(char * pInbuf) {
   //char *tmpbuff;  
   //tmpbuff=(char *)os_malloc(100);
   //tmpbuff=(char *)strsep(&pInbuf, ".");
