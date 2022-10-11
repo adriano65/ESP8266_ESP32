@@ -100,13 +100,13 @@ PWM0_PIN      						:= no
 #SONOFFPOWb := 3
 
 # --------------------Test
-#SONOFFPOWc := 3
+SONOFFPOWc := 3
 
 # --------------------all house power backup
 #SONOFFPOWd := 3
 
 # --------------------TEST ModBus
-SONOFFPOWe := 3
+#SONOFFPOWe := 3
 #SONOFFPOWf := 3
 
 #ESP01a := 4
@@ -132,7 +132,7 @@ ESP_FLASH_MAX       := 503808
 
 include include_flash.mak
 
-VERSION := "1.0.1"
+VERSION := "1.0.2"
 BINDATE := "$(shell date '+%F %T')"
 $(info PROJ_NAME $(PROJ_NAME), STA_IPADDRESS $(STA_IPADDRESS), Version $(VERSION), Flash $(FLASH_SIZE), Date $(BINDATE) )
 
@@ -328,7 +328,7 @@ all: clean checkdirs $(FW_BASE)/user1.bin $(FW_BASE)/user2.bin include_esptypes.
 	@echo "DHT22_PIN -> $(value DHT22_PIN)"
 	@echo "DS18B20_PIN -> $(value DS18B20_PIN)"
 	@echo "SI7021_PIN -> $(value SI7021_PIN)"
-	
+	@echo "WHEN UPGRADING SONOFFPOWa: FIRST GIVE c COMMAND (load default conf) the SAVE with C cmd!!"	
 
 $(USER1_OUT): $(APP_AR)
 	$(vecho) "LD $@"

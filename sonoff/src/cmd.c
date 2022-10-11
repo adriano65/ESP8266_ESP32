@@ -292,7 +292,7 @@ void ICACHE_FLASH_ATTR I_cmd_interpreter(char arg) {
 		  TXdatalen=os_sprintf(pTXdata, "BAD arg %0u\r\n", arg);
 		  return;
 	  }
-	TXdatalen=os_sprintf(pTXdata+TXdatalen, "OK\r\n");
+	TXdatalen=os_sprintf(pTXdata, "OK\r\n");
 }
 #endif
 
@@ -572,7 +572,7 @@ void ICACHE_FLASH_ATTR S_cmd_interpreter(char arg) {
 
 void ICACHE_FLASH_ATTR C_cmd_interpreter(char arg) {
   configSave();
-  TXdatalen+=os_sprintf(pTXdata+TXdatalen, "OK\r\n");
+  TXdatalen=os_sprintf(pTXdata, "OK\r\n");
 }
 	
 void ICACHE_FLASH_ATTR c_cmd_interpreter(char arg) {
