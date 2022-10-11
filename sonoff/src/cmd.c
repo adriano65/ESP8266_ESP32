@@ -292,7 +292,7 @@ void ICACHE_FLASH_ATTR I_cmd_interpreter(char arg) {
 		  TXdatalen=os_sprintf(pTXdata, "BAD arg %0u\r\n", arg);
 		  return;
 	  }
-	os_sprintf(pTXdata+TXdatalen, "OK\r\n");
+	TXdatalen=os_sprintf(pTXdata+TXdatalen, "OK\r\n");
 }
 #endif
 
@@ -500,20 +500,20 @@ void ICACHE_FLASH_ATTR T_cmd_interpreter(char arg) {
 	  #endif
 	  #if defined(MAINS)
 	  case '4':
-		  if (flashConfig.IOPort_bit4) { gpio_write(GPIO_13, 0); flashConfig.IOPort_bit4=0; }
-		  else 						 { gpio_write(GPIO_13, 1); flashConfig.IOPort_bit4=1; }
+		  if (flashConfig.map1.IOPort.bit4) { gpio_write(GPIO_13, 0); flashConfig.map1.IOPort.bit4=0; }
+		  else 						 { gpio_write(GPIO_13, 1); flashConfig.map1.IOPort.bit4=1; }
 		  break;
 	  case '5':
-		  if (flashConfig.IOPort_bit5) { gpio_write(3, 0); flashConfig.IOPort_bit5=0; }
-		  else 						 { gpio_write(3, 1); flashConfig.IOPort_bit5=1; }
+		  if (flashConfig.map1.IOPort.bit5) { gpio_write(3, 0); flashConfig.map1.IOPort.bit5=0; }
+		  else 						 { gpio_write(3, 1); flashConfig.map1.IOPort.bit5=1; }
 		  break;
 	  case '6':
-		  if (flashConfig.IOPort_bit6) { gpio_write(GPIO_1, 0); flashConfig.IOPort_bit6=0; }
-		  else 						 { gpio_write(GPIO_1, 1); flashConfig.IOPort_bit6=1; }
+		  if (flashConfig.map1.IOPort.bit6) { gpio_write(GPIO_1, 0); flashConfig.map1.IOPort.bit6=0; }
+		  else 						 { gpio_write(GPIO_1, 1); flashConfig.map1.IOPort.bit6=1; }
 		  break;
 	  case '7':		// Not externally Connected
-		  if (flashConfig.IOPort_bit7) { gpio_write(GPIO_5, 0); flashConfig.IOPort_bit7=0; }
-		  else 						 { gpio_write(GPIO_5, 1); flashConfig.IOPort_bit7=1; }
+		  if (flashConfig.map1.IOPort.bit7) { gpio_write(GPIO_5, 0); flashConfig.map1.IOPort.bit7=0; }
+		  else 						 { gpio_write(GPIO_5, 1); flashConfig.map1.IOPort.bit7=1; }
 		  break;
 	  #endif
 	  default:
@@ -613,23 +613,23 @@ void ICACHE_FLASH_ATTR Stat_cmd(char arg) {
 	struct ip_info info;
 
 	#if defined(MAINS) || defined(ARMTRONIX)
-	TXdatalen=os_sprintf(pTXdata, "IObit0: %d\n",			  flashConfig.IOPort_bit0);
-	TXdatalen+=os_sprintf(pTXdata+TXdatalen, "IObit1: %1x\n", flashConfig.IOPort_bit1);
-	TXdatalen+=os_sprintf(pTXdata+TXdatalen, "IObit2: %1x\n", flashConfig.IOPort_bit2);
-	TXdatalen+=os_sprintf(pTXdata+TXdatalen, "IObit3: %1x\n", flashConfig.IOPort_bit3);
+	TXdatalen=os_sprintf(pTXdata, "IObit0: %d\n",			  flashConfig.map1.IOPort.bit0);
+	TXdatalen+=os_sprintf(pTXdata+TXdatalen, "IObit1: %1x\n", flashConfig.map1.IOPort.bit1);
+	TXdatalen+=os_sprintf(pTXdata+TXdatalen, "IObit2: %1x\n", flashConfig.map1.IOPort.bit2);
+	TXdatalen+=os_sprintf(pTXdata+TXdatalen, "IObit3: %1x\n", flashConfig.map1.IOPort.bit3);
 	#else
 		#if defined(SONOFFDUAL)
-		TXdatalen=os_sprintf(pTXdata, "IObit0: %d\n",			  flashConfig.IOPort_bit0);
-		TXdatalen+=os_sprintf(pTXdata+TXdatalen, "IObit1: %1x\n", flashConfig.IOPort_bit1);
+		TXdatalen=os_sprintf(pTXdata, "IObit0: %d\n",			  flashConfig.map1.IOPort.bit0);
+		TXdatalen+=os_sprintf(pTXdata+TXdatalen, "IObit1: %1x\n", flashConfig.map1.IOPort.bit1);
 		#else
 		TXdatalen=os_sprintf(pTXdata, "IObit3: %1x\n", flashConfig.map1.IOPort.bit3);
 		#endif
 	#endif
 	#if defined(MAINS)
-	TXdatalen+=os_sprintf(pTXdata+TXdatalen, "IObit4: %1x\n", flashConfig.IOPort_bit4);
-	TXdatalen+=os_sprintf(pTXdata+TXdatalen, "IObit5: %1x\n", flashConfig.IOPort_bit5);
-	TXdatalen+=os_sprintf(pTXdata+TXdatalen, "IObit6: %1x\n", flashConfig.IOPort_bit6);
-	TXdatalen+=os_sprintf(pTXdata+TXdatalen, "IObit7: %1x\n", flashConfig.IOPort_bit7);
+	TXdatalen+=os_sprintf(pTXdata+TXdatalen, "IObit4: %1x\n", flashConfig.map1.IOPort.bit4);
+	TXdatalen+=os_sprintf(pTXdata+TXdatalen, "IObit5: %1x\n", flashConfig.map1.IOPort.bit5);
+	TXdatalen+=os_sprintf(pTXdata+TXdatalen, "IObit6: %1x\n", flashConfig.map1.IOPort.bit6);
+	TXdatalen+=os_sprintf(pTXdata+TXdatalen, "IObit7: %1x\n", flashConfig.map1.IOPort.bit7);
 	#endif
   TXdatalen+=os_sprintf(pTXdata+TXdatalen, "Date %04d-%02d-%02dT%02d:%02d:%02d, uptime %02u:%02u:%02u, FlashConfig size %d, crc 0x%04X\n", tm_rtc->tm_year, tm_rtc->tm_mon, tm_rtc->tm_mday, tm_rtc->tm_hour, tm_rtc->tm_min, tm_rtc->tm_sec, tm_uptime->tm_hour, tm_uptime->tm_min, tm_uptime->tm_sec, sizeof(FlashConfig), flashConfig.crc);
 

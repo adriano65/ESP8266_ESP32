@@ -6,7 +6,8 @@
 #include "injectorcleaner.h"
 #include "config.h"
 
-//#define CONFIG_DBG
+// DO NOT DISABLE CONFIG_DBG (It will crash esp on save... to fix)
+#define CONFIG_DBG
 
 #ifdef CONFIG_DBG
 #define DBG(format, ...) do { os_printf("%s: ", __FUNCTION__); os_printf(format, ## __VA_ARGS__); os_printf("\n"); } while(0)

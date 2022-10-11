@@ -2,7 +2,7 @@ ifdef SONOFFTH10a
 #mosquitto_sub -v -p 5800 -h 192.168.1.6 -t 'sonoff_th10/#'
 PROJ_NAME      :=  "sonoff_th10"
 LED_CONN_PIN_ACTIVELOW   := 1
-USE_TXD0       := no
+USE_TXD0       := yes
 BUTTON0_PIN	   := GPIO_0
 RELAY_PIN		   := GPIO_12
 SI7021_PIN     := GPIO_14
@@ -79,7 +79,7 @@ PROJ_NAME      := "esp_mains"
 LED_CONN_PIN   := GPIO_2
 LED_CONN_PIN_ACTIVELOW   := 1
 USE_RXD0 			 := no
-USE_TXD0       := no
+USE_TXD0       := yes
 STA_IPADDRESS  := "192.168.1.11"
 USE_DHCP       := no
 READ_DELAY     := 100
@@ -101,7 +101,7 @@ else ifdef MAINSc
 PROJ_NAME      := "esp_mains"
 LED_CONN_PIN   := GPIO_2
 LED_CONN_PIN_ACTIVELOW   := 1
-USE_TXD0       := no
+USE_TXD0       := yes
 STA_IPADDRESS  := "192.168.1.112"
 USE_DHCP       := no
 READ_DELAY     := 100
@@ -189,7 +189,7 @@ PROJ_NAME      := "sonoff_ex_pow"
 LED_CONN_PIN   := GPIO_15
 BUTTON0_PIN	   := GPIO_0
 RELAY_PIN		   := GPIO_12
-USE_TXD0       := no
+USE_TXD0       := yes
 STA_IPADDRESS  := "192.168.1.221"
 HPMETER_RX_IP  := '"192.168.1.242"'
 READ_DELAY     := 20
@@ -258,7 +258,7 @@ RELAY_PIN		:= GPIO_12
 I2C_SCL_PIN     := GPIO_3
 # Serial RXD and Optional sensor
 I2C_SDA_PIN     := GPIO_1
-USE_TXD0       := no
+USE_TXD0       := yes
 STA_IPADDRESS  := "192.168.1.230"
 READ_DELAY     := 200
 MQTT_STAT_TOPIC := "sonoff_dual/230/voltage"
@@ -275,7 +275,7 @@ RELAY_PIN		:= GPIO_12
 I2C_SCL_PIN     := GPIO_3
 # Serial RXD and Optional sensor
 I2C_SDA_PIN     := GPIO_1
-USE_TXD0       := no
+USE_TXD0       := yes
 STA_IPADDRESS  := "192.168.1.231"
 READ_DELAY     := 200
 MQTT_STAT_TOPIC := "sonoff_dual/231/voltage"
@@ -293,7 +293,7 @@ RELAY_PIN		:= GPIO_12
 I2C_SCL_PIN     := GPIO_3
 # Serial RXD and Optional sensor
 I2C_SDA_PIN     := GPIO_1
-USE_TXD0       := no
+USE_TXD0       := yes
 STA_IPADDRESS  := "192.168.1.232"
 READ_DELAY     := 200
 MQTT_STAT_TOPIC := "sonoff_th10/232/temp"

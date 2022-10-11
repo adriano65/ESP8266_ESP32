@@ -80,26 +80,26 @@ static void ICACHE_FLASH_ATTR restoreIO() {
   #if defined(MAINS)
     #if !defined(USE_RXD0)
     set_gpio_mode(GPIO_3, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
-    gpio_write(GPIO_3, flashConfig.IOPort_bit0);
+    gpio_write(GPIO_3, flashConfig.map1.IOPort.bit0);
     #warning USE_RXD0 undefined -> debug serial unusable
     #endif
     set_gpio_mode(GPIO_4, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
-    gpio_write(GPIO_4, flashConfig.IOPort_bit1);
+    gpio_write(GPIO_4, flashConfig.map1.IOPort.bit1);
     set_gpio_mode(GPIO_14, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
-    gpio_write(GPIO_14, flashConfig.IOPort_bit2);
+    gpio_write(GPIO_14, flashConfig.map1.IOPort.bit2);
     set_gpio_mode(GPIO_12, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
-    gpio_write(GPIO_12, flashConfig.IOPort_bit3==0 ? 1 : 0);
-    //gpio_write(GPIO_12, flashConfig.IOPort_bit3);
+    gpio_write(GPIO_12, flashConfig.map1.IOPort.bit3==0 ? 1 : 0);
+    //gpio_write(GPIO_12, flashConfig.map1.IOPort.bit3);
     set_gpio_mode(GPIO_13, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
-    gpio_write(GPIO_13, flashConfig.IOPort_bit4);
+    gpio_write(GPIO_13, flashConfig.map1.IOPort.bit4);
     set_gpio_mode(GPIO_0, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
-    gpio_write(GPIO_0, flashConfig.IOPort_bit5);
+    gpio_write(GPIO_0, flashConfig.map1.IOPort.bit5);
     #if !defined(USE_TXD0)
     set_gpio_mode(GPIO_1, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
-    gpio_write(GPIO_1, flashConfig.IOPort_bit6);
+    gpio_write(GPIO_1, flashConfig.map1.IOPort.bit6);
     #endif
     set_gpio_mode(GPIO_5, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
-    gpio_write(GPIO_5, flashConfig.IOPort_bit7);
+    gpio_write(GPIO_5, flashConfig.map1.IOPort.bit7);
   #else
 			#if defined(ARMTRONIX)
 				set_gpio_mode(GPIO_4, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
@@ -118,10 +118,15 @@ static void ICACHE_FLASH_ATTR restoreIO() {
         #if !defined(PWM0_PIN)
         #warning PWM0_PIN undefined -> IO0 input button unusable
         set_gpio_mode(GPIO_12, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
-        gpio_write(GPIO_12, flashConfig.IOPort_bit0);
+        gpio_write(GPIO_12, flashConfig.map1.IOPort.bit0);
         set_gpio_mode(GPIO_5, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
-        gpio_write(GPIO_5, flashConfig.IOPort_bit1);
+        gpio_write(GPIO_5, flashConfig.map1.IOPort.bit1);
         #endif
+
+        //#if defined(SONOFFPOW)
+        //set_gpio_mode(GPIO_12, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
+        //gpio_write(GPIO_12, flashConfig.map1.IOPort.bit0);
+        //#endif
 
       #endif
   #endif
@@ -144,11 +149,13 @@ void ICACHE_FLASH_ATTR user_init(void) {
   
   gpio_init();	// Initialise all GPIOs.
 
-  #if defined(USE_RXD0) && defined(USE_TXD0)
+  #if defined(USE_RXD0) || defined(USE_TXD0)
+  #warning USE_RXD0 and USE_TXD0 == 1 -> debug serial will be unusable
+  #else
   uart_init(BIT_RATE_115200);		// set  GPIO_1 (aka TXD0) to 1 !  
   os_printf("\n%s %s\n", PROJ_NAME, VERSION);			// Say hello (leave some time to cause break in TX after boot loader's msg
-  #warning USE_RXD0 and USE_TXD0 defined -> debug serial will be unusable
   #endif
+
   restoreIO();
   
   // Start the LED timer
