@@ -225,7 +225,9 @@ void ICACHE_FLASH_ATTR wifi_init(void) {
   #endif
   
   pTXdata = (char *)os_zalloc(MAX_TXBUFFER);  
-  //if (pTXdata)
+  if (!pTXdata) {
+    os_printf("os_zalloc pTXdata FAIL!!");
+    }
   
   // Set up the call back for the status of the WiFi.
   //void wifi_set_event_handler_cb(wifi_event_handler_cb_t cb);

@@ -137,7 +137,7 @@ int ICACHE_FLASH_ATTR gpio_read(unsigned pin) {
 	return 0x1 & GPIO_INPUT_GET(GPIO_ID_PIN(pin_num[pin]));
 }
 
-void gpio_intr_dispatcher(gpio_intr_handler cb) {
+void ICACHE_FLASH_ATTR gpio_intr_dispatcher(gpio_intr_handler cb) {
 	uint8 i, level;
 	//disable global interrupt
 	ETS_GPIO_INTR_DISABLE();

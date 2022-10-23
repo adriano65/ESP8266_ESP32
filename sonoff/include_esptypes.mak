@@ -184,7 +184,7 @@ FLASH_SIZE     := 1MBb
 CFLAGS	       := -DSONOFFPOW -DAP_SSID='"sun_power"' -DA_TRIM_VALUE=67.6139240506 -DV_TRIM_VALUE=2.86 -DW_TRIM_VALUE=2.61341630821
 
 else ifdef SONOFFPOWb
-# ---------------------------------- ModBus
+# ---------------------------------- ModBus and bell
 PROJ_NAME      := "sonoff_ex_pow"
 LED_CONN_PIN   := GPIO_15
 BUTTON0_PIN	   := GPIO_0
@@ -198,18 +198,26 @@ MQTT_BTN_TOPIC := "sonoff_pow/221/button"
 FLASH_SIZE     := 1MBb
 CFLAGS	       := -DSONOFFPOW_DDS238_2 -DAP_SSID='"ModBus"'
 
-# ---------------------------------- ModBus2
+# ---------------------------------- ModBus and bell backup
 else ifdef SONOFFPOWc
-PROJ_NAME      := "sonoff_pow"
+# ------------------------------------ DEBUG
+PROJ_NAME      := "sonoff_ex_pow"
+CFLAGS	       := -DSONOFFPOW_DDS238_2 -DAP_SSID='"ModBus"'
+USE_TXD0       := yes
+# ------------------------------------ PRUDU
+#PROJ_NAME      := "sonoff_pow"
+#CFLAGS	       := -DSONOFFPOW -DAP_SSID='"ModBus2"' -DA_TRIM_VALUE=67.6139240506 -DV_TRIM_VALUE=2.86 -DW_TRIM_VALUE=2.61341630821
+#USE_TXD0       := no
+# ------------------------------------ END
 LED_CONN_PIN   := GPIO_15
 BUTTON0_PIN	   := GPIO_0
 RELAY_PIN		   := GPIO_12
 STA_IPADDRESS  := "192.168.1.222"
-READ_DELAY     := 100
+HPMETER_RX_IP  := '"192.168.1.242"'
+READ_DELAY     := 20
 MQTT_STAT_TOPIC := "sonoff_pow/222/status"
 MQTT_BTN_TOPIC := "sonoff_pow/222/button"
 FLASH_SIZE     := 1MBb
-CFLAGS	       := -DSONOFFPOW -DAP_SSID='"POWTest2"' -DA_TRIM_VALUE=67.6139240506 -DV_TRIM_VALUE=2.86 -DW_TRIM_VALUE=2.61341630821
 
 else ifdef SONOFFPOWd
 # PROJ_NAME      := "sonoff_pow"

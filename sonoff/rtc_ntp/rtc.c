@@ -72,7 +72,7 @@ struct tm
   int	tm_isdst;
 };
 */
-struct tm *tm_rtc;
+struct tm * tm_rtc;
 struct tm * tm_uptime;
 
 void ICACHE_FLASH_ATTR RTC_init() {
@@ -171,8 +171,6 @@ typedef enum {
     NMI_SOURCE = 1,	
 } FRC1_TIMER_SOURCE_TYPE;
 
-void ICACHE_FLASH_ATTR hw_timer_isr_cb(void);
-
 /******************************************************************************
 * FunctionName : hw_timer_arm
 * Description  : set a trigger timer delay for this timer.
@@ -193,18 +191,11 @@ void ICACHE_FLASH_ATTR hw_timer_stop(void) {
     RTC_REG_WRITE(FRC1_CTRL_ADDRESS, 0);
 }
 
-void ICACHE_FLASH_ATTR hw_timer_init() {
-  RTC_REG_WRITE(FRC1_CTRL_ADDRESS, FRC1_AUTO_LOAD | DIVDED_BY_256 | FRC1_ENABLE_TIMER | TM_EDGE_INT);
-        
-  ETS_FRC_TIMER1_INTR_ATTACH( hw_timer_isr_cb, NULL);
-  
-  TM1_EDGE_INT_ENABLE();
-  ETS_FRC1_INTR_ENABLE();
-}
-
 void ICACHE_FLASH_ATTR hw_timer_isr_cb(void) {
-    //disable global interrupt
+
 	  ETS_GPIO_INTR_DISABLE();
+    ETS_UART_INTR_DISABLE();    // when ModBus is enabled it MUST be disabled
+    ETS_FRC1_INTR_DISABLE();
 
     static uint8_t nCounter=0;
 
@@ -256,15 +247,17 @@ void ICACHE_FLASH_ATTR hw_timer_isr_cb(void) {
     #endif
 
 
-    if ( !(nCounter%100) ) {
+    if ( !(nCounter%100) ) {                        // every 10 seconds (when default 1/10 seconds timer, see user_main.c )
       if ( wifi_get_opmode() == STATIONAP_MODE ) {
         wifi_station_scan(NULL, scan_done);
         }
 
+      /*
       if (! isFlashconfig_actual()) {
         DBG("isFlashconfig_actual");
-        configSave();
+        configSave();                 // NOO this reenables interrupts!!!
         }
+      */
 
       if (system_get_free_heap_size() < 30000) {
 	      SendStatus(MQTT_STAT_TOPIC, MSG_CRITICAL_ERR);
@@ -295,7 +288,7 @@ void ICACHE_FLASH_ATTR hw_timer_isr_cb(void) {
 	    SendStatus(MQTT_STAT_TOPIC, MSG_TEMP_HUMI);
       }
     // THIS IS A WORK-AROUND FOR POWER SUPPLY OR EMI PROBLEMS
-    RefreshIO();
+    //RefreshIO();
     #endif
 
     #if defined(ARMTRONIX)
@@ -303,7 +296,7 @@ void ICACHE_FLASH_ATTR hw_timer_isr_cb(void) {
 	    SendStatus(MQTT_STAT_TOPIC, MSG_STATUS);
       }
     // THIS IS A WORK-AROUND FOR POWER SUPPLY OR EMI PROBLEMS
-    RefreshIO();
+    //RefreshIO();
     #endif
 
     #if defined(MAINS_VMC) || defined(SONOFFDUAL)
@@ -315,8 +308,20 @@ void ICACHE_FLASH_ATTR hw_timer_isr_cb(void) {
     #endif
 
     nCounter++;
-    //enable global interrupt
+
+    ETS_FRC1_INTR_ENABLE();
+    ETS_UART_INTR_ENABLE();
     ETS_GPIO_INTR_ENABLE();
     
     //TM1_EDGE_INT_ENABLE();
 }
+
+void ICACHE_FLASH_ATTR hw_timer_init() {
+  RTC_REG_WRITE(FRC1_CTRL_ADDRESS, FRC1_AUTO_LOAD | DIVDED_BY_256 | FRC1_ENABLE_TIMER | TM_EDGE_INT);
+        
+  ETS_FRC_TIMER1_INTR_ATTACH( hw_timer_isr_cb, NULL);
+  
+  TM1_EDGE_INT_ENABLE();
+  ETS_FRC1_INTR_ENABLE();
+}
+

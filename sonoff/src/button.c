@@ -30,14 +30,14 @@ static void ICACHE_FLASH_ATTR button0_timer_cb(uint16_t interval) {
     DBG("--");  
     button_press_duration=2;
     SendStatus(MQTT_BTN_TOPIC, MSG_BUTTON);
-    os_timer_setfn(&button0_timer, (os_timer_func_t *)button0_timer_cb, interval);
+    os_timer_setfn(&button0_timer, (os_timer_func_t *)button0_timer_cb, &interval);
     os_timer_arm(&button0_timer, interval, 1);  
 }
 
 /* Sets the interval of the timer controlling delay */
 void ICACHE_FLASH_ATTR start_button0_timer(uint16_t interval) {
     os_timer_disarm(&bell0_timer);
-    os_timer_setfn(&button0_timer, (os_timer_func_t *)button0_timer_cb, interval);
+    os_timer_setfn(&button0_timer, (os_timer_func_t *)button0_timer_cb, &interval);
     os_timer_arm(&button0_timer, interval, 1);
 }
 

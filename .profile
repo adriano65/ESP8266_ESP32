@@ -13,60 +13,71 @@ export QTLIBDIR=/opt/hexinator/lib
 export QT_DEBUG_PLUGINS=1
 
 CONF=esp8266
+#CONF=esp8266_new
+#CONF=esp8266_upd
 #CONF=ESP32
 #CONF=BCM
 #CONF=Goke
+export CONF
 
 case $CONF in
         fonera)
-			export PATH=$PATH:/opt/FONERA_and_more/Fonera2.0g-2202/backfire_10.03.1-rc4/staging_dir/toolchain-mips_r2_gcc-4.3.3+cs_uClibc-0.9.30.1/usr/bin
+		export PATH=$PATH:/opt/FONERA_and_more/Fonera2.0g-2202/backfire_10.03.1-rc4/staging_dir/toolchain-mips_r2_gcc-4.3.3+cs_uClibc-0.9.30.1/usr/bin
 			;;
 			
         Overo)
-			cd /mnt/landrive/opt/Overo
-			. poky/oe-init-build-env
-			export EXTRA_OEMAKE="-j 1"
-			;;
+		cd /mnt/landrive/opt/Overo
+		. poky/oe-init-build-env
+		export EXTRA_OEMAKE="-j 1"
+		;;
 			
         esp8266)
-			export PATH=/home/name/esp-open-sdk/xtensa-lx106-elf/bin:$PATH
-			#--------------------------------------
-			#read -t 5 -p "Hit 'd' letter and <ret> in 5 seconds to configure for ESP32..." answ
-			#if [ "$answ" != "d" ];then
-			#  return
-			#fi
-			echo "*******************************************"
-			echo "remember to setMIT.sh the first login!!!!!"
-			echo "*******************************************"
-			#scripts/setMIT.sh
-			echo 
-			echo "*******************************************"
-			echo " --- git -c http.sslVerify=false push "
-			cd sonoff
-			;;
+		export PATH=/home/name/esp-open-sdk/xtensa-lx106-elf/bin:$PATH
+		#--------------------------------------
+		#read -t 5 -p "Hit 'd' letter and <ret> in 5 seconds to configure for ESP32..." answ
+		#if [ "$answ" != "d" ];then
+		#  return
+		#fi
+		echo " --- git -c http.sslVerify=false push "
+		cd sonoff
+		;;
 			
+        esp8266_new)
+		export PATH="$HOME/.espressif/tools/xtensa-lx106-elf/esp-2020r3-49-gd5524c1-8.4.0/bin:$PATH"
+		export IDF_PATH=$HOME/esp/ESP8266_RTOS_SDK
+		echo " --- git -c http.sslVerify=false push "
+		. $HOME/esp/ESP8266_RTOS_SDK/export.sh
+		cd esp
+		;;
+			
+        esp8266_upd)
+		export PATH="$HOME/.espressif/tools/xtensa-lx106-elf/esp-2020r3-49-gd5524c1-8.4.0/bin:$PATH"
+		export IDF_PATH=$HOME/ESP8266_NONOS_SDK-3.0.5
+		cd sonoff
+		;;
+
         ESP32)
-			export PATH=/home/name/.espressif/tools/xtensa-esp32-elf/esp-2020r2-8.2.0/xtensa-esp32-elf/bin:$PATH
-			export IDF_PATH=/home/name/esp-idf
-			export IDF_PYTHON_ENV_PATH=/usr/bin/python3
-			#export IDF_PYTHON_ENV_PATH=/home/name/.espressif/python_env/idf4.3_py3.6_env
-			#export IDF_PYTHON_ENV_PATH=/home/name/.espressif/python_env/idf4.2_py3.7_env
-			#export IDF_PYTHON_ENV_PATH=/home/name/.espressif/python_env/idf4.2_py2.7_env
-			. $HOME/esp-idf/export.sh
-			alias get_idf='. $HOME/esp-idf/export.sh'
-			#cd ~/esp32
-			;;
+		export PATH=/home/name/.espressif/tools/xtensa-esp32-elf/esp-2020r2-8.2.0/xtensa-esp32-elf/bin:$PATH
+		export IDF_PATH=/home/name/esp-idf
+		export IDF_PYTHON_ENV_PATH=/usr/bin/python3
+		#export IDF_PYTHON_ENV_PATH=/home/name/.espressif/python_env/idf4.3_py3.6_env
+		#export IDF_PYTHON_ENV_PATH=/home/name/.espressif/python_env/idf4.2_py3.7_env
+		#export IDF_PYTHON_ENV_PATH=/home/name/.espressif/python_env/idf4.2_py2.7_env
+		. $HOME/esp-idf/export.sh
+		alias get_idf='. $HOME/esp-idf/export.sh'
+		#cd ~/esp32
+		;;
 			
         ESP32-test)
-			export PATH=$PATH:/home/name/.espressif/tools/xtensa-esp32-elf/esp-2020r2-8.2.0/xtensa-esp32-elf/bin
-			export IDF_PATH=/home/name/esp/esp-idf
-			#export IDF_PYTHON_ENV_PATH=/usr/bin/python3
-			export IDF_PYTHON_ENV_PATH=/home/name/.espressif/python_env/idf4.3_py3.6_env
-			#export IDF_PYTHON_ENV_PATH=/usr/bin/python
-			. $HOME/esp/esp-idf/export.sh
-			alias get_idf='. $HOME/esp/esp-idf/export.sh'
-			cd esp32
-			;;
+		export PATH=$PATH:/home/name/.espressif/tools/xtensa-esp32-elf/esp-2020r2-8.2.0/xtensa-esp32-elf/bin
+		export IDF_PATH=/home/name/esp/esp-idf
+		#export IDF_PYTHON_ENV_PATH=/usr/bin/python3
+		export IDF_PYTHON_ENV_PATH=/home/name/.espressif/python_env/idf4.3_py3.6_env
+		#export IDF_PYTHON_ENV_PATH=/usr/bin/python
+		. $HOME/esp/esp-idf/export.sh
+		alias get_idf='. $HOME/esp/esp-idf/export.sh'
+		cd esp32
+		;;
 			
         AVR-GCC)
 			# ------------------------------------------------------------

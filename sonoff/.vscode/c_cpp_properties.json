@@ -10,7 +10,10 @@
                 "${workspaceRoot}/**",
                 "${workspaceRoot}"
             ],
-            "defines": [ "SONOFFTH10", "" ],
+            "defines": [
+                "SONOFFTH10",
+                ""
+            ],
             "intelliSenseMode": "clang-x64",
             "browse": {
                 "path": [
@@ -26,7 +29,8 @@
             },
             "compilerPath": "/usr/bin/clang",
             "cStandard": "c11",
-            "cppStandard": "c++17"
+            "cppStandard": "c++17",
+            "configurationProvider": "ms-vscode.makefile-tools"
         }
     ],
     "version": 4

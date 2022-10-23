@@ -1,8 +1,15 @@
+$(info Using environment conf $(CONF))
 # --------------- toolchain configuration ---------------
-
 # Base directory for the compiler. Needs a / at the end.
-# Typically you'll install https://github.com/pfalcon/esp-open-sdk
+ifeq ($(CONF),esp8266)
 XTENSA_TOOLS_ROOT := $(abspath ../esp-open-sdk/xtensa-lx106-elf/bin)/
+endif
+ifeq ($(CONF),esp8266_new)
+XTENSA_TOOLS_ROOT := $(abspath ../esp/xtensa-lx106-elf/bin)/
+endif
+ifeq ($(CONF),esp8266_upd)
+XTENSA_TOOLS_ROOT := /home/name/.espressif/tools/xtensa-lx106-elf/esp-2020r3-49-gd5524c1-8.4.0/xtensa-lx106-elf/bin/
+endif
 
 # select which tools to use as compiler, librarian and linker
 CC	:= $(XTENSA_TOOLS_ROOT)xtensa-lx106-elf-gcc
@@ -11,11 +18,27 @@ LD	:= $(XTENSA_TOOLS_ROOT)xtensa-lx106-elf-gcc
 OBJCP	:= $(XTENSA_TOOLS_ROOT)xtensa-lx106-elf-objcopy
 OBJDP	:= $(XTENSA_TOOLS_ROOT)xtensa-lx106-elf-objdump
 
-# Firmware version 
+# SDK version 
+ifeq ($(CONF),esp8266)
 SDK_VERS := esp_iot_sdk_v1.5.2
+endif
 
+ifeq ($(CONF),esp8266_upd)
+SDK_VERS := ESP8266_NONOS_SDK-3.0.5
+endif
+
+$(info Using SDK_VERS $(SDK_VERS))
+
+# SDK_BASE 
+ifeq ($(CONF),esp8266)
 SDK_BASE := $(wildcard $(XTENSA_TOOLS_ROOT)/../../$(SDK_VERS))
+endif
+
+ifeq ($(CONF),esp8266_upd)
+SDK_BASE := /home/name/$(SDK_VERS)
+endif
 SDK_BASE := $(abspath $(SDK_BASE))
+
 $(info Using SDK from $(SDK_BASE))
 
 SDK_LDDIR	= ld
@@ -99,7 +122,7 @@ PWM0_PIN      						:= no
 # --------------------House Power Meter (ModBus) and external Bell!
 #SONOFFPOWb := 3
 
-# --------------------Test
+# --------------------Test (House Power Meter (ModBus) and external Bell!)
 SONOFFPOWc := 3
 
 # --------------------all house power backup
@@ -147,12 +170,14 @@ TARGET		= $(PROJ_NAME)
 # espressif tool to concatenate sections for OTA upload using bootloader v1.2+
 APPGEN_TOOL	:= gen_appbin.py
 
-ifneq (,$(findstring no,$(USE_RBOOT)))
+ifeq ($(CONF),esp8266)
 LD_SCRIPT1	    ?= $(SDK_LDDIR)/eagle.app.v6.new.1024.app1.ld
 LD_SCRIPT2	    ?= $(SDK_LDDIR)/eagle.app.v6.new.1024.app2.ld
-else
-LD_SCRIPT1	?= ldscripts/eagle.rom.addr.v6.ld
-LD_SCRIPT2	?= ldscripts/eagle.rom.addr.v6.ld
+endif
+
+ifeq ($(CONF),esp8266_upd)
+LD_SCRIPT1	    ?= $(SDK_LDDIR)/eagle.app.v6.new.1024.app1.ld
+LD_SCRIPT2	    ?= $(SDK_LDDIR)/eagle.app.v6.new.1024.app2.ld
 endif
 
 # which modules (subdirectories) of the project to include in compiling
@@ -281,6 +306,7 @@ LDFLAGS		= -nostdlib -Wl,--no-check-sections -u call_user_start -Wl,-static -Wl,
 # various paths from the SDK used in this project
 SDK_LIBDIR	= lib
 SDK_INCDIR	= include
+SDK_INCDIR_THIRD	= third_party/include
 SDK_TOOLSDIR	= tools
 
 ####
@@ -289,6 +315,7 @@ BUILD_DIR	:= $(addprefix $(BUILD_BASE)/,$(MODULES))
 
 SDK_LIBDIR	:= $(addprefix $(SDK_BASE)/,$(SDK_LIBDIR))
 SDK_INCDIR	:= $(addprefix -I$(SDK_BASE)/,$(SDK_INCDIR))
+SDK_INCDIR_THIRD	:= $(addprefix -I$(SDK_BASE)/,$(SDK_INCDIR_THIRD))
 SDK_TOOLS	:= $(addprefix $(SDK_BASE)/,$(SDK_TOOLSDIR))
 APPGEN_TOOL	:= $(addprefix $(SDK_TOOLS)/,$(APPGEN_TOOL))
 
@@ -317,7 +344,7 @@ vpath %.c $(SRC_DIR)
 define compile-objects
 $1/%.o: %.c
 	$(vecho) "CC $$<"
-	$(Q)$(CC) $(INCDIR) $(MODULE_INCDIR) $(SDK_INCDIR) $(CFLAGS)  -c $$< -o $$@
+	$(Q)$(CC) $(INCDIR) $(MODULE_INCDIR) $(SDK_INCDIR) $(SDK_INCDIR_THIRD) $(CFLAGS)  -c $$< -o $$@
 endef
 
 .PHONY: all checkdirs clean wiflash
@@ -328,7 +355,6 @@ all: clean checkdirs $(FW_BASE)/user1.bin $(FW_BASE)/user2.bin include_esptypes.
 	@echo "DHT22_PIN -> $(value DHT22_PIN)"
 	@echo "DS18B20_PIN -> $(value DS18B20_PIN)"
 	@echo "SI7021_PIN -> $(value SI7021_PIN)"
-	@echo "WHEN UPGRADING SONOFFPOWa: FIRST GIVE c COMMAND (load default conf) the SAVE with C cmd!!"	
 
 $(USER1_OUT): $(APP_AR)
 	$(vecho) "LD $@"
@@ -344,6 +370,17 @@ $(FW_BASE):
 	$(vecho) "FW $@"
 	$(Q) mkdir -p $@
 
+# eagle.flash.bin     @ 0x00000 */
+# eagle.irom0text.bin @ 0x20000 */
+# Flash Map, support 512KB/1MB/2MB/4MB SPI Flash */
+# |......|..............................|..........................|.....|....|                       */
+# ^      ^                              ^                          ^     ^                            */
+# |_flash.bin start(0x0000)             |_irom0text.bin start(0x20000)   |                            */
+#        |_flash.bin end                                           |_irom0text.bin end                */
+#                                                                        |_system param area(0x7b000) */
+
+# 
+ifeq ($(CONF),esp8266)
 $(FW_BASE)/user1.bin: $(USER1_OUT) $(FW_BASE)
 	$(Q) $(OBJCP) --only-section .text -O binary $(USER1_OUT) eagle.app.v6.text.bin
 	$(Q) $(OBJCP) --only-section .data -O binary $(USER1_OUT) eagle.app.v6.data.bin
@@ -355,6 +392,21 @@ $(FW_BASE)/user1.bin: $(USER1_OUT) $(FW_BASE)
 	$(Q) mv eagle.app.flash.bin $@
 	@echo "** user1.bin uses $$(stat -c '%s' $@) bytes of" $(ESP_FLASH_MAX) "available"
 	$(Q) if [ $$(stat -c '%s' $@) -gt $$(( $(ESP_FLASH_MAX) )) ]; then echo "$@ too big!"; false; fi
+endif
+
+ifeq ($(CONF),esp8266_upd)
+$(FW_BASE)/user1.bin: $(USER1_OUT) $(FW_BASE)
+	$(Q) $(OBJCP) --only-section .text -O binary $(USER1_OUT) eagle.app.v6.text.bin
+	$(Q) $(OBJCP) --only-section .data -O binary $(USER1_OUT) eagle.app.v6.data.bin
+	$(Q) $(OBJCP) --only-section .rodata -O binary $(USER1_OUT) eagle.app.v6.rodata.bin
+	$(Q) $(OBJCP) --only-section .irom0.text -O binary $(USER1_OUT) eagle.app.v6.irom0text.bin
+	ls -ls eagle*bin
+	$(Q) COMPILE=gcc PATH=$(XTENSA_TOOLS_ROOT):$(PATH) python $(APPGEN_TOOL) $(USER1_OUT) 2 $(ESP_FLASH_MODE) $(ESP_FLASH_FREQ_DIV) $(ESP_SPI_SIZE) 0
+	$(Q) rm -f eagle.app.v6.*.bin
+	$(Q) mv eagle.app.flash.bin $@
+	@echo "** user1.bin uses $$(stat -c '%s' $@) bytes of" $(ESP_FLASH_MAX) "available"
+	$(Q) if [ $$(stat -c '%s' $@) -gt $$(( $(ESP_FLASH_MAX) )) ]; then echo "$@ too big!"; false; fi
+endif
 
 $(FW_BASE)/user2.bin: $(USER2_OUT) $(FW_BASE)
 	$(Q) $(OBJCP) --only-section .text -O binary $(USER2_OUT) eagle.app.v6.text.bin
@@ -410,18 +462,35 @@ wiflash: all
 wiflash0: all
 	./tcp_flash.py 192.168.1.118 $(FW_BASE)/user1.bin $(FW_BASE)/user2.bin
 
+ifeq ($(CONF),esp8266)
 flash: all
 	@echo "--> connect GPIO0 to gnd (when poweron) to enable flash mode :-)"
-	@echo "Loading user1.bin and user2.bin"
+	@echo "$(CONF) Loading user1.bin and user2.bin"
 	$(Q) $(ESPTOOL) --port $(ESPPORT) --baud $(ESPBAUD) write_flash -fs $(ET_FS) -ff $(ET_FF) 0x01000 $(FW_BASE)/user1.bin 0x82000 $(FW_BASE)/user2.bin
+endif
+
+ifeq ($(CONF),esp8266_upd)
+flash: all
+	@echo "--> connect GPIO0 to gnd (when poweron) to enable flash mode :-)"
+	@echo "$(CONF) Loading user1.bin and user2.bin"
+	$(Q) $(ESPTOOL) --port $(ESPPORT) --baud $(ESPBAUD) write_flash -fs $(ET_FS) -ff $(ET_FF) 0x01000 $(FW_BASE)/user1.bin 0x82000 $(FW_BASE)/user2.bin
+endif
 
 user2: all
 	@echo "Loading user2.bin"
 	$(Q) $(ESPTOOL) --port $(ESPPORT) --baud $(ESPBAUD) write_flash -fs $(ET_FS) -ff $(ET_FF) 0x82000 $(FW_BASE)/user2.bin
 
+ifeq ($(CONF),esp8266)
 baseflash: all
-	@echo "Loading Bootloader, user1.bin, user2.bin, blank.bin, blank.bin, esp_init_data_default.bin"
+	@echo "$(CONF) Loading Bootloader, user1.bin, user2.bin, blank.bin, blank.bin, esp_init_data_default.bin"
 	$(Q) $(ESPTOOL) --port $(ESPPORT) --baud $(ESPBAUD) write_flash -fs $(ET_FS) -ff $(ET_FF) -fm $(ESPTOOL_FM) 0x00000 "$(SDK_BASE)/bin/boot_v1.5.bin" 0x01000 $(FW_BASE)/user1.bin 0x82000 $(FW_BASE)/user2.bin $(ET_INIT_DATA_DEF) "../esp-open-sdk/esp_iot_sdk_v1.5.2/bin/esp_init_data_default.bin" $(ET_BLANK) "$(SDK_BASE)/bin/blank.bin"
+endif
+
+ifeq ($(CONF),esp8266_upd)
+baseflash: all
+	@echo "$(CONF) Loading Bootloader, user1.bin, user2.bin, blank.bin, blank.bin, esp_init_data_default.bin"
+	$(Q) $(ESPTOOL) --port $(ESPPORT) --baud $(ESPBAUD) write_flash -fs $(ET_FS) -ff $(ET_FF) -fm $(ESPTOOL_FM) 0x00000 "$(SDK_BASE)/bin/boot_v1.7.bin" 0x01000 $(FW_BASE)/user1.bin 0x82000 $(FW_BASE)/user2.bin $(ET_INIT_DATA_DEF) "$(SDK_BASE)/bin/esp_init_data_default_v08.bin" $(ET_BLANK) "$(SDK_BASE)/bin/blank.bin"
+endif
 
 #
 #ifneq (,$(findstring no,$(USE_RBOOT)))
@@ -434,16 +503,32 @@ blank: all
 	@echo "Loading blank.bin"
 	$(Q) $(ESPTOOL) --port $(ESPPORT) --baud $(ESPBAUD) write_flash -fs $(ET_FS) -ff $(ET_FF) -fm $(ESPTOOL_FM) $(ET_BLANK) "$(SDK_BASE)/bin/blank.bin"
 
+ifeq ($(CONF),esp8266)
 esp_init: all
-	@echo "Loading blank.bin"
+	@echo "$(CONF) Loading esp_init_data_default.bin"
 	$(Q) $(ESPTOOL) --port $(ESPPORT) --baud $(ESPBAUD) write_flash -fs $(ET_FS) -ff $(ET_FF) -fm $(ESPTOOL_FM) $(ET_INIT_DATA_DEF) "../esp-open-sdk/esp_iot_sdk_v1.5.2/bin/esp_init_data_default.bin"
+endif
+
+ifeq ($(CONF),esp8266_upd)
+esp_init: all
+	@echo "$(CONF) Loading esp_init_data_default_v08.bin"
+	$(Q) $(ESPTOOL) --port $(ESPPORT) --baud $(ESPBAUD) write_flash -fs $(ET_FS) -ff $(ET_FF) -fm $(ESPTOOL_FM) $(ET_INIT_DATA_DEF) "$(SDK_BASE)/bin/esp_init_data_default_v08.bin"
+endif
 
 erase: all
 	$(Q) $(ESPTOOL) --port $(ESPPORT) --baud $(ESPBAUD) erase_flash
 
+ifeq ($(CONF),esp8266)
 boot: all
-	@echo "Loading Bootloader"
+	@echo "$(CONF) Loading Bootloader"
 	$(Q) $(ESPTOOL) --port $(ESPPORT) --baud $(ESPBAUD) write_flash -fs $(ET_FS) -ff $(ET_FF) -fm $(ESPTOOL_FM) 0x00000 "$(SDK_BASE)/bin/boot_v1.5.bin"
+endif
+
+ifeq ($(CONF),esp8266_upd)
+boot: all
+	@echo "$(CONF) Loading Bootloader"
+	$(Q) $(ESPTOOL) --port $(ESPPORT) --baud $(ESPBAUD) write_flash -fs $(ET_FS) -ff $(ET_FF) -fm $(ESPTOOL_FM) 0x00000 "$(SDK_BASE)/bin/boot_v1.7.bin"
+endif
 
 clean:
 	$(Q) rm -f $(APP_AR)

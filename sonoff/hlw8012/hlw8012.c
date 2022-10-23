@@ -5,7 +5,7 @@
 //#include <fastmath.h>
 #include <c_types.h>
 #include <mem.h>
-//#include <lwip/sys.h>
+#include <lwip/sys.h>
 
 #include <osapi.h>
 #include "mqtt_client.h"

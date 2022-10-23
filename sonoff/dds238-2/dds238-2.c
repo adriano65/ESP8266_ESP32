@@ -31,6 +31,7 @@ la resistenza R7 (da 120ohm) non è possibile escluderla se non rimuovendola, qu
 #include <espconn.h>
 #include <errno.h>
 #include <limits.h>
+#include <lwip/sys.h>
 
 #include "gpio16.h"
 #include "mqtt_client.h"

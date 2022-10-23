@@ -83,7 +83,6 @@ void ICACHE_FLASH_ATTR LoadConfigFromFlash();
 void ICACHE_FLASH_ATTR LoadDefaultAPConfig(void);
 const size_t getFlashSize();
 
-#include <lwip/sys.h>
 //void ICACHE_FLASH_ATTR set_blink_timer(uint16_t interval);
 //#define msleep(n) sys_msleep(n);
 #define msleep(n) os_delay_us(n*1000);

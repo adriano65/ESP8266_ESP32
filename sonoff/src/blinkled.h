@@ -1,7 +1,6 @@
 #ifndef BLINKLED_H
 #define BLINKLED_H
 #include <c_types.h>
-#include <lwip/sys.h>
 
 enum state_machine {
 	LED_ON = 0,

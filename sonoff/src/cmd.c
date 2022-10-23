@@ -78,7 +78,7 @@ void ICACHE_FLASH_ATTR cmdParser(char *pInBuf, unsigned short InBufLen) {
 			break;
 		#endif
 
-    #if defined(SONOFFPOW)
+    #if defined(SONOFFPOW_DDS238_2)
 		case 'I':
 			I_cmd_interpreter(pInBuf[1]);
 			break;
@@ -151,7 +151,7 @@ void ICACHE_FLASH_ATTR cmdParser(char *pInBuf, unsigned short InBufLen) {
 			TXdatalen=os_sprintf(pTXdata, "\n%s %s %s\n", PROJ_NAME, VERSION, BINDATE);
 			TXdatalen+=os_sprintf(pTXdata+TXdatalen, "C -> save Configuration\r\n");
 			TXdatalen+=os_sprintf(pTXdata+TXdatalen, "F<n> -> switch Off output number n\r\n");
-			#if defined(SONOFFPOW)
+			#if defined(SONOFFPOW_DDS238_2)
 			TXdatalen+=os_sprintf(pTXdata+TXdatalen, "I<0,1> -> Input Button Enable\r\n");
 			#endif
 			TXdatalen+=os_sprintf(pTXdata+TXdatalen, "O<n> -> switch On output number n\r\n");
@@ -276,7 +276,7 @@ void ICACHE_FLASH_ATTR F_cmd_interpreter(char arg) {
 	TXdatalen=os_sprintf(pTXdata, "OK\r\n");
 }
 
-#if defined(SONOFFPOW)
+#if defined(SONOFFPOW_DDS238_2)
 void ICACHE_FLASH_ATTR I_cmd_interpreter(char arg) {
 	switch(arg) {
 	  case '?':
@@ -292,7 +292,7 @@ void ICACHE_FLASH_ATTR I_cmd_interpreter(char arg) {
 		  TXdatalen=os_sprintf(pTXdata, "BAD arg %0u\r\n", arg);
 		  return;
 	  }
-	TXdatalen=os_sprintf(pTXdata, "OK\r\n");
+	TXdatalen=os_sprintf(pTXdata, "OK");
 }
 #endif
 
@@ -572,7 +572,7 @@ void ICACHE_FLASH_ATTR S_cmd_interpreter(char arg) {
 
 void ICACHE_FLASH_ATTR C_cmd_interpreter(char arg) {
   configSave();
-  TXdatalen=os_sprintf(pTXdata, "OK\r\n");
+  TXdatalen=os_sprintf(pTXdata, "OK");  // cr lf will be added by parser.
 }
 	
 void ICACHE_FLASH_ATTR c_cmd_interpreter(char arg) {
@@ -668,12 +668,12 @@ void ICACHE_FLASH_ATTR w_cmd_interpreter(char * pInbuf) {
   
   tmpbuff=(char *)os_malloc(100);
   tmpbuff=(char *)strsep(&pInbuf, ",");
-  os_sprintf(&flashConfig.stat_conf.ssid, tmpbuff);
+  os_sprintf(flashConfig.stat_conf.ssid, tmpbuff);
   
   tmpbuff=(char *)strsep(&pInbuf, ",");
   
   // tmpbuff[strlen(tmpbuff)-2]=0; //? only via telnet ???
-  os_sprintf(&flashConfig.stat_conf.password, tmpbuff);
+  os_sprintf(flashConfig.stat_conf.password, tmpbuff);
   //os_memcpy(&flashConfig.stat_conf.password, tmpbuff, strlen(tmpbuff)-2);
   
   os_free(tmpbuff);

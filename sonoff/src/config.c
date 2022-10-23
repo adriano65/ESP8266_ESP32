@@ -97,13 +97,15 @@ static void memDump(void *addr, int len) {}
 #endif
 
 bool ICACHE_FLASH_ATTR configSave() {
-  bool bRet=false;
+  bool bRet=true;
   uint16_t crc;
 
   crc=crc16_data((unsigned char*)&flashConfig+sizeof(crc), sizeof(FlashConfig)-sizeof(crc), 0);	
   flashConfig.crc=crc;
-	//disable global interrupt
+
 	ETS_GPIO_INTR_DISABLE();
+  ETS_UART_INTR_DISABLE();    // when ModBus is enabled it MUST be disabled
+  ETS_FRC1_INTR_DISABLE();
 
   if (spi_flash_erase_sector(flashAddr()>>12) == SPI_FLASH_RESULT_OK) {
     if (spi_flash_write(flashAddr(), (uint32 *)&flashConfig, sizeof(FlashConfig)) != SPI_FLASH_RESULT_OK) {
@@ -116,6 +118,8 @@ bool ICACHE_FLASH_ATTR configSave() {
   else DBG("Failed to erase.");
 
 en:	//enable global interrupt
+  ETS_FRC1_INTR_ENABLE();
+  ETS_UART_INTR_ENABLE();
 	ETS_GPIO_INTR_ENABLE();
 
   return bRet;
@@ -178,8 +182,10 @@ void ICACHE_FLASH_ATTR LoadDefaultConfig(void) {
   
 void ICACHE_FLASH_ATTR LoadConfigFromFlash(void) {
   uint16_t crc;
-	//disable global interrupt
+	
 	ETS_GPIO_INTR_DISABLE();
+  ETS_UART_INTR_DISABLE();    // when ModBus is enabled it MUST be disabled
+  ETS_FRC1_INTR_DISABLE();
 
   if (spi_flash_read(flashAddr(), (uint32 *)&flashConfig, sizeof(FlashConfig)) == SPI_FLASH_RESULT_OK ) {
     crc=crc16_data((unsigned char*)&flashConfig+sizeof(crc), sizeof(FlashConfig)-sizeof(crc), 0);	
@@ -194,7 +200,8 @@ void ICACHE_FLASH_ATTR LoadConfigFromFlash(void) {
       LoadDefaultConfig();
       }
     }
-	//enable global interrupt
+  ETS_FRC1_INTR_ENABLE();
+  ETS_UART_INTR_ENABLE();
 	ETS_GPIO_INTR_ENABLE();
   
   DBG("config loaded.");
