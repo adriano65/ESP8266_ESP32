@@ -103,16 +103,16 @@ static void ICACHE_FLASH_ATTR restoreIO() {
   #else
 			#if defined(ARMTRONIX)
 				set_gpio_mode(GPIO_4, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
-        gpio_write(GPIO_4, flashConfig.IOPort_bit0);
+        gpio_write(GPIO_4, flashConfig.map1.IOPort.bit0);
 
 				set_gpio_mode(GPIO_12, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
-				gpio_write(GPIO_12, flashConfig.IOPort_bit1);
+				gpio_write(GPIO_12, flashConfig.map1.IOPort.bit1);
 
 				set_gpio_mode(GPIO_13, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
-				gpio_write(GPIO_13, flashConfig.IOPort_bit2);
+				gpio_write(GPIO_13, flashConfig.map1.IOPort.bit2);
 
 				set_gpio_mode(GPIO_14, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
-				gpio_write(GPIO_14, flashConfig.IOPort_bit3);
+				gpio_write(GPIO_14, flashConfig.map1.IOPort.bit3);
       #else
 
         #if !defined(PWM0_PIN)

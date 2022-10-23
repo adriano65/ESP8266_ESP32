@@ -55,7 +55,7 @@ typedef struct {
   bool HasBadHumi;
 } Sensor_Data;
 
-bool ICACHE_FLASH_ATTR SensorInit(DHTType, uint8_t);
+bool ICACHE_FLASH_ATTR DHTSensorInit(DHTType, uint8_t);
 
 static os_timer_t read_sens_timer;
 void ICACHE_FLASH_ATTR read_sens_timer_cb(void *arg);

@@ -93,7 +93,7 @@ PWM0_PIN      						:= no
 # ----------------- Cantina switch + temp
 #SONOFFTH10d := 1
 # ----------------- VerandaTemp
-#SONOFFTH10e := 1
+SONOFFTH10e := 1
 
 # ----------------- Linux Monitor and a lot more !
 #MAINSa := 2
@@ -123,7 +123,7 @@ PWM0_PIN      						:= no
 #SONOFFPOWb := 3
 
 # --------------------Test (House Power Meter (ModBus) and external Bell!)
-SONOFFPOWc := 3
+#SONOFFPOWc := 3
 
 # --------------------all house power backup
 #SONOFFPOWd := 3
