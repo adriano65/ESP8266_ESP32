@@ -15,5 +15,5 @@
 
 static bool ICACHE_FLASH_ATTR waitState(uint8_t expectedstate);
 bool ICACHE_FLASH_ATTR SI7021read(void);
-
+bool SISensorInit(DHTType senstype, uint8_t pin);
 #endif

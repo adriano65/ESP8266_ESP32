@@ -4,6 +4,6 @@
 
 #define INJECTION_PERIOD 60
 #define DUTY_CYCLE 8
-void SensorInit();
+void InjectorInit();
 
 #endif

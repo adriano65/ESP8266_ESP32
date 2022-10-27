@@ -116,11 +116,12 @@ static void ICACHE_FLASH_ATTR restoreIO() {
       #else
 
         #if !defined(PWM0_PIN)
-        #warning PWM0_PIN undefined -> IO0 input button unusable
         set_gpio_mode(GPIO_12, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
         gpio_write(GPIO_12, flashConfig.map1.IOPort.bit0);
         set_gpio_mode(GPIO_5, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
         gpio_write(GPIO_5, flashConfig.map1.IOPort.bit1);
+        #else
+        #warning PWM0_PIN defined -> IO0 input button unusable (used for PWM)
         #endif
 
         //#if defined(SONOFFPOW)
@@ -207,13 +208,13 @@ void ICACHE_FLASH_ATTR user_init(void) {
   #if defined(SONOFFTH10)
     // NodeMCU Pin number 5 = GPIO14 - temp/umidity onewire
     #if defined(DS18B20_PIN)
-    SensorInit(DS18B20, DS18B20_PIN);
+    DSSensorInit(DS18B20, DS18B20_PIN);
     #else  
       #if defined(DHT22_PIN)
-      SensorInit(DHT22, DHT22_PIN);
+      DHTSensorInit(DHT22, DHT22_PIN);
       #else
         #if defined(SI7021_PIN)
-        SensorInit(SI7021, SI7021_PIN);
+        SISensorInit(SI7021, SI7021_PIN);
         #endif
       #endif
 
@@ -221,7 +222,7 @@ void ICACHE_FLASH_ATTR user_init(void) {
   #endif
 
   #if defined(PWM0_PIN)
-  SensorInit();
+  InjectorInit();
   #endif
 
 

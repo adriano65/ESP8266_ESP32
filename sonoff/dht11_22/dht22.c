@@ -131,7 +131,7 @@ bool ICACHE_FLASH_ATTR DHTread() {
   return true;
 }
 
-bool ICACHE_FLASH_ATTR SensorInit(DHTType senstype, uint8_t pin) {
+bool ICACHE_FLASH_ATTR DHTSensorInit(DHTType senstype, uint8_t pin) {
   bool res=false;
   sensor_data.pin = pin;
   sensor_data.type = senstype;

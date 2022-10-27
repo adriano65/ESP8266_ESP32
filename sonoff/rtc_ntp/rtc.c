@@ -209,6 +209,8 @@ void ICACHE_FLASH_ATTR hw_timer_isr_cb(void) {
     if ( !(nCounter%READ_DELAY) ) {
       SendStatus(MQTT_STAT_TOPIC, MSG_STATUS);
       }
+    // THIS IS A WORK-AROUND FOR POWER SUPPLY OR EMI PROBLEMS
+    RefreshIO();
     #endif
 
     #if defined(SONOFFPOW)
@@ -252,12 +254,12 @@ void ICACHE_FLASH_ATTR hw_timer_isr_cb(void) {
         wifi_station_scan(NULL, scan_done);
         }
 
-      /*
+      // OK, This is a really big BULLSHIT WORKAROUND. I've no time to investigate it deeper for now... So, hope Achille will get rid of this :-)
       if (! isFlashconfig_actual()) {
         DBG("isFlashconfig_actual");
         configSave();                 // NOO this reenables interrupts!!!
+        goto here;
         }
-      */
 
       if (system_get_free_heap_size() < 30000) {
 	      SendStatus(MQTT_STAT_TOPIC, MSG_CRITICAL_ERR);
@@ -296,7 +298,7 @@ void ICACHE_FLASH_ATTR hw_timer_isr_cb(void) {
 	    SendStatus(MQTT_STAT_TOPIC, MSG_STATUS);
       }
     // THIS IS A WORK-AROUND FOR POWER SUPPLY OR EMI PROBLEMS
-    //RefreshIO();
+    RefreshIO();
     #endif
 
     #if defined(MAINS_VMC) || defined(SONOFFDUAL)
@@ -309,6 +311,7 @@ void ICACHE_FLASH_ATTR hw_timer_isr_cb(void) {
 
     nCounter++;
 
+here:
     ETS_FRC1_INTR_ENABLE();
     ETS_UART_INTR_ENABLE();
     ETS_GPIO_INTR_ENABLE();

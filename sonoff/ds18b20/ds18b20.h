@@ -33,7 +33,7 @@ float temperature_old;
 #define DHT_MAXCOUNT	32000
 #define TOT_GPIO_PINS	13
 
-bool SensorInit(DHTType, uint8_t);
+bool DSSensorInit(DHTType, uint8_t);
 bool DHTread();
 char* DHTFloat2String(char* buffer, float value);
 

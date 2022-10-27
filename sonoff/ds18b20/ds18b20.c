@@ -68,7 +68,7 @@ uint8_t LastDiscrepancy;
 uint8_t LastFamilyDiscrepancy;
 uint8_t LastDeviceFlag;
 
-bool SensorInit(DHTType senstype, uint8_t pin) {
+bool DSSensorInit(DHTType senstype, uint8_t pin) {
   bool res=false;
   sensor_data.pin = pin;
   sensor_data.type = senstype;

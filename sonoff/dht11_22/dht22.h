@@ -30,7 +30,7 @@
 #define DHT_MAXCOUNT	32000
 #define TOT_GPIO_PINS	13
 
-bool ICACHE_FLASH_ATTR SensorInit(DHTType, uint8_t);
+bool ICACHE_FLASH_ATTR DHTSensorInit(DHTType, uint8_t);
 bool ICACHE_FLASH_ATTR DHTread();
 char* ICACHE_FLASH_ATTR DHTFloat2String(char* buffer, float value);
 

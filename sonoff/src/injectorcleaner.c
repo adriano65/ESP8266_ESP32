@@ -44,7 +44,7 @@ void SensorInit() {
   pwm_start();
 }
 #else
-void SensorInit() {
+void InjectorInit() {
     nStatus=0;
     set_gpio_mode(PWM0_PIN, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
     

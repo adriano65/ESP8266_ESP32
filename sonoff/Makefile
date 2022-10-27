@@ -93,7 +93,7 @@ PWM0_PIN      						:= no
 # ----------------- Cantina switch + temp
 #SONOFFTH10d := 1
 # ----------------- VerandaTemp
-SONOFFTH10e := 1
+#SONOFFTH10e := 1
 
 # ----------------- Linux Monitor and a lot more !
 #MAINSa := 2
@@ -108,7 +108,7 @@ SONOFFTH10e := 1
 #MAINS_VMC := 2
 
 # ----------------- gas injectors cleaner
-#MAINSd := 2
+MAINSd := 2
 
 # ----------------- GTN House power Transmitter
 #MAINSe := 2
@@ -292,6 +292,7 @@ CFLAGS	+= -DTEST_IP_ADDRESS=$(TEST_IP_ADDRESS)
 endif
 
 ifneq ("$(PWM0_PIN)","no")
+$(info ******************************************** $(PWM0_PIN) )
 CFLAGS	+= -DPWM0_PIN=$(PWM0_PIN)
 LIBS		+= pwm
 endif

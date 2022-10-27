@@ -23,7 +23,7 @@
 unsigned char * pBuf;
 Sensor_Data sensor_data;
 
-bool SensorInit(DHTType senstype, uint8_t pin) {
+bool SISensorInit(DHTType senstype, uint8_t pin) {
   bool res=false;
   sensor_data.pin = pin;
   sensor_data.type = senstype;
