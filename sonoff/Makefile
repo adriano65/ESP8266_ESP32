@@ -85,7 +85,7 @@ PWM0_PIN      						:= no
 
 # error -- reset IP addresses on FW relaod !!!
 # ----------------- test
-#SONOFFTH10a := 1
+SONOFFTH10a := 1
 # ----------------- ?
 #SONOFFTH10b := 1
 # ----------------- fuori-garage
@@ -108,7 +108,7 @@ PWM0_PIN      						:= no
 #MAINS_VMC := 2
 
 # ----------------- gas injectors cleaner
-MAINSd := 2
+#MAINSd := 2
 
 # ----------------- GTN House power Transmitter
 #MAINSe := 2

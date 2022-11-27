@@ -48,7 +48,7 @@ typedef struct __attribute__((aligned(4))) {
   struct softap_config __attribute__((aligned(4))) apconf;
   struct ip_info __attribute__((aligned(4))) ip1;
   char     hostname[MAX_HOSTNAME_LEN]; // if using DHCP
-  uint32_t staticip, netmask, gateway; // using DHCP if staticip==0
+  //uint32_t staticip, netmask, gateway; // using DHCP if staticip==0 !THINK OF COMPATIBILITY!
   uint8_t  mqtt_status_enable,         // MQTT status reporting
            mqtt_timeout,               // MQTT send timeout
            mqtt_clean_session;         // MQTT clean session

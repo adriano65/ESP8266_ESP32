@@ -244,8 +244,13 @@ void ICACHE_FLASH_ATTR F_cmd_interpreter(char arg) {
 					break;
 				#else
 			case '3':
+        #if defined(SONOFFTH10_WATCHDOG)
+				gpio_write(GPIO_12, 1);
+				flashConfig.map1.IOPort.bit3=1;
+        #else
 				gpio_write(GPIO_12, 0);
 				flashConfig.map1.IOPort.bit3=0;
+        #endif
 				break;
 			#endif
 		#endif
@@ -345,8 +350,13 @@ void ICACHE_FLASH_ATTR O_cmd_interpreter(char arg) {
 					break;
 				#else
 				case '3':
+          #if defined(SONOFFTH10_WATCHDOG)
+					gpio_write(GPIO_12, 0);
+					flashConfig.map1.IOPort.bit3=0;
+          #else
 					gpio_write(GPIO_12, 1);
 					flashConfig.map1.IOPort.bit3=1;
+          #endif
 					break;
 				#endif
 			#endif
@@ -417,6 +427,12 @@ void ICACHE_FLASH_ATTR RefreshIO(void) {
 	#if defined(SONOFFTH10)
 		if (flashConfig.map1.IOPort.bit3==1) {
 			gpio_write(GPIO_12, 1);
+			}
+	#endif
+
+	#if defined(SONOFFTH10_WATCHDOG)
+		if (flashConfig.map1.IOPort.bit3==0) {
+			gpio_write(GPIO_12, 0);
 			}
 	#endif
 
@@ -641,7 +657,7 @@ void ICACHE_FLASH_ATTR Stat_cmd(char arg) {
   
   switch (wifi_get_opmode()) {
     case STATION_MODE:
-      TXdatalen+=os_sprintf(pTXdata+TXdatalen, "IP = "IPSTR", mask = "IPSTR", gateway = "IPSTR"\n", IP2STR(&flashConfig.ip0.ip.addr), IP2STR(&flashConfig.ip0.netmask.addr), IP2STR(&flashConfig.ip0.gw.addr));
+      TXdatalen+=os_sprintf(pTXdata+TXdatalen, "IP = "IPSTR", mask = "IPSTR", gateway = "IPSTR" uint32_t mask 0x%08X\n", IP2STR(&flashConfig.ip0.ip.addr), IP2STR(&flashConfig.ip0.netmask.addr), IP2STR(&flashConfig.ip0.gw.addr), flashConfig.ip0.netmask.addr);
       break;
     case SOFTAP_MODE:
       wifi_get_ip_info(SOFTAP_IF, &info);

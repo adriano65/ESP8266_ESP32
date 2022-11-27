@@ -2,17 +2,16 @@ ifdef SONOFFTH10a
 #mosquitto_sub -v -p 5800 -h 192.168.1.6 -t 'sonoff_th10/#'
 PROJ_NAME      :=  "sonoff_th10"
 LED_CONN_PIN_ACTIVELOW   := 1
-USE_TXD0       := yes
 BUTTON0_PIN	   := GPIO_0
 RELAY_PIN		   := GPIO_12
 SI7021_PIN     := GPIO_14
 STA_IPADDRESS  := "192.168.1.215"
 READ_DELAY     := 20
+REFRESHIO      := yes
 MQTT_STAT_TOPIC := "sonoff_th10/215/temp"
 MQTT_BTN_TOPIC := "sonoff_th10/215/button"
 FLASH_SIZE     := 1MBb
-#CFLAGS	       := -DSONOFFTH10 -DAP_SSID='"VerandaTemp"' -DTEMP_OFFSET=0 -DHUMI_OFFSET=0
-CFLAGS	       := -DSONOFFTH10_DDS238_2 -DAP_SSID='"VerandaTemp"' -DTEMP_OFFSET=0 -DHUMI_OFFSET=0
+CFLAGS	       := -DSONOFFTH10_WATCHDOG -DAP_SSID='"RouterWatchDog"' -DTEMP_OFFSET=0 -DHUMI_OFFSET=0
 
 else ifdef SONOFFTH10b
 # ---------------------- 16 Ampere
@@ -202,7 +201,7 @@ CFLAGS	       := -DSONOFFPOW_DDS238_2 -DAP_SSID='"ModBus"'
 else ifdef SONOFFPOWc
 # ------------------------------------ DEBUG
 PROJ_NAME      := "sonoff_ex_pow"
-CFLAGS	       := -DSONOFFPOW_DDS238_2 -DAP_SSID='"ModBus"'
+CFLAGS	       := -DSONOFFPOW_DDS238_2 -DAP_SSID='"ModBus2"'
 USE_TXD0       := yes
 # ------------------------------------ PRUDU
 #PROJ_NAME      := "sonoff_pow"

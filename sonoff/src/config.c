@@ -1,6 +1,7 @@
 /* Configuration stored in flash */
 
 #include <osapi.h>
+#include <string.h>
 #include "mqtt_client.h"
 #include "network.h"
 #include "injectorcleaner.h"
@@ -49,11 +50,13 @@ unsigned short ICACHE_FLASH_ATTR crc16_data(const unsigned char *data, int len, 
 }
 /*---------------------------------------------------------------------------*/
 
+#if 1
 bool ICACHE_FLASH_ATTR parse_ip(char *buff, ip_addr_t *ip_ptr) {
   char *next = buff; // where to start parsing next integer
-  int found = 0;     // number of integers parsed
+  int i, found = 0;     // number of integers parsed
   uint32_t ip = 0;   // the ip addres parsed
-  for (int i=0; i<32; i++) { // 32 is just a safety limit
+
+  for (i=0; i<32; i++) { // 32 is just a safety limit
     char c = buff[i];
     if (c == '.' || c == 0) {
       // parse the preceding integer and accumulate into IP address
@@ -65,15 +68,73 @@ bool ICACHE_FLASH_ATTR parse_ip(char *buff, ip_addr_t *ip_ptr) {
       found++;
       if (last) { // if at end of string we better got 4 integers
         ip_ptr->addr = ip;
-        return found == 4;
-      }
+        if (found == 4) {
+          return true;
+          }
+        else {
+          DBG("found %d next %s", found, next);
+          }
+        }
       continue;
-    }
+      }
     if (c < '0' || c > '9') return false;
-  }
+    }
   return false;
 }
+#else
 
+bool parse_ip (char * ip, ip_addr_t *ip_ptr) {
+    /* The count of the number of bytes processed. */
+    int i, n;
+    /* A pointer to the next digit to process. */
+    const char * start;
+    /* The digit being processed. */
+    char c;
+    /* I have not all the time in my life, folks :-) */
+    uint8_t reverse[4];
+    uint32_t fatica;
+
+    start = ip;
+    for (i = 0; i < 4; i++) {
+        /* The value of this byte. */
+        n = 0;
+        while (1) {
+            c = *start;
+            start++;
+            if (c >= '0' && c <= '9') {
+              n *= 10;
+              n += c - '0';
+              }
+            /* We insist on stopping at "." if we are still parsing
+               the first, second, or third numbers. If we have reached
+               the end of the numbers, we will allow any character. */
+            else if ((i < 3 && c == '.') || i == 3) {
+                  break;
+                  }
+                 else {
+                  return false;
+                  }
+          }
+        if (n >= 256) {
+            return false;
+          }
+        fatica *= 256;
+        fatica += n;
+      }
+
+    /* rotate */
+    reverse[3]=(uint8_t)(fatica & 0x000000FF);
+    reverse[2]=(uint8_t)(fatica & 0x0000FF00);
+    reverse[1]=(uint8_t)(fatica & 0x00FF0000);
+    reverse[0]=(uint8_t)(fatica & 0xFF000000);
+
+    ip_ptr->addr=(uint32_t)((uint8_t)(reverse[3] << 24) | (uint8_t)(reverse[2] << 16) | (uint8_t)(reverse[1] << 8) | (uint8_t)reverse[0]);
+
+    //ip_ptr->addr=fatica;
+    return true;
+}
+
+#endif
 // address where to flash the settings: if we have >512KB flash then there are 16KB of reserved
 // space at the end of the first flash partition, we use the upper 8KB (2 sectors). If we only
 // have 512KB then that space is used by the SDK and we use the 8KB just before that.
@@ -151,16 +212,28 @@ void ICACHE_FLASH_ATTR LoadDefaultConfig(void) {
 
   os_sprintf(flashConfig.stat_conf.ssid, STA_SSID);
   os_sprintf(flashConfig.stat_conf.password, STA_PASS);
-  parse_ip(STA_IPADDRESS, &flashConfig.ip0.ip);
-  parse_ip(STA_NETMASK, &flashConfig.ip0.netmask);
-  parse_ip(STA_GATEWAY, &flashConfig.ip0.gw);
 
-  flashConfig.netmask      = 0x00ffffff,
-  flashConfig.mqtt_timeout = 4, 
+  if (!parse_ip(STA_IPADDRESS, &flashConfig.ip0.ip)) {
+    DBG("STA_IPADDRESS %u", flashConfig.ip0.ip.addr);
+    }
+  //os_printf("STA_IPADDRESS %s, flashConfig.ip0.ip 0x%08X, "IPSTR"\n", STA_IPADDRESS, flashConfig.ip0.ip.addr, IP2STR(&flashConfig.ip0.ip.addr));
+
+  if (!parse_ip(STA_NETMASK, &flashConfig.ip0.netmask)) {
+    DBG("STA_NETMASK %u", flashConfig.ip0.netmask.addr);
+    }
+  //os_printf("STA_NETMASK %s, flashConfig.ip0.netmask 0x%08X, "IPSTR"\n", STA_NETMASK, flashConfig.ip0.netmask.addr, IP2STR(&flashConfig.ip0.netmask.addr));
+
+  if (!parse_ip(STA_GATEWAY, &flashConfig.ip0.gw)) {
+    DBG("STA_GATEWAY %u", flashConfig.ip0.gw.addr);
+    }
+  //os_printf("STA_GATEWAY %s, flashConfig.ip0.gw 0x%08X, "IPSTR"\n", STA_GATEWAY, flashConfig.ip0.gw.addr, IP2STR(&flashConfig.ip0.gw.addr));
+
+  //flashConfig.netmask      = 0x00ffffff,
+  flashConfig.mqtt_timeout = 4;
   
-  flashConfig.mqtt_clean_session = 1,
-  flashConfig.mqtt_port    = MQTT_PORT, 
-  flashConfig.mqtt_keepalive = 60,
+  flashConfig.mqtt_clean_session = 1;
+  flashConfig.mqtt_port    = MQTT_PORT;
+  flashConfig.mqtt_keepalive = 60;
   os_sprintf(flashConfig.mqtt_host, MQTT_HOST);
   os_sprintf(flashConfig.mqtt_clientid, flashConfig.hostname);  
   #if defined(HOUSE_POW_METER_RX)

@@ -16,7 +16,7 @@
 #include "gpio16.h"
 #include "button.h"
 
-#if defined(SONOFFTH10)
+#if defined(SONOFFTH10) || defined(SONOFFTH10_WATCHDOG)
 #include "sensor.h"
 extern Sensor_Data sensor_data;
 #endif
@@ -117,7 +117,7 @@ static void ICACHE_FLASH_ATTR restoreIO() {
 
         #if !defined(PWM0_PIN)
         set_gpio_mode(GPIO_12, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
-        gpio_write(GPIO_12, flashConfig.map1.IOPort.bit0);
+        gpio_write(GPIO_12, flashConfig.map1.IOPort.bit3);
         set_gpio_mode(GPIO_5, GPIO_OUTPUT, GPIO_PULLUP, GPIO_PIN_INTR_DISABLE);
         gpio_write(GPIO_5, flashConfig.map1.IOPort.bit1);
         #else
@@ -205,7 +205,7 @@ void ICACHE_FLASH_ATTR user_init(void) {
   ntp_init();  
   RTC_init();
   
-  #if defined(SONOFFTH10)
+  #if defined(SONOFFTH10) || defined(SONOFFTH10_WATCHDOG)
     // NodeMCU Pin number 5 = GPIO14 - temp/umidity onewire
     #if defined(DS18B20_PIN)
     DSSensorInit(DS18B20, DS18B20_PIN);
@@ -261,7 +261,7 @@ void ICACHE_FLASH_ATTR SendStatus(char * topic, sendmessage_t type) {
   int nTmp = 0;
   switch (type) {
     case MSG_TEMP_HUMI:
-      #if defined (SONOFFTH10)
+      #if defined (SONOFFTH10) || defined(SONOFFTH10_WATCHDOG)
       os_sprintf(pTXdata, "{\"eventdate\": \"%02d:%02d:%02d\", \"rssi\": %d, \"heap_free\": %d, \"%s\": %d.%d, \"%s\": %d.%d}", 
           tm_rtc->tm_hour,
           tm_rtc->tm_min,
