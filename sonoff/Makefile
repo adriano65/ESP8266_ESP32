@@ -84,7 +84,7 @@ REFRESHIO      						:= no
 PWM0_PIN      						:= no
 
 # error -- reset IP addresses on FW relaod !!!
-# ----------------- test
+# ----------------- RouterWatchDog
 SONOFFTH10a := 1
 # ----------------- ?
 #SONOFFTH10b := 1
@@ -233,7 +233,8 @@ CFLAGS	+= -Os -ggdb -std=c99 -Wpointer-arith -Wl,-EL -fno-inline-functions \
 	   -nostdlib -mlongcalls -mtext-section-literals -ffunction-sections -fdata-sections \
 	   -Wno-implicit-function-declaration \
 	   -D__ets__ -DICACHE_FLASH -Wno-address -DESP_FLASH_MAX=$(ESP_FLASH_MAX) \
-	   -DREAD_DELAY=$(READ_DELAY) -DSTA_SSID='$(STA_SSID)' -DSTA_PASS='$(STA_PASS)' -DAP_PSW='$(AP_PSW)' \
+	   -DREAD_DELAY=$(READ_DELAY) -DPING_DELAY=$(PING_DELAY) \
+		 -DSTA_SSID='$(STA_SSID)' -DSTA_PASS='$(STA_PASS)' -DAP_PSW='$(AP_PSW)' \
 	   -DSTA_IPADDRESS='$(STA_IPADDRESS)' -DSTA_NETMASK='$(STA_NETMASK)' -DSTA_GATEWAY='$(STA_GATEWAY)' \
 	   -DAP_IPADDRESS='$(AP_IPADDRESS)' -DAP_NETMASK='$(AP_NETMASK)' -DAP_GATEWAY='$(AP_GATEWAY)' \
 	   -DMQTT_HOST='$(MQTT_HOST)' -DMQTT_PORT=$(MQTT_PORT) -DMQTT_STAT_TOPIC='$(MQTT_STAT_TOPIC)' -DMQTT_BTN_TOPIC='$(MQTT_BTN_TOPIC)' \
@@ -288,7 +289,7 @@ CFLAGS	+= -DHPMETER_RX_IP=$(HPMETER_RX_IP)
 endif
 
 ifneq ("$(TEST_IP_ADDRESS)","no")
-CFLAGS	+= -DTEST_IP_ADDRESS=$(TEST_IP_ADDRESS)
+CFLAGS	+= -DTEST_IP_ADDRESS='$(TEST_IP_ADDRESS)'
 endif
 
 ifneq ("$(PWM0_PIN)","no")

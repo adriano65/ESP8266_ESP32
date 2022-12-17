@@ -97,7 +97,13 @@ void ICACHE_FLASH_ATTR cmdParser(char *pInBuf, unsigned short InBufLen) {
 			power_cmd_parser(pInBuf);
 			break;
 		#endif
-			
+		
+		#if defined(SONOFFTH10_WATCHDOG)
+		case 'p':
+			p_cmd_interpreter(&pInBuf[2]);
+			break;
+		#endif
+
 		case 'P':
 			P_cmd_interpreter(pInBuf[1]);
 			break;
@@ -157,6 +163,12 @@ void ICACHE_FLASH_ATTR cmdParser(char *pInBuf, unsigned short InBufLen) {
 			TXdatalen+=os_sprintf(pTXdata+TXdatalen, "O<n> -> switch On output number n\r\n");
 			TXdatalen+=os_sprintf(pTXdata+TXdatalen, "T<n> -> Toggle output\r\n");
 			TXdatalen+=os_sprintf(pTXdata+TXdatalen, "P<n> <ms> -> Pulse output\r\n");
+			#if defined(SONOFFPOW)
+			TXdatalen+=os_sprintf(pTXdata+TXdatalen, "p -> show power (p1 change to volt/amp)\r\n");
+			#endif
+			#if defined(SONOFFTH10_WATCHDOG)
+			TXdatalen+=os_sprintf(pTXdata+TXdatalen, "p <ip> -> ping IP address\r\n");
+			#endif
 			TXdatalen+=os_sprintf(pTXdata+TXdatalen, "S<n> -> return output status\r\n");
 			TXdatalen+=os_sprintf(pTXdata+TXdatalen, "t -> generic test cmd\r\n");
 			TXdatalen+=os_sprintf(pTXdata+TXdatalen, "s -> show Stats\r\n");
@@ -165,9 +177,6 @@ void ICACHE_FLASH_ATTR cmdParser(char *pInBuf, unsigned short InBufLen) {
 			TXdatalen+=os_sprintf(pTXdata+TXdatalen, "m -> send status via MQTT\r\n");
 			TXdatalen+=os_sprintf(pTXdata+TXdatalen, "w <ssid,passwd> -> set access point\r\n");
 			TXdatalen+=os_sprintf(pTXdata+TXdatalen, "a <essid,passwd> -> set AP param\r\n");
-			#if defined(SONOFFPOW)
-			TXdatalen+=os_sprintf(pTXdata+TXdatalen, "p -> show power (p1 change to volt/amp)\r\n");
-			#endif
 			#if defined(MAINS)			
 			TXdatalen+=os_sprintf(pTXdata+TXdatalen, "D <n> -> deep sleep for n seconds\r\n");
 			#endif
@@ -407,6 +416,15 @@ void ICACHE_FLASH_ATTR P_cmd_interpreter(char arg) {
 	TXdatalen=os_sprintf(pTXdata, "OK\r\n");
 }
 
+#if defined(SONOFFTH10_WATCHDOG)
+void ICACHE_FLASH_ATTR p_cmd_interpreter(char * pInbuf) {
+  TXdatalen=os_sprintf(pTXdata, "pInbuf: %s\r\n", pInbuf);
+  flashConfig.ping_IP=ipaddr_addr(pInbuf);
+  TXdatalen+=os_sprintf(pTXdata+TXdatalen, "ping_IP: "IPSTR"\r\n", IP2STR(&flashConfig.ping_IP));
+	TXdatalen+=os_sprintf(pTXdata+TXdatalen, "OK\r\n");
+}
+#endif
+
 #if defined(HOUSE_POW_METER_TX) || defined(SONOFFPOW_DDS238_2)
 void ICACHE_FLASH_ATTR x_cmd_interpreter(char * pInbuf) {
   //char *tmpbuff;  
@@ -414,7 +432,7 @@ void ICACHE_FLASH_ATTR x_cmd_interpreter(char * pInbuf) {
   //tmpbuff=(char *)strsep(&pInbuf, ".");
   //os_sprintf(flashConfig.apconf.ssid, tmpbuff);
   TXdatalen=os_sprintf(pTXdata, "pInbuf: %s\r\n", pInbuf);
-  parse_ip(pInbuf, &flashConfig.HPRx_IP);
+  flashConfig.HPRx_IP=ipaddr_addr(pInbuf);
   TXdatalen+=os_sprintf(pTXdata+TXdatalen, "HPRx_IP: "IPSTR"\r\n", IP2STR(&flashConfig.HPRx_IP));
 	TXdatalen+=os_sprintf(pTXdata+TXdatalen, "OK\r\n");
 }
@@ -657,7 +675,7 @@ void ICACHE_FLASH_ATTR Stat_cmd(char arg) {
   
   switch (wifi_get_opmode()) {
     case STATION_MODE:
-      TXdatalen+=os_sprintf(pTXdata+TXdatalen, "IP = "IPSTR", mask = "IPSTR", gateway = "IPSTR" uint32_t mask 0x%08X\n", IP2STR(&flashConfig.ip0.ip.addr), IP2STR(&flashConfig.ip0.netmask.addr), IP2STR(&flashConfig.ip0.gw.addr), flashConfig.ip0.netmask.addr);
+      TXdatalen+=os_sprintf(pTXdata+TXdatalen, "IP = "IPSTR", mask = "IPSTR", gateway = "IPSTR"\n", IP2STR(&flashConfig.ip0.ip.addr), IP2STR(&flashConfig.ip0.netmask.addr), IP2STR(&flashConfig.ip0.gw.addr));
       break;
     case SOFTAP_MODE:
       wifi_get_ip_info(SOFTAP_IF, &info);
@@ -674,6 +692,9 @@ void ICACHE_FLASH_ATTR Stat_cmd(char arg) {
     }
   #if defined(HOUSE_POW_METER_TX) || defined(SONOFFPOW_DDS238_2)
   TXdatalen+=os_sprintf(pTXdata+TXdatalen, "HPRx_IP = "IPSTR"\n", IP2STR(&flashConfig.HPRx_IP));
+	#endif
+  #if defined(SONOFFTH10_WATCHDOG)
+  TXdatalen+=os_sprintf(pTXdata+TXdatalen, "ping_IP = "IPSTR"\n", IP2STR(&flashConfig.ping_IP));
 	#endif
   TXdatalen+=os_sprintf(pTXdata+TXdatalen, "rssi = %d, heap_free = %d, vdd33 = %d\n", wifi_station_get_rssi(), (unsigned int)system_get_free_heap_size(), system_get_vdd33()/1024);
   TXdatalen+=os_sprintf(pTXdata+TXdatalen, "system boot mode=%d, WifiOpMode=%s\n", system_get_boot_mode(), wifi_opmode_desc(wifi_get_opmode()));

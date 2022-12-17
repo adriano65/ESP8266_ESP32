@@ -248,6 +248,9 @@ void ICACHE_FLASH_ATTR user_init(void) {
     ina226Init(INA226_ADD);
   #endif
   
+  #if defined(SONOFFTH10_WATCHDOG)
+  ping_init();
+  #endif
   
   hw_timer_init();
   // uSeconds * 10 ... seems to be

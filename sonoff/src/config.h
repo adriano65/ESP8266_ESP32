@@ -72,6 +72,9 @@ typedef struct __attribute__((aligned(4))) {
   unsigned int interval;
   unsigned int dutycycle;
   #endif
+  #if defined(SONOFFTH10_WATCHDOG)
+  uint32_t ping_IP;
+  #endif
 } FlashConfig;
 
 extern FlashConfig flashConfig;

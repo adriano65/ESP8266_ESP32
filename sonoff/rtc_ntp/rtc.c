@@ -32,14 +32,20 @@ unsigned char TXbuf[8];
 unsigned char TXbuf[8];
 #endif
 
-//#define RTC_DBG
+#define RTC_DBG_MIN
 
-#ifdef RTC_DBG
-#define DBG(format, ...) do { os_printf("%s: ", __FUNCTION__); os_printf(format, ## __VA_ARGS__); os_printf("\n"); } while(0)
-#define PRINTNET(format, ...) do { if (pTXdata) { *TXdatalen=os_sprintf(pTXdata, format, ## __VA_ARGS__ ); *TXdatalen+=os_sprintf(pTXdata+*TXdatalen, "\n");} } while(0)
+#ifdef RTC_DBG_MIN
+#define DBG_MIN(format, ...) do { os_printf("%s: ", __FUNCTION__); os_printf(format, ## __VA_ARGS__); os_printf("\n"); } while(0)
+//#define PRINTNET(format, ...) do { if (pTXdata) { *TXdatalen=os_sprintf(pTXdata, format, ## __VA_ARGS__ ); *TXdatalen+=os_sprintf(pTXdata+*TXdatalen, "\n");} } while(0)
 #else
-#define DBG(format, ...) do { } while(0)
-#define PRINTNET(format, ...) do { } while(0)
+#define DBG_MIN(format, ...) do { } while(0)
+//#define PRINTNET(format, ...) do { } while(0)
+#endif
+
+#ifdef RTC_DBG_MAX
+#define DBG_MAX(format, ...) do { os_printf("%s: ", __FUNCTION__); os_printf(format, ## __VA_ARGS__); os_printf("\n"); } while(0)
+#else
+#define DBG_MAX(format, ...) do { } while(0)
 #endif
 
 #define RTC_MAGIC 0x55aaaa55
@@ -191,13 +197,14 @@ void ICACHE_FLASH_ATTR hw_timer_stop(void) {
     RTC_REG_WRITE(FRC1_CTRL_ADDRESS, 0);
 }
 
+// 1/10 seconds timer -> OR see user_main.c
 void ICACHE_FLASH_ATTR hw_timer_isr_cb(void) {
 
 	  ETS_GPIO_INTR_DISABLE();
     ETS_UART_INTR_DISABLE();    // when ModBus is enabled it MUST be disabled
     ETS_FRC1_INTR_DISABLE();
 
-    static uint8_t nCounter=0;
+    static uint16_t nCounter=1;
 
     //os_printf("hw_timer_isr_cb %d\n", nCounter);
     //TM1_EDGE_INT_DISABLE();
@@ -250,47 +257,54 @@ void ICACHE_FLASH_ATTR hw_timer_isr_cb(void) {
 
 
     if ( !(nCounter%100) ) {                        // every 10 seconds (when default 1/10 seconds timer, see user_main.c )
+      DBG_MIN("nCounter %u", nCounter);
       if ( wifi_get_opmode() == STATIONAP_MODE ) {
         wifi_station_scan(NULL, scan_done);
         }
 
       // OK, This is a really big BULLSHIT WORKAROUND. I've no time to investigate it deeper for now... So, hope Achille will get rid of this :-)
       if (! isFlashconfig_actual()) {
-        DBG("isFlashconfig_actual");
+        DBG_MIN("isFlashconfig_actual");
         configSave();                 // NOO this reenables interrupts!!!
         goto here;
         }
 
-      if (system_get_free_heap_size() < 30000) {
+      if (system_get_free_heap_size() < 10000) {
 	      SendStatus(MQTT_STAT_TOPIC, MSG_CRITICAL_ERR);
         RTC_Reset();
         system_restart();
         }
       }
 
-    #if defined(SONOFFTH10)
+    #if defined(SONOFFTH10) || defined(SONOFFTH10_WATCHDOG)
     if ( !(nCounter%READ_DELAY) ) {
       #if defined(DS18B20_PIN)
       if (! DS18B20read()) {
-        DBG("Failed to read sensor");
+        DBG_MIN("Failed to read sensor");
         }
       #else  
         #if defined(DHT22_PIN)
         if (!DHTread()) {
-          DBG("Failed to read sensor");
+          DBG_MIN("Failed to read sensor");
           }
         #else
           #if defined(SI7021_PIN)
           if (! SI7021read()) {
-            DBG("Failed to read sensor");
+            DBG_MIN("Failed to read sensor");
             }
           #endif
         #endif
       #endif        
 	    SendStatus(MQTT_STAT_TOPIC, MSG_TEMP_HUMI);
       }
-    // THIS IS A WORK-AROUND FOR POWER SUPPLY OR EMI PROBLEMS
+    // THIS IS A WORK-AROUND FOR POWER SUPPLY OR EMI PROBLEMS.. OR MY CODE IS BUGGED :-(
     RefreshIO();
+    #endif
+
+    #if defined(SONOFFTH10_WATCHDOG)
+    if ( !(nCounter%PING_DELAY) ) {
+      ping_start(ping_opt);
+      }
     #endif
 
     #if defined(ARMTRONIX)
