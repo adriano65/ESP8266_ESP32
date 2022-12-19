@@ -7,7 +7,7 @@ RELAY_PIN		   := GPIO_12
 SI7021_PIN     := GPIO_14
 STA_IPADDRESS  := "192.168.1.215"
 READ_DELAY     := 200
-PING_DELAY     := 600			# 1/10 seconds timer (600 == 1 minute) -> OR see user_main.c
+PING_DELAY     := 1200			# 1/10 seconds timer (1200 == 2 minute) -> OR see user_main.c
 #PING_DELAY     := 150
 TEST_IP_ADDRESS:= "8.8.8.8"
 REFRESHIO      := yes
