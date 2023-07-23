@@ -322,7 +322,7 @@ void ICACHE_FLASH_ATTR ping_init(void) {
 static void ICACHE_FLASH_ATTR rele3_timer_cb(uint16_t interval) {
     os_timer_disarm(&rele3_timer);
     DBG_MIN("--");  
-    O_cmd_interpreter('3');
+    O_cmd_interpreter('3');   // On cmd will switch OFF power supply rele' for iliad stupid router
     //os_timer_setfn(&button0_timer, (os_timer_func_t *)rele3_timer_cb, &interval);
     //os_timer_arm(&rele3_timer, interval, 1);  
 }
@@ -331,7 +331,7 @@ static void ICACHE_FLASH_ATTR rele3_timer_cb(uint16_t interval) {
 void ICACHE_FLASH_ATTR start_rele3_timer(uint16_t interval) {
     os_timer_disarm(&rele3_timer);
     os_timer_setfn(&rele3_timer, (os_timer_func_t *)rele3_timer_cb, &interval);
-    F_cmd_interpreter('3');
+    F_cmd_interpreter('3');   // Off cmd will switch ON power supply rele' for iliad stupid router
     nPingCount=0;
     os_timer_arm(&rele3_timer, interval, 1);
 }

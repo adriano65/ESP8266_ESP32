@@ -13,6 +13,7 @@ void ICACHE_FLASH_ATTR I_cmd_interpreter(char);
 void ICACHE_FLASH_ATTR i_cmd_interpreter(char *);
 void ICACHE_FLASH_ATTR O_cmd_interpreter(char);
 void ICACHE_FLASH_ATTR P_cmd_interpreter(char);
+void ICACHE_FLASH_ATTR p_cmd_interpreter(char * pInbuf);
 void ICACHE_FLASH_ATTR T_cmd_interpreter(char);
 void ICACHE_FLASH_ATTR t_cmd_interpreter(char *);
 void ICACHE_FLASH_ATTR power_cmd_parser(char *);

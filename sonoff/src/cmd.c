@@ -240,29 +240,50 @@ void ICACHE_FLASH_ATTR F_cmd_interpreter(char arg) {
 			case '3':
 				gpio_write(GPIO_14, 0);
 				flashConfig.map1.IOPort.bit3=0;
-				break;			
-			#else
-				#if defined(SONOFFDUAL)
-				case '0':
-					gpio_write(GPIO_12, 0);
-					flashConfig.map1.IOPort.bit0=0;
-					break;
-				case '1':
-					gpio_write(GPIO_5, 0);
-					flashConfig.map1.IOPort.bit1=0;
-					break;
-				#else
-			case '3':
-        #if defined(SONOFFTH10_WATCHDOG)
-				gpio_write(GPIO_12, 1);
-				flashConfig.map1.IOPort.bit3=1;
-        #else
-				gpio_write(GPIO_12, 0);
-				flashConfig.map1.IOPort.bit3=0;
-        #endif
 				break;
-			#endif
-		#endif
+			#else
+        #if defined(ARMTRONIXB)
+        case '0':
+          gpio_write(GPIO_13, 1);
+          flashConfig.map1.IOPort.bit0=1;
+          break;
+        case '1':
+          gpio_write(GPIO_12, 1);
+          flashConfig.map1.IOPort.bit1=1;
+          break;
+        case '2':
+          gpio_write(GPIO_14, 1);
+          flashConfig.map1.IOPort.bit2=1;
+          break;
+        case '3':
+          gpio_write(GPIO_4, 1);
+          flashConfig.map1.IOPort.bit3=1;
+          break;			
+			  #else
+          #if defined(SONOFFDUAL)
+          case '0':
+            gpio_write(GPIO_12, 0);
+            flashConfig.map1.IOPort.bit0=0;
+            break;
+          case '1':
+            gpio_write(GPIO_5, 0);
+            flashConfig.map1.IOPort.bit1=0;
+            break;
+          #else
+            #if defined(SONOFFTH10_WATCHDOG)
+            case '3':
+              gpio_write(GPIO_12, 1);
+              flashConfig.map1.IOPort.bit3=1;
+              break;
+            #else
+            case '3':
+              gpio_write(GPIO_12, 0);
+              flashConfig.map1.IOPort.bit3=0;
+              break;
+            #endif
+          #endif
+			  #endif
+		  #endif
 	  #endif
 
 	  #if defined(MAINS)
@@ -346,28 +367,49 @@ void ICACHE_FLASH_ATTR O_cmd_interpreter(char arg) {
 			case '3':
 				gpio_write(GPIO_14, 1);
 				flashConfig.map1.IOPort.bit3=1;
-				break;			
+				break;
 			#else
-				#if defined(SONOFFDUAL)
-				case '0':
-					gpio_write(GPIO_12, 1);
-					flashConfig.map1.IOPort.bit0=1;
-					break;
-				case '1':
-					gpio_write(GPIO_5, 1);
-					flashConfig.map1.IOPort.bit1=1;
-					break;
-				#else
-				case '3':
-          #if defined(SONOFFTH10_WATCHDOG)
-					gpio_write(GPIO_12, 0);
-					flashConfig.map1.IOPort.bit3=0;
+        #if defined(ARMTRONIXB)
+        case '0':
+          gpio_write(GPIO_13, 1);
+          flashConfig.map1.IOPort.bit0=1;
+          break;
+        case '1':
+          gpio_write(GPIO_12, 1);
+          flashConfig.map1.IOPort.bit1=1;
+          break;
+        case '2':
+          gpio_write(GPIO_14, 1);
+          flashConfig.map1.IOPort.bit2=1;
+          break;
+        case '3':
+          gpio_write(GPIO_4, 1);
+          flashConfig.map1.IOPort.bit3=1;
+          break;			
+			  #else
+          #if defined(SONOFFDUAL)
+          case '0':
+            gpio_write(GPIO_12, 1);
+            flashConfig.map1.IOPort.bit0=1;
+            break;
+          case '1':
+            gpio_write(GPIO_5, 1);
+            flashConfig.map1.IOPort.bit1=1;
+            break;
           #else
-					gpio_write(GPIO_12, 1);
-					flashConfig.map1.IOPort.bit3=1;
+            #if defined(SONOFFTH10_WATCHDOG)
+            case '3':
+              gpio_write(GPIO_12, 0);
+              flashConfig.map1.IOPort.bit3=0;
+              break;
+            #else
+            case '3':
+              gpio_write(GPIO_12, 1);
+              flashConfig.map1.IOPort.bit3=1;
+              break;
+            #endif
           #endif
-					break;
-				#endif
+        #endif
 			#endif
 		#endif
 			
@@ -657,6 +699,10 @@ void ICACHE_FLASH_ATTR Stat_cmd(char arg) {
 		TXdatalen+=os_sprintf(pTXdata+TXdatalen, "IObit1: %1x\n", flashConfig.map1.IOPort.bit1);
 		#else
 		TXdatalen=os_sprintf(pTXdata, "IObit3: %1x\n", flashConfig.map1.IOPort.bit3);
+    #if defined(SONOFFTH10_WATCHDOG)
+		TXdatalen+=os_sprintf(pTXdata+TXdatalen, "O3 will switch OFF power supply rele' for iliad stupid router\n");
+		#endif
+
 		#endif
 	#endif
 	#if defined(MAINS)

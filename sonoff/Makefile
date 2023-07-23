@@ -83,7 +83,7 @@ ANT_TEST     							:= no
 REFRESHIO      						:= no
 PWM0_PIN      						:= no
 
-# error -- reset IP addresses on FW relaod !!!
+# error -- reset IP addresses on FW reload !!!
 # ----------------- RouterWatchDog
 SONOFFTH10a := 1
 # ----------------- ?
@@ -130,6 +130,8 @@ SONOFFTH10a := 1
 
 # --------------------TEST ModBus
 #SONOFFPOWe := 3
+
+# --------------------end TEST ModBus
 #SONOFFPOWf := 3
 
 #ESP01a := 4
@@ -139,6 +141,8 @@ SONOFFTH10a := 1
 #SONOFFDUALb  := 5
 #SONOFFDUALc  := 5
 #SONOFFDUALd  := 5
+# ----------------- TEST garage interno
+#ARMTRONIXb := 2
 
 include include_esptypes.mak
 
@@ -155,7 +159,7 @@ ESP_FLASH_MAX       := 503808
 
 include include_flash.mak
 
-VERSION := "1.0.2"
+VERSION := "1.0.3"
 BINDATE := "$(shell date '+%F %T')"
 $(info PROJ_NAME $(PROJ_NAME), STA_IPADDRESS $(STA_IPADDRESS), Version $(VERSION), Flash $(FLASH_SIZE), Date $(BINDATE) )
 

@@ -310,7 +310,6 @@ MQTT_STAT_TOPIC := "sonoff_th10/232/temp"
 MQTT_BTN_TOPIC := "sonoff_th10/232/button"
 FLASH_SIZE     := 1MBb
 CFLAGS	       := -DSONOFFDUAL -DAP_SSID='"SONOFFDUALc"'
-
 else ifdef SONOFFDUALd
 PROJ_NAME      := "sonoff_dual"
 LED_CONN_PIN_ACTIVELOW   := 1
@@ -323,6 +322,16 @@ MQTT_STAT_TOPIC := "sonoff_th10/233/temp"
 MQTT_BTN_TOPIC := "sonoff_th10/233/button"
 FLASH_SIZE     := 1MBb
 CFLAGS	       := -DSONOFFDUAL -DAP_SSID='"SONOFFDUALd"'
+else ifdef ARMTRONIXb
+PROJ_NAME      := "ArmtronixB"
+LED_CONN_PIN   := GPIO_5
+STA_IPADDRESS  := "192.168.1.117"
+READ_DELAY     := 200
+REFRESHIO      := no
+MQTT_STAT_TOPIC := "Armtronix/117/status"
+FLASH_SIZE     := 1MBb
+CFLAGS	       := -DARMTRONIXB -DAP_SSID='"Armtronixb"'
+
 else 
 	$(error "ESPTYPE undefined!")
 endif
